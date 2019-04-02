@@ -192,9 +192,11 @@ The Javascript code within the braces is evaluated and the result of this evalua
 
 <!-- Näyttää siltä, että React-komponentti palauttaa HTML-koodia. Näin ei kuitenkaan ole. React-komponenttien ulkoasu kirjoitetaan yleensä [JSX](https://reactjs.org/docs/introducing-jsx.html):ää käyttäen. Vaikka JSX näyttää HTML:ltä, kyseessä on kuitenkin tapa kirjoittaa Javascriptiä. React komponenttien palauttama JSX käännetään konepellin alla Javascriptiksi. -->
 
+It seems like React components are returning HTML markup. However, this is not the case. The layout of React components is mostly written using [JSX](https://reactjs.org/docs/introducing-jsx.html). Althogh JSX looks like HTML, we are actually dealing with a way to write Javascript. Under the hood JSX returned by React components is compiled to Javascript.
 
+<!-- Käännösvaiheen jälkeen ohjelmamme näyttää seuraavalta: -->
 
-Käännösvaiheen jälkeen ohjelmamme näyttää seuraavalta:
+After the compilation stage our application looks like this:
 
 ```js
 import React from 'react'
@@ -222,19 +224,29 @@ ReactDOM.render(
 )
 ```
 
-Käännöksen hoitaa [Babel](https://babeljs.io/repl/). Create-react-app:illa luoduissa projekteissa käännös on konfiguroitu tapahtumaan automaattisesti. Tulemme tutustumaan aiheeseen tarkemmin kurssin [osassa 7](/osa7).
+<!-- Käännöksen hoitaa [Babel](https://babeljs.io/repl/). Create-react-app:illa luoduissa projekteissa käännös on konfiguroitu tapahtumaan automaattisesti. Tulemme tutustumaan aiheeseen tarkemmin kurssin [osassa 7](/osa7).
 
 Reactia olisi myös mahdollista kirjoittaa "suoraan Javascriptinä" käyttämättä JSX:ää. Kukaan täysijärkinen ei kuitenkaan niin tee.
 
 Käytännössä JSX on melkein kuin HTML:ää sillä erotuksella, että mukaan voi upottaa helposti dynaamista sisältöä kirjoittamalla sopivaa Javascriptiä aaltosulkeiden sisälle. Idealtaan JSX on melko lähellä monia palvelimella käytettäviä templating-kieliä kuten Java Springin yhteydessä käytettävää thymeleafia.
 
-JSX on "XML:n kaltainen", eli jokainen tagi tulee sulkea. Esimerkiksi rivinvaihto on tyhjä elementti, joka voidaan kirjottaa HTML:ssä seuraavasti
+JSX on "XML:n kaltainen", eli jokainen tagi tulee sulkea. Esimerkiksi rivinvaihto on tyhjä elementti, joka voidaan kirjottaa HTML:ssä seuraavasti -->
+
+The compilation is handled by [Babel](https://babeljs.io/repl/). Projects created with *create-react-app* are configured to compile automatically. We will learn more about this topic in [part 7](/part7) of this course.
+
+It is also possible to write React as "pure Javascript" without using JSX. Alhough, nobody with a sound mind would actually do so.
+
+In practice JSX is much like HTML with the distinction that with JSX you can easily embedd dynamic content by writing appropriate Javascript within braces. The idea of JSX is quite similar to many templating languages, such as Thymeleaf used along Java Spring, which are used on servers.
+
+JSX is "XML-like", which means that every tag needs to be closed. For example, a newline is an empty element, which in HTML can be written as follows:
 
 ```html
 <br>
 ```
 
-mutta JSX:ää kirjoittaessa tagi on pakko sulkea:
+<!-- mutta JSX:ää kirjoittaessa tagi on pakko sulkea: -->
+
+but when writing JSX the tag needs to be closed:
 
 ```html
 <br />
