@@ -10,7 +10,7 @@ letter: a
 
 <!-- [//]: # (Alamme nyt tutustua kurssin ehkä tärkeimpään teemaan, [React](https://reactjs.org/)-kirjastoon. Tehdään heti yksinkertainen React-sovellus ja tutustutaan samalla Reactin peruskäsitteistöön.) -->
 
-We will now start getting familiar with probably the most important topic of this course, namely the [React](https://reactjs.org/)-library. Let us start off with making a simple React application as well as getting to know the core concepts of React.
+We will now start getting familiar with probably the most important topic of this course, namely the [React](https://reactjs.org/)-library. Let's start off with making a simple React application as well as getting to know the core concepts of React.
 
 <!-- [//]: # (Ehdottomasti helpoin tapa päästä alkuun on [create-react-app](https://github.com/facebookincubator/create-react-app)-nimisen työkalun käyttö. <i>create-react-app</i> on mahdollista asentaa omalle koneelle, mutta asennukseen ei ole tarvetta jos Noden mukana asentunut <i>npm</i>-työkalu on versioltaan vähintään <i>5.3</i>. Tällöin npm:n mukana asentuu komento </i>npx</i>, joka mahdollistaa create-react-app:in käytön asentamatta sitä erikseen. Npm:n version saa selville komennolla <em>npm -v</em>.) -->
 
@@ -18,7 +18,7 @@ The absolutely easiest way to get started is using a tool called [create-react-a
 
 <!-- [//]: # (Luodaan sovellus nimeltään <i>osa1</i> ja mennään sovelluksen sisältämään hakemistoon:) -->
 
-Let us create an application called <i>part1</i> and navigate into its directory.
+Let's create an application called <i>part1</i> and navigate into its directory.
 
 ```bash
 $ npx create-react-app osa1
@@ -43,13 +43,13 @@ By default the application starts running on the localhost port 3000 with the ad
 
 <!-- [//]: # (Chromen pitäisi aueta automaattisesti. Avaa konsoli **välittömästi**. Avaa myös tekstieditori siten, että näet koodin ja web-sivun samaan aikaan ruudulla:) -->
 
-Chrome should launch automatically. Open the console **immidiately**. Also open a text editor so that you can view the code as well as the web-page at the same time on the screen:
+Chrome should launch automatically. Open the console **immediately**. Also open a text editor so that you can view the code as well as the web-page at the same time on the screen:
 
 ![](../images/1/1a.png)
 
 <!-- [//]: # (Sovelluksen koodi on hakemistossa <i>src</i>. Yksinkertaistetaan valmiina olevaa koodia siten, että tiedoston <i>index.js</i> sisällöksi tulee:) -->
 
-The code of the application resides in the folder <i>src</i>. Let us simplify the default pieces of code such that the contents of the file <i>index.js</i> looks like:
+The code of the application resides in the folder <i>src</i>. Let's simplify the default pieces of code such that the contents of the file <i>index.js</i> looks like:
 
 ```js
 import React from 'react'
@@ -88,7 +88,7 @@ By default the the file <i>public/index.html</i> is empty. You can try adding so
 
 <!-- Tarkastellaan vielä tarkemmin komponentin määrittelevää koodia: -->
 
-Let us take a closer look at the code defining the component:
+Let's take a closer look at the code defining the component:
 
 ```js
 const App = () => (
@@ -104,7 +104,7 @@ As you can probably guess the component will be rendered as a <i>div</i>-tag, wh
 
 <!-- Teknisesti ottaen komponentti on määritelty Javascript-funktiona. Seuraava siis on funktio (joka ei saa yhtään parametria): -->
 
-Technically the component is defined as a Javascript function. The following is a function (which does not recieve any parameters):
+Technically the component is defined as a Javascript function. The following is a function (which does not receive any parameters):
 
 ```js
 () => (
@@ -124,7 +124,7 @@ const App = ...
 
 <!-- Javascriptissa on muutama tapa määritellä funktioita. Käytämme nyt Javascriptin hieman uudemman version [EcmaScript 6:n](http://es6-features.org/#Constants) eli ES6:n [nuolifunktiota](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) (arrow functions). -->
 
-There are a few ways to define functions in Javascript. Here we will use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), which are described in a newer verison of Javascript known as [EcmaScript 6](http://es6-features.org/#Constants), also called ES6.
+There are a few ways to define functions in Javascript. Here we will use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), which are described in a newer version of Javascript known as [EcmaScript 6](http://es6-features.org/#Constants), also called ES6.
 
 <!-- Koska funktio koostuu vain yhdestä lausekkeesta, on käytössämme lyhennysmerkintä, joka vastaa oikeasti seuraavaa koodia: -->
 
@@ -192,7 +192,7 @@ The Javascript code within the braces is evaluated and the result of this evalua
 
 <!-- Näyttää siltä, että React-komponentti palauttaa HTML-koodia. Näin ei kuitenkaan ole. React-komponenttien ulkoasu kirjoitetaan yleensä [JSX](https://reactjs.org/docs/introducing-jsx.html):ää käyttäen. Vaikka JSX näyttää HTML:ltä, kyseessä on kuitenkin tapa kirjoittaa Javascriptiä. React komponenttien palauttama JSX käännetään konepellin alla Javascriptiksi. -->
 
-It seems like React components are returning HTML markup. However, this is not the case. The layout of React components is mostly written using [JSX](https://reactjs.org/docs/introducing-jsx.html). Althogh JSX looks like HTML, we are actually dealing with a way to write Javascript. Under the hood JSX returned by React components is compiled to Javascript.
+It seems like React components are returning HTML markup. However, this is not the case. The layout of React components is mostly written using [JSX](https://reactjs.org/docs/introducing-jsx.html). Although JSX looks like HTML, we are actually dealing with a way to write Javascript. Under the hood JSX returned by React components is compiled to Javascript.
 
 <!-- Käännösvaiheen jälkeen ohjelmamme näyttää seuraavalta: -->
 
@@ -224,19 +224,19 @@ ReactDOM.render(
 )
 ```
 
-<!-- Käännöksen hoitaa [Babel](https://babeljs.io/repl/). Create-react-app:illa luoduissa projekteissa käännös on konfiguroitu tapahtumaan automaattisesti. Tulemme tutustumaan aiheeseen tarkemmin kurssin [osassa 7](/osa7).
-
-Reactia olisi myös mahdollista kirjoittaa "suoraan Javascriptinä" käyttämättä JSX:ää. Kukaan täysijärkinen ei kuitenkaan niin tee.
-
-Käytännössä JSX on melkein kuin HTML:ää sillä erotuksella, että mukaan voi upottaa helposti dynaamista sisältöä kirjoittamalla sopivaa Javascriptiä aaltosulkeiden sisälle. Idealtaan JSX on melko lähellä monia palvelimella käytettäviä templating-kieliä kuten Java Springin yhteydessä käytettävää thymeleafia.
-
-JSX on "XML:n kaltainen", eli jokainen tagi tulee sulkea. Esimerkiksi rivinvaihto on tyhjä elementti, joka voidaan kirjottaa HTML:ssä seuraavasti -->
+<!-- Käännöksen hoitaa [Babel](https://babeljs.io/repl/). Create-react-app:illa luoduissa projekteissa käännös on konfiguroitu tapahtumaan automaattisesti. Tulemme tutustumaan aiheeseen tarkemmin kurssin [osassa 7](/osa7). -->
 
 The compilation is handled by [Babel](https://babeljs.io/repl/). Projects created with *create-react-app* are configured to compile automatically. We will learn more about this topic in [part 7](/part7) of this course.
 
-It is also possible to write React as "pure Javascript" without using JSX. Alhough, nobody with a sound mind would actually do so.
+<!-- Reactia olisi myös mahdollista kirjoittaa "suoraan Javascriptinä" käyttämättä JSX:ää. Kukaan täysijärkinen ei kuitenkaan niin tee. -->
 
-In practice JSX is much like HTML with the distinction that with JSX you can easily embedd dynamic content by writing appropriate Javascript within braces. The idea of JSX is quite similar to many templating languages, such as Thymeleaf used along Java Spring, which are used on servers.
+It is also possible to write React as "pure Javascript" without using JSX. Although, nobody with a sound mind would actually do so.
+
+<!-- Käytännössä JSX on melkein kuin HTML:ää sillä erotuksella, että mukaan voi upottaa helposti dynaamista sisältöä kirjoittamalla sopivaa Javascriptiä aaltosulkeiden sisälle. Idealtaan JSX on melko lähellä monia palvelimella käytettäviä templating-kieliä kuten Java Springin yhteydessä käytettävää thymeleafia. -->
+
+In practice JSX is much like HTML with the distinction that with JSX you can easily embed dynamic content by writing appropriate Javascript within braces. The idea of JSX is quite similar to many templating languages, such as Thymeleaf used along Java Spring, which are used on servers.
+
+<!-- JSX on "XML:n kaltainen", eli jokainen tagi tulee sulkea. Esimerkiksi rivinvaihto on tyhjä elementti, joka voidaan kirjottaa HTML:ssä seuraavasti -->
 
 JSX is "XML-like", which means that every tag needs to be closed. For example, a newline is an empty element, which in HTML can be written as follows:
 
@@ -252,9 +252,11 @@ but when writing JSX the tag needs to be closed:
 <br />
 ```
 
-### Monta komponenttia
+### Multiple components
 
-Muutetaan sovellusta seuraavasti (yläreunan importit jätetään <i>esimerkeistä</i> nyt ja jatkossa pois, niiden on kuitenkin oltava koodissa jotta ohjelma toimisi):
+<!-- Muutetaan sovellusta seuraavasti (yläreunan importit jätetään <i>esimerkeistä</i> nyt ja jatkossa pois, niiden on kuitenkin oltava koodissa jotta ohjelma toimisi): -->
+
+Let's modify the application as follows (imports at the top of the file are left out in these <i>examples</i>, now and in the future. They are still needed for the code to work):
 
 ```js
 // highlight-start
@@ -279,7 +281,9 @@ const App = () => {
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-Olemme määritelleet uuden komponentin <i>Hello</i>, jota käytetään komponentista <i>App</i>. Komponenttia voidaan luonnollisesti käyttää monta kertaa:
+<!-- Olemme määritelleet uuden komponentin <i>Hello</i>, jota käytetään komponentista <i>App</i>. Komponenttia voidaan luonnollisesti käyttää monta kertaa: -->
+
+We have defined a new component <i>Hello</i>, which is used from the component <i>App</i>. Naturally, a component can be used multiple times:
 
 ```js
 const App = () => {
@@ -296,15 +300,23 @@ const App = () => {
 }
 ```
 
-Komponenttien tekeminen Reactissa on helppoa ja komponentteja yhdistelemällä monimutkaisempikin sovellus on mahdollista pitää kohtuullisesti ylläpidettävänä. Reactissa filosofiana onkin koostaa sovellus useista, pieneen asiaan keskittyvistä uudelleenkäytettävistä komponenteista.
+<!-- Komponenttien tekeminen Reactissa on helppoa ja komponentteja yhdistelemällä monimutkaisempikin sovellus on mahdollista pitää kohtuullisesti ylläpidettävänä. Reactissa filosofiana onkin koostaa sovellus useista, pieneen asiaan keskittyvistä uudelleenkäytettävistä komponenteista. -->
 
-Vahva konventio on myös se, että sovelluksen ylimpänä oleva <i>juurikomponentti</i> on nimeltään <i>App</i>. Tosin kuten [osassa 6](/osa6) tulemme näkemän on tilanteita, joissa komponentti <i>App</i> ei ole suoraan juuressa, vaan se kääritään sopivan apukomponentin sisään.  
+Writing components with React is easy and by combining components even a more complex application can be kept fairly maintainable. A core philosophy of React is in fact composing applications from many specialized reusable components.
 
-### props: tiedonvälitys komponenttien välillä
+<!-- Vahva konventio on myös se, että sovelluksen ylimpänä oleva <i>juurikomponentti</i> on nimeltään <i>App</i>. Tosin kuten [osassa 6](/osa6) tulemme näkemän on tilanteita, joissa komponentti <i>App</i> ei ole suoraan juuressa, vaan se kääritään sopivan apukomponentin sisään.   -->
 
-Komponenteille on mahdollista välittää dataa [propsien](https://reactjs.org/docs/components-and-props.html) avulla.
+Another strong convention is the idea of a <i>root component</i> called <i>App</i> at the top of the component tree of the application. Nevertheless, as we will find in [part 6](/part6), there are situations where the component <i>App</i> is not exactly the root, but is wrapped within an appropriate utility component.
 
-Muutetaan komponenttia <i>Hello</i> seuraavasti
+### props: passing data to components
+
+<!-- Komponenteille on mahdollista välittää dataa [propsien](https://reactjs.org/docs/components-and-props.html) avulla. -->
+
+It is possible to pass data to components using so called [props](https://reactjs.org/docs/components-and-props.html).
+
+<!-- Muutetaan komponenttia <i>Hello</i> seuraavasti -->
+
+Let's modify the component <i>Hello</i> as follows
 
 ```js
 const Hello = (props) => { // highlight-line
@@ -316,9 +328,13 @@ const Hello = (props) => { // highlight-line
 }
 ```
 
-komponentin määrittelevällä funktiolla on nyt parametri <i>props</i>. Parametri saa arvokseen olion, jonka kenttinä ovat kaikki eri "propsit", jotka komponentin käyttäjä määrittelee.
+<!-- komponentin määrittelevällä funktiolla on nyt parametri <i>props</i>. Parametri saa arvokseen olion, jonka kenttinä ovat kaikki eri "propsit", jotka komponentin käyttäjä määrittelee. -->
 
-Propsit määritellään seuraavasti:
+now the function defining the component has a parameter <i>props</i>. As an argument the parameter receives an object, which has fields corresponding to all the "props" the user of the component defines.
+
+<!-- Propsit määritellään seuraavasti: -->
+
+The props are defined as follows:
 
 ```js
 const App = () => {
@@ -332,9 +348,13 @@ const App = () => {
 }
 ```
 
-Propseja voi olla mielivaltainen määrä ja niiden arvot voivat olla "kovakoodattuja" merkkijonoja tai Javascript-lausekkeiden tuloksia. Jos propsin arvo muodostetaan Javascriptillä, tulee se olla aaltosulkeissa.
+<!-- Propseja voi olla mielivaltainen määrä ja niiden arvot voivat olla "kovakoodattuja" merkkijonoja tai Javascript-lausekkeiden tuloksia. Jos propsin arvo muodostetaan Javascriptillä, tulee se olla aaltosulkeissa. -->
 
-Muutetaan koodia siten, että komponentti <i>Hello</i> käyttää kahta propsia:
+There can be an arbitrary amount of props and their values can be "hard coded" strings or results of Javascript expressions. If the value of the prop is achieved using Javascript it must be wrapped with braces.
+
+<!-- Muutetaan koodia siten, että komponentti <i>Hello</i> käyttää kahta propsia: -->
+
+Let's modify the code so that the component <i>Hello</i> uses two props:
 
 ```js
 const Hello = (props) => {
@@ -361,7 +381,9 @@ const App = () => {
 }
 ```
 
-Komponentti <i>App</i> lähettää propseina muuttujan arvoja, summalausekkeen evaluoinnin tuloksen ja normaalin merkkijonon.
+<!-- Komponentti <i>App</i> lähettää propseina muuttujan arvoja, summalausekkeen evaluoinnin tuloksen ja normaalin merkkijonon. -->
+
+The props sent by the component <i>App</i> are the values of the variables, the result of the evaluation of the sum expression and a regular strings.
 
 ### Muutamia huomioita
 
