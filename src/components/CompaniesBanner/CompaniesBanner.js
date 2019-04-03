@@ -2,99 +2,120 @@ import { Banner } from '../Banner/Banner';
 import { BodyText } from '../BodyText/BodyText';
 import { ContentLiftup } from '../ContentLiftup/ContentLiftup';
 import Element from '../Element/Element';
+import { Image } from '../Image/Image';
 import { Link } from 'gatsby';
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import appgyverLogo from '../../images/appgyver_logo.svg';
-import ciniaLogo from '../../images/cinia_logo.svg';
-import codentoLogo from '../../images/codento_logo.svg';
-import eficodeLogo from '../../images/eficode_logo.svg';
-import elisaLogo from '../../images/elisa_logo.svg';
-import emblicaLogo from '../../images/emblica_logo.svg';
-import houstonLogo from '../../images/houston_logo.svg';
-import keskoLogo from '../../images/kesko_logo.svg';
-import konecranesLogo from '../../images/konecranes_logo.svg';
-import relexLogo from '../../images/relex_logo.svg';
-import smartlyLogo from '../../images/smartly_logo.svg';
-import sympaLogo from '../../images/sympa_logo.svg';
-import taitounitedLogo from '../../images/taito_logo.svg';
-import terveystaloLogo from '../../images/terveystalo_logo.svg';
-import unityLogo from '../../images/unity_logo.svg';
-import yliopistoLogo from '../../images/hgin_yliopisto.svg';
 
 const partners = [
   {
-    image: { src: yliopistoLogo, alt: 'Helsingin yliopisto' },
+    image: { name: 'hgin_yliopisto.svg', alt: 'Helsingin yliopisto' },
     url: 'https://www.helsinki.fi/',
   },
   {
-    image: { src: houstonLogo, alt: 'Houston inc.' },
+    image: { name: 'houston.svg', alt: 'Houston inc.' },
     url: 'https://www.houston-inc.com/careers',
   },
   {
-    image: { src: terveystaloLogo, alt: 'Terveystalo' },
+    image: { name: 'terveystalo.svg', alt: 'Terveystalo' },
     url: 'https://www.terveystalo.com/',
   },
   {
-    image: { src: elisaLogo, alt: 'Elisa' },
+    image: { name: 'elisa.svg', alt: 'Elisa' },
     url: 'https://corporate.elisa.fi/rekrytointi/',
   },
   {
-    image: { src: keskoLogo, alt: 'Kesko' },
+    image: { name: 'kesko.svg', alt: 'Kesko' },
     url: 'https://www.kesko.fi/',
   },
   {
-    image: { src: unityLogo, alt: 'Unity' },
+    image: { name: 'unity.svg', alt: 'Unity' },
     url: 'https://www.instagram.com/unitytechnologies/?hl=en',
   },
   {
-    image: { src: konecranesLogo, alt: 'Konecranes' },
+    image: { name: 'konecranes.svg', alt: 'Konecranes' },
     url: 'https://careers.konecranes.com/Konecranes/',
   },
 ];
 
 const inChallenge = [
   {
-    src: relexLogo,
+    name: 'relex.svg',
     alt: 'Relex',
-  },  
+  },
   {
-    src: smartlyLogo,
+    name: 'smartly.svg',
     alt: 'Smartly.io',
-  }, 
+  },
   {
-    src: eficodeLogo,
+    name: 'eficode.svg',
     alt: 'Eficode',
-  }, 
+  },
   {
-    src: sympaLogo,
+    name: 'sympa.svg',
     alt: 'Sympa',
   },
   {
-    src: ciniaLogo,
+    name: 'cinia.svg',
     alt: 'Cinia',
-  }, 
+  },
   {
-    src: appgyverLogo,
+    name: 'appgyver.svg',
     alt: 'AppGyver',
   },
   {
-    src: codentoLogo,
+    name: 'codento.svg',
     alt: 'Codento',
   },
   {
-    src: taitounitedLogo,
+    name: 'taito.svg',
     alt: 'Taito united',
   },
   {
-    src: emblicaLogo,
+    name: 'emblica.svg',
     alt: 'Emblica',
-  },  
+  },
+  {
+    name: 'kodan.png',
+    alt: 'Kodan',
+  },
+  {
+    name: 'upcloud.png',
+    alt: 'UpCloud',
+  },
+  {
+    name: 'perfektio.png',
+    alt: 'Perfektio',
+  },
+  {
+    name: 'blok.png',
+    alt: 'Blok',
+  },
+  {
+    name: 'gworks.png',
+    alt: 'G-Works',
+  },
+  {
+    name: 'webscale.png',
+    alt: 'Webscale',
+  },
+  {
+    name: 'siili.png',
+    alt: 'Siili',
+  },
+  {
+    name: 'fmi.svg',
+    alt: 'Ilmatieteenlaitos',
+  },
+  {
+    name: 'futurice.png',
+    alt: 'Futurice',
+  },
 ];
 
-export const CompaniesBanner = ({ frontPage }) => (
+export const CompaniesBanner = ({ isFrontPage }) => (
   <Banner
-    backgroundColor={frontPage && 'white'}
+    backgroundColor={isFrontPage && 'white'}
     className="spacing--after"
     id="challenge"
   >
@@ -115,7 +136,7 @@ export const CompaniesBanner = ({ frontPage }) => (
             small
             companyPath={company.url}
             image={{
-              src: company.image.src,
+              src: require(`../../images/company_logos/${company.image.name}`),
               alt: company.image.alt,
             }}
             className={`col-3 col-5--mobile col-5--tablet`}
@@ -132,20 +153,20 @@ export const CompaniesBanner = ({ frontPage }) => (
         flex
         className="col-6 push-right-2 flex-fix-aligning space-between--mobile"
       >
-        {inChallenge.map((company, i) => (
-          <ContentLiftup
-            key={company.alt}
-            small
-            image={{
-              src: company.src,
-              alt: company.alt,
-            }}
-            className={`col-2 push-right-1 col-3--mobile col-3--tablet`}
-          />
-        ))}
+        {inChallenge.map(
+          company =>
+            company.name !== '' && (
+              <Image
+                contain
+                src={require(`../../images/company_logos/${company.name}`)}
+                alt={company.alt}
+                className={`col-2 push-right-1 col-3--mobile col-3--tablet`}
+              />
+            )
+        )}
       </Element>
 
-      {frontPage && (
+      {isFrontPage && (
         <Element flex spaceAround className="col-10 spacing">
           <Link className="about__challenge-button" to="/challenge">
             Lisätietoja haasteesta
@@ -157,9 +178,9 @@ export const CompaniesBanner = ({ frontPage }) => (
 );
 
 CompaniesBanner.defaultProps = {
-  frontPage: false,
+  isFrontPage: false,
 };
 
 CompaniesBanner.propTypes = {
-  frontPage: PropTypes.bool,
+  isFrontPage: PropTypes.bool,
 };
