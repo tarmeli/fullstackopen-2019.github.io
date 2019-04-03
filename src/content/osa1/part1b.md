@@ -78,9 +78,13 @@ It is also possible to define variables in Javascript using the keyword [var](ht
 
 You can find more on this topic on e.g. YouTube - [var, let and const - ES6 JavaScript Features](https://youtu.be/sjyJBL5fkp8)
 
-### Taulukot
+<!-- ### Taulukot -->
 
-[Taulukko](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) ja muutama esimerkki sen käytöstä
+### Arrays
+
+<!-- [Taulukko](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) ja muutama esimerkki sen käytöstä -->
+
+An [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and a couple of examples of its use
 
 ```js
 const t = [1, -1, 3]
@@ -95,9 +99,13 @@ t.forEach(value => {
 })                    
 ```
 
-Huomattavaa esimerkissä on se, että taulukon sisältöä voi muuttaa vaikka sen on määritelty _const_:ksi. Koska taulukko on olio, viittaa muuttuja koko ajan samaan olioon. Olion sisältö muuttuu sitä mukaa kuin taulukkoon lisätään uusia alkioita.
+<!-- Huomattavaa esimerkissä on se, että taulukon sisältöä voi muuttaa vaikka sen on määritelty _const_:ksi. Koska taulukko on olio, viittaa muuttuja koko ajan samaan olioon. Olion sisältö muuttuu sitä mukaa kuin taulukkoon lisätään uusia alkioita. -->
 
-Eräs tapa käydä taulukon alkiot läpi on esimerkissä käytetty _forEach_, joka saa parametrikseen nuolisyntaksilla määritellyn <i>funktion</i>
+Notable in this example is the fact that the contents of the array can be modified even though it is defined as a _const_. Because the array is an object the variable always points to the same object. The content of the array changes as new items are added to it.
+
+<!-- Eräs tapa käydä taulukon alkiot läpi on esimerkissä käytetty _forEach_, joka saa parametrikseen nuolisyntaksilla määritellyn <i>funktion</i> -->
+
+One way of iterating through the items of the array is using _forEach_ as seen in the example. _forEach_ receives a <i>function</i> defined using the arrow syntax as a parameter.
 
 ```js
 value => {
@@ -105,9 +113,13 @@ value => {
 }
 ```
 
-forEach kutsuu funktiota <i>jokaiselle taulukon alkiolle</i> antaen taulukon yksittäisen alkion aina parametrina. forEachin parametrina oleva funktio voi saada myös [muita parametreja](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach).
+<!-- forEach kutsuu funktiota <i>jokaiselle taulukon alkiolle</i> antaen taulukon yksittäisen alkion aina parametrina. forEachin parametrina oleva funktio voi saada myös [muita parametreja](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach). -->
 
-Edellisessä esimerkissä taulukkoon lisättiin uusi alkio metodilla [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push). Reactin yhteydessä sovelletaan usein funktionaalisen ohjelmoinnin tekniikoita, jonka eräs piirre on käyttää <i>muuttumattomia</i> (engl. [immutable](https://en.wikipedia.org/wiki/Immutable_object)) tietorakenteita. React-koodissa kannattaakin mielummin käyttää metodia [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), joka ei lisää alkiota taulukkoon vaan luo uuden taulukon, jossa on lisättävä alkio sekä vanhan taulukon sisältö:
+forEach calls the function <i>for each of the items in the array</i> always passing the individual item as a parameter. The function as the parameter of forEach may also receive [other parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach).
+
+<!-- Edellisessä esimerkissä taulukkoon lisättiin uusi alkio metodilla [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push). Reactin yhteydessä sovelletaan usein funktionaalisen ohjelmoinnin tekniikoita, jonka eräs piirre on käyttää <i>muuttumattomia</i> (engl. [immutable](https://en.wikipedia.org/wiki/Immutable_object)) tietorakenteita. React-koodissa kannattaakin mielummin käyttää metodia [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), joka ei lisää alkiota taulukkoon vaan luo uuden taulukon, jossa on lisättävä alkio sekä vanhan taulukon sisältö: -->
+
+In the previous example a new item was added to the array using the method [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push). When using React, techniques from functional programming are often used. One characteristic of the functional programming paradigm is the use of [immutable](https://en.wikipedia.org/wiki/Immutable_object) data structures. In React code it is preferable to use the method [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), which does not add the item to the array, but creates a new array in which the content of the old array as well as the new item is included.
 
 ```js
 const t = [1, -1, 3]
@@ -118,9 +130,13 @@ console.log(t)  // tulostuu [1, -1, 3]
 console.log(t2) // tulostuu [1, -1, 3, 5]
 ```
 
-Metodikutsu _t.concat(5)_ ei siis lisää uutta alkiota vanhaan taulukkoon, vaan palauttaa uuden taulukon, joka sisältää vanhan taulukon alkioiden lisäksi uuden alkion.
+<!-- Metodikutsu _t.concat(5)_ ei siis lisää uutta alkiota vanhaan taulukkoon, vaan palauttaa uuden taulukon, joka sisältää vanhan taulukon alkioiden lisäksi uuden alkion. -->
 
-Taulukoille on määritelty runsaasti hyödyllisiä operaatioita. Katsotaan pieni esimerkki metodin [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) käytöstä.
+The method call _t.concat(5)_ does not add a new item to the old array, but returns a new array, which besides containing the items of the old array also contains the new item.
+
+<!-- Taulukoille on määritelty runsaasti hyödyllisiä operaatioita. Katsotaan pieni esimerkki metodin [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) käytöstä. -->
+
+There are plenty of useful methods defined for arrays. Let's look at a short example of using the [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) method.
 
 ```js
 const t = [1, 2, 3]
@@ -129,9 +145,13 @@ const m1 = t.map(value => value * 2)
 console.log(m1)   // tulostuu [2, 4, 6]
 ```
 
-Map muodostaa taulukon perusteella <i>uuden taulukon</i>, jonka jokainen alkio luodaan map:in parametrina olevan funktion avulla, esimerkin tapauksessa kertomalla alkuperäinen luku kahdella.
+<!-- Map muodostaa taulukon perusteella <i>uuden taulukon</i>, jonka jokainen alkio luodaan map:in parametrina olevan funktion avulla, esimerkin tapauksessa kertomalla alkuperäinen luku kahdella. -->
 
-Map voi muuttaa taulukon myös täysin erilaiseen muotoon:
+Based on the old array, map creates a <i>new array</i>, for which the function given as a parameter is used to create the items, in the case of this example the original value is multiplied by two.
+
+<!-- Map voi muuttaa taulukon myös täysin erilaiseen muotoon: -->
+
+Map can also transform the array into something completely different:
 
 ```js
 const m2 = t.map(value => '<li>' + value + '</li>')
@@ -139,9 +159,13 @@ console.log(m2)
 // tulostuu [ '<li>1</li>', '<li>2</li>', '<li>3</li>' ]
 ```
 
-Eli lukuja sisältävästä taulukosta tehdään map-metodin avulla HTML-koodia sisältävä taulukko. Tulemmekin kurssin [osassa2](/osa2) näkemään että mapia käytetään Reactissa todella usein.
+<!-- Eli lukuja sisältävästä taulukosta tehdään map-metodin avulla HTML-koodia sisältävä taulukko. Tulemmekin kurssin [osassa2](/osa2) näkemään että mapia käytetään Reactissa todella usein. -->
 
-Taulukon yksittäisiä alkioita on helppo sijoittaa muuttujiin [destrukturoivan](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) sijoituslauseen avulla:
+Here an array filled with integer values is transformed into an array containing HTML using the map method. In [part2](/part2) of this course we will see that map is used quite frequently in React.
+
+<!-- Taulukon yksittäisiä alkioita on helppo sijoittaa muuttujiin [destrukturoivan](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) sijoituslauseen avulla: -->
+
+Individual items of an array are easy to assign to variables with the help of [destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment).
 
 ```js
 const t = [1, 2, 3, 4, 5]
@@ -152,7 +176,9 @@ console.log(first, second)  // tulostuu 1, 2
 console.log(rest)           // tulostuu [3, 4 ,5]
 ```
 
-Eli muuttujiin _first_ ja _second_ tulee sijoituksen ansiosta taulukon kaksi ensimmäistä lukua. Muuttujaan _rest_ "kerätään" sijoituksesta jäljellejääneet luvut omaksi taulukoksi.
+<!-- Eli muuttujiin _first_ ja _second_ tulee sijoituksen ansiosta taulukon kaksi ensimmäistä lukua. Muuttujaan _rest_ "kerätään" sijoituksesta jäljellejääneet luvut omaksi taulukoksi. -->
+
+Thanks to the assignment the variables _first_ and _second_ will receive the first two integers of the array as their values. The remaining integers are "collected" into an array of their own, which is then assigned to the variable _rest_.
 
 ### Oliot
 
