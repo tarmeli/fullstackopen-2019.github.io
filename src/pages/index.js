@@ -16,14 +16,16 @@ import announcement from '../images/ic_announcement_48px.svg';
 import calendarIcon from '../images/calendar-60.svg';
 import cc from '../images/cc.svg';
 import colors from '../colors';
-import houstonLogo from '../images/houston_logo.png';
+import houstonLogo from '../images/company_logos/houston.png';
 import landingImage from '../images/landing.svg';
 import licenceIcon from '../images/by-nc-sa.eu.png';
+import mainSEOdescription from '../content/seo/mainSEOdescription';
+import mainSEOtags from '../content/seo/mainSEOtags';
 import news from '../images/noun_news_1248039.svg';
 import starIcon from '../images/ic_stars_48px.svg';
 import telegramIcon from '../images/telegram-logo-png-open-2000.png';
 import timerIcon from '../images/ic_timer_48px.svg';
-import yliopistoLogo from '../images/hgin_yliopisto.png';
+import yliopistoLogo from '../images/company_logos/hgin_yliopisto.png';
 
 const thingsToKnow = [
   { icon: timerIcon, text: '5-20 tuntia / osa' },
@@ -34,17 +36,9 @@ const thingsToKnow = [
 const IndexPage = () => (
   <Layout>
     <SEO
-      title="Aloitussivu"
-      keywords={[
-        'fullstack',
-        'course',
-        'helsingin yliopisto',
-        'tietojenkäsittelytieteen osasto',
-        'mooc',
-        'mooc.fi',
-        'full stack',
-        'web-sovelluskehitys',
-      ]}
+      title="Full Stack Open 2019"
+      description={mainSEOdescription}
+      keywords={[...mainSEOtags]}
     />
 
     <StaticQuery
@@ -263,7 +257,7 @@ const IndexPage = () => (
 
             <PartBanner />
 
-            <CompaniesBanner frontPage />
+            <CompaniesBanner isFrontPage />
 
             <Element
               flex

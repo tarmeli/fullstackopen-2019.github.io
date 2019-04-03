@@ -6,7 +6,7 @@ letter: b
 
 <div class="content">
 
-Toteutetaan seuraavaksi React-sovellus, joka käyttää toteuttamaamme GraphQL-palvelinta. 
+Toteutetaan seuraavaksi React-sovellus, joka käyttää toteuttamaamme GraphQL-palvelinta. Palvelimen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-3), branchissa <i>part8-3</i>.
 
 GraphQL:ää on periaatteessa mahdollista käyttää HTTP POST -pyyntöjen avulla. Seuraavassa esimerkki Postmanilla tehdystä kyselystä.
 
@@ -43,7 +43,8 @@ const query = gql`
     name,
     phone,
     address {
-      street, city
+      street,
+      city
     }
     id
   }
@@ -165,7 +166,7 @@ Saadaksemme ratkaisua hieman siistimmäksi, eriytetään henkilöiden näyttämi
 ```js
 const App = () => {
   return (
-    <Query query={allPersons}>
+    <Query query={ALL_PERSONS}>
       {(result) => <Persons result={result} />}
     </Query>
   )
@@ -221,9 +222,9 @@ Sopiva muoto kyselylle on seuraava:
 ```js
 query findPersonByName($nameToSearch: String!) {
   findPerson(name: $nameToSearch) {
-  name
+    name
     phone 
-    address{
+    address {
       street
       city
     }
@@ -252,7 +253,7 @@ const App = () => {
   return (
     <ApolloConsumer>
       {(client => 
-        <Query query={allPersons}>
+        <Query query={ALL_PERSONS}>
           {(result) => 
             <Persons result={result} client={client} /> 
           }
@@ -273,7 +274,7 @@ query findPersonByName($nameToSearch: String!) {
     name
     phone 
     id
-    address{
+    address {
       street
       city
     }
@@ -355,7 +356,7 @@ Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://gith
 
 ### Välimuisti
 
-Kun haemme monta kertaa esim. Arto Hellaksen tiedot, huomaamme mielenkinntoisen asian. Kysely backendiin tapahtuu ainoastaan tietojen ensimmäisellä katsomiskerralla, tämän jälkeen siitäkin huomlimatta, että koodi tekee saman kysely uudelleen, ei kyselyä lähetetä backendille:
+Kun haemme monta kertaa esim. Arto Hellaksen tiedot, huomaamme mielenkiintoisen asian: kysely backendiin tapahtuu ainoastaan tietojen ensimmäisellä katsomiskerralla. Tämän jälkeen, siitäkin huolimatta, että koodi tekee saman kyselyn uudelleen, ei kyselyä lähetetä backendille:
 
 ![](../images/8/12.png)
 
@@ -365,7 +366,7 @@ Chromeen on mahdollista asentaa lisäosa [Apollo Client devtools](https://chrome
 
 ![](../images/8/13a.png)
 
-Tieto on organisoitu välimuistiin kyselykohtaisesti. Koska <i>Person</i>-tyypin olioilla on identifioiva kenttä <i>id</i>, jonka tyypiksi on määritelty <i>ID</i> osaa Apollo yhdistää kahden eri kyselyn palauttaman saman olion. Tämän ansiosta Arto Hellaksen osoitetietojen hakeminen kyselyllä <i>findPerson</i> on päivittänyt välimuistia Arton osoitetietojen osalta myös kyselyn <i>allPersons</i> alta.
+Tieto on organisoitu välimuistiin kyselykohtaisesti. Koska <i>Person</i>-tyypin olioilla on identifioiva kenttä <i>id</i>, jonka tyypiksi on määritelty <i>ID</i>, osaa Apollo yhdistää kahden eri kyselyn palauttaman saman olion. Tämän ansiosta Arto Hellaksen osoitetietojen hakeminen kyselyllä <i>findPerson</i> on päivittänyt välimuistia Arton osoitetietojen osalta myös kyselyn <i>allPersons</i> alta.
 
 ### Mutation-komponentti
 
@@ -536,7 +537,7 @@ const App = () => {
 
       <h2>create new</h2>
       <Mutation
-        mutation={createPerson} 
+        mutation={CREATE_PERSON} 
         refetchQueries={[{ query: ALL_PERSONS }]}  // highlight-line
       >
         {(addPerson) =>

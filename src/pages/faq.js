@@ -7,20 +7,19 @@ import Layout from '../components/layout';
 import React from 'react';
 import SEO from '../components/seo';
 import { SubHeader } from '../components/SubHeader/SubHeader';
+import mainSEOtags from '../content/seo/mainSEOtags';
 
 const FAQ = () => (
   <Layout>
     <SEO
-      title="Usein kysytyt kysymykset"
+      title="FAQ | Full Stack Open 2019"
+      description="Usein kysytyt kysymykset"
       keywords={[
-        'fullstack',
-        'course',
-        'helsingin yliopisto',
-        'tietojenkäsittelytieteen osasto',
-        'mooc',
-        'mooc.fi',
-        'full stack',
-        'web-sovelluskehitys',
+        ...mainSEOtags,
+        'faq',
+        'frequently asked questions',
+        'ukk',
+        'usein kysytyt kysymykset',
       ]}
     />
 
