@@ -1,9 +1,14 @@
 import { StaticQuery, graphql } from 'gatsby';
+
+import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Helmet from 'react-helmet';
+import defaultImage from '../images/seo_image.jpg';
+import path from 'path';
 
-function SEO({ description, lang, meta, keywords, title }) {
+function SEO({ description, lang, meta, image, keywords, title }) {
+  const seoImage = image || defaultImage;
+
   return (
     <StaticQuery
       query={detailsQuery}
@@ -16,7 +21,6 @@ function SEO({ description, lang, meta, keywords, title }) {
               lang,
             }}
             title={title}
-            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
             meta={[
               {
                 name: 'description',
@@ -29,6 +33,10 @@ function SEO({ description, lang, meta, keywords, title }) {
               {
                 property: 'og:description',
                 content: metaDescription,
+              },
+              {
+                name: 'og:image',
+                content: path.resolve(seoImage),
               },
               {
                 property: 'og:type',
@@ -50,6 +58,14 @@ function SEO({ description, lang, meta, keywords, title }) {
                 name: 'twitter:description',
                 content: metaDescription,
               },
+              {
+                name: 'twitter:image',
+                content: path.resolve(seoImage),
+              },
+              {
+                name: 'google-site-verification',
+                content: 'ds9pQKiK3kjhRSHHbf5ccoG-oJggn7Lq4A8uHxM3Mkw',
+              },
             ]
               .concat(
                 keywords.length > 0
@@ -68,7 +84,8 @@ function SEO({ description, lang, meta, keywords, title }) {
 }
 
 SEO.defaultProps = {
-  lang: 'en',
+  lang: 'fi',
+  image: null,
   meta: [],
   keywords: [],
 };
@@ -77,6 +94,7 @@ SEO.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.array,
+  image: PropTypes.string,
   keywords: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string.isRequired,
 };

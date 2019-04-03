@@ -9,10 +9,27 @@ import React from 'react';
 import SEO from '../components/seo';
 import { SubHeader } from '../components/SubHeader/SubHeader';
 import landingImage from '../images/haaste.svg';
+import mainSEOtags from '../content/seo/mainSEOtags';
 
 const Challenge = () => (
   <Layout>
-    <SEO title="Yritysesittelyt" />
+    <SEO
+      title="Full stack -haaste | Full Stack Open 2019"
+      description="Helsingin yliopisto, Houston Inc ja kumppaniyrityksemme haastavat niin koodarit kuin yritykset kasvattamaan osaamistaan tätä kurssia suorittamalla. Haaste on tarkoitettu jokaiselle sovelluskehitysalan osaajalle ja sellaiseksi haluavalle."
+      keywords={[
+        ...mainSEOtags,
+        'fullstackhaaste',
+        'full stack haaste',
+        'elisa',
+        'terveystalo',
+        'sympa',
+        'konecranes',
+        'unity technologies',
+        'täydennyskoulutus',
+        'koodari',
+        'haaste',
+      ]}
+    />
 
     <Banner style={{ paddingBottom: 0, overflow: 'hidden' }}>
       <div className="container challenge__banner">
@@ -36,10 +53,10 @@ const Challenge = () => (
         <BodyText
           headingFont
           text={[
-            'Helsingin yliopisto ja Houston Inc. haastavat niin koodarit kuin yritykset kasvattamaan osaamistaan Full Stack -hengessä. Haaste on tarkoitettu jokaiselle sovelluskehitysalan osaajalle.',
-            'Haasteen päämäärä on kannustaa oppimaan. Tarjoamme valmiiksi kootun ja ajatuksella rajatun Full Stack -kurssin, joka helpottaa ja vauhdittaa nykyaikaisiin, tuotannossa käytettyihin teknologioihin tutustumista.',
-            'Kurssin materiaali ja tehtävät sopivat niin konkarille kuin uraansa aloittelevalle osaajalle; täydennyskoulutusta etsivälle, alanvaihtajalle, taitojaan päivittävälle, alan opiskelijalle sekä jokaiselle, joka haluaa tarttua haasteeseen ja kasvattaa osaamistaan.',
-            "Full Stack -kurssi on ilmainen verkkokurssi, joka on koottu ajatuksella koodarilta koodarille. Kokonaisuus on Helsingin yliopiston ja Houston Inc.'n yhteistyössä toteuttama.",
+            'Suomi tarvitsee lisää ohjelmistokehittäjiä. Haluamme kasvattaa seuraavan sukupolven koodareita - yksi valitsemistamme tavoista on osallistuminen Full Stack MOOC -kurssille.',
+            'Helsingin yliopisto ja Houston Inc. haastavat niin tekijöitä kuin yrityksiä oppimaan uutta ja laajentamaan osaamistaan Full Stack -hengessä. Yhteistyökumppaneina ja haasteen käynnistäjinä ovat myös Elisa Oyj, K-ryhmä, Konecranes Oyj, Terveystalo Oyj ja Unity Technologies Finland Ltd.',
+            'Haasteen päämäärä on kannustaa oppimaan. Tarjoamme valmiiksi kootun ja ajatuksella rajatun Full Stack -kurssin, joka helpottaa ja vauhdittaa nykyaikaisiin, tuotannossa käytettyihin teknologioihin tutustumista. Kurssi on maksuton, eikä sen suorittaminen ole aikaan tai paikkaan sidottu.',
+            'Kurssi on rakennettu koodarilta koodarille ja tarjoaa uutta kokeneemmallekin konkarille. Pohjatiedoiksi vaaditaan hyvä perustason ohjelmointirutiini.',
           ]}
         />
 
@@ -48,11 +65,11 @@ const Challenge = () => (
           headingFont
           heading={{
             level: 'h2',
-            title: 'Yritys, anna tukesi Full Stack -haasteelle',
+            title: 'Yritykset, ottakaa haaste vastaan!',
           }}
           text={[
-            'Tarttumalla Full Stack -haasteeseen kannustatte työyhteisönne osaajia uuden oppimisen äärelle. Haasteen kautta Full Stack osaamisalueena tulee tutuksi niin kokeneelle kuin aloittelevalle koodarille.',
-            'Haasteeseen sisällön tuo Full Stack -kurssi, joka toimii hienosti itseopiskelumateriaalina yrityksen muiden koulutusmahdollisuuksien joukossa',
+            'Tarttumalla haasteeseen kannustatte työyhteisönne osaajia uuden oppimisen äärelle. Full Stack -verkkokurssi on oiva lisä yrityksen täydennyskoulutusvalikoimaan ja toimii hyvin itseopiskelumateriaalina yrityksen muiden koulutusmahdollisuuksien joukossa',
+            'Osallistumalla haasteeseen voitte viestiä omaa teknologista osaamistanne yrityksen ulkopuolelle – tämä auttaa niin työnantajakuvan muodostamisessa kuin näkyvyydessä sovelluskehitysalan ammattilaisille.',
             'Haasteeseen osallistuminen on maksutonta. Haasteen vastaanottaneiden yritysten logot nostetaan Full Stack -kurssin sivulle.',
           ]}
         />
