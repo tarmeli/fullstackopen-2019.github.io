@@ -6,8 +6,6 @@ letter: a
 
 <div class="content">
 
-[//]: # (...)
-
 <!-- [//]: # (Alamme nyt tutustua kurssin ehkä tärkeimpään teemaan, [React](https://reactjs.org/)-kirjastoon. Tehdään heti yksinkertainen React-sovellus ja tutustutaan samalla Reactin peruskäsitteistöön.) -->
 
 We will now start getting familiar with probably the most important topic of this course, namely the [React](https://reactjs.org/)-library. Let's start off with making a simple React application as well as getting to know the core concepts of React.
@@ -64,7 +62,7 @@ const App = () => (
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-<!-- [//]: <> (Tiedostot <i>App.js</i>, <i>App.css</i>, <i>App.test.js</i>, <i>logo.svg</i> ja <i>serviceWorker.js</i> voi poistaa sillä niitä emme sovelluksessamme nyt tarvitse.) -->
+<!-- [//]: <> (Tiedo stot <i>App.js</i>, <i>App.css</i>, <i>App.test.js</i>, <i>logo.svg</i> ja <i>serviceWorker.js</i> voi poistaa sillä niitä emme sovelluksessamme nyt tarvitse.) -->
 
 The files <i>App.js</i>, <i>App.css</i>, <i>App.test.js</i>, <i>logo.svg</i> and <i>serviceWorker.js</i> may be deleted as they are not needed in our application right now.
 
@@ -385,17 +383,27 @@ const App = () => {
 
 The props sent by the component <i>App</i> are the values of the variables, the result of the evaluation of the sum expression and a regular strings.
 
-### Muutamia huomioita
+<!-- ### Muutamia huomioita -->
 
-React on konfiguroitu antamaan varsin hyviä virheilmoituksia. Kannattaa kuitenkin edetä ainakin alussa **todella pienin askelin** ja varmistaa, että jokainen muutos toimii halutulla tavalla.
+### Some notes
 
-**Konsolin tulee olla koko ajan auki**. Jos selain ilmoittaa virheestä, ei kannata kirjoittaa sokeasti lisää koodia ja toivoa ihmettä tapahtuvaksi, vaan tulee yrittää ymmärtää virheen syy ja esim. palata edelliseen toimivaan tilaan:
+<!-- React on konfiguroitu antamaan varsin hyviä virheilmoituksia. Kannattaa kuitenkin edetä ainakin alussa **todella pienin askelin** ja varmistaa, että jokainen muutos toimii halutulla tavalla. -->
+
+React has been configured to generate quite good error messages. Despite this, you should, at least in the beginning, advance in **very small steps** and make sure that every change works as desired.
+
+<!-- **Konsolin tulee olla koko ajan auki**. Jos selain ilmoittaa virheestä, ei kannata kirjoittaa sokeasti lisää koodia ja toivoa ihmettä tapahtuvaksi, vaan tulee yrittää ymmärtää virheen syy ja esim. palata edelliseen toimivaan tilaan: -->
+
+**The console should always be open**. If the browser reports about errors it is not advisable to continue blindly writing more code hoping for miracles to happen. You should instead try to understand the cause of the error and, for example, go back to the previous working state:
 
 ![](../images/1/2a.png)
 
-Kannattaa myös muistaa, että React-koodissakin on mahdollista ja kannattavaa lisätä koodin sekaan sopivia konsoliin tulostavia <em>console.log()</em>-komentoja. Tulemme hieman [myöhemmin](#react-sovellusten-debuggaus) tutustumaan muutamiin muihinkin tapoihin debugata Reactia.
+<!-- Kannattaa myös muistaa, että React-koodissakin on mahdollista ja kannattavaa lisätä koodin sekaan sopivia konsoliin tulostavia <em>console.log()</em>-komentoja. Tulemme hieman [myöhemmin](#react-sovellusten-debuggaus) tutustumaan muutamiin muihinkin tapoihin debugata Reactia. -->
 
-Kannattaa pitää mielessä, että **React-komponenttien nimien tulee alkaa isolla kirjaimella**. Jos yrität määritellä komponentin seuraavasti:
+It is good to remember that in React it possible and worthwhile to, within your code, write <em>console.log()</em> commands that print to the console.
+
+<!-- Kannattaa pitää mielessä, että **React-komponenttien nimien tulee alkaa isolla kirjaimella**. Jos yrität määritellä komponentin seuraavasti: -->
+
+Also keep in mind that **React component names must be capitalized**. If you try defining a component as follows
 
 ```js
 const footer = () => {
@@ -408,7 +416,9 @@ const footer = () => {
 }
 ```
 
-ja ottaa se käyttöön
+<!-- ja ottaa se käyttöön -->
+
+and use it like this
 
 ```js
 const App = () => {
@@ -422,9 +432,13 @@ const App = () => {
 }
 ```
 
-sivulle ei kuitenkaan ilmesty näkyviin Footer-komponentissa määriteltyä sisältöä, vaan React luo sivulle ainoastaan tyhjän <i>footer</i>-elementin. Jos muutat komponentin nimen alkamaan isolla kirjaimella, React luo sivulle <i>div</i>-elementin, joka määriteltiin Footer-komponentissa.
+<!-- sivulle ei kuitenkaan ilmesty näkyviin Footer-komponentissa määriteltyä sisältöä, vaan React luo sivulle ainoastaan tyhjän <i>footer</i>-elementin. Jos muutat komponentin nimen alkamaan isolla kirjaimella, React luo sivulle <i>div</i>-elementin, joka määriteltiin Footer-komponentissa. -->
 
-Kannattaa myös pitää mielessä, että React-komponentin sisällön tulee (yleensä) sisältää **yksi juurielementti**. Eli jos yrittäisimme määritellä komponentin <i>App</i> ilman uloimmaista <i>div</i>-elementtiä:
+the page is not going to display the content defined within the Footer component, and instead React only creates an empty <i>footer</i> element. If you change the first letter of the component name to a capital letter, then React creates a <i>div</i>-element defined in the Footer component, which is rendered on the page.
+
+<!-- Kannattaa myös pitää mielessä, että React-komponentin sisällön tulee (yleensä) sisältää **yksi juurielementti**. Eli jos yrittäisimme määritellä komponentin <i>App</i> ilman uloimmaista <i>div</i>-elementtiä: -->
+
+Take note that (usually) the content of a React component needs to contain **one root element**. If we would try to define the component <i>App</i> without the outermost <i>div</i>-element:
 
 ```js
 const App = () => {
@@ -436,11 +450,15 @@ const App = () => {
 }
 ```
 
-seurauksena on virheilmoitus:
+<!-- seurauksena on virheilmoitus: -->
+
+the resulting outcome would be an error message.
 
 ![](../images/1/3a.png)
 
-Juurielementin käyttö ei ole ainoa toimiva vaihtoehto, myös <i>taulukollinen</i> komponentteja on validi tapa:
+<!-- Juurielementin käyttö ei ole ainoa toimiva vaihtoehto, myös <i>taulukollinen</i> komponentteja on validi tapa: -->
+
+Using a root element is not the only working option. An <i>array</i> of components is also a valid solution:
 
 ```js
 const App = () => {
@@ -452,9 +470,13 @@ const App = () => {
 }
 ```
 
-Määritellessä sovelluksen juurikomponenttia, tämä ei kuitenkaan ole järkevää ja näyttää koodissakin pahalta.
+<!-- Määritellessä sovelluksen juurikomponenttia, tämä ei kuitenkaan ole järkevää ja näyttää koodissakin pahalta. -->
 
-Juurielementin pakollisesta käytöstä on se seuraus, että sovelluksen DOM-puuhun tulee "ylimääräisiä" div-elementtejä. Tämä on mahdollista välttää käyttämällä [fragmentteja](https://reactjs.org/docs/fragments.html#short-syntax), eli ympäröimällä komponentin palauttamat elementit tyhjällä elementillä:
+When defining the root component of the application this is not a very wise thing to do and makes the code a bit ugly.
+
+<!-- Juurielementin pakollisesta käytöstä on se seuraus, että sovelluksen DOM-puuhun tulee "ylimääräisiä" div-elementtejä. Tämä on mahdollista välttää käyttämällä [fragmentteja](https://reactjs.org/docs/fragments.html#short-syntax), eli ympäröimällä komponentin palauttamat elementit tyhjällä elementillä: -->
+
+The consequence of the obligatory nature of the root element is "extra" div-elements in the DOM-tree. This can be avoided by using [fragments](https://reactjs.org/docs/fragments.html#short-syntax), wrapping the elements returned by the component with an empty element:
 
 ```js
 const App = () => {
@@ -472,7 +494,9 @@ const App = () => {
 }
 ```
 
-Nyt käännös menee läpi ja Reactin generoimaan DOM:iin ei tule ylimääräistä div-elementtiä.
+<!-- Nyt käännös menee läpi ja Reactin generoimaan DOM:iin ei tule ylimääräistä div-elementtiä. -->
+
+Now the compilation is successful and the DOM generated by React no longer contains an extra div-element.
 
 </div>
 
