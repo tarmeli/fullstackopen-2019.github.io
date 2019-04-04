@@ -756,7 +756,7 @@ Let's first implement a <i>Display</i> component that's responsible for displayi
 One best practice in React is to [lift the state up](https://reactjs.org/docs/lifting-state-up.html) as high up as possible in the component hierarchy, preferably to the <i>App</i> root component.
 
 <!-- Jätetään sovelluksen tila, eli laskimen arvo komponenttiin <i>App</i> ja välitetään tila <i>propsien</i> avulla komponentille <i>Display</i>: -->
-Let's place the application's state in the <i>App</i> component and pass it down through <i>props</i> to the <i>Display</i> component:
+Let's place the application's state in the <i>App</i> component and pass it down to the <i>Display</i> component through <i>props</i>:
 
 ```js
 const Display = (props) => {
@@ -766,7 +766,8 @@ const Display = (props) => {
 }
 ```
 
-Voimme hyödyntää aiemmin mainittua [destrukturointia](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) myös metodien parametreissa. Eli koska olemme kiinnostuneita <i>propsin</i> kentästä _counter_, on edellinen mahdollista yksinkertaistaa seuraavaan muotoon:
+<!-- Voimme hyödyntää aiemmin mainittua [destrukturointia](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) myös metodien parametreissa. Eli koska olemme kiinnostuneita <i>propsin</i> kentästä _counter_, on edellinen mahdollista yksinkertaistaa seuraavaan muotoon: -->
+We can also utilize [destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) directly in the component function's parameters. Since we're interested in the _counter_ property of the props object, it's possible to simplify the component into the following form:
 
 ```js
 const Display = ({ counter }) => {
@@ -776,13 +777,15 @@ const Display = ({ counter }) => {
 }
 ```
 
-Koska komponentin määrittelevä metodi ei sisällä muuta kuin returnin, voimme ilmaista sen hyödyntäen nuolifunktioiden tiiviimpää ilmaisumuotoa
+<!-- Koska komponentin määrittelevä metodi ei sisällä muuta kuin returnin, voimme ilmaista sen hyödyntäen nuolifunktioiden tiiviimpää ilmaisumuotoa -->
+Since the component function only consists of a single command we can also use the compact syntax for arrow functions:
 
 ```js
 const Display = ({ counter }) => <div>{counter}</div>
 ```
 
-Komponentin käyttö on suoraviivaista, riittää että sille välitetään laskurin tila eli _counter_:
+<!-- Komponentin käyttö on suoraviivaista, riittää että sille välitetään laskurin tila eli _counter_: -->
+Using the component is straightforward, as we only need to pass the state of the _counter_ to component:
 
 ```js
 const App = (props) => {
@@ -803,9 +806,11 @@ const App = (props) => {
 }
 ```
 
-Kaikki toimii edelleen. Kun nappeja painetaan ja <i>App</i> renderöityy uudelleen, renderöityvät myös kaikki sen alikomponentit, siis myös <i>Display</i> automaattisesti uudelleen.
+<!-- Kaikki toimii edelleen. Kun nappeja painetaan ja <i>App</i> renderöityy uudelleen, renderöityvät myös kaikki sen alikomponentit, siis myös <i>Display</i> automaattisesti uudelleen. -->
+Everything still works. When the buttons are clicked and the <i>App</i> gets re-rendered, all of its children including the <i>Display</i> component are also re-rendered.
 
-Tehdään seuraavaksi napeille tarkoitettu komponentti <i>Button</i>. Napille on välitettävä propsien avulla tapahtumankäsittelijä sekä napin teksti:
+<!-- Tehdään seuraavaksi napeille tarkoitettu komponentti <i>Button</i>. Napille on välitettävä propsien avulla tapahtumankäsittelijä sekä napin teksti: -->
+Next, let's make a <i>Button</i> component for the buttons of our application. We have to pass the event handler as well as the title of the button through the component's props:
 
 ```js
 const Button = (props) => (
@@ -815,7 +820,8 @@ const Button = (props) => (
 )
 ```
 
-ja hyödynnetään taas destrukturointia ottamaan <i>props</i>:in tarpeelliset kentät suoraan:
+<!-- ja hyödynnetään taas destrukturointia ottamaan <i>props</i>:in tarpeelliset kentät suoraan: -->
+and let's utilize destructuring again to unpack and assign the needed properties from the props object to variables:
 
 ```js
 const Button = ({ handleClick, text }) => (
@@ -825,7 +831,8 @@ const Button = ({ handleClick, text }) => (
 )
 ```
 
-Komponentti <i>App</i> muuttuu nyt muotoon:
+<!-- Komponentti <i>App</i> muuttuu nyt muotoon: -->
+Our <i>App</i> component now looks like this:
 
 ```js
 const App = (props) => {
@@ -855,8 +862,10 @@ const App = (props) => {
 }
 ```
 
-Koska meillä on nyt uudelleenkäytettävä nappi, sovellukselle on lisätty uutena toiminnallisuutena nappi, jolla laskurin arvoa voi vähentää.
+<!-- Koska meillä on nyt uudelleenkäytettävä nappi, sovellukselle on lisätty uutena toiminnallisuutena nappi, jolla laskurin arvoa voi vähentää. -->
+Since we now have an easily reusable <i>Button</i> component, we've also implemented new functionality into our application by adding a button that can be used to decrement the counter.
 
-Tapahtumankäsittelijä välitetään napeille propsin _handleClick_ välityksellä. Propsin nimellä ei ole sinänsä merkitystä, mutta valinta ei ollut täysin sattumanvarainen, esim. Reactin [tutoriaali](https://reactjs.org/tutorial/tutorial.html) suosittelee tätä konventiota.
+<!-- Tapahtumankäsittelijä välitetään napeille propsin _handleClick_ välityksellä. Propsin nimellä ei ole sinänsä merkitystä, mutta valinta ei ollut täysin sattumanvarainen, esim. Reactin [tutoriaali](https://reactjs.org/tutorial/tutorial.html) suosittelee tätä konventiota. -->
 
+The event handler is passed to the <i>Button</i> component through the _handleClick_ prop. The name of the prop itself is not that significant, but our naming choice wasn't completely random, e.g. React's own official [tutorial](https://reactjs.org/tutorial/tutorial.html) suggests this convention.
 </div>
