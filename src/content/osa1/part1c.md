@@ -431,7 +431,7 @@ Let's change the application so that increasing the counter happens when a user 
 Button-elements support so-called [mouse events](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent), out of which [click](https://developer.mozilla.org/en-US/docs/Web/Events/click) is the most common event.
 
 <!-- Reactissa funktion rekisteröiminen tapahtumankäsittelijäksi tapahtumalle <i>click</i> [tapahtuu](https://reactjs.org/docs/handling-events.html) seuraavasti: -->
-In React the registering of an event handler function for the <i>click</i> event [happens](https://reactjs.org/docs/handling-events.html) like this:
+In React registering an event handler function to the <i>click</i> event [happens](https://reactjs.org/docs/handling-events.html) like this:
 
 ```js
 const App = (props) => {
@@ -457,7 +457,7 @@ const App = (props) => {
 ```
 
 <!-- Eli laitetaan buttonin <i>onClick</i>-attribuutin arvoksi aaltosulkeissa oleva viite koodissa määriteltyyn funktioon _handleClick_. -->
-Meaning, we set the value of the button's <i>onClick</i>-attribute to be a reference to the _handleClick_ function defined in the code.
+We set the value of the button's <i>onClick</i>-attribute to be a reference to the _handleClick_ function defined in the code.
 
 <!-- Nyt jokainen napin <i>plus</i> painallus saa aikaan sen että funktiota _handleClick_ kutsutaan, eli klikatessa konsoliin tulostuu <i>clicked</i>. -->
 Now every click of the <i>plus</i> button causes the _handleClick_ function to be called, meaning that every click event will log a <i>clicked</i> message to the browser console.
@@ -481,7 +481,7 @@ const App = (props) => {
 ```
 
 <!-- Muuttamalla tapahtumankäsittelijä seuraavaan muotoon -->
-By changing the event handler into the following form
+By changing the event handler to the following form
 ```js
 <button onClick={() => setCounter(counter + 1)}>
   plus
@@ -492,7 +492,7 @@ By changing the event handler into the following form
 we achieve the desired behavior, meaning that the value of _counter_ is increased by one <i>and</i> the component gets re-rendered.
 
 <!-- Lisätään sovellukseen myös nappi laskurin nollaamiseen: -->
-Let's also add a button to the application for resetting the counter:
+Let's also add a button for resetting the counter:
 
 ```js
 const App = (props) => {
@@ -586,10 +586,10 @@ What's causing the application to break? The event handler is supposed to define
 ```
 
 <!-- tapahtumankäsittelijäksi tulee määriteltyä <i>funktiokutsu</i>. Sekin on monissa tilanteissa ok, mutta ei nyt, nimittäin kun React renderöi metodin, se suorittaa kutsun <em>setToValue(0)</em>. Kutsu aiheuttaa komponentin tilan päivittävän funktion _setCounter_ kutsumisen. Tämä taas aiheuttaa komponentin uudelleenrenderöitymisen. Ja sama toistuu uudelleen... -->
-meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to to the _setCounter_ function. This in turn causes the component to be re-rendered. And this cycle goes on and one...
+meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to the _setCounter_ function, which in turn causes the component to be re-rendered. And this cycle goes on and one...
 
 <!-- Tilanteeseen on kaksi ratkaisua. Ratkaisuista yksinkertaisempi on muuttaa tapahtumankäsittelyä seuraavasti -->
-There's two potential solutions to this problem. The simpler solution is to change the event handlers as shown below
+There's two potential solutions to this problem. The simpler solution is to change the event handlers into the form shown below
 
 ```js
 const App = (props) => {
@@ -622,7 +622,7 @@ The event hander is now a <i>function</i> that calls the _setToValue_ function w
 ### Function that returns a function
 
 <!-- Toinen vaihtoehto on käyttää yleistä Javascriptin ja yleisemminkin funktionaalisen ohjelmoinnin kikkaa, eli määritellä <i>funktio joka palauttaa funktion</i>: -->
-The other solution is to use a common trick often seen in JavaScript and functional programming in general. The trick is to define <i>a function that returns a function</i>:
+The other solution is to use a common trick often seen in JavaScript and functional programming at large. The trick is to define <i>a function that returns a function</i>:
 
 ```js
 const App = (props) => {
@@ -651,9 +651,10 @@ const App = (props) => {
 ```
 
 <!-- Jos et ole aiemmin törmännyt tekniikkaan, siihen totutteluun voi mennä tovi. -->
-Getting comfortable with this technique may take some time if this is your first time seeing it.
+Getting comfortable with this technique may take some time if this is your first time using it.
 
-Olemme siis määritelleet tapahtumankäsittelijäfunktion _setToValue_ seuraavasti:
+<!-- Olemme siis määritelleet tapahtumankäsittelijäfunktion _setToValue_ seuraavasti: -->
+We have defined the following _setToValue_ event handler function:
 
 ```js
 const setToValue = (value) => {
@@ -663,7 +664,8 @@ const setToValue = (value) => {
 }
 ```
 
-Kun komponentissa määritellään tapahtumankäsittelijä kutsumalla <em>setToValue(0)</em> on lopputuloksena funktio
+<!-- Kun komponentissa määritellään tapahtumankäsittelijä kutsumalla <em>setToValue(0)</em> on lopputuloksena funktio -->
+Defining the event handler by calling <em>setToValue(0)</em> results in the function
 
 ```js
 () => {
@@ -671,9 +673,11 @@ Kun komponentissa määritellään tapahtumankäsittelijä kutsumalla <em>setToV
 }
 ```
 
-eli juuri oikeanlainen tilan nollaamisen aiheuttava funktio!
+<!-- eli juuri oikeanlainen tilan nollaamisen aiheuttava funktio! -->
+which is exactly the desired function for resetting the state!
 
-Plus-napin tapahtumankäsittelijä määritellään kutsumalla <em>setToValue(counter + 1)</em>. Kun komponentti renderöidään ensimmäisen kerran, _counter_ on saanut alkuarvon 0, eli plus-napin tapahtumankäsittelijäksi tulee funktiokutsun <em>setToValue(1)</em> tulos, eli funktio
+<!-- Plus-napin tapahtumankäsittelijä määritellään kutsumalla <em>setToValue(counter + 1)</em>. Kun komponentti renderöidään ensimmäisen kerran, _counter_ on saanut alkuarvon 0, eli plus-napin tapahtumankäsittelijäksi tulee funktiokutsun <em>setToValue(1)</em> tulos, eli funktio -->
+The event handler for the plus-button is defined by calling <em>setToValue(counter + 1)</em>. When the component is rendered for the first time, the _counter_ will have the initial value 0, meaning that the event handler for the plus-button will be the result of <em>setToValue(1)</em>:
 
 ```js
 () => {
@@ -681,7 +685,8 @@ Plus-napin tapahtumankäsittelijä määritellään kutsumalla <em>setToValue(co
 }
 ```
 
-Vastaavasti, kun laskurin tila on esim 41, tulee plus-napin tapahtumakuuntelijaksi
+<!-- Vastaavasti, kun laskurin tila on esim 41, tulee plus-napin tapahtumakuuntelijaksi -->
+Likewise, when the state of the counter is 41 the event handler for the plus-button will be
 
 ```js
 () => {
@@ -689,7 +694,8 @@ Vastaavasti, kun laskurin tila on esim 41, tulee plus-napin tapahtumakuuntelijak
 }
 ```
 
-Tarkastellaan vielä hieman funktiota _setToValue_:
+<!-- Tarkastellaan vielä hieman funktiota _setToValue_: -->
+Let's take a closer look at the _setToValue_ function:
 
 ```js
 const setToValue = (value) => {
@@ -699,7 +705,8 @@ const setToValue = (value) => {
 }
 ```
 
-Koska metodi itse sisältää ainoastaan yhden komennon, eli <i>returnin</i>, joka palauttaa funktion, voidaan hyödyntää nuolifunktion tiiviimpää muotoa:
+<!-- Koska metodi itse sisältää ainoastaan yhden komennon, eli <i>returnin</i>, joka palauttaa funktion, voidaan hyödyntää nuolifunktion tiiviimpää muotoa: -->
+Because the function body only contains a single command, we can once again utilize the more compact arrow function syntax:
 
 ```js
 const setToValue = (value) => () => {
@@ -707,37 +714,49 @@ const setToValue = (value) => () => {
 }
 ```
 
-Usein tälläisissä tilanteissa kaikki kirjoitetaan samalle riville, jolloin tuloksena on "kaksi nuolta sisältävä funktio":
+<!-- Usein tälläisissä tilanteissa kaikki kirjoitetaan samalle riville, jolloin tuloksena on "kaksi nuolta sisältävä funktio": -->
+In these situations it's common to write everything onto one line, resulting in a "double arrow" function: 
 
 ```js
 const setToValue = (value) => () => setCounter(value)
 ```
 
-Kaksinuolisen funktion voi ajatella funktiona, jota lopullisen tuloksen saadakseen täytyy kutsua kaksi kertaa.
+<!-- Kaksinuolisen funktion voi ajatella funktiona, jota lopullisen tuloksen saadakseen täytyy kutsua kaksi kertaa. -->
+Double arrow functions can be thought of as functions that have to be called twice in order to get the final result.
 
-Ensimmäisellä kutsulla "konfiguroidaan" varsinainen funktio, sijoittamalla osalle parametreista arvo. Eli kutsu <em>setToValue(5)</em> sitoo muuttujaan _value_ arvon 5 ja funktiosta "jää jäljelle" seuraava funktio:
+<!-- Ensimmäisellä kutsulla "konfiguroidaan" varsinainen funktio, sijoittamalla osalle parametreista arvo. Eli kutsu <em>setToValue(5)</em> sitoo muuttujaan _value_ arvon 5 ja funktiosta "jää jäljelle" seuraava funktio: -->
+The first function call is used to "configure" the second function, by defining some of its parameters. By calling <em>setToValue(5)</em> we assign the value 5 to _value_ and we're left with the following function:
 
 ```js
 () => setCounter(5)
 ```
 
-Tässä näytetty tapa soveltaa funktioita palauttavia funktioita on oleellisesti sama asia mistä funktionaalisessa ohjelmoinnissa käytetään termiä [currying](http://www.datchley.name/currying-vs-partial-application/). Termi currying ei ole lähtöisin funktionaalisen ohjelmoinnin piiristä vaan sillä on juuret [syvällä matematiikassa](https://en.wikipedia.org/wiki/Currying).
+<!-- Tässä näytetty tapa soveltaa funktioita palauttavia funktioita on oleellisesti sama asia mistä funktionaalisessa ohjelmoinnissa käytetään termiä [currying](http://www.datchley.name/currying-vs-partial-application/). Termi currying ei ole lähtöisin funktionaalisen ohjelmoinnin piiristä vaan sillä on juuret [syvällä matematiikassa](https://en.wikipedia.org/wiki/Currying). -->
+This way of utilizing functions that return functions is effectively the same thing as [currying](http://www.datchley.name/currying-vs-partial-application/) in functional programming. The term currying does not originate from functional programming, rather the term is deeply rooted in [mathematics](https://en.wikipedia.org/wiki/Currying).
 
-Jo muutamaan kertaan mainittu termi <i>funktionaalinen ohjelmointi</i> ei ole välttämättä kaikille tässä vaiheessa tuttu. Asiaa avataan hiukan kurssin kuluessa, sillä React tukee ja osin edellyttää funktionaalisen tyylin käyttöä.
+<!-- Jo muutamaan kertaan mainittu termi <i>funktionaalinen ohjelmointi</i> ei ole välttämättä kaikille tässä vaiheessa tuttu. Asiaa avataan hiukan kurssin kuluessa, sillä React tukee ja osin edellyttää funktionaalisen tyylin käyttöä. -->
+We've mentioned <i>functional programming</i> a few times now, which may not be familiar to everyone. We will explore some aspects of functional programming throughout the course, as React supports and partially requires the use of some of the styles of functional programming:
 
-**HUOM:** muutos, missä korvasimme metodit _increaseByOne_ ja _setToZero_ metodilla _setToValue_ ei välttämättä ole järkevä, sillä erikoistuneemmat metodit ovat paremmin nimettyjä. Teimme muutoksen oikeastaan ainoastaan demonstroidaksemme _currying_-tekniikan soveltamista.
+<!-- **HUOM:** muutos, missä korvasimme metodit _increaseByOne_ ja _setToZero_ metodilla _setToValue_ ei välttämättä ole järkevä, sillä erikoistuneemmat metodit ovat paremmin nimettyjä. Teimme muutoksen oikeastaan ainoastaan demonstroidaksemme _currying_-tekniikan soveltamista. -->
+**NB** the change where we replaced the functions _increaseByOne_ and _setToZero_ with the function _setToValue_ is not necessarily an improvement, since specialized function have more descriptive names. The reason we made the change was mostly to demonstrate the usage of the _currying_-technique.
 
-**HUOM2:** et välttämättä tarvitse tämän osan, etkä kenties kurssin muissakaan tehtävissä funktioita palauttavia funktioita, joten älä sekoita päätäsi asialla turhaan.
+<!-- **HUOM2:** et välttämättä tarvitse tämän osan, etkä kenties kurssin muissakaan tehtävissä funktioita palauttavia funktioita, joten älä sekoita päätäsi asialla turhaan. -->
+**NB** You don't necessarily need to use functions that return functions in any of the exercises, so don't worry too much about understanding this technique if the topic seems too confusing.
 
-### Tilan vieminen alikomponenttiin
+<!-- ### Tilan vieminen alikomponenttiin -->
+### Passing state to child components
 
-Reactissa suositaan pieniä komponentteja, joita on mahdollista uusiokäyttää monessa osissa sovellusta ja jopa useissa eri sovelluksissa. Refaktoroidaan koodiamme vielä siten, että yhden komponentin sijaan koostamme laskurin näytöstä ja kahdesta painikkeesta.
+<!-- Reactissa suositaan pieniä komponentteja, joita on mahdollista uusiokäyttää monessa osissa sovellusta ja jopa useissa eri sovelluksissa. Refaktoroidaan koodiamme vielä siten, että yhden komponentin sijaan koostamme laskurin näytöstä ja kahdesta painikkeesta. -->
+It's recommended to write React components that are small and reusable across the application and even across projects. Let's refactor our application so that it's composed of three smaller components, one component for displaying the counter and two components for buttons.
 
-Tehdään ensin näytöstä vastaava komponentti <i>Display</i>.
+<!-- Tehdään ensin näytöstä vastaava komponentti <i>Display</i>. -->
+Let's first implement a <i>Display</i> component that's responsible for displaying the value of the counter.
 
-Reactissa parhaana käytänteenä on sijoittaa tila [mahdollisimman ylös](https://reactjs.org/docs/lifting-state-up.html) komponenttihierarkiassa, mielellään sovelluksen juurikomponenttiin <i>App</i>.
+<!-- Reactissa parhaana käytänteenä on sijoittaa tila [mahdollisimman ylös](https://reactjs.org/docs/lifting-state-up.html) komponenttihierarkiassa, mielellään sovelluksen juurikomponenttiin <i>App</i>. -->
+One best practice in React is to [lift the state up](https://reactjs.org/docs/lifting-state-up.html) as high up as possible in the component hierarchy, preferably to the <i>App</i> root component.
 
-Jätetään sovelluksen tila, eli laskimen arvo komponenttiin <i>App</i> ja välitetään tila <i>propsien</i> avulla komponentille <i>Display</i>:
+<!-- Jätetään sovelluksen tila, eli laskimen arvo komponenttiin <i>App</i> ja välitetään tila <i>propsien</i> avulla komponentille <i>Display</i>: -->
+Let's place the application's state in the <i>App</i> component and pass it down through <i>props</i> to the <i>Display</i> component:
 
 ```js
 const Display = (props) => {
