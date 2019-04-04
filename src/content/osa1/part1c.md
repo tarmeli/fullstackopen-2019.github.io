@@ -585,9 +585,11 @@ What's causing the application to break? The event handler is supposed to define
 <button onClick={setToValue(0)}>
 ```
 
-tapahtumankäsittelijäksi tulee määriteltyä <i>funktiokutsu</i>. Sekin on monissa tilanteissa ok, mutta ei nyt, nimittäin kun React renderöi metodin, se suorittaa kutsun <em>setToValue(0)</em>. Kutsu aiheuttaa komponentin tilan päivittävän funktion _setCounter_ kutsumisen. Tämä taas aiheuttaa komponentin uudelleenrenderöitymisen. Ja sama toistuu uudelleen...
+<!-- tapahtumankäsittelijäksi tulee määriteltyä <i>funktiokutsu</i>. Sekin on monissa tilanteissa ok, mutta ei nyt, nimittäin kun React renderöi metodin, se suorittaa kutsun <em>setToValue(0)</em>. Kutsu aiheuttaa komponentin tilan päivittävän funktion _setCounter_ kutsumisen. Tämä taas aiheuttaa komponentin uudelleenrenderöitymisen. Ja sama toistuu uudelleen... -->
+meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to to the _setCounter_ function. This in turn causes the component to be re-rendered. And this cycle goes on and one...
 
-Tilanteeseen on kaksi ratkaisua. Ratkaisuista yksinkertaisempi on muuttaa tapahtumankäsittelyä seuraavasti
+<!-- Tilanteeseen on kaksi ratkaisua. Ratkaisuista yksinkertaisempi on muuttaa tapahtumankäsittelyä seuraavasti -->
+There's two potential solutions to this problem. The simpler solution is to change the event handlers as shown below
 
 ```js
 const App = (props) => {
@@ -609,15 +611,18 @@ const App = (props) => {
 }
 ```
 
-eli tapahtumankäsittelijä on määritelty <i>funktio</i>, joka kutsuu funktiota _setToValue_ sopivalla parametrilla:
+<!-- eli tapahtumankäsittelijä on määritelty <i>funktio</i>, joka kutsuu funktiota _setToValue_ sopivalla parametrilla:-->
+The event hander is now a <i>function</i> that calls the _setToValue_ function with the appropriate parameter:
 
 ```js
 <button onClick={() => setToValue(counter + 1)}>
 ```
 
-### Funktio joka palauttaa funktion
+<!-- ### Funktio joka palauttaa funktion -->
+### Function that returns a function
 
-Toinen vaihtoehto on käyttää yleistä Javascriptin ja yleisemminkin funktionaalisen ohjelmoinnin kikkaa, eli määritellä <i>funktio joka palauttaa funktion</i>:
+<!-- Toinen vaihtoehto on käyttää yleistä Javascriptin ja yleisemminkin funktionaalisen ohjelmoinnin kikkaa, eli määritellä <i>funktio joka palauttaa funktion</i>: -->
+The other solution is to use a common trick often seen in JavaScript and functional programming in general. The trick is to define <i>a function that returns a function</i>:
 
 ```js
 const App = (props) => {
@@ -645,7 +650,8 @@ const App = (props) => {
 }
 ```
 
-Jos et ole aiemmin törmännyt tekniikkaan, siihen totutteluun voi mennä tovi.
+<!-- Jos et ole aiemmin törmännyt tekniikkaan, siihen totutteluun voi mennä tovi. -->
+Getting comfortable with this technique may take some time if this is your first time seeing it.
 
 Olemme siis määritelleet tapahtumankäsittelijäfunktion _setToValue_ seuraavasti:
 
