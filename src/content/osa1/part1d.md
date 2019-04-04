@@ -401,37 +401,54 @@ const App = (props) => {
 }
 ```
 
-### Vanha React
+<!-- ### Vanha React -->
+### Old React
 
-Tällä kurssilla käyttämämme tapa React-komponenttien tilan määrittelyyn, eli [state hook](https://reactjs.org/docs/hooks-state.html) on siis uutta Reactia ja käytettävissä versiosta [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) lähtien. Ennen hookeja Javascript-funktioina määriteltyihin React-komponentteihin ei ollut mahdollista saada tilaa ollenkaan, tilaa edellyttävät komponentit oli pakko määritellä [Class](https://reactjs.org/docs/react-component.html)-komponentteina Javascriptin luokkasyntaksia hyödyntäen.
+<!-- Tällä kurssilla käyttämämme tapa React-komponenttien tilan määrittelyyn, eli [state hook](https://reactjs.org/docs/hooks-state.html) on siis uutta Reactia ja käytettävissä versiosta [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) lähtien. Ennen hookeja Javascript-funktioina määriteltyihin React-komponentteihin ei ollut mahdollista saada tilaa ollenkaan, tilaa edellyttävät komponentit oli pakko määritellä [Class](https://reactjs.org/docs/react-component.html)-komponentteina Javascriptin luokkasyntaksia hyödyntäen. -->
+In this course we use the the [state hook](https://reactjs.org/docs/hooks-state.html) to add state to our React components, which is a part of the newer versions of React and is available from version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) onwards. Before hooks there was no way of adding state to React functional components. Components that required state had to be defined as React [class](https://reactjs.org/docs/react-component.html) components, using the JavaScript class syntax.
 
-Olemme tällä kurssilla tehneet hieman radikaalinkin ratkaisun käyttää pelkästään hookeja ja näin ollen opetella heti alusta asti ohjelmoimaan "huomisen" Reactia. Luokkasyntaksin hallitseminen on kuitenkin sikäli tärkeää, että vaikka funktiona määriteltävät komponentit ovat Reactin tulevaisuus, on maailmassa miljardeja rivejä vanhaa Reactia, jota kenties sinäkin joudut jonain päivänä ylläpitämään. Dokumentaation ja internetistä löytyvien esimerkkien suhteen tilanne on sama, törmäät class-komponentteihin välittömästi.
+<!-- Olemme tällä kurssilla tehneet hieman radikaalinkin ratkaisun käyttää pelkästään hookeja ja näin ollen opetella heti alusta asti ohjelmoimaan "huomisen" Reactia. Luokkasyntaksin hallitseminen on kuitenkin sikäli tärkeää, että vaikka funktiona määriteltävät komponentit ovat Reactin tulevaisuus, on maailmassa miljardeja rivejä vanhaa Reactia, jota kenties sinäkin joudut jonain päivänä ylläpitämään. Dokumentaation ja internetistä löytyvien esimerkkien suhteen tilanne on sama, törmäät class-komponentteihin välittömästi. -->
+In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the React of the future. Even though functional components are the future of React, it is still important to learn the class syntax as there are billions of lines of old React code that you may end up maintaining in the future. The same applies to documentation and examples of React that you may stumble across on the internet.
 
-Tutustummekin riittävällä tasolla class-komponentteihin hieman myöhemmin kurssilla.
+<!-- Tutustummekin riittävällä tasolla class-komponentteihin hieman myöhemmin kurssilla. -->
+We will get to learn more about React class components later on in the course.
 
-### React-sovellusten debuggaus
+<!-- ### React-sovellusten debuggaus -->
+### Debugging React applications
 
-Ohjelmistokehittäjän elämä koostuu pääosin debuggaamisesta (ja olemassaolevan koodin lukemisesta). Silloin tällöin syntyy toki muutama rivi uuttakin koodia, mutta suuri osa ajasta ihmetellään miksi joku on rikki tai miksi joku asia ylipäätään toimii. Hyvät debuggauskäytänteet ja työkalut ovatkin todella tärkeitä.
+<!-- Ohjelmistokehittäjän elämä koostuu pääosin debuggaamisesta (ja olemassaolevan koodin lukemisesta). Silloin tällöin syntyy toki muutama rivi uuttakin koodia, mutta suuri osa ajasta ihmetellään miksi joku on rikki tai miksi joku asia ylipäätään toimii. Hyvät debuggauskäytänteet ja työkalut ovatkin todella tärkeitä. -->
+A large part of developers' time is spent on debugging and reading existing code. Every now and then we do get to write a line or two of new code, but a lot of time is spent on trying to figure out why something is broken or how something actually works. Good practices and tools for debugging are extremely important for this reason.
 
-Onneksi React on debuggauksen suhteen jopa harvinaisen kehittäjäystävällinen kirjasto.
+<!-- Onneksi React on debuggauksen suhteen jopa harvinaisen kehittäjäystävällinen kirjasto. -->
+Lucky for us, React is an extremely developer friendly library when it comes to debugging.
 
-Muistutetaan vielä tärkeimmästä web-sovelluskehitykseen liittyvästä asiasta:
+<!-- Muistutetaan vielä tärkeimmästä web-sovelluskehitykseen liittyvästä asiasta: -->
+Before we move on let us reminds ourselves of one of the most important rules of web development.
 
-<h4>Web-sovelluskehityksen sääntö numero yksi</h4>
+<!-- <h4>Web-sovelluskehityksen sääntö numero yksi</h4> -->
+<h4>The first rule of web development</h4>
 
->  **Pidä selaimen developer-konsoli koko ajan auki.**
+<!-- >  **Pidä selaimen developer-konsoli koko ajan auki.**
 >
-> Välilehdistä tulee olla auki nimenomaan <i>Console</i> jollei ole erityistä syytä käyttää jotain muuta välilehteä.
+> Välilehdistä tulee olla auki nimenomaan <i>Console</i> jollei ole erityistä syytä käyttää jotain muuta välilehteä. -->
+>  **Keep the browser's developer console open at all times**
+>
+> The <i>Console</i> tab in particular should always be open, unless there is a specific reason to view another tab.
 
-Pidä myös koodi ja web-sivu **koko ajan** molemmat yhtä aikaa näkyvillä.
+<!-- Pidä myös koodi ja web-sivu **koko ajan** molemmat yhtä aikaa näkyvillä. -->
+Keep both your code and the web page open together **at the same time, all the time**.
 
-Jos ja kun koodi ei käänny, eli selaimessa alkaa näkyä punaista
+<!-- Jos ja kun koodi ei käänny, eli selaimessa alkaa näkyä punaista -->
+If and when your code fails to compile and your browser lights up like a Christmas tree
 
 ![](../images/1/6a.png)
 
-älä kirjota enää lisää koodia vaan selvitä ongelma **välittömästi**. Koodauksen historia ei tunne tilannetta, missä kääntymätön koodi alkaisi ihmeenomaisesti toimimaan kirjoittamalla suurta määrää lisää koodia, enkä usko että sellaista ihmettä nähdään tälläkään kurssilla.
+<!-- älä kirjota enää lisää koodia vaan selvitä ongelma **välittömästi**. Koodauksen historia ei tunne tilannetta, missä kääntymätön koodi alkaisi ihmeenomaisesti toimimaan kirjoittamalla suurta määrää lisää koodia, enkä usko että sellaista ihmettä nähdään tälläkään kurssilla. -->
 
-Vanha kunnon printtaukseen perustuva debuggaus kannattaa aina. Eli jos esim. komponentissa
+don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such a moment will be witnessed in this course either.
+
+<!-- Vanha kunnon printtaukseen perustuva debuggaus kannattaa aina. Eli jos esim. komponentissa -->
+Old school print-based debugging is rarely a bad idea. If, e.g. the component
 
 ```js
 const Button = ({ handleClick, text }) => (
@@ -441,7 +458,8 @@ const Button = ({ handleClick, text }) => (
 )
 ```
 
-olisi jotain ongelmia, kannattaa komponentista alkaa printtailla konsoliin. Pystyäksemme printtaamaan, tulee funktio muuttaa pitempään muotoon ja propsit kannattaa kenties vastaanottaa ilman destrukturointia:
+<!-- olisi jotain ongelmia, kannattaa komponentista alkaa printtailla konsoliin. Pystyäksemme printtaamaan, tulee funktio muuttaa pitempään muotoon ja propsit kannattaa kenties vastaanottaa ilman destrukturointia: -->
+is not working as intended, it's useful to start printing variables out to the console. In order to be able to print to the console we must transform our function into the less compact form and it's better to receive the entire props project without destructuring it immediately:
 
 ```js
 const Button = (props) => { 
@@ -455,9 +473,12 @@ const Button = (props) => {
 }
 ```
 
-näin selviää heti onko esim. joku propsia vastaava attribuutti nimetty väärin komponenttia käytettäessä.
+<!-- näin selviää heti onko esim. joku propsia vastaava attribuutti nimetty väärin komponenttia käytettäessä. -->
+this will immediately reveal if e.g. one of the attributes has been misspelled when using the component.
 
-**HUOM** kun käytät komentoa _console.log_ debuggaukseen, älä yhdistele asioita "javamaisesti" plussalla, eli sen sijaan että kirjoittaisit
+<!-- **HUOM** kun käytät komentoa _console.log_ debuggaukseen, älä yhdistele asioita "javamaisesti" plussalla, eli sen sijaan että kirjoittaisit -->
+
+**NB**
 
 ```js
 console.log('propsin arvo on' + props)
