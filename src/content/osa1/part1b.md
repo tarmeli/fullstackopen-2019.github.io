@@ -180,9 +180,12 @@ console.log(rest)           // tulostuu [3, 4 ,5]
 
 Thanks to the assignment the variables _first_ and _second_ will receive the first two integers of the array as their values. The remaining integers are "collected" into an array of their own, which is then assigned to the variable _rest_.
 
-### Oliot
+<!-- ### Oliot -->
+### Objects
 
-Javascriptissä on muutama tapa määritellä olioita. Erittäin yleisesti käytetään [olioliteraaleja](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Object_literals), eli määritellään olio luettelemalla sen kentät (englanniksi property) aaltosulkeiden sisällä:
+<!-- Javascriptissä on muutama tapa määritellä olioita. Erittäin yleisesti käytetään [olioliteraaleja](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Object_literals), eli määritellään olio luettelemalla sen kentät (englanniksi property) aaltosulkeiden sisällä: -->
+
+There are a few different ways of defining objects in Javascript. A very commonly used method is using [object literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Object_literals), which happens by listing its properties within braces:
 
 ```js
 const object1 = {
@@ -207,9 +210,13 @@ const object3 = {
 }
 ```
 
-Kenttien arvot voivat olla tyypiltään mitä vaan, lukuja, merkkijonoja, taulukoita, olioita...
+<!-- Kenttien arvot voivat olla tyypiltään mitä vaan, lukuja, merkkijonoja, taulukoita, olioita... -->
 
-Olioiden kenttiin viitataan pistenotaatiolla, tai hakasulkeilla:
+The values of the properties can be of any type, like integers, strings, arrays, objects...
+
+<!-- Olioiden kenttiin viitataan pistenotaatiolla, tai hakasulkeilla: -->
+
+The properties of an object are referenced by using dot notation, or using brackets:
 
 ```js
 console.log(object1.name)         // tulostuu Arto Hellas
@@ -217,18 +224,26 @@ const fieldName = 'age'
 console.log(object1[fieldName])   // tulostuu 35
 ```
 
-Olioille voidaan lisätä kenttiä myös lennossa joko pistenotaation tai hakasulkeiden avulla:
+<!-- Olioille voidaan lisätä kenttiä myös lennossa joko pistenotaation tai hakasulkeiden avulla: -->
+
+You can also add properties to an object on the fly by either using dot notation or using brackets:
 
 ```js
 object1.address = 'Tapiola'
 object1['secred number'] = 12341
 ```
 
-Jälkimmäinen lisäyksistä on pakko tehdä hakasulkeiden avulla, sillä pistenotaatiota käytettäessä <i>secred number</i> ei kelpaa kentän nimeksi.
+<!-- Jälkimmäinen lisäyksistä on pakko tehdä hakasulkeiden avulla, sillä pistenotaatiota käytettäessä <i>secred number</i> ei kelpaa kentän nimeksi. -->
 
-Javascriptissä olioilla voi luonnollisesti olla myös metodeja. Emme kuitenkaan tarvitse tällä kurssilla ollenkaan itse määriteltyjä metodillisia olioita, joten asiaa ei tällä kurssilla käsitellä kuin lyhyesti.
+The latter of the additions has to be done by using brackets, because when using dot notation <i>secred number</i> is not a valid property name.
 
-Olioita on myös mahdollista määritellä ns. konstruktorifunktioiden avulla, jolloin saadaan aikaan hieman monien ohjelmointikielten, esim. Javan luokkia (class) muistuttava mekanismi. Javascriptissä ei kuitenkaan ole luokkia samassa mielessä kuin olio-ohjelmointikielissä. Kieleen on kuitenkin lisätty versiosta ES6 alkaen <i>luokkasyntaksi</i>, joka helpottaa tietyissä tilanteissa olio-ohjelmointikielimäisten luokkien esittämistä.
+<!-- Javascriptissä olioilla voi luonnollisesti olla myös metodeja. Emme kuitenkaan tarvitse tällä kurssilla ollenkaan itse määriteltyjä metodillisia olioita, joten asiaa ei tällä kurssilla käsitellä kuin lyhyesti. -->
+
+Naturally, objects in Javascript can also have methods. However, during this course we will not be defining any objects with methods of our own. This is why it only discussed briefly.
+
+<!-- Olioita on myös mahdollista määritellä ns. konstruktorifunktioiden avulla, jolloin saadaan aikaan hieman monien ohjelmointikielten, esim. Javan luokkia (class) muistuttava mekanismi. Javascriptissä ei kuitenkaan ole luokkia samassa mielessä kuin olio-ohjelmointikielissä. Kieleen on kuitenkin lisätty versiosta ES6 alkaen <i>luokkasyntaksi</i>, joka helpottaa tietyissä tilanteissa olio-ohjelmointikielimäisten luokkien esittämistä. -->
+
+Objects are also possible to be defined using so-called constructor functions, which results in a mechanism reminiscent of many other programming languages', e.g. Java's classes. Despite this similarity Javascript does not have classes in the same sense as object oriented programming languages. There has been, however, an addition of the <i>class syntax</i> starting from version ES6, which in some cases helps structure object oriented classes.
 
 ### Funktiot
 
