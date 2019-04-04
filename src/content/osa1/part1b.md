@@ -243,11 +243,15 @@ Naturally, objects in Javascript can also have methods. However, during this cou
 
 <!-- Olioita on myös mahdollista määritellä ns. konstruktorifunktioiden avulla, jolloin saadaan aikaan hieman monien ohjelmointikielten, esim. Javan luokkia (class) muistuttava mekanismi. Javascriptissä ei kuitenkaan ole luokkia samassa mielessä kuin olio-ohjelmointikielissä. Kieleen on kuitenkin lisätty versiosta ES6 alkaen <i>luokkasyntaksi</i>, joka helpottaa tietyissä tilanteissa olio-ohjelmointikielimäisten luokkien esittämistä. -->
 
-Objects are also possible to be defined using so-called constructor functions, which results in a mechanism reminiscent of many other programming languages', e.g. Java's classes. Despite this similarity Javascript does not have classes in the same sense as object oriented programming languages. There has been, however, an addition of the <i>class syntax</i> starting from version ES6, which in some cases helps structure object oriented classes.
+Objects can also be defined using so-called constructor functions, which results in a mechanism reminiscent of many other programming languages', e.g. Java's classes. Despite this similarity Javascript does not have classes in the same sense as object oriented programming languages. There has been, however, an addition of the <i>class syntax</i> starting from version ES6, which in some cases helps structure object oriented classes.
 
-### Funktiot
+<!-- ### Funktiot -->
 
-Olemme jo tutustuneet ns. nuolifunktioiden määrittelyyn. Täydellinen eli "pitkän kaavan" mukaan menevä tapa nuolifunktion määrittelyyn on seuraava
+### Functions
+
+<!-- Olemme jo tutustuneet ns. nuolifunktioiden määrittelyyn. Täydellinen eli "pitkän kaavan" mukaan menevä tapa nuolifunktion määrittelyyn on seuraava -->
+
+We have already become familiar with defining so-called arrow functions. The complete process, without cutting corners, to defining an arrow function is as follows 
 
 ```js
 const sum = (p1, p2) => {
@@ -257,14 +261,18 @@ const sum = (p1, p2) => {
 }
 ```
 
-ja funktiota kutsutaan kuten olettaa saattaa
+<!-- ja funktiota kutsutaan kuten olettaa saattaa -->
+
+and the function is called as can be expected
 
 ```js
 const result = sum(1, 5)
 console.log(result)
 ```
 
-Jos parameteja on vain yksi, voidaan sulut jättää määrittelystä pois:
+<!-- Jos parameteja on vain yksi, voidaan sulut jättää määrittelystä pois: -->
+
+If there is just a single parameter we can exclude the parentheses from the definition:
 
 ```js
 const square = p => {
@@ -273,13 +281,17 @@ const square = p => {
 }
 ```
 
-Jos funktio sisältää ainoastaan yhden lausekkeen, ei aaltosulkeita tarvita. Tällöin funktio palauttaa ainoan lausekkeensa arvon. Eli jos poistetaan konsoliin tulostus, voidaan edellinen funktio ilmaista lyhyemmin seuraavasti:
+<!-- Jos funktio sisältää ainoastaan yhden lausekkeen, ei aaltosulkeita tarvita. Tällöin funktio palauttaa ainoan lausekkeensa arvon. Eli jos poistetaan konsoliin tulostus, voidaan edellinen funktio ilmaista lyhyemmin seuraavasti: -->
+
+If the function only contains a single expression, then the braces are not needed. In this case the function only returns the result its only expression. Now if we remove the printing to the console, we can further shorten the function definition:
 
 ```js
 const square = p => p * p
 ```
 
-Tämä muoto on erityisen kätevä käsiteltäessä taulukkoja esim. map-metodin avulla:
+<!-- Tämä muoto on erityisen kätevä käsiteltäessä taulukkoja esim. map-metodin avulla: -->
+
+This form is particularly handy when manipulating arrays, e.g using the map method:
 
 ```js
 const t = [1, 2, 3]
@@ -287,9 +299,13 @@ const tSquared = t.map(p => p * p)
 // tSquared on nyt [1, 4, 9]
 ```
 
-Nuolifunktio on tullut Javascriptiin vasta muutama vuosi sitten version [ES6](http://es6-features.org/) myötä. Tätä ennen ainoa tapa funktioiden määrittelyyn oli avainsanan _function_ käyttö.
+<!-- Nuolifunktio on tullut Javascriptiin vasta muutama vuosi sitten version [ES6](http://es6-features.org/) myötä. Tätä ennen ainoa tapa funktioiden määrittelyyn oli avainsanan _function_ käyttö. -->
 
-Määrittelytapoja on kaksi, funktiolle voidaan antaa [function declaration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) -tyyppisessä määrittelyssä <i>nimi</i>, jonka avulla funktioon voidaan viitata:
+The arrow function was added to Javascript only a couple of years ago along with version [ES6](http://es6-features.org/). Prior to this the only way to define functions was by using the keyword _function_.
+
+<!-- Määrittelytapoja on kaksi, funktiolle voidaan antaa [function declaration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) -tyyppisessä määrittelyssä <i>nimi</i>, jonka avulla funktioon voidaan viitata: -->
+
+There are two ways, of which one is giving a name in a so-called [function declaration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) to the function, by which the function can be referenced.
 
 ```js
 function product(a, b) {
@@ -299,7 +315,9 @@ function product(a, b) {
 const vastaus = product(2, 6)
 ```
 
-Toinen tapa on tehdä määrittely [funktiolausekkeena](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function). Tällöin funktiolle ei tarvitse antaa nimeä ja määrittely voi sijaita muun koodin seassa:
+<!-- Toinen tapa on tehdä määrittely [funktiolausekkeena](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function). Tällöin funktiolle ei tarvitse antaa nimeä ja määrittely voi sijaita muun koodin seassa: -->
+
+The other way to do the define the function is as a [function expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function). In this case there is no need to give the function a name, and the definition may reside among the rest of the code:
 
 ```js
 const average = function(a, b) {
@@ -309,12 +327,14 @@ const average = function(a, b) {
 const vastaus = average(2, 5)
 ```
 
-Määrittelemme tällä kurssilla kaikki funktiot nuolisyntaksin avulla.
+<!-- Määrittelemme tällä kurssilla kaikki funktiot nuolisyntaksin avulla. -->
+
+During this course we will define all functions using the arrow syntax.
 
 </div>
 
 <div class="tasks">
-  <h3>Tehtäviä</h3>
+  <h3>Exercises</h3>
 
 <i>Jatkamme edellisissä tehtävissä aloitetun ohjelman rakentamista, voit siis tehdä koodin samaan projektiin, palautuksessa ollaan kiinnostuneita ainoastaan ohjelman lopullisesta versiosta.</i>
 
