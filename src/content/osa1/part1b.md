@@ -336,9 +336,13 @@ During this course we will define all functions using the arrow syntax.
 <div class="tasks">
   <h3>Exercises</h3>
 
-<i>Jatkamme edellisissä tehtävissä aloitetun ohjelman rakentamista, voit siis tehdä koodin samaan projektiin, palautuksessa ollaan kiinnostuneita ainoastaan ohjelman lopullisesta versiosta.</i>
+<!-- <i>Jatkamme edellisissä tehtävissä aloitetun ohjelman rakentamista, voit siis tehdä koodin samaan projektiin, palautuksessa ollaan kiinnostuneita ainoastaan ohjelman lopullisesta versiosta.</i> -->
 
-**Protip:** voit kohdata ohjelmoidessasi ongelmia sen suhteen missä muodossa komponentin saamat <i>propsit</i> ovat. Hyvä keino varmistua asiasta on tulostaa propsit konsoliin, esim. seuraavasti:
+<i>We continue building the application that we started working on in the previous exercises. You can write the code into the same project, since in the submissions we are only interested in the final state of the application.</i>
+
+<!-- **Protip:** voit kohdata ohjelmoidessasi ongelmia sen suhteen missä muodossa komponentin saamat <i>propsit</i> ovat. Hyvä keino varmistua asiasta on tulostaa propsit konsoliin, esim. seuraavasti: -->
+
+**Pro-tip:** you may run into issues when it comes to the structure of the <i>props</i> that components receive. A good way to make thing more clear is by printing the props to the console, e.g. as follows:
 
 ```js
 const Header = (props) => {
@@ -347,9 +351,11 @@ const Header = (props) => {
 }
 ```
 
-  <h4>1.3: kurssitiedot step3</h4>
+  <h4>1.3: course information step3</h4>
 
-Siirrytään käyttämään sovelluksessamme oliota. Muuta komponentin <i>App</i> muuttujamäärittelyt seuraavaan muotoon ja muuta sovelluksen kaikkia osia niin, että se taas toimii:
+<!-- Siirrytään käyttämään sovelluksessamme oliota. Muuta komponentin <i>App</i> muuttujamäärittelyt seuraavaan muotoon ja muuta sovelluksen kaikkia osia niin, että se taas toimii: -->
+
+Let's transition to using objects in our application. Modify the variable definitions of the <i>App</i> component as follows and also refactor the application so that it still works:
 
 ```js
 const App = () => {
@@ -375,9 +381,11 @@ const App = () => {
 }
 ```
 
-  <h4>1.4: kurssitiedot step4</h4>
+  <h4>1.4: course information step4</h4>
 
-Ja laitetaan oliot taulukkoon, eli muuta  <i>App</i> :in muuttujamäärittelyt seuraavaan muotoon ja muuta sovelluksen kaikki osat vastaavasti:
+<!-- Ja laitetaan oliot taulukkoon, eli muuta  <i>App</i> :in muuttujamäärittelyt seuraavaan muotoon ja muuta sovelluksen kaikki osat vastaavasti: -->
+
+And then put the objects into an array. Modify the variable definitions of <i>App</i> into the following form and modify the other parts of the application accordingly:
 
 ```js
 const App = () => {
@@ -405,9 +413,13 @@ const App = () => {
 }
 ```
 
-**HUOM:** tässä vaiheessa <i>voit olettaa, että taulukossa on aina kolme alkiota</i>, eli taulukkoa ei ole pakko käydä läpi looppaamalla. Palataan taulukossa olevien olioiden perusteella tapahtuvaan komponenttien renderöintiin asiaan tarkemmin kurssin [seuraavassa osassa](../osa2).
+<!-- **HUOM:** tässä vaiheessa <i>voit olettaa, että taulukossa on aina kolme alkiota</i>, eli taulukkoa ei ole pakko käydä läpi looppaamalla. Palataan taulukossa olevien olioiden perusteella tapahtuvaan komponenttien renderöintiin asiaan tarkemmin kurssin [seuraavassa osassa](../osa2). -->
 
-Älä kuitenkaan välitä eri olioita komponentista <i>App</i> sen sisältämiin komponentteihin <i>Content</i> ja <i>Total</i> erillisinä propseina, vaan suoraan taulukkona:
+**NB** at this point <i>you can assume that there are always three items</i>, so there is no need to go through the arrays using loops. We will come back to the topic of rendering components based on items in arrays with a more thorough exploration in the [next part of the course](../part2).
+
+<!-- Älä kuitenkaan välitä eri olioita komponentista <i>App</i> sen sisältämiin komponentteihin <i>Content</i> ja <i>Total</i> erillisinä propseina, vaan suoraan taulukkona: -->
+
+However, do not pass different objects as separate props from the <i>App</i> component to the components <i>Content</i> and <i>Total</i>, but instead directly as an array:
 
 ```js
 const App = () => {
@@ -423,9 +435,11 @@ const App = () => {
 }
 ```
 
-  <h4>1.5: kurssitiedot step5</h4>
+  <h4>1.5: course information step5</h4>
 
-Viedään muutos vielä yhtä askelta pidemmälle, eli tehdään kurssista ja sen osista yksi Javascript-olio. Korjaa kaikki mikä menee rikki.
+<!-- Viedään muutos vielä yhtä askelta pidemmälle, eli tehdään kurssista ja sen osista yksi Javascript-olio. Korjaa kaikki mikä menee rikki. -->
+
+Let's take the changes one step further. Make the course and its parts into a single Javascript object. Fix everything that brakes.
 
 ```js
 const App = () => {
@@ -459,7 +473,9 @@ const App = () => {
 
 <div class="content">
 
-### Olioiden metodit ja this
+<!-- ### Olioiden metodit ja this -->
+
+### Object methods and this
 
 Koska käytämme tällä kurssilla Reactin hookit sisältävää versiota, meidän ei kurssin aikana tarvitse määritellä ollenkaan olioita, joilla on metodeja. **Tämän luvun asiat siis eivät ole kurssin kannalta relevantteja**, mutta varmasti monella tapaa hyödyllisiä tietää. Käytettäessä "vanhempaa Reactia", tämän luvun asiat on hallittava.
 
