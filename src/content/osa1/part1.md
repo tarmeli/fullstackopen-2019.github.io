@@ -7,6 +7,6 @@ part: 1
 
 [//]: # (Aloitame tässä osassa tutustumaan React-kirjastoon, jolla siis teemme sovelluksen selaimessa suoritettavan koodin. Käymme samalla myös nopean katsauksen Javascriptin Reactin kannalta oleellisimpiin ominaisuuksiin.)
 
-In this part we will familiarize ourselves with the React-library, which we will be using to write the code that will run in the browser. Along with this we will look at some features of Javascript relevant to understanding React.
+In this part we will familiarize ourselves with the React-library, which we will be using to write the code that runs in the browser. Along with this we will look at some features of Javascript that are important for understanding React.
 
 </div>
