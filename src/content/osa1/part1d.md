@@ -91,7 +91,7 @@ const App = (props) => {
 ```
 
 <!-- Nyt komponentilla on siis ainoastaan yksi tila. Näppäinten painallusten yhteydessä on nyt huolehdittava <i>koko tilan</i> muutoksesta. -->
-Now the component only has a single piece of state. Now the event handlers have to take care of changing the <i>entire application state</i>.
+Now the component only has a single piece of state and the event handlers have to take care of changing the <i>entire application state</i>.
 
 <!-- Tapahtumankäsittelijä vaikuttaa hieman sotkuiselta. Kun vasenta nappia painetaan, suoritetaan seuraava funktio: -->
 The event handler looks a bit messy. When the left button is clicked, the following function is called:
@@ -106,7 +106,7 @@ const handleLeftClick = () => {
 ```
 
 <!-- uudeksi tilaksi siis aseteaan seuraava olio -->
-The new state of the application is set to be the object
+The following object is set as the new state of the application
 ```js
 {
   left: clicks.left + 1,
@@ -115,7 +115,7 @@ The new state of the application is set to be the object
 ```
 
 <!-- eli kentän <i>left</i> arvo on sama kuin alkuperäisen tilan kentän <i>left + 1</i> ja kentän <i>right</i> arvo on sama kuin alkuperäisen tilan kenttä <i>right</i>. -->
-The new value of the <i>left</i> property is now the same as the value of <i>left + 1</i> from the previous state, and the value of the <i>right</i> property is the same as value of the <i>right</i> from the previous state.
+The new value of the <i>left</i> property is now the same as the value of <i>left + 1</i> from the previous state, and the value of the <i>right</i> property is the same as value of the <i>right</i> property from the previous state.
 
 <!-- Uuden tilan määrittelevän olion modostaminen onnistuu hieman tyylikkäämmin hyödyntämällä kesällä 2018 kieleen tuotua [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) -syntaksia: -->
 We can define the new state object a bit more neatly by using the [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
@@ -140,7 +140,7 @@ const handleRightClick = () => {
 ```
 
 <!-- Merkintä vaikuttaa hieman erikoiselta. Käytännössä <em>{ ...clicks }</em> luo olion, jolla on kenttinään kopiot olion _clicks_ kenttien arvoista. Kun aaltosulkeisiin lisätään asioita, esim. <em>{ ...clicks, right: 1 }</em>, tulee uuden olion kenttä _right_ saamaan arvon 1. -->
-The syntax may seem a bit strange at first. In practice <em>{ ...clicks }</em> creates a new object that has copies of all of properties of the _clicks_ object. When we add new properties to the object, e.g. <em>{ ...clicks, right: 1 }</em>, the value of the _right_ property in the new object will be 1.
+The syntax may seem a bit strange at first. In practice <em>{ ...clicks }</em> creates a new object that has copies of all of the properties of the _clicks_ object. When we add new properties to the object, e.g. <em>{ ...clicks, right: 1 }</em>, the value of the _right_ property in the new object will be 1.
 
 <!-- Esimerkissämme siis -->
 In our example above
@@ -164,7 +164,7 @@ const handleRightClick = () =>
 ```
 
 <!-- Lukijalle voi tässä vaiheessa herätä kysymys miksi emme hoitaneet tilan päivitystä seuraavalla tavalla -->
-Some readers might wonder we didn't just update the state like this
+Some readers might be wondering why we didn't just update the state directly like this
 
 ```js
 const handleLeftClick = () => {
@@ -177,7 +177,7 @@ const handleLeftClick = () => {
 The application appears to work. However, <i>it is forbidden in React to mutate state directly</i>, since it can result in unexpected side effects. Changing state has to always be done by setting the state to a new object. If properties from the previous state object want to simply be copied, this has to be done by copying those properties into a new object.
 
 <!-- Kaiken tilan pitäminen yhdessä oliossa on tämän sovelluksen kannalta huono ratkaisu; etuja siinä ei juuri ole, mutta sovellus monimutkaistuu merkittävästi. Onkin ehdottomasti parempi ratkaisu tallettaa nappien klikkaukset erillisiin tilan paloihin. -->
-Storing all of the state in a single state object is a bad choice for this particular application; there's no apparent benefit and the resulting application is a lot more complex. In this case storing the click counters into separate pieces of state is far more suitable choice.
+Storing all of the state in a single state object is a bad choice for this particular application; there's no apparent benefit and the resulting application is a lot more complex. In this case storing the click counters into separate pieces of state is a far more suitable choice.
 
 <!-- On kuitenkin tilanteita, joissa jokin osa tilaa kannattaa pitää monimutkaisemman tietorakenteen sisällä. [Reactin dokumentaatiossa](https://reactjs.org/docs/hooks-faq.html#should-i-use-one-or-many-state-variables) on hieman ohjeistusta aiheeseen liityen. -->
 There are situations where it can be beneficial to store a piece of application state in a more complex data structure.[The official React documentation](https://reactjs.org/docs/hooks-faq.html#should-i-use-one-or-many-state-variables) contains some helpful guidance on the topic.
@@ -243,7 +243,7 @@ const handleLeftClick = () => {
 The piece of state stored in _allClicks_ is now set to be an array that contains all of the items of the previous state array and the letter <i>L</i>. Adding the new item to the array is accomplished with the [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat) method, that does not mutate the existing array but rather returns a <i>new copy of the array</i> with the item added to it.
 
 <!-- Kuten jo aiemmin mainittiin, Javascriptissa on myös mahdollista lisätä taulukkoon metodilla [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) ja sovellus näyttäisi tässä tilanteessa toimivan myös jos lisäys hoidettaisiin siten että _allClicks_-tilaa muuteaan pushaamalla siihen alkio ja sitten päivitetään tila: -->
-As mentioned previously, it's also possible in JavaScript to add items to an array with the [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) method. The application appears to function if we add the item by pushing it to the _allClicks_ array and then updating the state:
+As mentioned previously, it's also possible in JavaScript to add items to an array with the [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) method. If we add the item by pushing it to the _allClicks_ array and then updating the state, the application would still appear to work:
 
 ```js
 const handleLeftClick = () => {
@@ -254,7 +254,7 @@ const handleLeftClick = () => {
 ```
 
 <!-- Älä kuitenkaan tee näin. Kuten jo mainitsimme, React-komponentin tilaa, eli esimerkiksi muuttujaa _allClicks_ ei saa muuttaa. Vaikka tilan muuttaminen näyttääkin toimivan joissaikin tilanteissa, voi seurauksena olla hankalasti havaittavia ongelmia. -->
-Don't do this. As mentioned previously, the state of React components like _allClicks_ may not be mutated directly. Even if mutating state appears to work in some cases, it can lead to problems that are very hard to notice.
+Don't do this. As mentioned previously, the state of React components like _allClicks_ must not be mutated directly. Even if mutating state appears to work in some cases, it can lead to problems that are very hard to notice.
 
 <!-- Katsotaan vielä tarkemmin, miten kaikkien painallusten historia renderöidään ruudulle: -->
 Let's take a closer look at how the clicking history is rendered to the page:
@@ -278,7 +278,7 @@ const App = (props) => {
 ```
 
 <!-- Taulukolle _allClicks_ kutsutaan metodia [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join), joka muodostaa taulukosta merkkijonon, joka sisältää taulukon alkiot erotettuina parametrina olevalla merkillä, eli välilyönnillä. -->
-We call the [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) method for the _allClicks_ array that joins all the items into a single string, separated by the string passed as the parameter which in our case is an empty space.
+We call the [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) method for the _allClicks_ array that joins all the items into a single string separated by the string passed as the function parameter, which in our case is an empty space.
 
 <!-- ### Ehdollinen renderöinti -->
 ### Conditional rendering
@@ -340,7 +340,7 @@ and in all other cases the component renders the clicking history:
 The <i>History</i> component renders completely different React-elements depending on the state of the application, meaning that the component does <i>conditional rendering</i>.
 
 <!-- Reactissa on monia muitakin tapoja [ehdolliseen renderöintiin](https://reactjs.org/docs/conditional-rendering.html). Katsotaan niitä tarkemmin [seuraavassa osassa](/osa2). -->
-React also offers many other ways of doing [conditional rendering](https://reactjs.org/docs/conditional-rendering.html). We will take a closer look at them in [part 2](/osa2).
+React also offers many other ways of doing [conditional rendering](https://reactjs.org/docs/conditional-rendering.html). We will take a closer look at this in [part 2](/osa2).
 
 <!-- Muutetaan vielä sovellusta siten, että se käyttää aiemmin määrittelemäämme komponenttia _Button_ painikkeiden muodostamiseen: -->
 Let's make one last modification to our application by refactoring it to use the _Button_ component that we defined earlier on:
@@ -405,10 +405,10 @@ const App = (props) => {
 ### Old React
 
 <!-- Tällä kurssilla käyttämämme tapa React-komponenttien tilan määrittelyyn, eli [state hook](https://reactjs.org/docs/hooks-state.html) on siis uutta Reactia ja käytettävissä versiosta [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) lähtien. Ennen hookeja Javascript-funktioina määriteltyihin React-komponentteihin ei ollut mahdollista saada tilaa ollenkaan, tilaa edellyttävät komponentit oli pakko määritellä [Class](https://reactjs.org/docs/react-component.html)-komponentteina Javascriptin luokkasyntaksia hyödyntäen. -->
-In this course we use the the [state hook](https://reactjs.org/docs/hooks-state.html) to add state to our React components, which is a part of the newer versions of React and is available from version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) onwards. Before hooks there was no way of adding state to React functional components. Components that required state had to be defined as React [class](https://reactjs.org/docs/react-component.html) components, using the JavaScript class syntax.
+In this course we use the the [state hook](https://reactjs.org/docs/hooks-state.html) to add state to our React components, which is a part of the newer versions of React and is available from version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) onward. Before the addition of hooks there was no way to add state to React functional components. Components that required state had to be defined as React [class](https://reactjs.org/docs/react-component.html) components using the JavaScript class syntax.
 
 <!-- Olemme tällä kurssilla tehneet hieman radikaalinkin ratkaisun käyttää pelkästään hookeja ja näin ollen opetella heti alusta asti ohjelmoimaan "huomisen" Reactia. Luokkasyntaksin hallitseminen on kuitenkin sikäli tärkeää, että vaikka funktiona määriteltävät komponentit ovat Reactin tulevaisuus, on maailmassa miljardeja rivejä vanhaa Reactia, jota kenties sinäkin joudut jonain päivänä ylläpitämään. Dokumentaation ja internetistä löytyvien esimerkkien suhteen tilanne on sama, törmäät class-komponentteihin välittömästi. -->
-In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the React of the future. Even though functional components are the future of React, it is still important to learn the class syntax as there are billions of lines of old React code that you may end up maintaining in the future. The same applies to documentation and examples of React that you may stumble across on the internet.
+In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the React style of the future. Even though functional components are the future of React, it is still important to learn the class syntax as there are billions of lines of old React code that you may end up maintaining in the future. The same applies to documentation and examples of React that you may stumble across on the internet.
 
 <!-- Tutustummekin riittävällä tasolla class-komponentteihin hieman myöhemmin kurssilla. -->
 We will get to learn more about React class components later on in the course.
@@ -417,7 +417,7 @@ We will get to learn more about React class components later on in the course.
 ### Debugging React applications
 
 <!-- Ohjelmistokehittäjän elämä koostuu pääosin debuggaamisesta (ja olemassaolevan koodin lukemisesta). Silloin tällöin syntyy toki muutama rivi uuttakin koodia, mutta suuri osa ajasta ihmetellään miksi joku on rikki tai miksi joku asia ylipäätään toimii. Hyvät debuggauskäytänteet ja työkalut ovatkin todella tärkeitä. -->
-A large part of developers' time is spent on debugging and reading existing code. Every now and then we do get to write a line or two of new code, but a lot of time is spent on trying to figure out why something is broken or how something actually works. Good practices and tools for debugging are extremely important for this reason.
+A large part of a developer's time is spent on debugging and reading existing code. Every now and then we do get to write a line or two of new code, but a large majority of our of time is spent on trying to figure out why something is broken or how something actually works. Good practices and tools for debugging are extremely important for this reason.
 
 <!-- Onneksi React on debuggauksen suhteen jopa harvinaisen kehittäjäystävällinen kirjasto. -->
 Lucky for us, React is an extremely developer friendly library when it comes to debugging.
@@ -431,7 +431,7 @@ Before we move on let us reminds ourselves of one of the most important rules of
 <!-- >  **Pidä selaimen developer-konsoli koko ajan auki.**
 >
 > Välilehdistä tulee olla auki nimenomaan <i>Console</i> jollei ole erityistä syytä käyttää jotain muuta välilehteä. -->
->  **Keep the browser's developer console open at all times**
+>  **Keep the browser's developer console open at all times.**
 >
 > The <i>Console</i> tab in particular should always be open, unless there is a specific reason to view another tab.
 
@@ -445,10 +445,10 @@ If and when your code fails to compile and your browser lights up like a Christm
 
 <!-- älä kirjota enää lisää koodia vaan selvitä ongelma **välittömästi**. Koodauksen historia ei tunne tilannetta, missä kääntymätön koodi alkaisi ihmeenomaisesti toimimaan kirjoittamalla suurta määrää lisää koodia, enkä usko että sellaista ihmettä nähdään tälläkään kurssilla. -->
 
-don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such a moment will be witnessed in this course either.
+don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such an event will occur during this course either.
 
 <!-- Vanha kunnon printtaukseen perustuva debuggaus kannattaa aina. Eli jos esim. komponentissa -->
-Old school print-based debugging is rarely a bad idea. If, e.g. the component
+Old school, print based debugging is rarely a bad idea. If, e.g. the component
 
 ```js
 const Button = ({ handleClick, text }) => (
@@ -459,7 +459,7 @@ const Button = ({ handleClick, text }) => (
 ```
 
 <!-- olisi jotain ongelmia, kannattaa komponentista alkaa printtailla konsoliin. Pystyäksemme printtaamaan, tulee funktio muuttaa pitempään muotoon ja propsit kannattaa kenties vastaanottaa ilman destrukturointia: -->
-is not working as intended, it's useful to start printing variables out to the console. In order to be able to print to the console we must transform our function into the less compact form and it's better to receive the entire props project without destructuring it immediately:
+is not working as intended, it's useful to start printing its variables out to the console. In order to do this effectively, we must transform our function into the less compact form and receive the entire props project without destructuring it immediately:
 
 ```js
 const Button = (props) => { 
