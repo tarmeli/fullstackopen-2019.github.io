@@ -478,55 +478,68 @@ this will immediately reveal if e.g. one of the attributes has been misspelled w
 
 <!-- **HUOM** kun käytät komentoa _console.log_ debuggaukseen, älä yhdistele asioita "javamaisesti" plussalla, eli sen sijaan että kirjoittaisit -->
 
-**NB**
+**NB** when you use _console.log_ for debugging, don't combine objects in a Java-like fashion by  using a plus. Instead of writing
 
 ```js
 console.log('propsin arvo on' + props)
 ```
 
-erottele tulostettavat asiat pilkulla:
+<!-- erottele tulostettavat asiat pilkulla: -->
+separate the the things you want to log to the console with a comma:
 
 ```js
 console.log('propsin arvo on', props)
 ```
 
-Jos yhdistät merkkijonoon olion, tuloksena on suhteellisen hyödytön tulostusmuoto
+<!-- Jos yhdistät merkkijonoon olion, tuloksena on suhteellisen hyödytön tulostusmuoto -->
+If you use Java-like way of combine a string with an object you will end up with a rather uninformative log message
 
 ```js
 propsin arvo on [Object object]
 ```
 
-kun taas pilkulla tulostettavat asiat erotellessa saat developer-konsoliin olion, jonka sisältöä on mahdollista tarkastella.
+<!-- kun taas pilkulla tulostettavat asiat erotellessa saat developer-konsoliin olion, jonka sisältöä on mahdollista tarkastella. -->
+whereas the items separated by a comma will all be available in the browser console for further inspection.
 
-Konsoliin tulostus ei ole suinkaan ainoa keino debuggaamiseen. Koodin suorituksen voi pysäyttää Chromen developer konsolin <i>debuggeriin</i> kirjoittamalla mihin tahansa kohtaa koodia komennon [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger).
+<!-- Konsoliin tulostus ei ole suinkaan ainoa keino debuggaamiseen. Koodin suorituksen voi pysäyttää Chromen developer konsolin <i>debuggeriin</i> kirjoittamalla mihin tahansa kohtaa koodia komennon [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger). -->
+Logging to the console is by no means the only way of debugging our applications. You can pause the execution of your application code in the Chrome developer console's <i>debugger</i> by writing the command [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) anywhere in your code.
 
-Koodi pysähtyy kun suoritus etenee sellaiseen pisteeseen, missä komento _debugger_ suoritetaan:
+<!-- Koodi pysähtyy kun suoritus etenee sellaiseen pisteeseen, missä komento _debugger_ suoritetaan: -->
+The execution will pause once it arrives at a point where the _debugger_ command gets executed:
 
 ![](../images/1/7a.png)
 
-Menemällä välilehdelle <i>Console</i> on helppo tutkia muuttujien tilaa:
+<!-- Menemällä välilehdelle <i>Console</i> on helppo tutkia muuttujien tilaa: -->
+By going to the <i>Console</i>  tab it is easy to inspect the current state of variables:
 
 ![](../images/1/8a.png)
 
-Kun bugi selviää, voi komennon _debugger_ poistaa ja uudelleenladata sivun.
+<!-- Kun bugi selviää, voi komennon _debugger_ poistaa ja uudelleenladata sivun. -->
+Once the cause of the bug is discovered you can remove the _debugger_ command and refresh the page.
 
-Debuggerissa on mahdollista suorittaa koodia tarvittaessa rivi riviltä <i>Source</i> välilehden oikealta laidalta.
+<!-- Debuggerissa on mahdollista suorittaa koodia tarvittaessa rivi riviltä <i>Source</i> välilehden oikealta laidalta. -->
+The debugger also enables us to execute our code line by line with the controls found in the right-hand side of the <i>Source</i> tab.
 
-Debuggeriin pääsee myös ilman komentoa _debugger_, lisäämällä <i>Source</i>-välilehdellä sopiviin kohtiin koodia <i>breakpointeja</i>. Komponentin muuttujien arvojen tarkkailu on mahdollista _Scope_-osassa:
+<!-- Debuggeriin pääsee myös ilman komentoa _debugger_, lisäämällä <i>Source</i>-välilehdellä sopiviin kohtiin koodia <i>breakpointeja</i>. Komponentin muuttujien arvojen tarkkailu on mahdollista _Scope_-osassa: -->
+You can also access the debugger with the _debugger_ command by adding break points in the <i>Sources</i> tab. Inspecting the values of the component's variable can be done in the _Scope_-section:
 
 ![](../images/1/9a.png)
 
-Chromeen kannattaa ehdottomasti asentaa [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) -lisäosa, joka tuo konsoliin uuden tabin _React_:
+<!-- Chromeen kannattaa ehdottomasti asentaa [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) -lisäosa, joka tuo konsoliin uuden tabin _React_: -->
+It is highly recommended to install the [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) extension to Chrome which adds a new _React_ tab to the developer tools.
 
 ![](../images/1/10a.png)
 
-Uuden konsolitabin avulla voidaan tarkkailla sovelluksen React-elementtejä ja niiden tilaa ja propseja.
+<!-- Uuden konsolitabin avulla voidaan tarkkailla sovelluksen React-elementtejä ja niiden tilaa ja propseja. -->
+The new _React_ developer tools tab can be used to inspect the different React elements in the application along with their state and props.
 
-React developer tools ei osaa toistaiseksi näyttää hookeilla muodostettua tilaa parhaalla mahdollisella tavalla.
+<!-- React developer tools ei osaa toistaiseksi näyttää hookeilla muodostettua tilaa parhaalla mahdollisella tavalla. -->
+Unfortunately the current version of React developer tools leaves something to be desired when displaying component state created with hooks:
 
 ![](../images/1/11a.png)
 
-Komponentin tila on määritelty seuraavasti:
+<!-- Komponentin tila on määritelty seuraavasti: -->
+The component state was defined like so:
 
 ```js
 const [left, setLeft] = useState(0)
@@ -534,15 +547,20 @@ const [right, setRight] = useState(0)
 const [allClicks, setAll] = useState([])
 ```
 
-Konsolin ylimpänä oleva <i>baseState</i> kertoo ensimmäisen _useState_-kutsun määrittelevän tilan, eli muuttujan _left_ arvon, seuraava <i>baseState</i> kertoo muuttujan _right_ arvon ja taulukon _allClicks_ arvo on alimpana.
+<!-- Konsolin ylimpänä oleva <i>baseState</i> kertoo ensimmäisen _useState_-kutsun määrittelevän tilan, eli muuttujan _left_ arvon, seuraava <i>baseState</i> kertoo muuttujan _right_ arvon ja taulukon _allClicks_ arvo on alimpana. -->
+The topmost <i>baseState</i> shows the current value of the first piece of state defined with the _useState_ hook which in our case is the _left_ variable. The next <i>baseState</i> shows the value of the _right_ variable and the value of the _allClicks_ array is shown last.
 
-### Hookien säännöt
+<!-- ### Hookien säännöt -->
+### Rules of Hooks
 
-Jotta hookeilla muodostettu sovelluksen tila toimisi oikein, on hookeja käytettävä tiettyjä [rajoituksia](https://reactjs.org/docs/hooks-rules.html) noudattaen.
+<!-- Jotta hookeilla muodostettu sovelluksen tila toimisi oikein, on hookeja käytettävä tiettyjä [rajoituksia](https://reactjs.org/docs/hooks-rules.html) noudattaen. -->
+There's a few limitations and rules we have to follow to ensure that our application using hooks based state functions correctly.
 
-Funktiota _useState_ (eikä seuraavassa osassa esiteltävää funktiota _useEffect_) <i>ei saa kutsua</i> loopissa, ehtolausekkeiden sisältä tai muista kun komponentin määrittelevästä funktioista. Tämä takaa sen, että hookeja kutsutaan aina samassa järjestyksessä, jos näin ei ole, sovellus toimii miten sattuu.
+<!-- Funktiota _useState_ (eikä seuraavassa osassa esiteltävää funktiota _useEffect_) <i>ei saa kutsua</i> loopissa, ehtolausekkeiden sisältä tai muista kun komponentin määrittelevästä funktioista. Tämä takaa sen, että hookeja kutsutaan aina samassa järjestyksessä, jos näin ei ole, sovellus toimii miten sattuu. -->
+The _useState_ function (as well as the _useEffect_ function introduced later on in the course) <i>must not be called</i> from inside of a loop, a conditional expression or any place that is not a function defining a component. This must be done to ensure that the hooks are always called in the same order, and if this isn't the case the application will behave erratically.
 
-Hookeja siis kuuluu kutsua ainoastaan React-komponentin määrittelevän funktion rungosta:
+<!-- Hookeja siis kuuluu kutsua ainoastaan React-komponentin määrittelevän funktion rungosta: -->
+To recap, hooks may only be called from inside of a function body that defines a React component:
 
 ```js
 const App = (props) => {
@@ -571,14 +589,17 @@ const App = (props) => {
 }
 ```
 
-### Tapahtumankäsittely revisited
+<!-- ### Tapahtumankäsittely revisited -->
+### Event Handling Revisited
 
-Edellisen vuoden kurssin perusteella tapahtumankäsittely on osoittautunut monelle haastavaksi.
+<!-- Edellisen vuoden kurssin perusteella tapahtumankäsittely on osoittautunut monelle haastavaksi. -->
+Event handling has proven to be a difficult topic in previous iterations of this course.
 
-Tarkastellaan asiaa vielä uudelleen.
+<!-- Tarkastellaan asiaa vielä uudelleen. -->
+For this reason we will revisit the topic.
 
-Oletetaan, että käytössä on äärimmäisen yksinkertainen sovellus:
-
+<!-- Oletetaan, että käytössä on äärimmäisen yksinkertainen sovellus: -->
+Let's assume that we're developing this simple application:
 ```js
 const App = (props) => {
   const [value, setValue] = useState(10)
@@ -597,19 +618,23 @@ ReactDOM.render(
 )
 ```
 
-Haluamme, että napin avulla tilan tallettava muuttuja _value_ saadaan nollattua.
+<!-- Haluamme, että napin avulla tilan tallettava muuttuja _value_ saadaan nollattua. -->
+We want the clicking of the button to reset the state stored in the _value_ variable.
 
-Jotta saamme napin reagoimaan, on sille lisättävä <i>tapahtumankäsittelijä</i>.
+<!-- Jotta saamme napin reagoimaan, on sille lisättävä <i>tapahtumankäsittelijä</i>. -->
+In order to make the button react to a click event we have add an <i>event handler</i> to it.
 
-Tapahtumankäsittelijän tulee aina olla <i>funktio</i> tai viite funktioon. Jos tapahtumankäsittelijän paikalle yritetään laittaa jotain muuta, ei nappi toimi.
+<!-- Tapahtumankäsittelijän tulee aina olla <i>funktio</i> tai viite funktioon. Jos tapahtumankäsittelijän paikalle yritetään laittaa jotain muuta, ei nappi toimi. -->
+Event handlers must always be a function or a reference to a function. The button will not work if the event handler is set to a variable of any other type.
 
-Jos esim. antaisimme tapahtumankäsittelijäksi merkkijonon:
-
+<!-- Jos esim. antaisimme tapahtumankäsittelijäksi merkkijonon: -->
+If we were to define the event handler as a string:
 ```js
 <button onClick={'roskaa'}>nappi</button>
 ```
 
-React varoittaa asiasta konsolissa
+<!-- React varoittaa asiasta konsolissa -->
+React will warn us about this in the console:
 
 ```js
 index.js:2178 Warning: Expected `onClick` listener to be a function, instead got a value of `string` type.
@@ -618,27 +643,31 @@ index.js:2178 Warning: Expected `onClick` listener to be a function, instead got
     in App (at index.js:27)
 ```
 
-myös seuraavanlainen yritys olisi tuhoon tuomittu
+<!-- myös seuraavanlainen yritys olisi tuhoon tuomittu -->
+The following attempt will also not work:
 
 ```js
 <button onClick={value + 1}>nappi</button>
 ```
 
-nyt tapahtumankäsittelijäksi on yritetty laittaa _value + 1_ mikä tarkoittaa laskuoperaation tulosta. React varoittaa tästäkin konsolissa
+<!-- nyt tapahtumankäsittelijäksi on yritetty laittaa _value + 1_ mikä tarkoittaa laskuoperaation tulosta. React varoittaa tästäkin konsolissa -->
+we have attempted to set the event handler to _value + 1_ which simply returns the result of the operation. React will kindly warn us about this in the console
 
 ```js
 index.js:2178 Warning: Expected `onClick` listener to be a function, instead got a value of `number` type.
 ```
 
-Myöskään seuraava ei toimi
-
+<!-- Myöskään seuraava ei toimi -->
+This attempt will not work either:
 ```js
 <button onClick={value = 0}>nappi</button>
 ```
 
-taaskaan tapahtumankäsittelijänä ei ole funktio vaan sijoitusoperaatio. Konsoliin tulee valitus. Tämä tapa on myös toisella tavalla väärin. Tilan muuttaminen ei onnistu suoraan tilan arvon tallentavaa muuttujaa muuttamalla.
+<!-- taaskaan tapahtumankäsittelijänä ei ole funktio vaan sijoitusoperaatio. Konsoliin tulee valitus. Tämä tapa on myös toisella tavalla väärin. Tilan muuttaminen ei onnistu suoraan tilan arvon tallentavaa muuttujaa muuttamalla. -->
+The event handler is not a function but a variable assignment and React will once again issue a warning to the console. This attempt is also flawed in the sense that we must never mutate state directly in React.
 
-Entä seuraava:
+<!-- Entä seuraava: -->
+What about the following:
 
 ```js
 <button onClick={console.log('nappia painettu')}>
@@ -646,21 +675,26 @@ Entä seuraava:
 </button>
 ```
 
-konsoliin tulostuu kertaalleen <i>nappia painettu</i>, mutta nappia painellessa ei tapahdu mitään. Miksi tämä ei toimi vaikka tapahtumankäsittelijänä on nyt funktio _console.log_?
+<!-- konsoliin tulostuu kertaalleen <i>nappia painettu</i>, mutta nappia painellessa ei tapahdu mitään. Miksi tämä ei toimi vaikka tapahtumankäsittelijänä on nyt funktio _console.log_? -->
+The message gets printed to the console once but nothing happens when we click the button a second time. Why does this not work even when our event handler contains a function _console.log_?
 
-Ongelma on nyt siinä, että tapahtumankäsittelijänä on <i>funktion kutsu</i>, eli varsinaiseksi tapahtumankäsittelijäksi tulee funktion kutsun paluuarvo, joka on tässä tapauksessa määrittelemätön arvo <i>undefined</i>.
+<!-- Ongelma on nyt siinä, että tapahtumankäsittelijänä on <i>funktion kutsu</i>, eli varsinaiseksi tapahtumankäsittelijäksi tulee funktion kutsun paluuarvo, joka on tässä tapauksessa määrittelemätön arvo <i>undefined</i>. -->
+The issue here is that our event handler is defined as a <i>function call</i> which means that the event handler is actually assigned the returned value from the function which in the case of _console.log_ is <i>undefined</i>.
 
-Funktiokutsu _console.log('nappia painettu')_ suoritetaan siinä vaiheessa kun komponentti renderöidään, ja tämän takia konsoliin tulee tulostus kertalleen.
+<!-- Funktiokutsu _console.log('nappia painettu')_ suoritetaan siinä vaiheessa kun komponentti renderöidään, ja tämän takia konsoliin tulee tulostus kertalleen. -->
+The _console.log_ function call gets executed when the component is rendered and for this reason it gets printed once to the console.
 
-Myös seuraava yritys on virheellinen
-
+<!-- Myös seuraava yritys on virheellinen -->
+The following attempt is flawed as well
 ```js
 <button onClick={setValue(0)}>nappi</button>
 ```
 
-jälleen olemme yrittäneet laittaa tapahtumankäsittelijäksi funktiokutsun. Ei toimi. Tämä yritys aiheuttaa myös toisen ongelman. Kun komponenttia renderöidään, suoritetaan tapahtumankäsittelijänä oleva funktiokutsu _setValue(0)_ joka taas saa aikaan komponentin uudelleenrenderöinnin. Ja uudelleenrenderöinnin yhteydessä funktiota kutsutaan uudelleen käynnistäen jälleen uusi uudelleenrenderöinti, ja joudutaan päättymättömään rekursioon.
+<!-- jälleen olemme yrittäneet laittaa tapahtumankäsittelijäksi funktiokutsun. Ei toimi. Tämä yritys aiheuttaa myös toisen ongelman. Kun komponenttia renderöidään, suoritetaan tapahtumankäsittelijänä oleva funktiokutsu _setValue(0)_ joka taas saa aikaan komponentin uudelleenrenderöinnin. Ja uudelleenrenderöinnin yhteydessä funktiota kutsutaan uudelleen käynnistäen jälleen uusi uudelleenrenderöinti, ja joudutaan päättymättömään rekursioon. -->
+We have once again tried to set a function call as the event handler. This does not work. This particular attempt also causes another problem. When the component is rendered the function _setValue(0)_ gets executed which in turn causes the component to be re-rendered. Re-rendering in turn calls the _setValue(0)_ again resulting in an infinite recursion.
 
-Jos haluamme suorittaa tietyn funktiokutsun tapahtuvan nappia painettaessa, toimii seuraava
+<!-- Jos haluamme suorittaa tietyn funktiokutsun tapahtuvan nappia painettaessa, toimii seuraava -->
+Executing a particular function call when the button is clicked can be accomplished like this:
 
 ```js
 <button onClick={() => console.log('nappia painettu')}>
@@ -668,19 +702,24 @@ Jos haluamme suorittaa tietyn funktiokutsun tapahtuvan nappia painettaessa, toim
 </button>
 ```
 
-Nyt tapahtumankäsittelijä on nuolisyntaksilla määritelty funktio _() => console.log('nappia painettu')_. Kun komponentti renderöidään, ei suoriteta mitään, ainoastaan talletetaan funktioviite tapahtumankäsittelijäksi. Itse funktion suoritus tapahtuu vasta napin painallusten yhteydessä.
+<!-- Nyt tapahtumankäsittelijä on nuolisyntaksilla määritelty funktio _() => console.log('nappia painettu')_. Kun komponentti renderöidään, ei suoriteta mitään, ainoastaan talletetaan funktioviite tapahtumankäsittelijäksi. Itse funktion suoritus tapahtuu vasta napin painallusten yhteydessä. -->
+Now the event handler is a function defined with the arrow function syntax _() => console.log('nappia painettu')_. When the component gets rendered on function call is executed, only the reference to the arrow function is set to the event handler. Calling the function happens only once the button is clicked.
 
-Saamme myös nollauksen toimimaan samalla tekniikalla
+<!-- Saamme myös nollauksen toimimaan samalla tekniikalla -->
+We can implement resetting the state in our application with this same technique
 
 ```js
 <button onClick={() => setValue(0)}>nappi</button>
 ```
 
-eli nyt tapahtumankäsittelijä on funktio _() => setValue(0)_.
+<!-- eli nyt tapahtumankäsittelijä on funktio _() => setValue(0)_. -->
+The event handler is now the function _() => setValue(0)_.
 
-Tapahtumakäsittelijäfunktioiden määrittely suoraan napin määrittelyn yhteydessä ei välttämättä ole paras mahdollinen idea.
+<!-- Tapahtumakäsittelijäfunktioiden määrittely suoraan napin määrittelyn yhteydessä ei välttämättä ole paras mahdollinen idea. -->
+Defining event handlers directly in the attribute of the button is not necessarily the best possible idea.
 
-Usein tapahtumankäsittelijä määritelläänkin jossain muualla. Seuraavassa määritellään funktio ja sijoitetaan se muuttujaan _handleClick_ komponentin rungossa:
+<!-- Usein tapahtumankäsittelijä määritelläänkin jossain muualla. Seuraavassa määritellään funktio ja sijoitetaan se muuttujaan _handleClick_ komponentin rungossa: -->
+You will often see event handlers defined in a separate place. In the following version of our application we define a function that then gets assigned to the _handleClick_ variable in the body of the component function:
 
 ```js
 const App = (props) => {
@@ -698,13 +737,15 @@ const App = (props) => {
 }
 ```
 
-Muuttujassa _handleClick_ on nyt talletettuna viite itse funktioon. Viite annetaan napin määrittelyn yhteydessä attribuutin <i>onClick</i>:
+<!-- Muuttujassa _handleClick_ on nyt talletettuna viite itse funktioon. Viite annetaan napin määrittelyn yhteydessä attribuutin <i>onClick</i>: -->
+The _handleClick_ variable is now assigned to a reference to the function. The reference is passed to the button as the <i>onClick</i> attribute:
 
 ```js
 <button onClick={handleClick}>nappi</button>
 ```
 
-Tapahtumankäsittelijäfunktio voi luonnollisesti koostua useista komennoista, tällöin käytetään nuolifunktion aaltosulullista muotoa:
+<!-- Tapahtumankäsittelijäfunktio voi luonnollisesti koostua useista komennoista, tällöin käytetään nuolifunktion aaltosulullista muotoa: -->
+Naturally, our event handler function can be composed of multiple commands. In these cases we use the longer curly brace syntax for arrow functions:
 
 ```js
 const App = (props) => {
@@ -726,9 +767,11 @@ const App = (props) => {
 }
 ```
 
-Mennään lopuksi <i>funktion palauttavaan funktioon</i>. Kuten aiemmin jo mainittiin, et tarvitse ainakaan tämän osan, et kenties koko kurssin tehtävissä funktiota palauttavia funktioita, joten voit melko huoletta hypätä seuraavan ohi jos asia tuntuu nyt hankalalta.
+<!-- Mennään lopuksi <i>funktion palauttavaan funktioon</i>. Kuten aiemmin jo mainittiin, et tarvitse ainakaan tämän osan, et kenties koko kurssin tehtävissä funktiota palauttavia funktioita, joten voit melko huoletta hypätä seuraavan ohi jos asia tuntuu nyt hankalalta. -->
+Finally, let us revisit <i>functions that return functions</i>. As mentioned previously, you will probably not need to use functions that return functions in any of the exercises in this course.  If the topic seems particularly confusing you may skip over this section for now and return to it later.
 
-Muutetaan koodia seuraavasti
+<!-- Muutetaan koodia seuraavasti -->
+Let's make the following changes to our code
 
 ```js
 const App = (props) => {
@@ -751,17 +794,21 @@ const App = (props) => {
 }
 ```
 
-Koodi näyttää hankalalta mutta se ihme kyllä toimii.
+<!-- Koodi näyttää hankalalta mutta se ihme kyllä toimii. -->
+The code functions correctly even though it looks complicated. 
 
-Tapahtumankäsittelijäksi on nyt "rekisteröity" funktiokutsu:
+<!-- Tapahtumankäsittelijäksi on nyt "rekisteröity" funktiokutsu: -->
+The event handler is now set to a function call. 
 
 ```js
 <button onClick={hello()}>nappi</button>
 ```
 
-Aiemmin varoteltiin, että tapahtumankäsittelijä ei saa olla funktiokutsu vaan sen on oltava funktio tai viite funktioon. Miksi funktiokutsu kuitenkin toimii nyt?
+<!-- Aiemmin varoteltiin, että tapahtumankäsittelijä ei saa olla funktiokutsu vaan sen on oltava funktio tai viite funktioon. Miksi funktiokutsu kuitenkin toimii nyt? -->
+Earlier on we stated that an event handler may not be a call to a function, it has to be a function or a reference to a function. Why then does a function call work in this case?
 
-Kun komponenttia renderöidään suoritetaan seuraava funktio:
+<!-- Kun komponenttia renderöidään suoritetaan seuraava funktio: -->
+When the component is rendered the following function gets executed:
 
 ```js
 const hello = () => {
@@ -771,15 +818,18 @@ const hello = () => {
 }
 ```
 
-funktion <i>paluuarvona</i> on nyt toinen, muuttujaan _handler_ määritelty funktio.
+<!-- funktion <i>paluuarvona</i> on nyt toinen, muuttujaan _handler_ määritelty funktio. -->
+then <i>return value</i> of the function is another function that is assigned to the _handler_ variable.
 
-eli kun react renderöi seuraavan rivin
+<!-- eli kun react renderöi seuraavan rivin -->
+When React renders the line
 
 ```js
 <button onClick={hello()}>nappi</button>
 ```
 
-sijoittaa se onClick-käsittelijäksi funktiokutsun _hello()_ paluuarvon. Eli oleellisesti ottaen rivi "muuttuu" seuraavaksi
+<!-- sijoittaa se onClick-käsittelijäksi funktiokutsun _hello()_ paluuarvon. Eli oleellisesti ottaen rivi "muuttuu" seuraavaksi -->
+It assigns the return value of _hello()_ to the onClick-attribute. Essentially the line gets transformed into
 
 ```js
 <button onClick={() => console.log('hello world')}>
@@ -787,11 +837,14 @@ sijoittaa se onClick-käsittelijäksi funktiokutsun _hello()_ paluuarvon. Eli ol
 </button>
 ```
 
-koska funktio _hello_ palautti funktion, on tapahtumankäsittelijä nyt funktio.
+<!-- koska funktio _hello_ palautti funktion, on tapahtumankäsittelijä nyt funktio. -->
+Since the _hello_ function returns a function, the event handler is now a function.
 
-Mitä järkeä tässä konseptissa on?
+<!-- Mitä järkeä tässä konseptissa on? -->
+What's the point of this concept?
 
-Muutetaan koodia hiukan:
+<!-- Muutetaan koodia hiukan: -->
+Let's change the code a tiny bit:
 
 ```js
 const App = (props) => {
@@ -820,15 +873,18 @@ const App = (props) => {
 }
 ```
 
-Nyt meillä on kolme nappia joiden tapahtumankäsittelijät määritellään parametrin saavan funktion _hello_ avulla.
+<!-- Nyt meillä on kolme nappia joiden tapahtumankäsittelijät määritellään parametrin saavan funktion _hello_ avulla. -->
+Now the application has three buttons with event handlers defined by the _hello_ function that accepts a parameter.
 
-Ensimmäinen nappi määritellään seuraavasti
+<!-- Ensimmäinen nappi määritellään seuraavasti -->
+The first button is defined as
 
 ```js
 <button onClick={hello('world')}>nappi</button>
 ```
 
-Tapahtumankäsittelijä siis saadaan <i>suorittamalla</i> funktiokutsu _hello('world')_. Funktiokutsu palauttaa funktion
+<!-- Tapahtumankäsittelijä siis saadaan <i>suorittamalla</i> funktiokutsu _hello('world')_. Funktiokutsu palauttaa funktion -->
+The event handler is created by <i>executing</i> the function call _hello('world')_. The function call returns the function
 
 ```js
 () => {
@@ -836,13 +892,15 @@ Tapahtumankäsittelijä siis saadaan <i>suorittamalla</i> funktiokutsu _hello('w
 }
 ```
 
-Toinen nappi määritellään seuraavasti
+<!-- Toinen nappi määritellään seuraavasti -->
+The second button is defined as
 
 ```js
 <button onClick={hello('react')}>nappi</button>
 ```
 
-Tapahtumankäsittelijän määrittelevä funktiokutsu _hello('react')_ palauttaa
+<!-- Tapahtumankäsittelijän määrittelevä funktiokutsu _hello('react')_ palauttaa -->
+The function call _hello('react')_ that creates the event handler returns
 
 ```js
 () => {
@@ -850,11 +908,14 @@ Tapahtumankäsittelijän määrittelevä funktiokutsu _hello('react')_ palauttaa
 }
 ```
 
-eli molemmat napit saavat oman, yksilöllisen tapahtumankäsittelijänsä.
+<!-- eli molemmat napit saavat oman, yksilöllisen tapahtumankäsittelijänsä. -->
+Both buttons get their own individualized event handlers.
 
-Funktioita palauttavia funktioita voikin hyödyntää määrittelemään geneeristä toiminnallisuutta, jota voi tarkentaa parametrien avulla. Tapahtumankäsittelijöitä luovan funktion _hello_ voikin ajatella olevan eräänlainen tehdas, jota voi pyytää valmistamaan sopivia tervehtimiseen tarkoitettuja tapahtumankäsittelijäfunktioita.
+<!-- Funktioita palauttavia funktioita voikin hyödyntää määrittelemään geneeristä toiminnallisuutta, jota voi tarkentaa parametrien avulla. Tapahtumankäsittelijöitä luovan funktion _hello_ voikin ajatella olevan eräänlainen tehdas, jota voi pyytää valmistamaan sopivia tervehtimiseen tarkoitettuja tapahtumankäsittelijäfunktioita. -->
+Functions returning functions can be utilized in defining generic functionality that can be customized with parameters. The _hello_ function that creates the event handlers can be thought of as a factory, that produces customized event handlers meant for greeting users.
 
-Käyttämämme määrittelytapa
+<!-- Käyttämämme määrittelytapa -->
+Our current definition is slightly verbose.
 
 ```js
 const hello = (who) => {
@@ -866,7 +927,8 @@ const hello = (who) => {
 }
 ```
 
-on hieman verboosi. Eliminoidaan apumuuttuja, ja määritellään palautettava funktio suoraan returnin yhteydessä:
+<!-- on hieman verboosi. Eliminoidaan apumuuttuja, ja määritellään palautettava funktio suoraan returnin yhteydessä: -->
+Let's eliminate the helper variables and directly return the created function:
 
 ```js
 const hello = (who) => {
@@ -876,7 +938,8 @@ const hello = (who) => {
 }
 ```
 
-ja koska funktio _hello_ sisältää ainoastaan yhden komennon, eli returnin, voidaan käyttää aaltosulutonta muotoa
+<!-- ja koska funktio _hello_ sisältää ainoastaan yhden komennon, eli returnin, voidaan käyttää aaltosulutonta muotoa -->
+Since our _hello_ function is composed of a single return command we can omit the curly braces and use the more compact syntax for arrow functions.
 
 ```js
 const hello = (who) =>
@@ -885,7 +948,8 @@ const hello = (who) =>
   }
 ```
 
-ja tuodaan vielä "kaikki nuolet" samalle riville
+<!-- ja tuodaan vielä "kaikki nuolet" samalle riville -->
+Lastly, let's write "all of the arrows" on the same line
 
 ```js
 const hello = (who) => () => {
@@ -893,7 +957,8 @@ const hello = (who) => () => {
 }
 ```
 
-Voimme käyttää samaa kikkaa myös muodostamaan tapahtumankäsittelijöitä, jotka asettavat komponentin tilalle halutun arvon. Muutetaan koodi muotoon:
+<!-- Voimme käyttää samaa kikkaa myös muodostamaan tapahtumankäsittelijöitä, jotka asettavat komponentin tilalle halutun arvon. Muutetaan koodi muotoon: -->
+We can use the same trick to define event handlers that set the state of the component to a given value. Let's make the following changes to our code:
 
 ```js
 render() {
@@ -912,13 +977,15 @@ render() {
 }
 ```
 
-Kun komponentti renderöidään, ja tehdään nappia <i>tuhat</i>
+<!-- Kun komponentti renderöidään, ja tehdään nappia <i>tuhat</i> -->
+When the component is rendered the <i>tuhat</i> button is created
 
 ```js
 <button onClick={setToValue(1000)}>tuhat</button>
 ```
 
-tulee tapahtumankäsittelijäksi funktiokutsun _setToValue(1000)_ paluuarvo eli seuraava funktio
+<!-- tulee tapahtumankäsittelijäksi funktiokutsun _setToValue(1000)_ paluuarvo eli seuraava funktio -->
+the event handler is set to the return value of _setToValue(1000)_ which is the following function
 
 ```js
 () => {
@@ -926,13 +993,15 @@ tulee tapahtumankäsittelijäksi funktiokutsun _setToValue(1000)_ paluuarvo eli 
 }
 ```
 
-Kasvatusnapin generoima rivi on seuraava
+<!-- Kasvatusnapin generoima rivi on seuraava -->
+The row generated for the increase button is the following
 
 ```js
 <button onClick={setToValue(value + 1)}>kasvata</button>
 ```
 
-Tapahtumankäsittelijän muodostaa funktiokutsu _setToValue(value + 1)_, joka saa parametrikseen tilan tallettavan muuttujan _value_ nykyisen arvon kasvatettuna yhdellä. Jos _value_ olisi 10, tulisi tapahtumankäsittelijäksi funktio
+<!-- Tapahtumankäsittelijän muodostaa funktiokutsu _setToValue(value + 1)_, joka saa parametrikseen tilan tallettavan muuttujan _value_ nykyisen arvon kasvatettuna yhdellä. Jos _value_ olisi 10, tulisi tapahtumankäsittelijäksi funktio -->
+The event handler is created by the function call _setToValue(value + 1)_ which receives as its parameter the current value of the state variable _value_ increased by one. If the value of _value_ was 10, then the created event handler would be the function
 
 ```js
 () => {
@@ -940,7 +1009,8 @@ Tapahtumankäsittelijän muodostaa funktiokutsu _setToValue(value + 1)_, joka sa
 }
 ```
 
-Funktioita palauttavia funktioita ei tässäkään tapauksessa olisi ollut pakko käyttää. Muutetaan tilan päivittämisestä huolehtiva funktio _setToValue_ normaaliksi funktioksi:
+<!-- Funktioita palauttavia funktioita ei tässäkään tapauksessa olisi ollut pakko käyttää. Muutetaan tilan päivittämisestä huolehtiva funktio _setToValue_ normaaliksi funktioksi: -->
+Using functions that return functions is not required to achieve this functionality. Let's return the _setToValue_ function that is response for updating state into a normal function:
 
 ```js
 const App = (props) => {
@@ -967,17 +1037,21 @@ const App = (props) => {
 }
 ```
 
-Voimme nyt määritellä tapahtumankäsittelijän funktioksi, joka kutsuu funktiota _setToValue_ sopivalla parametrilla, esim. nollaamisen tapahtumankäsittelijä:
+<!-- Voimme nyt määritellä tapahtumankäsittelijän funktioksi, joka kutsuu funktiota _setToValue_ sopivalla parametrilla, esim. nollaamisen tapahtumankäsittelijä: -->
+We can now define the event handler as a function that calls the _setToValue_ function with an appropriate parameter. The event handler for resetting the application state would be:
 
 ```js
 <button onClick={() => setToValue(0)}>nollaa</button>
 ```
 
-On aikalailla makuasia käyttääkö tapahtumankäsittelijänä funktioita palauttavia funktioita vai nuolifunktioita.
+<!-- On aikalailla makuasia käyttääkö tapahtumankäsittelijänä funktioita palauttavia funktioita vai nuolifunktioita. -->
+Choosing between the two presented ways of defining your event handlers is mostly a matter of taste.
 
-### Tapahtumankäsittelijän vieminen alikomponenttiin
+<!-- ### Tapahtumankäsittelijän vieminen alikomponenttiin -->
+### Passing Event Handlers to Child Components
 
-Eriytetään vielä painike omaksi komponentikseen
+<!-- Eriytetään vielä painike omaksi komponentikseen -->
+Let's extract the button into its own component
 
 ```js
 const Button = (props) => (
@@ -987,17 +1061,22 @@ const Button = (props) => (
 )
 ```
 
-Komponentti saa siis propsina _handleClick_ tapahtumankäsittelijän ja propsina _text_ merkkijonon, jonka se renderöi painikkeen tekstiksi.
+<!-- Komponentti saa siis propsina _handleClick_ tapahtumankäsittelijän ja propsina _text_ merkkijonon, jonka se renderöi painikkeen tekstiksi. -->
+The component gets the event handler function from the _handleClick_ prop and the text of the button from the _text_ prop.
 
-Komponentin <i>Button</i> käyttö on helppoa, on toki pidettävä huolta siitä, että komponentille annettavat propsit on nimetty niin kuin komponentti olettaa:
+<!-- Komponentin <i>Button</i> käyttö on helppoa, on toki pidettävä huolta siitä, että komponentille annettavat propsit on nimetty niin kuin komponentti olettaa: -->
+Using the <i>Button</i> component is simple, although we have to make sure that the we use the correct attribute names when passing props to the component.
 
 ![](../images/1/12a.png)
 
-### Älä määrittele komponenttia komponentin sisällä
+<!-- ### Älä määrittele komponenttia komponentin sisällä -->
+### Do Not Define Components Within Components
 
-Eriytetään vielä sovelluksestamme luvun näyttäminen omaan komponenttiin <i>Display</i>.
+<!-- Eriytetään vielä sovelluksestamme luvun näyttäminen omaan komponenttiin <i>Display</i>. -->
+Let's extract displaying the value of the application into its own <i>Display</i> component.
 
-Muutetaan ohjelmaa seuraavasti, eli määritelläänkin uusi komponentti <i>App</i>-komponentin sisällä:
+<!-- Muutetaan ohjelmaa seuraavasti, eli määritelläänkin uusi komponentti <i>App</i>-komponentin sisällä: -->
+We will change the application by defining a new component inside of the <i>App</i>-component.
 
 ```js
 // tämä on oikea paikka määritellä komponentti!
@@ -1028,7 +1107,8 @@ const App = props => {
 }
 ```
 
-Kaikki näyttää toimivan. Mutta **älä tee koskaan näin!**, eli määrittele komponenttia toisen komponentin sisällä. Tapa on hyödytön ja johtaa useissa tilanteissa ikäviin ongelmiin. Siirretäänkin komponentin <i>Display</i> määrittely oikeaan paikkaan, eli komponentin <i>App</i> määrittelevän funktion ulkopuolelle:
+<!-- Kaikki näyttää toimivan. Mutta **älä tee koskaan näin!**, eli määrittele komponenttia toisen komponentin sisällä. Tapa on hyödytön ja johtaa useissa tilanteissa ikäviin ongelmiin. Siirretäänkin komponentin <i>Display</i> määrittely oikeaan paikkaan, eli komponentin <i>App</i> määrittelevän funktion ulkopuolelle: -->
+The application still appears to work but **don't implement components like this!** Never define components inside of other components. The method provides no benefits and leads to many unpleasant problems. Let's instead move the <i>Display</i> component function to its correct place which is outside of the <i>App</i> component function:
 
 ```js
 const Display = props => <div>{props.value}</div>
@@ -1057,20 +1137,27 @@ const App = props => {
 }
 ```
 
-### Hyödyllistä materiaalia
+<!-- ### Hyödyllistä materiaalia -->
+### Useful Material
 
-Internetissä on todella paljon Reactiin liittyvää materiaalia. Tällä hetkellä ongelman muodostaa kuitenkin se, että käytämme kurssilla niin uutta Reactia, että suurin osa internetistä löytyvästä tavarasta on meidän kannaltamme vanhentunutta.
+<!-- Internetissä on todella paljon Reactiin liittyvää materiaalia. Tällä hetkellä ongelman muodostaa kuitenkin se, että käytämme kurssilla niin uutta Reactia, että suurin osa internetistä löytyvästä tavarasta on meidän kannaltamme vanhentunutta. -->
+The internet is full of React-related material. However, we use such a new style of React that a large majority of the material found online is outdated for our purposes.
 
-Seuraavassa muutamia linkkejä:
+<!-- Seuraavassa muutamia linkkejä: -->
+You may find the following links useful:
 
-- Reactin [docs](https://reactjs.org/docs/hello-world.html) kannattaa ehdottomasti käydä jossain vaiheessa läpi, ei välttämättä kaikkea nyt, osa on ajankohtaista vasta kurssin myöhemmissä osissa ja kaikki Class-komponentteihin liittyvä on kurssin kannalta epärelevanttia
+<!-- - Reactin [docs](https://reactjs.org/docs/hello-world.html) kannattaa ehdottomasti käydä jossain vaiheessa läpi, ei välttämättä kaikkea nyt, osa on ajankohtaista vasta kurssin myöhemmissä osissa ja kaikki Class-komponentteihin liittyvä on kurssin kannalta epärelevanttia
 - Reactin sivuilla oleva [tutoriaali](https://reactjs.org/tutorial/tutorial.html) sen sijaan on aika huono
-- [Egghead.io](https://egghead.io):n kursseista [Start learning React](https://egghead.io/courses/start-learning-react) on laadukas, ja hieman uudempi [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) on myös kohtuullisen hyvä; molemmat sisältävät myös asioita jotka tulevat tällä kurssilla vasta myöhemmissä osissa. Molemmissa toki se ongelma, että ne käyttävät Class-komponentteja
+- [Egghead.io](https://egghead.io):n kursseista [Start learning React](https://egghead.io/courses/start-learning-react) on laadukas, ja hieman uudempi [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) on myös kohtuullisen hyvä; molemmat sisältävät myös asioita jotka tulevat tällä kurssilla vasta myöhemmissä osissa. Molemmissa toki se ongelma, että ne käyttävät Class-komponentteja -->
+- The React [official documentation](https://reactjs.org/docs/hello-world.html) is worth checking out at some point, although most of it will become relevant only later on in the course and everything related to Class-components is irrelevant to us.
+- The official React [tutorial](https://reactjs.org/tutorial/tutorial.html) is not very good.
+- Some courses on [Egghead.io](https://egghead.io) like [Start learning React](https://egghead.io/courses/start-learning-react) is of high quality, and the slightly newer [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) is also relatively good; both courses introduce concepts that will also be introduced later on in this course. However, both courses use Class components instead of the new functional ones used in this course.
 
 </div>
 
 <div class="tasks">
-  <h3>Tehtäviä</h3>
+  <!-- <h3>Tehtäviä</h3> -->
+  <h3>Exercises</h3>
 
 Tehtävät palautetaan GitHubin kautta ja merkitsemällä tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
