@@ -1319,7 +1319,7 @@ then perform the necessary actions to make the warning disappear. Try Googling t
 <!-- **Huolehdi nyt ja jatkossa, että konsolissa ei näy mitään warningeja!** -->
 **Make sure that from now on you don't see any warnings in your console!**
 
-<h4>1.12*: anekdootit step1</h4>
+<h4>1.12*: anecdotes step1</h4>
 
 <!-- Ohjelmistotuotannossa tunnetaan lukematon määrä [anekdootteja](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) eli pieniä "onelinereita", jotka kiteyttävät alan ikuisia totuuksia. -->
 The world of software engineering is filled with [anecdotes](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) that distill timeless truths from our field into short one-liners.
@@ -1367,7 +1367,7 @@ Your finished application could look something like this:
 <!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
 **WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
 
-<h4>1.13*: anekdootit step2</h4>
+<h4>1.13*: anecdotes step2</h4>
 
 <!-- Laajenna sovellusta siten, että näytettävää anekdoottia on mahdollista äänestää: -->
 Expand your application so that you can vote for the displayed anecdote.
@@ -1402,7 +1402,7 @@ copy[2] += 1
 <!-- Yksinkertaisempi ratkaisu lienee nyt taulukon käyttö. Googlaamalla löydät paljon vihjeitä sille, miten kannattaa luoda halutun mittainen taulukko, joka on täytetty nollilla esim. [tämän](https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781). -->
 Using an array might be the simpler choice in this case. Googling will provide you with lots of hints on how to create a zero-filled array of a desired length, like [this](https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781).
 
-<h4>1.14*: anekdootit step3</h4>
+<h4>1.14*: anecdotes step3</h4>
 
 <!-- Ja sitten vielä lopullinen versio, joka näyttää eniten ääniä saaneen anekdootin: -->
 Now implement the final version of the application that displays the anecdote with the largest number of votes:
