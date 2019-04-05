@@ -1149,7 +1149,7 @@ You may find the following links useful:
 <!-- - Reactin [docs](https://reactjs.org/docs/hello-world.html) kannattaa ehdottomasti käydä jossain vaiheessa läpi, ei välttämättä kaikkea nyt, osa on ajankohtaista vasta kurssin myöhemmissä osissa ja kaikki Class-komponentteihin liittyvä on kurssin kannalta epärelevanttia
 - Reactin sivuilla oleva [tutoriaali](https://reactjs.org/tutorial/tutorial.html) sen sijaan on aika huono
 - [Egghead.io](https://egghead.io):n kursseista [Start learning React](https://egghead.io/courses/start-learning-react) on laadukas, ja hieman uudempi [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) on myös kohtuullisen hyvä; molemmat sisältävät myös asioita jotka tulevat tällä kurssilla vasta myöhemmissä osissa. Molemmissa toki se ongelma, että ne käyttävät Class-komponentteja -->
-- The React [official documentation](https://reactjs.org/docs/hello-world.html) is worth checking out at some point, although most of it will become relevant only later on in the course and everything related to Class-components is irrelevant to us.
+- The React [official documentation](https://reactjs.org/docs/hello-world.html) is worth checking out at some point, although most of it will become relevant only later on in the course. Also, everything related to Class-components is irrelevant to us.
 - The official React [tutorial](https://reactjs.org/tutorial/tutorial.html) is not very good.
 - Some courses on [Egghead.io](https://egghead.io) like [Start learning React](https://egghead.io/courses/start-learning-react) is of high quality, and the slightly newer [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) is also relatively good; both courses introduce concepts that will also be introduced later on in this course. However, both courses use Class components instead of the new functional ones used in this course.
 
@@ -1159,37 +1159,49 @@ You may find the following links useful:
   <!-- <h3>Tehtäviä</h3> -->
   <h3>Exercises</h3>
 
-Tehtävät palautetaan GitHubin kautta ja merkitsemällä tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/).
+<!-- Tehtävät palautetaan GitHubin kautta ja merkitsemällä tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/). -->
+You submit your solutions to the exercises by first pushing your code to GitHub and then marking the completed exercises into the [exercise submission system](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
-Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä.
+<!-- Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä. -->
+You submit all of your solutions to the exercise of one part **in a single submission.**. Once you have submitted your solutions for one part, you can not add more exercise solutions to your submission.
 
-<i>Samaa ohjelmaa kehittelevissä tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i>
+<!-- <i>Samaa ohjelmaa kehittelevissä tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i> -->
+<i>Some of the exercises work on the same application. In these cases it is sufficient to submit just the final version of the application. If you wish, you can make a commit after every finished exercise but it is not mandatory.</i>
 
-**VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_.
+<!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
+**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
 
-**React ei toimi...** käyttäessäsi tilan tuovaa hookia <i>useState</i>, saatat törmätä seuraavaan virheilmoitukseen:
+<!-- **React ei toimi...** käyttäessäsi tilan tuovaa hookia <i>useState</i>, saatat törmätä seuraavaan virheilmoitukseen: -->
+**React does not work...** you may run into the following error message once you start using the <i>useState</i> hook:
 
 ![](../images/1/fail.png)
 
-Syynä tälle on se, että <i>et ole asentanut</i> riittävän uutta Reactia kuten [osan 1 alussa](/osa1/reactin_alkeet) neuvottiin.
+<!-- Syynä tälle on se, että <i>et ole asentanut</i> riittävän uutta Reactia kuten [osan 1 alussa](/osa1/reactin_alkeet) neuvottiin. -->
+The reason for this is that <i>you have not installed</i> a new enough version of React as was instructed at [the beginning of part 1](/osa1/reactin_alkeet).
 
-Joissain tilanteissa saatat myös joutua antamaan komennon
+<!-- Joissain tilanteissa saatat myös joutua antamaan komennon -->
+In some situations you may also have to run the command below from the root of the project
 
 ``` 
 rm -rf node_modules/ && npm i
 ```
 
+  <!-- <h4> 1.6: unicafe step1</h4> -->
   <h4> 1.6: unicafe step1</h4>
 
-Monien firmojen tapaan nykyään myös [Unicafe](https://www.unicafe.fi/#/9/4) kerää asiakaspalautetta. Tee Unicafelle verkossa toimiva palautesovellus. Vastausvaihtoehtoja olkoon vain kolme: <i>hyvä</i>, <i>neutraali</i> ja <i>huono</i>.
+<!-- Monien firmojen tapaan nykyään myös [Unicafe](https://www.unicafe.fi/#/9/4) kerää asiakaspalautetta. Tee Unicafelle verkossa toimiva palautesovellus. Vastausvaihtoehtoja olkoon vain kolme: <i>hyvä</i>, <i>neutraali</i> ja <i>huono</i>. -->
+Like most companies, [Unicafe](https://www.unicafe.fi/#/9/4) collects feedback from its customers. Your task is to implement a web application for collecting customer feedback. There are only three options for feedback: <i>good</i>, <i>neutral</i>, and <i>bad</i>.
 
-Sovelluksen tulee näyttää jokaisen palautteen lukumäärä. Sovellus voi näyttää esim. seuraavalta:
+<!-- Sovelluksen tulee näyttää jokaisen palautteen lukumäärä. Sovellus voi näyttää esim. seuraavalta: -->
+The application must display the total amount of collected feedback for each category. Your final application could look like this:
 
 ![](../images/1/13a.png)
 
-Huomaa, että sovelluksen tarvitsee toimia vain yhden selaimen käyttökerran ajan, esim. kun selain refreshataan, tilastot saavat hävitä.
+<!-- Huomaa, että sovelluksen tarvitsee toimia vain yhden selaimen käyttökerran ajan, esim. kun selain refreshataan, tilastot saavat hävitä. -->
+Note that your application needs to work only during a single browser session. Once you refresh the page, the collected feedback is allowed to disappear.
 
-Voit tehdä koko sovelluksen tiedostoon <i>index.js</i>. Tiedoston sisältö voi olla aluksi seuraava
+<!-- Voit tehdä koko sovelluksen tiedostoon <i>index.js</i>. Tiedoston sisältö voi olla aluksi seuraava -->
+You can implement the application in a single <i>index.js</i> file. You can use the code below as a starting point for your application.
 
 ```js
 import React, { useState } from 'react'
@@ -1215,15 +1227,18 @@ ReactDOM.render(<App />,
 
 <h4>1.7: unicafe step2</h4>
 
-Laajenna sovellusta siten, että se näyttää palautteista enemmän statistiikkaa: yhteenlasketun määrän, keskiarvon (hyvän arvo 1, neutraalin 0, huonon -1) ja sen kuinka monta prosenttia palautteista on ollut positiivisia:
+<!-- Laajenna sovellusta siten, että se näyttää palautteista enemmän statistiikkaa: yhteenlasketun määrän, keskiarvon (hyvän arvo 1, neutraalin 0, huonon -1) ja sen kuinka monta prosenttia palautteista on ollut positiivisia: -->
+Expand your application so that it shows more statistics about the gathered feedback: the total number of collected feedback, the average score (good: 1, neutral: 0, bad: -1) and the percentage of positive feedback.
 
 ![](../images/1/14a.png)
 
 <h4>1.8: unicafe step3</h4>
 
-Refaktoroi sovelluksesi siten, että tilastojen näyttäminen on eriytetty oman komponentin <i>Statistics</i> vastuulle. Sovelluksen tila säilyy edelleen juurikomponentissa <i>App</i>.
+<!-- Refaktoroi sovelluksesi siten, että tilastojen näyttäminen on eriytetty oman komponentin <i>Statistics</i> vastuulle. Sovelluksen tila säilyy edelleen juurikomponentissa <i>App</i>. -->
+Refactor your application so that displaying the statistics is extracted into its own <i>Statistics</i> component. The state of the application should remain in the <i>App</i> root component.
 
-Muista, että komponentteja ei saa määritellä toisen komponentin sisällä:
+<!-- Muista, että komponentteja ei saa määritellä toisen komponentin sisällä: -->
+Remember that components should not be defined inside of other components:
 
 ```js
 // oikea paikka komponentin määrittelyyn
@@ -1250,18 +1265,23 @@ const App = () => {
 
 <h4>1.9: unicafe step4</h4>
 
-Muuta sovellusta siten, että numeeriset tilastot näytetään ainoastaan jos palautteita on jo annettu:
+<!-- Muuta sovellusta siten, että numeeriset tilastot näytetään ainoastaan jos palautteita on jo annettu: -->
+Change your application to display statistics only once feedback has been gathered.
 
 ![](../images/1/15a.png)
 
 <h4>1.10: unicafe step5</h4>
 
-Jatketaan sovelluksen refaktorointia. Eriytä seuraavat <i>kaksi</i> komponenttia
+<!-- Jatketaan sovelluksen refaktorointia. Eriytä seuraavat <i>kaksi</i> komponenttia -->
+Let's continue refactoring the application. Extract the following two components:
 
-- <i>Button</i> vastaa yksittäistä palautteenantonappia
-- <i>Statistic</i> huolehtii tilastorivien, esim. keskiarvon näyttämisestä
+<!-- - <i>Button</i> vastaa yksittäistä palautteenantonappia
+- <i>Statistic</i> huolehtii tilastorivien, esim. keskiarvon näyttämisestä -->
+- <i>Button</i> for defining the buttons used for submitting feedback
+- <i>Statistic</i> for displaying a single statistic, e.g. the average score.
 
-Tarkennuksena: komponentti <i>Statistic</i> näyttää aina yhden tilastorivin, joten sovellus käyttää montaa komponenttia kaikkien tilastorivien renderöintiin 
+<!-- Tarkennuksena: komponentti <i>Statistic</i> näyttää aina yhden tilastorivin, joten sovellus käyttää montaa komponenttia kaikkien tilastorivien renderöintiin  -->
+Clarification: the <i>Statistic</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics
 
 ```js
 const Statistics = (props) => {
@@ -1278,27 +1298,34 @@ const Statistics = (props) => {
 
 ```
 
-Sovelluksen tila säilytetään edelleen juurikomponentissa <i>App</i>.
+<!-- Sovelluksen tila säilytetään edelleen juurikomponentissa <i>App</i>. -->
+The application's state should still be kept in the root component <i>App</i>.
 
 <h4>1.11*: unicafe step6</h4>
 
-Toteuta tilastojen näyttäminen HTML:n [taulukkona](https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics) siten, että saat sovelluksesi näyttämään suunnilleen seuraavanlaiselta:
+<!-- Toteuta tilastojen näyttäminen HTML:n [taulukkona](https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics) siten, että saat sovelluksesi näyttämään suunnilleen seuraavanlaiselta: -->
+Display the statistics in an HTML [table](https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics), so that your application looks roughly like this:
 
 ![](../images/1/16a.png)
 
-Muista pitää konsoli koko ajan auki. Jos saat konsoliin seuraavan warningin:
+<!-- Muista pitää konsoli koko ajan auki. Jos saat konsoliin seuraavan warningin: -->
+Remember to keep your console open at all times. If you see this warning in your console
 
 ![](../images/1/17a.png)
 
-tee tarvittavat toimenpiteet jotta saat warningin katoamaan. Googlaa tarvittaessa virheilmoituksella.
+<!-- tee tarvittavat toimenpiteet jotta saat warningin katoamaan. Googlaa tarvittaessa virheilmoituksella. -->
+then perform the necessary actions to make the warning disappear. Try Googling the error message if you get stuck.
 
-**Huolehdi nyt ja jatkossa, että konsolissa ei näy mitään warningeja!**
+<!-- **Huolehdi nyt ja jatkossa, että konsolissa ei näy mitään warningeja!** -->
+**Make sure that from now on you don't see any warnings in your console!**
 
 <h4>1.12*: anekdootit step1</h4>
 
-Ohjelmistotuotannossa tunnetaan lukematon määrä [anekdootteja](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) eli pieniä "onelinereita", jotka kiteyttävät alan ikuisia totuuksia.
+<!-- Ohjelmistotuotannossa tunnetaan lukematon määrä [anekdootteja](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) eli pieniä "onelinereita", jotka kiteyttävät alan ikuisia totuuksia. -->
+The world of software engineering is filled with [anecdotes](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) that distill timeless truths from our field into short one-liners.
 
-Laajenna seuraavaa sovellusta siten, että siihen tulee nappi, jota painamalla sovellus näyttää <i>satunnaisen</i> ohjelmistotuotantoon liittyvän anekdootin:
+<!-- Laajenna seuraavaa sovellusta siten, että siihen tulee nappi, jota painamalla sovellus näyttää <i>satunnaisen</i> ohjelmistotuotantoon liittyvän anekdootin: -->
+Expand the following application by adding that can be clicked to display a <i>random</i> anecdote from the field of software engineering: 
 
 ```js
 import React, { useState } from 'react'
@@ -1329,23 +1356,29 @@ ReactDOM.render(
 )
 ```
 
-Google kertoo, miten voit generoida Javascriptilla sopivia satunnaisia lukuja. Muista, että voit testata esim. satunnaislukujen generointia konsolissa.
+<!-- Google kertoo, miten voit generoida Javascriptilla sopivia satunnaisia lukuja. Muista, että voit testata esim. satunnaislukujen generointia konsolissa. -->
+Google will tell you how to generate random numbers in JavaScript. Remember that you can test generating random numbers e.g. straight in the console of your browser.
 
-Sovellus voi näyttää esim. seuraavalta:
+<!-- Sovellus voi näyttää esim. seuraavalta: -->
+Your finished application could look something like this:
 
 ![](../images/1/18a.png)
 
-**VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_.
+<!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
+**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
 
 <h4>1.13*: anekdootit step2</h4>
 
-Laajenna sovellusta siten, että näytettävää anekdoottia on mahdollista äänestää:
+<!-- Laajenna sovellusta siten, että näytettävää anekdoottia on mahdollista äänestää: -->
+Expand your application so that you can vote for the displayed anecdote.
 
 ![](../images/1/19a.png)
 
-**Huom:** jos päätät tallettaa kunkin anekdootin äänet komponentin tilassa olevan olion kenttiin tai taulukkoon, saatat tarvita päivittäessäsi tilaa oikeaoppisesti olion tai taulukon <i>kopioimista</i>.
+<!-- **Huom:** jos päätät tallettaa kunkin anekdootin äänet komponentin tilassa olevan olion kenttiin tai taulukkoon, saatat tarvita päivittäessäsi tilaa oikeaoppisesti olion tai taulukon <i>kopioimista</i>. -->
+**NB** if you decide to store the votes of each anecdote into an array or object in the component's state, you should refer to the material to see the correct way of updating state stored into complex data structures like objects and arrays.
 
-Olio voidaan kopioida esim. seuraavasti:
+<!-- Olio voidaan kopioida esim. seuraavasti: -->
+You can create a copy of an object like this:
 
 ```js
 const points = { 0: 1, 1: 3, 2: 4, 3: 2 }
@@ -1355,7 +1388,8 @@ const copy = { ...points }
 copy[2] += 1     
 ```
 
-ja taulukko esim. seuraavasti:
+<!-- ja taulukko esim. seuraavasti: -->
+And a copy of an array like this:
 
 ```js
 const points = [1, 4, 6, 3]
@@ -1365,16 +1399,20 @@ const copy = [...points]
 copy[2] += 1     
 ```
 
-Yksinkertaisempi ratkaisu lienee nyt taulukon käyttö. Googlaamalla löydät paljon vihjeitä sille, miten kannattaa luoda halutun mittainen taulukko, joka on täytetty nollilla esim. [tämän](https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781).
+<!-- Yksinkertaisempi ratkaisu lienee nyt taulukon käyttö. Googlaamalla löydät paljon vihjeitä sille, miten kannattaa luoda halutun mittainen taulukko, joka on täytetty nollilla esim. [tämän](https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781). -->
+Using an array might be the simpler choice in this case. Googling will provide you with lots of hints on how to create a zero-filled array of a desired length, like [this](https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781).
 
 <h4>1.14*: anekdootit step3</h4>
 
-Ja sitten vielä lopullinen versio, joka näyttää eniten ääniä saaneen anekdootin:
+<!-- Ja sitten vielä lopullinen versio, joka näyttää eniten ääniä saaneen anekdootin: -->
+Now implement the final version of the application that displays the anecdote with the largest number of votes:
 
 ![](../images/1/20a.png)
 
-Jos suurimman äänimäärän saaneita anekdootteja on useita, riittää että niistä näytetään yksi.
+<!-- Jos suurimman äänimäärän saaneita anekdootteja on useita, riittää että niistä näytetään yksi. -->
+If multiple anecdotes are tied for first place it is sufficient to just show one of them.
 
-Tämä oli osan viimeinen tehtävä ja on aika pushata koodi githubiin sekä merkata tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019).
+<!-- Tämä oli osan viimeinen tehtävä ja on aika pushata koodi githubiin sekä merkata tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019). -->
+This was the last exercise for this part of the course and it's time to push your code to GitHub and mark all of your finished exercises to the [exercise submission system](https://studies.cs.helsinki.fi/fullstackopen2019).
 
 </div>
