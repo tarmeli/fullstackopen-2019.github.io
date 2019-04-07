@@ -14,7 +14,7 @@ In the contrary, they demonstrate some old techniques of web development, which 
 
 Coding in the recommended style begins in [part 1](/osa1).
 
-***chrome***
+Use the Chrome browser <i>now and all throughout the course</i>.
 
 Open the [example application](https://fullstack-exampleapp.herokuapp.com/) on your browser. Sometimes this takes a while. 
 
