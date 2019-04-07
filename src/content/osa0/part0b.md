@@ -300,11 +300,10 @@ The same treelike structure can be seen on the console tab <i>Elements</i>.
 
 ![](../images/0/14.png)
 
-The functioning of the browser is based on the idea of depicting HTML-elements as a tree. 
+The functioning of the browser is based on the idea of depicting HTML elements as a tree. 
 
-<!-- JATKA TÄSTÄ -->
+Document Object Model, or [DOM](https://en.wikipedia.org/wiki/Document_Object_Model) is an Application Programming Interface, (an <i>API</i>), which enables programmatic modification of the <i>element trees</i> corresponding to web-pages.
 
-Document Object Model, or [DOM](https://en.wikipedia.org/wiki/Document_Object_Model) is an Application Programming Interface, ( an <i>API</i> ), which enables programmatic modification of the <i>element trees</i> corresponding to web-pages. 
 The JavaScript code introduced in the previous chapter used the DOM-API to add a list of notes to the page. 
 
 The following code creates a new node to the variable <em>ul</em>, and adds some child nodes to it: 
@@ -319,7 +318,7 @@ data.forEach(function(note) {
   li.appendChild(document.createTextNode(note.content))
 })
 ```
-At the end the tree branch of the <em>ul</em> variable is connected to it's proper place in the HTML tree of the whole page: 
+Finally, the tree branch of the <em>ul</em> variable is connected to its proper place in the HTML tree of the whole page: 
 
 ```js
 document.getElementById('notes').appendChild(ul)
@@ -327,15 +326,15 @@ document.getElementById('notes').appendChild(ul)
 
 ### manipulating the document-object from console
 
-The topmost node of the DOM-tree of a HTML-document is called the <em>document</em>. You can access this object from the Console-tab: 
+The topmost node of the DOM tree of a HTML document is called the <em>document</em>. You can access this object from the Console-tab: 
 
 ![](../images/0/15.png)
 
 We can perform various operations on a web-page using the DOM-API and utilizing the <em>document</em> object. 
 
-Lets add a new note to the page from the console. 
+Let's add a new note to the page from the console. 
 
-First get the list of notes from the page. The list is in the first ul-element of the page: 
+First, we'll get the list of notes from the page. The list is in the first ul-element of the page: 
 
 
 ```js
@@ -393,17 +392,17 @@ A class selector definition always starts with a period, and contains the name o
 
 <!-- Luokkaselektori alkaa aina pisteellä ja sisältää luokan nimen. -->
 
-The classes are [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class), which can be added to HTML-elements. 
+The classes are [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class), which can be added to HTML elements. 
 
 <!-- Luokat ovat [attribuutteja](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class) joita voidaan liittää HTML-elementeille. -->
 
-CSS attributes can be examined on the <i>elements</i>-tab on the console:  
+CSS attributes can be examined on the <i>elements</i> tab on the console:  
 
 ![](../images/0/17.png)
 
 <!-- sovelluksen uloimmalle <i>div</i>-elementille on siis liitetty luokka <i>container</i>. Muistiinpanojen listan sisältävä <i>ul</i>-elementin sisällä oleva lista sisältää luokan <i>notes</i>. -->
 
-The outermost <i>div</i> element has the class <i>container</i>. The <i>ul</i>-element containing the list of notes has the class <i>notes</i>.
+The outermost <i>div</i> element has the class <i>container</i>. The <i>ul</i> element containing the list of notes has the class <i>notes</i>.
 
 <!-- CSS-säännön avulla on määritelty, että <i>container</i>-luokan sisältävä elementti ympäröidään yhden pikselin paksuisella [border](https://developer.mozilla.org/en-US/docs/Web/CSS/border):illa. Elementille asetetaan myös 10 pikselin [padding](https://developer.mozilla.org/en-US/docs/Web/CSS/padding), jonka ansiosta elementin sisällön ja elementin ulkorajan väliin jätetään hieman tilaa. -->
 
@@ -448,11 +447,10 @@ Let's revise what happens when the page https://fullstack-exampleapp.herokuapp.c
   returns the notes as JSON  data. 
 - When the data has been fetched, the browser executes an <i>event handler</i>, which renders the notes to the page using the DOM-API. 
 
-### Forms and  HTTP POST
+### Forms and HTTP POST
 
 <!-- Tutkitaan seuraavaksi sitä, miten uusien muistiinpanojen luominen tapahtuu. Tätä varten muistiinpanojen sivu sisältää lomakkeen eli [form-elementin](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form). -->
-
-Next we'll examine how adding a new note is done. 
+Next let's examine how adding a new note is done. 
 
 The Notes page contains a [form-element](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form)
 
@@ -460,9 +458,7 @@ The Notes page contains a [form-element](https://developer.mozilla.org/en-US/doc
 
 
 <!-- Kun lomakkeen painiketta painetaan, lähettää selain lomakkeelle syötetyn datan palvelimelle. Avataan <i>Network</i>-välilehti ja katsotaan miltä lomakkeen lähettäminen näyttää: -->
-
-When the button on the form is clicked, the browser will send the user input to the server. 
-Let's open the <i>Network</i> tab and see what submitting the form looks like: 
+When the button on the form is clicked, the browser will send the user input to the server. Let's open the <i>Network</i> tab and see what submitting the form looks like: 
 
 ![](../images/0/21.png)
 
@@ -473,8 +469,7 @@ The first one is the form submit event. Let's zoom into it:
 ![](../images/0/22.png)
 
 <!-- Kyseessä on siis [HTTP POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) -pyyntö ja se on tehty palvelimen osoitteeseen <i>new\_note</i>. Palvelin vastaa pyyntöön HTTP-statuskoodilla 302. Kyseessä on ns. [uudelleenohjauspyyntö](https://en.wikipedia.org/wiki/URL_redirection) eli redirectaus, minkä avulla palvelin kehottaa selainta tekemään automaattisesti uuden HTTP GET -pyynnön headerin <i>Location</i> kertomaan paikkaan, eli osoitteeseen <i>notes</i>. -->
-It is a [HTTP POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) request to the server address <i>new\_note</i>. 
-The server responds with HTTP status code 302. This is an [URL redirect](https://en.wikipedia.org/wiki/URL_redirection), with which the server asks the browser to do a new HTTP GET request to the address defined in the header's <i>Location</i> - the address <i>notes</i>.
+It is a [HTTP POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) request to the server address <i>new\_note</i>. The server responds with HTTP status code 302. This is an [URL redirect](https://en.wikipedia.org/wiki/URL_redirection), with which the server asks the browser to do a new HTTP GET request to the address defined in the header's <i>Location</i> - the address <i>notes</i>.
 
 <!-- Selain siis lataa uudelleen muistiinpanojen sivun. Sivunlataus saa aikaan myös kolme muuta HTTP-pyyntöä: tyylitiedoston (main.css), Javascript-koodin (main.js) ja muistiinpanojen raakadatan (data.json) lataamisen. -->
 So, the browser reloads the Notes page. The reload causes three more HTTP requests: fetching the style sheet (main.css), the JavaScript code (main.js) and the raw data of the notes (data.json). 
@@ -528,7 +523,7 @@ The server does not save new notes to a database, so new notes dissappear when H
 ### AJAX
 
 <!-- Sovelluksen muistiinpanojen sivu noudattaa vuosituhannen alun tyyliä ja se "käyttää AJAX:ia", eli on silloisen kehityksen aallonharjalla. -->
-The Notes page of the application follows the noughties style of web development and 'uses Ajax', so it is on the forefront of web technology for the early 2000's. 
+The Notes page of the application follows the noughties style of web development and "uses Ajax", so it is on the forefront of web technology for the early 2000's. 
 
 <!-- [AJAX](<https://en.wikipedia.org/wiki/Ajax_(programming)>) (Asynchronous Javascript and XML) on termi, joka lanseerattiin vuoden 2005 helmikuussa kuvaamaan selainten kehityksen mahdollistamaa vallankumouksellista tapaa, missä HTML-sivulle sisällytetyn Javascriptin avulla oli mahdollista ladata sivulle lisää sisältöä lataamatta itse sivua uudelleen. -->
 [AJAX](<https://en.wikipedia.org/wiki/Ajax_(programming)>) (Asynchronous Javascript and XML) is a term which was launched in February 2005 to 
@@ -543,7 +538,7 @@ The Notes page uses AJAX to fetch the notes data. Submitting the form still uses
 
 <!-- Sovelluksen urlit heijastavat vanhaa huoletonta aikaa. JSON-muotoinen data haetaan urlista <https://fullstack-exampleapp.herokuapp.com/data.json> ja uuden muistiinpanon tiedot lähetetään urliin <https://fullstack-exampleapp.herokuapp.com/new_note>. Nykyään näin valittuja urleja ei pidettäisi ollenkaan hyvinä, ne eivät noudata ns. [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services)-apien yleisesti hyväksyttyjä konventioita. Käsittelemme asiaa tarkemmin [osassa 3](/osa3). -->
 The application URLs reflect the old, carefree times. JSON data is fetched from the url <https://fullstack-exampleapp.herokuapp.com/data.json> and new notes are sent to the url <https://fullstack-exampleapp.herokuapp.com/new_note>.  
-Nowadays urls like these would not be good at all, as they don't follow the generally acnowledged conventions of [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services)-APIs, which we'll look into more in [part 3](/osa3)
+Nowadays urls like these would not be good at all, as they don't follow the generally acnowledged conventions of [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services) APIs, which we'll look into more in [part 3](/osa3)
 
 <!-- AJAXiksi kutsuttu asia on arkipäiväistynyt, ja muuttunut itsestäänselvyydeksi. Koko termi on hiipunut unholaan ja nuori polvi ei ole sitä edes ikinä kuullut. -->
 The thing called AJAX is now so commonplace it's taken for granted. The term has faded into oblivion, and the new generations have never even heard of it. 
@@ -555,10 +550,10 @@ In our example app, the home page works like a traditional web-page: All of the 
 
 <!-- Muistiinpanoista huolehtivassa sivussa osa sovelluslogiikasta, eli olemassaolevien muistiinpanojen HTML-koodin generointi on siirretty selaimen vastuulle. Selain hoitaa tehtävän suorittamalla palvelimelta lataamansa Javascript-koodin. Selaimella suoritettava koodi hakee ensin muistiinpanot palvelimelta JSON-muotoisena raakadatana ja lisää sivulle muistiinpanoja edustavat HTML-elementit [DOM-apia](/osa0#document-object-model-eli-dom) hyödyntäen. -->
 
-The Notes page gives some of the responsibility, generating the HTML code for existing notes,  to the browser. The browser tackles this task by executing the JavaScript code it fetched from the server. The code fetches the notes from the server as JSON-data, and adds HTML elements for displaying the notes to the page using the [DOM-API](/osa0#document-object-model-eli-dom).
+The Notes page gives some of the responsibility, generating the HTML code for existing notes, to the browser. The browser tackles this task by executing the JavaScript code it fetched from the server. The code fetches the notes from the server as JSON-data, and adds HTML elements for displaying the notes to the page using the [DOM-API](/osa0#document-object-model-eli-dom).
 
 <!-- Viimeisten vuosien aikana on noussut esiin tyyli tehdä web-sovellukset käyttäen [Single-page application](https://en.wikipedia.org/wiki/Single-page_application) (SPA) -tyyliä, missä sovelluksilla ei enää ole esimerkkisovelluksemme tapaan erillisiä, palvelimen sille lähettämiä sivuja, vaan sovellus koostuu ainoastaan yhdestä palvelimen lähettämästä HTML-sivusta, jonka sisältöä manipuloidaan selaimessa suoritettavalla Javascriptillä. -->
-In  recent years, the [Single-page application](https://en.wikipedia.org/wiki/Single-page_application) (SPA) style of creating web-applications has emerged. SPA style websites don't fetch all of their pages separately from the server like our sample application does, but are composed of one HTML page fetched from the server, contents of which are manipulated with JavaScript run on the browser. 
+In recent years, the [Single-page application](https://en.wikipedia.org/wiki/Single-page_application) (SPA) style of creating web-applications has emerged. SPA style websites don't fetch all of their pages separately from the server like our sample application does, but are composed of one HTML page fetched from the server, contents of which are manipulated with JavaScript running on the browser.
 
 <!-- Sovelluksemme muistiinpanosivu muistuttaa jo hiukan SPA-tyylistä sovellusta, sitä se ei kuitenkaan vielä ole, sillä vaikka muistiinpanojen renderöintilogiikka on toteutettu selaimessa, käyttää sivu vielä perinteistä mekanisimia uusien muistiinpanojen luomiseen, eli se lähettää uuden muistiinpanon tiedot lomakkeen avulla ja palvelin pyytää <i>uudelleenohjauksen</i> avulla selainta lataamaan muistiinpanojen sivun uudelleen. -->
 The Notes page of our application bears some resemblance to SPA-style apps, but it's not quite there yet. Even though the logic for rendering the notes is run on the browser, the page still uses the traditional way of adding new notes. The data is sent to the server with form submit, and the server instructs the browser to reload the Notes page with a <i>redirect</i>.
@@ -567,8 +562,8 @@ The Notes page of our application bears some resemblance to SPA-style apps, but 
 <!-- Sovellus näyttää ensivilkaisulta täsmälleen samalta kuin edellinen versio. -->
 <!-- HTML-koodi on lähes samanlainen, erona on ladattava Javascript-tiedosto (<i>spa.js</i>) ja pieni muutos form-tagin määrittelyssä: -->
 A single page app version of our example application can be found from <https://fullstack-exampleapp.herokuapp.com/spa>.
-At first glance the application looks exactly the same as the previous one. 
-The HTML code is almost identical, but the JavaScript file is different (<i>spa.js</i>) and there are small changes on the form-tag: 
+At first glance, the application looks exactly the same as the previous one. 
+The HTML code is almost identical, but the JavaScript file is different (<i>spa.js</i>) and there is a small change in the form-tag is defined: 
 
 ![](../images/0/25.png)
 
@@ -591,14 +586,14 @@ The POST request to the address <i>new\_note\_spa</i> contains the new note as J
 ```
 
 <!-- Pyyntöön liitetty headeri <i>Content-Type</i> kertoo palvelimelle, että pyynnön mukana tuleva data on JSON-muotoista: -->
-The <i>Content-Type</i> header of the request tells the server, that the included data is JSON-data. 
+The <i>Content-Type</i> header of the request tells the server, that the included data is represented in the JSON format. 
 
 ![](../images/0/27.png)
 
 <!-- Ilman headeria palvelin ei osaisi parsia pyynnön mukana tulevaa dataa oiken. -->
-Without this header the server would not know how to correctly parse the data. 
+Without this header, the server would not know how to correctly parse the data. 
 
-<!-- Palvelin vastaa kyselyyn statuskoodilla [201 created](https://httpstatuses.com/201). Tällä kertaa palvelin ei pyydä uudelleenohjausta kuten aiemmassa versiossamme. Selain pysyy samalla sivulla ja muita HTTP-pyyntöjä ei suoriteta. -->
+<!-- Palvelin vastaa kyselyyn statuskoodilla [201 created](https://httpstatuses.com/201). Tällä kertaa palvelin ei pyydä uudelleenohjausta kuten aiemmassa versiossamme. the definition of Selain pysyy samalla sivulla ja muita HTTP-pyyntöjä ei suoriteta. -->
 The server responds with statuscode [201 created](https://httpstatuses.com/201). This time the server does not ask for a redirect, the browser stays on the same page, and it sends no further HTTP-requests. 
 
 <!-- Ohjelman single page app -versiossa lomakkeen tietoja ei lähetetä selaimen normaalin lomakkeiden lähetysmekanismin avulla, lähettämisen hoitaa selaimen lataamassa Javascript-tiedostossa määritelty koodi. Katsotaan hieman koodia vaikka yksityiskohdista ei tarvitse nytkään välittää liikaa. -->
@@ -646,7 +641,7 @@ var sendToServer = function(note) {
 ```
 
 <!-- Koodissa siis määritellään, että kyse on HTTP POST -pyynnöstä, määritellään headerin <i>Content-type</i> avulla lähetettävän datan tyypiksi JSON, ja lähetetään data JSON-merkkijonona. -->
-The code determines, that the data is to be send with a HTTP POST -request and the data type is to be JSON. The data type is determined with a <i>Content-type</i> header. Then the data is sent as JSON-string. 
+The code determines, that the data is to be send with a HTTP POST request and the data type is to be JSON. The data type is determined with a <i>Content-type</i> header. Then the data is sent as JSON-string. 
 
 <!-- Sovelluksen koodi on nähtävissä osoitteessa <https://github.com/mluukkai/example_app>. Kannattaa huomata, että sovellus on tarkoitettu ainoastaan kurssin käsitteistöä demonstroivaksi esimerkiksi, koodi on osin tyyliltään huonoa ja siitä ei tule ottaa mallia omia sovelluksia tehdessä. Sama koskee käytettyjä urleja, single page app -tyyliä noudattavan sivun käyttämä uusien muistiinpanojen kohdeosoite <i>new\_note\_spa</i> ei noudata nykyisin suositeltavia käytäntöjä. -->
 The application code is available at <https://github.com/mluukkai/example_app>. 
@@ -658,21 +653,20 @@ It's worth to remember, that the application is only ment to demonstrate the con
 The sample app is done with so called [vanilla Javascript](https://medium.freecodecamp.org/is-vanilla-javascript-worth-learning-absolutely-c2c67140ac34) using only the DOM-API and JavaScript to manipulate the structure of the pages. 
 
 <!-- Pelkän Javascriptin ja DOM-apin käytön sijaan Web-ohjelmoinnissa hyödynnetään yleensä kirjastoja, jotka sisältävät DOM-apia helpommin käytettäviä työkaluja sivujen muokkaamiseen. Eräs tälläinen kirjasto on edelleenkin hyvin suosittu [JQuery](https://jquery.com/). -->
-Instead of using just JavaScript and the DOM-API, different libraries containing easier to use tools than the DOM-API are often used to manipulate pages. One of these libraries is the ever so popular [JQuery](https://jquery.com/).
+Instead of using just JavaScript and the DOM-API, different libraries containing easier to use tools than the DOM-API are often used to manipulate pages. One of these libraries is the ever-so-popular [JQuery](https://jquery.com/).
 
 <!-- JQuery on kehitetty aikana, jolloin web-sivut olivat vielä suurimmaksi osaksi perinteisiä, eli palvelin muodosti HTML-sivuja, joiden toiminnallisuutta rikastettiin selaimessa JQueryllä kirjoitetun Javascript-koodin avulla. Yksi syy JQueryn suosion taustalla oli niin sanottu cross-browser yhteensopivuus, eli kirjasto toimi selaimesta ja selainvalmistajasta riippumatta samalla tavalla, eikä sitä käyttäessä ollut enää tarvetta kirjoittaa selainversiospesifisiä ratkaisuja. Nykyisin perus JQueryn käyttö ei ole enää yhtä perusteltua kuin aikaisemmin, sillä vanillaJS on kehittynyt paljon ja käytetyimmät selaimet tukevat yleisesti ottaen hyvin perustoiminnallisuuksia. -->
-JQuery was developed back when web-pages mainly followed  the traditional style of the server generating HTML pages, functionality of which was enhanced on the browser using JavaScript written with JQuery. 
-One of the reasons for the success of JQuery was so called cross-browser compatibility. The library worked regardless of the browser or the company who made it, so there was no need for browser specific solutions. Nowadays using JQuery is not as justified, as VanillaJS has advanced a lot, and the most popular browsers generally support basic functionalities well. 
+JQuery was developed back when web-pages mainly followed the traditional style of the server generating HTML pages, functionality of which was enhanced on the browser using JavaScript written with JQuery. One of the reasons for the success of JQuery was so called cross-browser compatibility. The library worked regardless of the browser or the company who made it, so there was no need for browser specific solutions. Nowadays using JQuery is not as justified, as VanillaJS has advanced a lot, and the most popular browsers generally support basic functionalities well. 
 
 <!-- Single page app -tyylin noustua suosioon on ilmestynyt useita JQueryä "modernimpia" tapoja sovellusten kehittämiseen. Ensimmäisen aallon suosikki oli [BackboneJS](http://backbonejs.org/). Googlen kehittämä [AngularJS](https://angularjs.org/) nousi 2012 tapahtuneen [julkaisun](https://github.com/angular/angular.js/blob/master/CHANGELOG.md#100-temporal-domination-2012-06-13) jälkeen erittäin nopeasti lähes de facto -standardin asemaan modernissa web-sovelluskehityksessä. -->
-The rise of the single page app brought serveral more 'modern' ways of web development than JQuery. The favourite of the first wave of developers was [BackboneJS](http://backbonejs.org/). After it's launch (https://github.com/angular/angular.js/blob/master/CHANGELOG.md#100-temporal-domination-2012-06-13) in 2012 Googles [AngularJS](https://angularjs.org/) quicly became almost the de facto standard of modern web development. 
+The rise of the single page app brought serveral more "modern" ways of web development than JQuery. The favourite of the first wave of developers was [BackboneJS](http://backbonejs.org/). After it's launch (https://github.com/angular/angular.js/blob/master/CHANGELOG.md#100-temporal-domination-2012-06-13) in 2012 Googles [AngularJS](https://angularjs.org/) quicly became almost the de facto standard of modern web development. 
 
 <!-- Angularin suosio kuitenkin romahti siinä vaiheessa kun Angular-tiimi [ilmoitti](https://jaxenter.com/angular-2-0-announcement-backfires-112127.html) lokakuussa 2014, että version 1 tuki lopetetaan ja Angular 2 ei tule olemaan taaksepäin yhteensopiva ykkösversion kanssa. Angular 2 ja uudemmat versiot eivät ole saaneet kovin innostunutta vastaanottoa. -->
-However the popularity of Angular plummeted after the Angluar team [announced](https://jaxenter.com/angular-2-0-announcement-backfires-112127.html) in October 2014 that support for version 1 will end, and Angular 2 will not be backwards compatible with the first version. Angular 2 and the newer versions have not gotten too warm of a welcome. 
+However, the popularity of Angular plummeted after the Angluar team [announced](https://jaxenter.com/angular-2-0-announcement-backfires-112127.html) in October 2014 that support for version 1 will end, and Angular 2 will not be backwards compatible with the first version. Angular 2 and the newer versions have not gotten too warm of a welcome. 
 
 <!-- Nykyisin suosituin tapa toteuttaa web-sovellusten selainpuolen logiikka on Facebookin kehittämä [React](https://reactjs.org/)-kirjasto. Tulemme tutustumaan kurssin aikana Reactiin ja sen kanssa yleisesti käytettyyn [Redux](https://github.com/reactjs/redux)-kirjastoon. -->
-Currently the most popular tool for implementing the browser side logic of web-applications is Facebooks [React](https://reactjs.org/)-library. 
-During this course we will get familiar with React and the [Redux](https://github.com/reactjs/redux)-library, which are frequently used together. 
+Currently the most popular tool for implementing the browser side logic of web-applications is Facebook's [React](https://reactjs.org/)-library. 
+During this course, we will get familiar with React and the [Redux](https://github.com/reactjs/redux)-library, which are frequently used together. 
 
 <!-- Reactin asema näyttää tällä hetkellä vahvalta, mutta Javascript-maailma ei lepää koskaan. Viime aikoina kiinnostusta on alkanut herättää mm. uudempi tulokas [VueJS](https://vuejs.org/). -->
 The status of React seems strong, but the world of JavaScript is ever changing. Recently for example a newcomer [VueJS](https://vuejs.org/) has been capturing some interest. 
@@ -680,22 +674,22 @@ The status of React seems strong, but the world of JavaScript is ever changing. 
 ### Full stack -web development
 
 <!-- Mitä tarkoitetaan kurssin nimellä <i>Full stack -websovelluskehitys</i>? Full stack on hypenomainen termi; kaikki puhuvat siitä, mutta kukaan ei oikein tiedä, mitä se tarkoittaa tai ainakaan mitään yhteneväistä määritelmää termille ei ole. -->
-What does the name of the course, <i>Full stack web development</i>, mean? Full stack is a buzzword, and everyone talks about it while noone really knows what it actually means. Or at least no agreed upon definition exists for the term. 
+What does the name of the course, <i>Full stack web development</i>, mean? Full stack is a buzzword, and everyone talks about it while no one really knows what it actually means. Or at least no agreed upon definition exists for the term. 
 
 <!-- Käytännössä kaikki websovellukset sisältävät (ainakin) kaksi "kerrosta", ylempänä, eli lähempänä loppukäyttäjää olevan selaimen ja alla olevan palvelimen. Palvelimen alapuolella on usein vielä tietokanta. Näin websovelluksen <i>arkkitehtuurin</i> voi ajatella muodostavan pinon, englanniksi <i>stack</i>. -->
-Practically all web applications have (at least) two "layers": browser on the top, closer to the end user, and server below. Often there is also a database below the server. Thus we can think of the <i>architecture</i> of a web application as a kind of a <i>stack</i> of layers. 
+Practically all web applications have (at least) two "layers": the browser at the top layer, being closer to the end user, and the server at the bottom layer. Often there is also a database layer below the server. We can therefore think of the <i>architecture</i> of a web application as a kind of a <i>stack</i> of layers. 
 
 <!-- Websovelluskehityksen yhteydessä puhutaan usein myös "frontista" ([frontend](https://en.wikipedia.org/wiki/Front_and_back_ends)) ja "backistä" ([backend](https://en.wikipedia.org/wiki/Front_and_back_ends)). Selain on frontend ja selaimessa suoritettava Javascript on frontend-koodia. Palvelimella taas pyörii backend-koodi. -->
 Often we also talk about the [frontend](https://en.wikipedia.org/wiki/Front_and_back_ends) and the [backend](https://en.wikipedia.org/wiki/Front_and_back_ends). The browser is the frontend, and JavaScript run on the browser is frontend code. The server on the other hand is the backend. 
 
 <!-- Tämän kurssin kontekstissa full stack -sovelluskehitys tarkoittaa sitä, että fokus on kaikissa sovelluksen osissa, niin frontendissä kuin backendissä sekä taustalla olevassa tietokannassa. Myös palvelimen käyttöjärjestelmä ja sen ohjelmistot lasketaan usein osaksi stackia, niihin emme kuitenkaan tällä kurssilla puutu. -->
-In the context of this course, full stack web development means that we focus on all parts of the application: the frontend, the backend and the database. Sometimes the software on the server and it's operating system are seen as parts of the stack, but we won't go into those. 
+In the context of this course, full stack web development means that we focus on all parts of the application: the frontend, the backend and the database. Sometimes the software on the server and its operating system are seen as parts of the stack, but we won't go into those. 
 
 <!-- Ohjelmoimme myös palvelinpuolta, eli backendia Javascriptilla, käyttäen [Node.js](https://nodejs.org/en/)-suoritusympäristöä. Näin full stack -sovelluskehitys saa vielä uuden ulottuvuuden, kun voimme käyttää samaa ohjelmointikieltä pinon useammassa kerroksessa. Full stack -sovelluskehitys ei välttämättä edellytä sitä, että kaikissa "sovelluspinon" kerroksissa on käytössä sama kieli (Javascript). -->
 We will code the backend with JavaScript, using [Node.js](https://nodejs.org/en/) runtime environment. Using the same programming language on multiple layers of the stack gives full stack web development a whole new dimension. However it's not a requirement of full stack web development to use the same programming language (JavaScript) for all layers of the stack. 
 
 <!-- Aiemmin on ollut yleisempää, että sovelluskehittäjät ovat erikoistuneet tiettyyn sovelluksen osaan, esim. backendiin. Tekniikat backendissa ja frontendissa ovat saattaneet olla hyvin erilaisia. Full stack -trendin myötä on tullut tavanomaiseksi, että sovelluskehittäjä hallitsee riittävästi kaikkia sovelluksen tasoja ja tietokantaa. Usein full stack -kehittäjän on myös omattava riittävä määrä konfiguraatio- ja ylläpito-osaamista, jotta kehittäjä pystyy operoimaan sovellustaan esim. pilvipalveluissa. -->
-Previously it was more common for developers to specialize in one layer of the stack, for example the backend. Technologies on the  backend and the frontend used to be quite different. With the Full stack trend, it has become common for developers to be proficient on all layers of the application and the database. Often Full stack developers must also have enough configuration and administration skills to operate their application for example in the cloud. 
+It used to be more common for developers to specialize in one layer of the stack, for example the backend. Technologies on the backend and the frontend were quite different. With the Full stack trend, it has become common for developers to be proficient on all layers of the application and the database. Oftentimes, full stack developers must also have enough configuration and administration skills to operate their application for example in the cloud. 
 
 ### Javascript fatigue
 
@@ -739,7 +733,7 @@ part2
 So each part has it's own directory, which contains a directory for each exercise set (like the unicafe exercises in part 1). 
 
 <!-- Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä. -->
-The exercises are submitted **One part at a time**. When you have submitted the exercises for a part, you can no longer submit any missed exercises for that part. 
+The exercises are submitted **one part at a time**. When you have submitted the exercises for a part, you can no longer submit any missed exercises for that part. 
 
   <h4>0.1: HTML</h4>
 
@@ -765,7 +759,7 @@ Revise the basics of CSS by reading this tutorial from Mozilla: [CSS tutorial](h
 
 <!-- <i>Tätä tehtävää ei palauteta githubiin, riittää että luet tutoriaalin.</i> -->
 
-Lean about the basics of HTML forms by reading Mozilla's tutorial [Your first form](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form).
+Learn about the basics of HTML forms by reading Mozilla's tutorial [Your first form](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form).
 
 <i>This exercise is not submitted to GitHub, it's enough to just read the tutorial</i>
 
@@ -775,7 +769,7 @@ Lean about the basics of HTML forms by reading Mozilla's tutorial [Your first fo
 
 Kaavio on luotu [websequencediagrams](https://www.websequencediagrams.com)-palvelussa, seuraavasti: -->
 
-In chapter [Loading a page containing JavaScript - revised](/osa0/web_sovelluksen_toimintaperiaatteita#javascriptia-sisaltavan-sivun-lataaminen-kertaus) the chain of events caused by opening the page <https://fullstack-exampleapp.herokuapp.com/notes> is depicted as a [sequence diagram](https://github.com/mluukkai/ohjelmistotekniikka-kevat2019/blob/master/web/materiaali.md#sekvenssikaaviot)(NB, the link is in Finnish). 
+In chapter [Loading a page containing JavaScript - revised](/osa0/web_sovelluksen_toimintaperiaatteita#javascriptia-sisaltavan-sivun-lataaminen-kertaus) the chain of events caused by opening the page <https://fullstack-exampleapp.herokuapp.com/notes> is depicted as a [sequence diagram](https://github.com/mluukkai/ohjelmistotekniikka-kevat2019/blob/master/web/materiaali.md#sekvenssikaaviot) (NB: the link is in Finnish). 
 
 The diagram was made using [websequencediagrams](https://www.websequencediagrams.com) service as follows: 
 
@@ -828,6 +822,6 @@ Create a diagram depicting the situation where the user goes to the [single page
 Create a diagram depicting the situation, where user creates a new note using the single page -version of the app. 
 
 <!-- Tämä oli osan viimeinen tehtävä ja on aika pushata vastaukset githubiin merkata tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/). -->
-This was the last exercise, and it's time to push your answers to GitHub and mark the exercises as done in the [submission system](https://studies.cs.helsinki.fi/fullstackopen2019/)
+This was the last exercise, and it's time to push your answers to GitHub and mark the exercises as done in the [submission application](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
 </div>
