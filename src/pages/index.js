@@ -10,6 +10,7 @@ import Layout from '../components/layout';
 import { PartBanner } from '../components/PartBanner/PartBanner';
 import React from 'react';
 import SEO from '../components/seo';
+import { Some } from '../components/Some/Some';
 import { SubHeader } from '../components/SubHeader/SubHeader';
 import { TripleBorder } from '../components/TripleBorder/TripleBorder';
 import announcement from '../images/ic_announcement_48px.svg';
@@ -25,7 +26,7 @@ import news from '../images/noun_news_1248039.svg';
 import starIcon from '../images/ic_stars_48px.svg';
 import telegramIcon from '../images/telegram-logo-png-open-2000.png';
 import timerIcon from '../images/ic_timer_48px.svg';
-import yliopistoLogo from '../images/company_logos/hgin_yliopisto.png';
+import yliopistoLogo from '../images/company_logos/uoh_centre.svg';
 
 const thingsToKnow = [
   { icon: timerIcon, text: '5-20 tuntia / osa' },
@@ -312,6 +313,10 @@ const IndexPage = () => (
                       style={{ paddingTop: '2.111rem' }}
                       text={contacts}
                     />
+
+                    {['github', 'twitter', 'facebook', 'youtube'].map(icon => (
+                      <Some key={icon} iconName={icon} />
+                    ))}
                   </div>
                   <div className="col-3 col-10--mobile">
                     <Image
