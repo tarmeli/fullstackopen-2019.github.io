@@ -32,8 +32,9 @@ Ensure that the <i>Network</i> tab is open, and activate <i>Disable cache</i> as
 
 ### HTTP GET
 
-The server and the web browser communicate with each other using the [HTTP](https://developer.mozilla.org/fi/docs/Web/HTTP) protocol. The Network tab shows how the browser and the server communicate. 
-When you reload the page (press the F5 key or the &#8634; symbol on your browser), the console shows that  two events have happened:
+The server and the web browser communicate with each other using the [HTTP](https://developer.mozilla.org/fi/docs/Web/HTTP) protocol. The Network tab shows how the browser and the server communicate.
+
+When you reload the page (press the F5 key or the &#8634; symbol on your browser), the console shows that two events have happened:
 
 - The browser fetches the contents of the page <i>fullstack-exampleapp.herokuapp.com/</i> from the server
 - And downloads the image<i>kuva.png</i>
@@ -59,7 +60,7 @@ The <i>Response headers</i> on top tell us e.g the size of the response in bytes
 
 ![](../images/0/5.png)
 
-The page contains a [div](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div) element, which in turn contains a header, a link to the page <i>notes</i> ,and an [img](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) tag, and displays the amount of notes created. 
+The page contains a [div](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div) element, which in turn contains a header, a link to the page <i>notes</i>, and an [img](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) tag, and displays the amount of notes created.
 
 Because of the img tag, the browser does a second <i>HTTP-request</i> to fetch the image <i>kuva.png</i> from the server. The details of the request are as follows: 
 
@@ -71,13 +72,14 @@ The chain of events caused by opening the page https://fullstack-exampleapp.hero
 
 ![](../images/0/7b.png)
 
-First the browser does a HTTP GET request to the server to fetch the HTML code of the page. The <i>img</i> tag in the HTML prompts the browser to fetch the image <i>kuva.png</i>. The browser renders the HTML page and the image to the screen. 
+First, the browser does a HTTP GET request to the server to fetch the HTML code of the page. The <i>img</i> tag in the HTML prompts the browser to fetch the image <i>kuva.png</i>. The browser renders the HTML page and the image to the screen. 
 
 Even though it is difficult to notice, the HTML page begins to render before the image has been fetched from the server. 
 
-### Traditional web application
+### Traditional web applications
 
-The homepage of the example application works like a <i>traditional web application</i>. When entering the page, browser fetches the HTML document detailing the structure and the textual content of the page from the server. 
+The homepage of the example application works like a <i>traditional web application</i>. When entering the page, browser fetches the HTML document detailing the structure and the textual content of the page from the server.
+
 The server has formed this document somehow. The document can be a <i>static</i> text file saved into the server's directory. The server can also form the HTML documents <i>dynamically</i>  according to the application code, using for example data from a database. 
 The HTML code of the example application has been formed dynamically, because it contains information on the amount of created notes. 
 
@@ -109,12 +111,11 @@ app.get('/', (req, res) => {
 ```
 You don't have to understand the code just yet. 
 
-The content of the HTML page has been saved as a template string, or a string which allows for evaluating e.g variables in the midst of it. 
-The dynamically changing part of the homepage, the amount of saved notes (in the code <em>noteCount</em>), is replaced by the current amount of notes (in the code <em>notes.length</em>) in the template string.
+The content of the HTML page has been saved as a template string, or a string which allows for evaluating, for example, variables in the midst of it. The dynamically changing part of the homepage, the amount of saved notes (in the code <em>noteCount</em>), is replaced by the current amount of notes (in the code <em>notes.length</em>) in the template string.
 
-Writing HTML in the midst of the code is of course not smart, but for old-school PHP-programmers it was a normal practice. 
+Writing HTML in the midst of the code is of course not smart, but for old-school PHP-programmers it was a normal practice.
 
-In traditional web applications the browser is 'dumb'. It only fetches HTML data from the server, and all application logic is on the server. A server can be created for example using Java Spring like on the course [Web-palvelinohjelmointi](https://courses.helsinki.fi/fi/tkt21007/119558639), Python Flask like on the course [tietokantasovellus](https://materiaalit.github.io/tsoha-18/) or  [Ruby on Railsilla](http://rubyonrails.org/).
+In traditional web applications the browser is "dumb". It only fetches HTML data from the server, and all application logic is on the server. A server can be created for example using Java Spring like on the course [Web-palvelinohjelmointi](https://courses.helsinki.fi/fi/tkt21007/119558639), Python Flask like on the course [tietokantasovellus](https://materiaalit.github.io/tsoha-18/) or  [Ruby on Railsilla](http://rubyonrails.org/).
 The example uses [Express](https://expressjs.com/) from Node.js. 
 This course will use Node.js and Express to create web servers. 
 
@@ -177,8 +178,8 @@ We can try going to the address <https://fullstack-exampleapp.herokuapp.com/data
 
 ![](../images/0/10.png)
 
-There we find the notes in [JSON](https://en.wikipedia.org/wiki/JSON) 'raw data'. 
-By default, the browser is not too good at displaying JSON-data. Plugins can be used to handle the formatting. Install for example [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) to Chrome, and reload the page. The data is now formatted much nicer. 
+There we find the notes in [JSON](https://en.wikipedia.org/wiki/JSON) "raw data". 
+By default, the browser is not too good at displaying JSON-data. Plugins can be used to handle the formatting. Install for example [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) to Chrome, and reload the page. The data is now much more nicely formatted. 
 
 ![](../images/0/11.png)
 
@@ -208,7 +209,7 @@ The code first creates an unordered list with an [ul](https://developer.mozilla.
 var ul = document.createElement('ul')
 ul.setAttribute('class', 'notes')
 ```
-...And then adds one [li](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)-tag for each note. Only the <i>content</i> field of each note becomes the contents of the li-tag. The timestamps found in the raw data are not used for anything here. 
+...and then adds one [li](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)-tag for each note. Only the <i>content</i> field of each note becomes the contents of the li-tag. The timestamps found in the raw data are not used for anything here. 
 
 ```js
 data.forEach(function(note) {
@@ -254,15 +255,14 @@ xhttp.onreadystatechange = function() {
 xhttp.open('GET', '/data.json', true)
 xhttp.send()
 ```
-The request to the server  is sent  on the last line, but the code to handle the response can be found further up. Whats going on? 
+The request to the server is sent on the last line, but the code to handle the response can be found further up. Whats going on? 
 
-On the line:
+On this line,
 
 ```js
 xhttp.onreadystatechange = function () {
 ```
-An <i>event handler</i> for event <i>onreadystatechange</i> is defined for the <em>xhttp</em> object doing the request. 
-When the state of the object changes, the browser calls the event handler function. The function code checks that the [readyState](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState) equals 4 (which depicts the situation <i>The operation is complete</i> ) and that the HTTP-status code of the response is 200. 
+an <i>event handler</i> for event <i>onreadystatechange</i> is defined for the <em>xhttp</em> object doing the request. When the state of the object changes, the browser calls the event handler function. The function code checks that the [readyState](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState) equals 4 (which depicts the situation <i>The operation is complete</i> ) and that the HTTP status code of the response is 200. 
 
 
 ```js
@@ -301,6 +301,8 @@ The same treelike structure can be seen on the console tab <i>Elements</i>.
 ![](../images/0/14.png)
 
 The functioning of the browser is based on the idea of depicting HTML-elements as a tree. 
+
+<!-- JATKA TÄSTÄ -->
 
 Document Object Model, or [DOM](https://en.wikipedia.org/wiki/Document_Object_Model) is an Application Programming Interface, ( an <i>API</i> ), which enables programmatic modification of the <i>element trees</i> corresponding to web-pages. 
 The JavaScript code introduced in the previous chapter used the DOM-API to add a list of notes to the page. 
