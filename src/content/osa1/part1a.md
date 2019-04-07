@@ -12,11 +12,11 @@ We will now start getting familiar with probably the most important topic of thi
 
 <!-- [//]: # (Ehdottomasti helpoin tapa päästä alkuun on [create-react-app](https://github.com/facebookincubator/create-react-app)-nimisen työkalun käyttö. <i>create-react-app</i> on mahdollista asentaa omalle koneelle, mutta asennukseen ei ole tarvetta jos Noden mukana asentunut <i>npm</i>-työkalu on versioltaan vähintään <i>5.3</i>. Tällöin npm:n mukana asentuu komento </i>npx</i>, joka mahdollistaa create-react-app:in käytön asentamatta sitä erikseen. Npm:n version saa selville komennolla <em>npm -v</em>.) -->
 
-The absolutely easiest way to get started is using a tool called [create-react-app](https://github.com/facebookincubator/create-react-app). It is possible to install <i>create-react-app</i> on your machine, but it is not necessary if the <i>npm</i> tool that was installed along with Node has a version number of at least <i>5.3</i>.
+The easiest way to get started by far is using a tool called [create-react-app](https://github.com/facebookincubator/create-react-app). It is possible to install <i>create-react-app</i> on your machine, but it is not necessary if the <i>npm</i> tool that was installed along with Node has a version number of at least <i>5.3</i>.
 
 <!-- [//]: # (Luodaan sovellus nimeltään <i>osa1</i> ja mennään sovelluksen sisältämään hakemistoon:) -->
 
-Let's create an application called <i>part1</i> and navigate into its directory.
+Let's create an application called <i>part1</i> and navigate to its directory.
 
 ```bash
 $ npx create-react-app osa1
@@ -37,7 +37,7 @@ $ npm start
 
 <!-- [//]: # (Sovellus käynnistyy oletusarvoisesti localhostin porttiin 3000, eli osoitteeseen <http://localhost:3000>) -->
 
-By default the application starts running on the localhost port 3000 with the address <http://localhost:3000>
+By default, the application runs in localhost port 3000 with the address <http://localhost:3000>
 
 <!-- [//]: # (Chromen pitäisi aueta automaattisesti. Avaa konsoli **välittömästi**. Avaa myös tekstieditori siten, että näet koodin ja web-sivun samaan aikaan ruudulla:) -->
 
@@ -47,7 +47,7 @@ Chrome should launch automatically. Open the console **immediately**. Also open 
 
 <!-- [//]: # (Sovelluksen koodi on hakemistossa <i>src</i>. Yksinkertaistetaan valmiina olevaa koodia siten, että tiedoston <i>index.js</i> sisällöksi tulee:) -->
 
-The code of the application resides in the folder <i>src</i>. Let's simplify the default pieces of code such that the contents of the file <i>index.js</i> looks like:
+The code of the application resides in the <i>src</i> folder. Let's simplify the default code such that the contents of the file <i>index.js</i> looks like:
 
 ```js
 import React from 'react'
@@ -78,11 +78,11 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 <!-- renderöi komponentin sisällön tiedoston <i>public/index.html</i> määrittelemään <i>div</i>-elementtiin, jonka <i>id:n</i> arvona on 'root'. -->
 
-renders its contents into the <i>div</i>-element, defined in the file <i>public/index.html</i>, having the <i>id:n</i> value 'root'.
+renders its contents into the <i>div</i>-element, defined in the file <i>public/index.html</i>, having the <i>id</i> value 'root'.
 
 <!-- Tiedosto <i>public/index.html</i> on oleellisesti ottaen tyhjä, voit kokeilla lisätä sinne HTML:ää. Reactilla ohjelmoitaessa yleensä kuitenkin kaikki renderöitävä sisältö määritellään Reactin komponenttien avulla. -->
 
-By default the the file <i>public/index.html</i> is empty. You can try adding some HTML into the file. However, when using React, all content that needs to be rendered is usually defined as React components.
+By default the file <i>public/index.html</i> is empty. You can try adding some HTML into the file. However, when using React, all content that needs to be rendered is usually defined as React components.
 
 <!-- Tarkastellaan vielä tarkemmin komponentin määrittelevää koodia: -->
 
@@ -98,7 +98,7 @@ const App = () => (
 
 <!-- Kuten arvata saattaa, komponentti renderöityy <i>div</i>-tagina, jonka sisällä on <i>p</i>-tagin sisällä oleva teksti <i>Hello world</i>. -->
 
-As you can probably guess the component will be rendered as a <i>div</i>-tag, which wraps a <i>p</i>-tag containing the text <i>Hello world</i>.
+As you probably guessed, the component will be rendered as a <i>div</i>-tag, which wraps a <i>p</i>-tag containing the text <i>Hello world</i>.
 
 <!-- Teknisesti ottaen komponentti on määritelty Javascript-funktiona. Seuraava siis on funktio (joka ei saa yhtään parametria): -->
 
@@ -140,7 +140,7 @@ const App = () => {
 
 <!-- eli funktio palauttaa sisältämänsä lausekkeen arvon. -->
 
-the function returns the value of the expression.
+In other words, the function returns the value of the expression.
 
 <!-- Komponentin määrittelevä funktio voi sisältää mitä tahansa Javascript-koodia. Muuta komponenttisi seuraavaan muotoon ja katso mitä konsolissa tapahtuu: -->
 
@@ -184,17 +184,17 @@ const App = () => {
 
 <!-- Aaltosulkeiden sisällä oleva Javascript-koodi evaluoidaan ja evaluoinnin tulos upotetaan määriteltyyn kohtaan komponentin tuottamaa HTML-koodia. -->
 
-The Javascript code within the braces is evaluated and the result of this evaluation is embedded into the defined place in the HTML produced by the component.
+Any Javascript code within the curly braces is evaluated and the result of this evaluation is embedded into the defined place in the HTML produced by the component.
 
 ### JSX
 
 <!-- Näyttää siltä, että React-komponentti palauttaa HTML-koodia. Näin ei kuitenkaan ole. React-komponenttien ulkoasu kirjoitetaan yleensä [JSX](https://reactjs.org/docs/introducing-jsx.html):ää käyttäen. Vaikka JSX näyttää HTML:ltä, kyseessä on kuitenkin tapa kirjoittaa Javascriptiä. React komponenttien palauttama JSX käännetään konepellin alla Javascriptiksi. -->
 
-It seems like React components are returning HTML markup. However, this is not the case. The layout of React components is mostly written using [JSX](https://reactjs.org/docs/introducing-jsx.html). Although JSX looks like HTML, we are actually dealing with a way to write Javascript. Under the hood JSX returned by React components is compiled to Javascript.
+It seems like React components are returning HTML markup. However, this is not the case. The layout of React components is mostly written using [JSX](https://reactjs.org/docs/introducing-jsx.html). Although JSX looks like HTML, we are actually dealing with a way to write Javascript. Under the hood JSX returned by React components is compiled into Javascript.
 
 <!-- Käännösvaiheen jälkeen ohjelmamme näyttää seuraavalta: -->
 
-After the compilation stage our application looks like this:
+After compiling our application looks like this:
 
 ```js
 import React from 'react'
@@ -224,7 +224,7 @@ ReactDOM.render(
 
 <!-- Käännöksen hoitaa [Babel](https://babeljs.io/repl/). Create-react-app:illa luoduissa projekteissa käännös on konfiguroitu tapahtumaan automaattisesti. Tulemme tutustumaan aiheeseen tarkemmin kurssin [osassa 7](/osa7). -->
 
-The compilation is handled by [Babel](https://babeljs.io/repl/). Projects created with *create-react-app* are configured to compile automatically. We will learn more about this topic in [part 7](/part7) of this course.
+The compiling is handled by [Babel](https://babeljs.io/repl/). Projects created with *create-react-app* are configured to compile automatically. We will learn more about this topic in [part 7](/part7) of this course.
 
 <!-- Reactia olisi myös mahdollista kirjoittaa "suoraan Javascriptinä" käyttämättä JSX:ää. Kukaan täysijärkinen ei kuitenkaan niin tee. -->
 
@@ -232,7 +232,7 @@ It is also possible to write React as "pure Javascript" without using JSX. Altho
 
 <!-- Käytännössä JSX on melkein kuin HTML:ää sillä erotuksella, että mukaan voi upottaa helposti dynaamista sisältöä kirjoittamalla sopivaa Javascriptiä aaltosulkeiden sisälle. Idealtaan JSX on melko lähellä monia palvelimella käytettäviä templating-kieliä kuten Java Springin yhteydessä käytettävää thymeleafia. -->
 
-In practice JSX is much like HTML with the distinction that with JSX you can easily embed dynamic content by writing appropriate Javascript within braces. The idea of JSX is quite similar to many templating languages, such as Thymeleaf used along Java Spring, which are used on servers.
+In practice, JSX is much like HTML with the distinction that with JSX you can easily embed dynamic content by writing appropriate Javascript within curly braces. The idea of JSX is quite similar to many templating languages, such as Thymeleaf used along Java Spring, which are used on servers.
 
 <!-- JSX on "XML:n kaltainen", eli jokainen tagi tulee sulkea. Esimerkiksi rivinvaihto on tyhjä elementti, joka voidaan kirjottaa HTML:ssä seuraavasti -->
 
@@ -244,7 +244,7 @@ JSX is "XML-like", which means that every tag needs to be closed. For example, a
 
 <!-- mutta JSX:ää kirjoittaessa tagi on pakko sulkea: -->
 
-but when writing JSX the tag needs to be closed:
+but when writing JSX, the tag needs to be closed:
 
 ```html
 <br />
@@ -254,7 +254,7 @@ but when writing JSX the tag needs to be closed:
 
 <!-- Muutetaan sovellusta seuraavasti (yläreunan importit jätetään <i>esimerkeistä</i> nyt ja jatkossa pois, niiden on kuitenkin oltava koodissa jotta ohjelma toimisi): -->
 
-Let's modify the application as follows (imports at the top of the file are left out in these <i>examples</i>, now and in the future. They are still needed for the code to work):
+Let's modify the application as follows (NB: imports at the top of the file are left out in these <i>examples</i>, now and in the future. They are still needed for the code to work):
 
 ```js
 // highlight-start
@@ -300,7 +300,7 @@ const App = () => {
 
 <!-- Komponenttien tekeminen Reactissa on helppoa ja komponentteja yhdistelemällä monimutkaisempikin sovellus on mahdollista pitää kohtuullisesti ylläpidettävänä. Reactissa filosofiana onkin koostaa sovellus useista, pieneen asiaan keskittyvistä uudelleenkäytettävistä komponenteista. -->
 
-Writing components with React is easy and by combining components even a more complex application can be kept fairly maintainable. A core philosophy of React is in fact composing applications from many specialized reusable components.
+Writing components with React is easy, and by combining components, even a more complex application can be kept fairly maintainable. In deed, a core philosophy of React is composing applications from many specialized reusable components.
 
 <!-- Vahva konventio on myös se, että sovelluksen ylimpänä oleva <i>juurikomponentti</i> on nimeltään <i>App</i>. Tosin kuten [osassa 6](/osa6) tulemme näkemän on tilanteita, joissa komponentti <i>App</i> ei ole suoraan juuressa, vaan se kääritään sopivan apukomponentin sisään.   -->
 
@@ -328,7 +328,7 @@ const Hello = (props) => { // highlight-line
 
 <!-- komponentin määrittelevällä funktiolla on nyt parametri <i>props</i>. Parametri saa arvokseen olion, jonka kenttinä ovat kaikki eri "propsit", jotka komponentin käyttäjä määrittelee. -->
 
-now the function defining the component has a parameter <i>props</i>. As an argument the parameter receives an object, which has fields corresponding to all the "props" the user of the component defines.
+Now the function defining the component has a parameter <i>props</i>. As an argument the parameter receives an object, which has fields corresponding to all the "props" the user of the component defines.
 
 <!-- Propsit määritellään seuraavasti: -->
 
@@ -348,7 +348,7 @@ const App = () => {
 
 <!-- Propseja voi olla mielivaltainen määrä ja niiden arvot voivat olla "kovakoodattuja" merkkijonoja tai Javascript-lausekkeiden tuloksia. Jos propsin arvo muodostetaan Javascriptillä, tulee se olla aaltosulkeissa. -->
 
-There can be an arbitrary amount of props and their values can be "hard coded" strings or results of Javascript expressions. If the value of the prop is achieved using Javascript it must be wrapped with braces.
+There can be an arbitrary amount of props and their values can be "hard coded" strings or results of Javascript expressions. If the value of the prop is achieved using Javascript it must be wrapped with curly braces.
 
 <!-- Muutetaan koodia siten, että komponentti <i>Hello</i> käyttää kahta propsia: -->
 
@@ -393,13 +393,13 @@ React has been configured to generate quite good error messages. Despite this, y
 
 <!-- **Konsolin tulee olla koko ajan auki**. Jos selain ilmoittaa virheestä, ei kannata kirjoittaa sokeasti lisää koodia ja toivoa ihmettä tapahtuvaksi, vaan tulee yrittää ymmärtää virheen syy ja esim. palata edelliseen toimivaan tilaan: -->
 
-**The console should always be open**. If the browser reports about errors it is not advisable to continue blindly writing more code hoping for miracles to happen. You should instead try to understand the cause of the error and, for example, go back to the previous working state:
+**The console should always be open**. If the browser reports about errors, it is not advisable to continue blindly writing more code, hoping for miracles. You should instead try to understand the cause of the error and, for example, go back to the previous working state:
 
 ![](../images/1/2a.png)
 
 <!-- Kannattaa myös muistaa, että React-koodissakin on mahdollista ja kannattavaa lisätä koodin sekaan sopivia konsoliin tulostavia <em>console.log()</em>-komentoja. Tulemme hieman [myöhemmin](#react-sovellusten-debuggaus) tutustumaan muutamiin muihinkin tapoihin debugata Reactia. -->
 
-It is good to remember that in React it possible and worthwhile to, within your code, write <em>console.log()</em> commands that print to the console.
+It is good to remember that in React it possible and worthwhile to write <em>console.log()</em> commands (which print to the console) within your code.
 
 <!-- Kannattaa pitää mielessä, että **React-komponenttien nimien tulee alkaa isolla kirjaimella**. Jos yrität määritellä komponentin seuraavasti: -->
 
@@ -438,7 +438,7 @@ the page is not going to display the content defined within the Footer component
 
 <!-- Kannattaa myös pitää mielessä, että React-komponentin sisällön tulee (yleensä) sisältää **yksi juurielementti**. Eli jos yrittäisimme määritellä komponentin <i>App</i> ilman uloimmaista <i>div</i>-elementtiä: -->
 
-Take note that (usually) the content of a React component needs to contain **one root element**. If we would try to define the component <i>App</i> without the outermost <i>div</i>-element:
+Take note that (usually) the content of a React component needs to contain **one root element**. If we, for example, try to define the component <i>App</i> without the outermost <i>div</i>-element:
 
 ```js
 const App = () => {
@@ -452,7 +452,7 @@ const App = () => {
 
 <!-- seurauksena on virheilmoitus: -->
 
-the resulting outcome would be an error message.
+the result is an error message.
 
 ![](../images/1/3a.png)
 
@@ -472,7 +472,7 @@ const App = () => {
 
 <!-- Määritellessä sovelluksen juurikomponenttia, tämä ei kuitenkaan ole järkevää ja näyttää koodissakin pahalta. -->
 
-When defining the root component of the application this is not a very wise thing to do and makes the code a bit ugly.
+However, when defining the root component of the application this is not a very wise thing to do, and it makes the code look a bit ugly.
 
 <!-- Juurielementin pakollisesta käytöstä on se seuraus, että sovelluksen DOM-puuhun tulee "ylimääräisiä" div-elementtejä. Tämä on mahdollista välttää käyttämällä [fragmentteja](https://reactjs.org/docs/fragments.html#short-syntax), eli ympäröimällä komponentin palauttamat elementit tyhjällä elementillä: -->
 
@@ -528,11 +528,11 @@ osa2
 
 <!-- Eli kutakin osaa kohti on oma hakemistonsa, joka vielä jakautuu tehtäväsarjat (kuten osan 1 unicafe) sisältäviin hakemistoihin.  -->
 
-For each part of the course a directory, which further branches into directories containing a series of exercises, like "unicafe" for part 1.
+For each part of the course there is a directory, which further branches into directories containing a series of exercises, like "unicafe" for part 1.
 
 <!-- Kunkin tehtäväsarjan ohjelmasta kannattaa palauttaa kaikki sovelluksen sisältämät tiedostot (paitsi hakemisto <i>node\_modules</i>). -->
 
-For an application of a series it is recommended to submit all files relating to the application, except for the directory <i>node\_modules</i>).
+For each web application for a series of exercises, it is recommended to submit all files relating to that application, except for the directory <i>node\_modules</i>).
 
 <!-- Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä. -->
 
@@ -540,7 +540,7 @@ The exercises are submitted **one part at a time**. When you have submitted the 
 
 <!-- Huomaa, että tässä osassa on muitakin tehtäviä kuin allaolevat, eli <i>älä tee palautusta</i> ennen kun olet tehnyt osan tehtävistä kaikki mitkä haluat palauttaa. -->
 
-NB that in this part there are more exercises besides those below. <i>Do not submit your work</i> until you have completed the exercises you want to submit for a specific part.
+Note that in this part, there are more exercises besides those found below. <i>Do not submit your work</i> until you have completed the exercises you want to submit for the part.
 
   <!-- <h4>1.1: kurssitiedot, step1</h4> -->
   
@@ -548,11 +548,11 @@ NB that in this part there are more exercises besides those below. <i>Do not sub
 
 <!-- <i>Tässä tehtävässä aloitettavaa ohjelmaa kehitellään eteenpäin muutamassa seuraavassa tehtävässä. Tässä ja kurssin aikana muissakin vastaantulevissa tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i> -->
 
-<i>The application that we will start working on in this exercise will be further developed in a few of the following exercises. In this and other upcoming series of exercises in this course it is enough to submit the final state of the application. If desired you may also create a commit for each part of the series, but it is not necessary.</i>
+<i>The application that we will start working on in this exercise will be further developed in a few of the following exercises. In this and other upcoming exercise sets in this course, it is enough to only submit the final state of the application. If desired, you may also create a commit for each exercise of the series, but this is entirely optional.</i>
 
 <!-- Luo create-react-app:illa uusi sovellus. Muuta <i>index.js</i> muotoon -->
 
-Use create-react-app to initialize a new application. Modify <i>index.js</i> as follows
+Use create-react-app to initialize a new application. Modify <i>index.js</i> to match the following
 
 ```js
 import React from 'react'
@@ -593,7 +593,7 @@ and remove extra files (App.js, App.css, App.test.js, logo.svg, serviceWorker.js
 
 <!-- Koko sovellus on nyt ikävästi yhdessä komponentissa. Refaktoroi sovelluksen koodi siten, että se koostuu kolmesta uudesta komponentista: <i>Header</i>, <i>Content</i> ja <i>Total</i>. Kaikki data pidetään edelleen komponentissa <i>App</i>, joka välittää tarpeelliset tiedot kullekin komponentille <i>props:ien</i> avulla. <i>Header</i> huolehtii kurssin nimen renderöimisestä, <i>Content</i> osista ja niiden tehtävämääristä ja <i>Total</i> tehtävien yhteismäärästä. -->
 
-Unfortunately the entire application is in the same component. Refactor the code so that it consists of three new components: <i>Header</i>, <i>Content</i> ja <i>Total</i>. All data still resides in the <i>App</i> component, which passes the necessary data to each component using <i>props</i>. <i>Header</i> takes care of rendering the name of the course, <i>Content</i> renders the parts and their number of exercises and <i>Total</i> renders the total amount of exercises.
+Unfortunately, the entire application is in the same component. Refactor the code so that it consists of three new components: <i>Header</i>, <i>Content</i> ja <i>Total</i>. All data still resides in the <i>App</i> component, which passes the necessary data to each component using <i>props</i>. <i>Header</i> takes care of rendering the name of the course, <i>Content</i> renders the parts and their number of exercises and <i>Total</i> renders the total amount of exercises.
 
 <!-- Komponentin <i>App</i> runko tulee olemaan suunnilleen seuraavanlainen: -->
 
@@ -639,6 +639,6 @@ const Content = ... {
 
 <!-- Sovelluksemme tiedonvälitys on tällä hetkellä todella alkukantaista, sillä se perustuu yksittäisiin muuttujiin. Tilanne paranee pian. -->
 
-The relaying of information in our application is quite primitive at the moment since it is based on individual variables. Our situation will improve soon.
+Our application passes on information in quite a primitive way at the moment, since it is based on individual variables. This situation will improve soon.
 
 </div>

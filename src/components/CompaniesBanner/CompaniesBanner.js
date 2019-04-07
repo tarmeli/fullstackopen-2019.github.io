@@ -1,3 +1,5 @@
+import './CompaniesBanner.scss';
+
 import { Banner } from '../Banner/Banner';
 import { BodyText } from '../BodyText/BodyText';
 import { ContentLiftup } from '../ContentLiftup/ContentLiftup';
@@ -9,7 +11,7 @@ import React from 'react';
 
 const partners = [
   {
-    image: { name: 'hgin_yliopisto.svg', alt: 'Helsingin yliopisto' },
+    image: { name: 'uoh_centre.svg', alt: 'Helsingin yliopisto' },
     url: 'https://www.helsinki.fi/',
   },
   {
@@ -39,6 +41,10 @@ const partners = [
 ];
 
 const inChallenge = [
+  {
+    name: 'tivia.png',
+    alt: 'Tivia',
+  },
   {
     name: 'relex.svg',
     alt: 'Relex',
@@ -149,18 +155,16 @@ export const CompaniesBanner = ({ isFrontPage }) => (
         className="col-4 spacing push-right-3 challenge-title"
         text="Full stack -haasteessa mukana"
       />
-      <Element
-        flex
-        className="col-6 push-right-2 flex-fix-aligning space-between--mobile"
-      >
+      <Element flex className="col-9 flex-fix-aligning space-between--mobile">
         {inChallenge.map(
           company =>
             company.name !== '' && (
               <Image
+                key={company.name}
                 contain
                 src={require(`../../images/company_logos/${company.name}`)}
                 alt={company.alt}
-                className={`col-2 push-right-1 col-3--mobile col-3--tablet`}
+                className={`company__logo push-right-1 col-3--mobile col-3--tablet`}
               />
             )
         )}

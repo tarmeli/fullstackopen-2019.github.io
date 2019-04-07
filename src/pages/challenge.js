@@ -15,7 +15,7 @@ const Challenge = () => (
   <Layout>
     <SEO
       title="Full stack -haaste | Full Stack Open 2019"
-      description="Helsingin yliopisto, Houston Inc ja kumppaniyrityksemme haastavat niin koodarit kuin yritykset kasvattamaan osaamistaan tätä kurssia suorittamalla. Haaste on tarkoitettu jokaiselle sovelluskehitysalan osaajalle ja sellaiseksi haluavalle."
+      description="The University of Helsinki, Houston Inc and our affiliates have teamed up to challenge developers and companies to expand their expertise by enrolling in this course. The challenge is meant for both established and aspiring software industry professionals alike."
       keywords={[
         ...mainSEOtags,
         'fullstackhaaste',
@@ -53,10 +53,10 @@ const Challenge = () => (
         <BodyText
           headingFont
           text={[
-            'Suomi tarvitsee lisää ohjelmistokehittäjiä. Haluamme kasvattaa seuraavan sukupolven koodareita - yksi valitsemistamme tavoista on osallistuminen Full Stack MOOC -kurssille.',
-            'Helsingin yliopisto ja Houston Inc. haastavat niin tekijöitä kuin yrityksiä oppimaan uutta ja laajentamaan osaamistaan Full Stack -hengessä. Yhteistyökumppaneina ja haasteen käynnistäjinä ovat myös Elisa Oyj, K-ryhmä, Konecranes Oyj, Terveystalo Oyj ja Unity Technologies Finland Ltd.',
-            'Haasteen päämäärä on kannustaa oppimaan. Tarjoamme valmiiksi kootun ja ajatuksella rajatun Full Stack -kurssin, joka helpottaa ja vauhdittaa nykyaikaisiin, tuotannossa käytettyihin teknologioihin tutustumista. Kurssi on maksuton, eikä sen suorittaminen ole aikaan tai paikkaan sidottu.',
-            'Kurssi on rakennettu koodarilta koodarille ja tarjoaa uutta kokeneemmallekin konkarille. Pohjatiedoiksi vaaditaan hyvä perustason ohjelmointirutiini.',
+            'The world is in dire need of software developers. We want to help breed the next generation of coders — one of our offered methods is to enroll in the Full Stack MOOC course.',
+            'The University of Helsinki and Houston Inc. have partnered up to challenge both individual developers and companies alike to learn and build upon their expertise in true Full Stack spirit. Among our affiliates and challenge initiators are Elisa Oyj, K-ryhmä, Konecranes Oyj, Terveystalo Oyj, and Unity Technologies Finland Ltd.',
+            'Our objective is to encourage learning. We offer a fully-assembled and purposefully-scoped Full Stack course that lowers the barrier of entry for learning about new state-of-the-art and production grade technologies. The course is free of charge and you can participate from anywhere at anytime, at your leisure.',
+            'The course is built by coders for coders, and offers something for both newcomers and seasoned industry veterans alike. The only prerequisite is a solid grasp of basic programming fundamentals.',
           ]}
         />
 
@@ -65,12 +65,12 @@ const Challenge = () => (
           headingFont
           heading={{
             level: 'h2',
-            title: 'Yritykset, ottakaa haaste vastaan!',
+            title: 'Companies, Heed The Call!',
           }}
           text={[
-            'Tarttumalla haasteeseen kannustatte työyhteisönne osaajia uuden oppimisen äärelle. Full Stack -verkkokurssi on oiva lisä yrityksen täydennyskoulutusvalikoimaan ja toimii hyvin itseopiskelumateriaalina yrityksen muiden koulutusmahdollisuuksien joukossa',
-            'Osallistumalla haasteeseen voitte viestiä omaa teknologista osaamistanne yrityksen ulkopuolelle – tämä auttaa niin työnantajakuvan muodostamisessa kuin näkyvyydessä sovelluskehitysalan ammattilaisille.',
-            'Haasteeseen osallistuminen on maksutonta. Haasteen vastaanottaneiden yritysten logot nostetaan Full Stack -kurssin sivulle.',
+            'By accepting the challenge you are encouraging and empowering the members of your working community to acquire new skills. The fully-online Full Stack course will make a great addition to your internal training and development programs and will serve well as self-study material amongst your other in-company training offerings.',
+            'By partaking in the challenge, you will send a strong message to the outside world about your company’s technical expertise — this will help build your employer image and increase your visibility to software industry professionals.',
+            'Joining the challenge is free of charge. Companies that heed the call and accept the challenge will have their logo proudly placed on the Full Stack course webpage.',
           ]}
         />
 
@@ -82,7 +82,7 @@ const Challenge = () => (
 
     <SubHeader
       className="col-10 spacing--after centered"
-      text="#fullstackhaaste"
+      text="#fullstackchallenge"
       headingLevel="h3"
     />
   </Layout>

@@ -29,7 +29,7 @@ export const TripleBorder = ({
   >
     <div
       className={`triple-border__container ${childrenClassName}`}
-      style={{ backgroundColor: backgroundColor }}
+      style={{ backgroundColor: backgroundColor, zIndex: 10 }}
     >
       {children}
     </div>
