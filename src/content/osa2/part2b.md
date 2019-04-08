@@ -407,35 +407,43 @@ const App = (props) => {
 }
 ```
 
-Näkyviä muistiinpanoja (kaikki vai ainoastaan tärkeät) siis kontrolloidaan napin avulla. Napin tapahtumankäsittelijä on niin yksinkertainen että se on kirjotettu suoraan napin attribuutiksi. Tapahtumankäsittelijä muuttaa _showAll_:n arvon truesta falseksi ja päinvastoin:
+<!-- Näkyviä muistiinpanoja (kaikki vai ainoastaan tärkeät) siis kontrolloidaan napin avulla. Napin tapahtumankäsittelijä on niin yksinkertainen että se on kirjotettu suoraan napin attribuutiksi. Tapahtumankäsittelijä muuttaa _showAll_:n arvon truesta falseksi ja päinvastoin: -->
+The displayed notes (all versus important) is controlled with a button. The event handler for the button is so simple that it has been defined directly in the attribute of the button element. The event handler switches the value of _showAll_ from true to false and vice versa:
 
 ```js
 () => setShowAll(!showAll)
 ```
 
-Napin teksti riippuu tilan <em>showAll</em> arvosta:
+<!-- Napin teksti riippuu tilan <em>showAll</em> arvosta: -->
+The text of the button depends on the value of the <em>showAll</em> state:
 
 ```js
 näytä {showAll ? 'vain tärkeät' : 'kaikki'}
 ```
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-3), branchissa <i>part2-3</i>.
-
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-3), branchissa <i>part2-3</i>. -->
+You can find the code for our current application in its entirety in the <i>part2-3</i> branch of [this github repository](https://github.com/fullstack-hy2019/part2-notes/tree/part2-3).
 </div>
 
 <div class="tasks">
 
-<h3>Tehtäviä</h3>
+<!-- <h3>Tehtäviä</h3> -->
+<h3>Exercises</h3>
 
-<i>Seuraavassa tehtävässä aloitettavaa ohjelmaa kehitellään eteenpäin muutamassa seuraavassa tehtävässä. Tässä ja kurssin aikana muissakin vastaantulevissa tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i>
+<!-- <i>Seuraavassa tehtävässä aloitettavaa ohjelmaa kehitellään eteenpäin muutamassa seuraavassa tehtävässä. Tässä ja kurssin aikana muissakin vastaantulevissa tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i> -->
+In the following exercise we will start working on an application that will be further developed in later exercises. In this section and other similar sets of exercises it is sufficient to return the final version of your application. You may also make a separate commit after each part of the exercise set but doing so is not required.
 
-**VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_.
+<!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
+**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
 
-<h4>2.6: puhelinluettelo step1</h4>
+<!-- <h4>2.6: puhelinluettelo step1</h4> -->
+<h4>2.6: The Phonebook Step1</h4>
 
-Toteutetaan yksinkertainen puhelinluettelo. <i>**Aluksi luetteloon lisätään vaan nimiä.**</i>
+<!-- Toteutetaan yksinkertainen puhelinluettelo. <i>**Aluksi luetteloon lisätään vaan nimiä.**</i> -->
+Let's create a simple phonebook. <i>**In this part we will only collect names.**</i>
 
-Voit ottaa sovelluksesi komponentin <i>App</i> pohjaksi seuraavan:
+<!-- Voit ottaa sovelluksesi komponentin <i>App</i> pohjaksi seuraavan: -->
+You can use the code below as a starting point for the <i>App</i> component of your application:
 
 ```js
 import React, { useState } from 'react'
