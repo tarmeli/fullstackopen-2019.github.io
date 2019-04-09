@@ -6,27 +6,36 @@ letter: d
 
 <div class="content">
 
-Kun sovelluksella luodaan uusia muistiinpanoja, täytyy ne luonnollisesti tallentaa palvelimelle. [json-server](https://github.com/typicode/json-server) mainitsee dokumentaatiossaan olevansa ns. REST- tai RESTful-API
+<!-- Kun sovelluksella luodaan uusia muistiinpanoja, täytyy ne luonnollisesti tallentaa palvelimelle. [json-server](https://github.com/typicode/json-server) mainitsee dokumentaatiossaan olevansa ns. REST- tai RESTful-API -->
+We naturally want to store all notes that are created in our application on a server. The [json-server](https://github.com/typicode/json-server) package claims to be a so-called REST or RESTful API in its documentation
 
 > <i>Get a full fake REST API with zero coding in less than 30 seconds (seriously)</i>
 
-Ihan alkuperäisen [määritelmän](https://en.wikipedia.org/wiki/Representational_state_transfer) mukainen RESTful API json-server ei ole, mutta ei ole kovin moni muukaan itseään REST:iksi kutsuva rajapinta.
+<!-- Ihan alkuperäisen [määritelmän](https://en.wikipedia.org/wiki/Representational_state_transfer) mukainen RESTful API json-server ei ole, mutta ei ole kovin moni muukaan itseään REST:iksi kutsuva rajapinta. -->
+If we go by the original textbook [definition](https://en.wikipedia.org/wiki/Representational_state_transfer), the json-server does not fit the description of a REST API, but the same is true of most APIs claiming to be RESTful.
 
-Tutustumme REST:iin tarkemmin kurssin [seuraavassa osassa](/osa3), mutta jo nyt on tärkeä ymmärtää minkälaista [konventiota](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services) json-server ja yleisemminkin REST API:t käyttävät [reittien](https://github.com/typicode/json-server#routes), eli URL:ien ja käytettävien HTTP-pyyntöjen tyyppien suhteen.
+<!-- Tutustumme REST:iin tarkemmin kurssin [seuraavassa osassa](/osa3), mutta jo nyt on tärkeä ymmärtää minkälaista [konventiota](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services) json-server ja yleisemminkin REST API:t käyttävät [reittien](https://github.com/typicode/json-server#routes), eli URL:ien ja käytettävien HTTP-pyyntöjen tyyppien suhteen. -->
+We will take a closer look at REST in the [next part](/osa3) of the course, but it's good to familiarize ourselves at this point with some of the [conventions](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services) used by json-server and REST API's at large. In particular, we will be taking a look at how [routes](https://github.com/typicode/json-server#routes) aka. URL's and HTTP request types are conventionally used in REST.
 
 ### REST
 
-REST:issä yksittäisiä asioita esim. meidän tapauksessamme muistiinpanoja kutsutaan <i>resursseiksi</i>. Jokaisella resurssilla on yksilöivä osoite eli URL. json-serverin noudattaman yleisen konvention mukaan yksittäistä muistiinpanoa kuvaavan resurssin URL on muotoa <i>notes/3</i>, missä 3 on resurssin tunniste. Osoite <i>notes</i> taas vastaa kaikkien yksittäisten muistiinpanojen kokoelmaa.
+<!-- REST:issä yksittäisiä asioita esim. meidän tapauksessamme muistiinpanoja kutsutaan <i>resursseiksi</i>. Jokaisella resurssilla on yksilöivä osoite eli URL. json-serverin noudattaman yleisen konvention mukaan yksittäistä muistiinpanoa kuvaavan resurssin URL on muotoa <i>notes/3</i>, missä 3 on resurssin tunniste. Osoite <i>notes</i> taas vastaa kaikkien yksittäisten muistiinpanojen kokoelmaa. -->
+In REST terminology, we refer to individual data objects like the notes in our application as <i>resources</i>. Every resource has an associated unique address, aka. its URL. In the convention used by json-server, we would be able to locate an individual note at the resource URL <i>notes/3</i> where 3 is the id of the resource. In this convention the <i>notes</i> url would point to a resource collection containing all notes.
 
-Resursseja haetaan palvelimelta HTTP GET -pyynnöillä. Esim. HTTP GET osoitteeseen <i>notes/3</i> palauttaa muistiinpanon, jonka id-kentän arvo on 3. Kun taas HTTP GET -pyyntö osoitteeseen <i>notes</i> palauttaa kaikki muistiinpanot.
+<!-- Resursseja haetaan palvelimelta HTTP GET -pyynnöillä. Esim. HTTP GET osoitteeseen <i>notes/3</i> palauttaa muistiinpanon, jonka id-kentän arvo on 3. Kun taas HTTP GET -pyyntö osoitteeseen <i>notes</i> palauttaa kaikki muistiinpanot. -->
+Resources are fetched from the server with HTTP GET requests. E.g. an HTTP GET request to the URL <i>notes/3</i> will return the note that has the id number 3. An HTTP GET request to the <i>notes</i> URL would return a list of all notes.
 
-Uuden muistiinpanoa vastaavan resurssin luominen tapahtuu json-serverin noudattamassa REST-konventiossa tekemällä HTTP POST -pyyntö, joka kohdistuu myös samaan osoitteeseen <i>notes</i>. Pyynnön mukana sen runkona eli <i>bodynä</i> lähetetään luotavan muistiinpanon tiedot.
+<!-- Uuden muistiinpanoa vastaavan resurssin luominen tapahtuu json-serverin noudattamassa REST-konventiossa tekemällä HTTP POST -pyyntö, joka kohdistuu myös samaan osoitteeseen <i>notes</i>. Pyynnön mukana sen runkona eli <i>bodynä</i> lähetetään luotavan muistiinpanon tiedot. -->
+The creation of a new note resource in the REST convention followed by json-server is done with an HTTP POST request, that is made to the <i>notes</i> URL. The data for the new note resource is sent in the <i>body</i> of the request.
 
-json-server vaatii, että tiedot lähetetään JSON-muodossa, eli käytännössä sopivasti muotoiltuna merkkijonona ja asettamalla headerille <i>Content-Type</i> arvo <i>application/json</i>.
+<!-- json-server vaatii, että tiedot lähetetään JSON-muodossa, eli käytännössä sopivasti muotoiltuna merkkijonona ja asettamalla headerille <i>Content-Type</i> arvo <i>application/json</i>. -->
+json-server requires that all data is sent in the JSON format. In practice this means that the data must be a correctly formatted string and the request must contain the <i>Content-Type</i> request header with the value <i>application/json</i>.
 
-### Datan lähetys palvelimelle
+<!-- ### Datan lähetys palvelimelle -->
+### Sending Data to the Server
 
-Muutetaan nyt uuden muistiinpanon lisäämisestä huolehtivaa tapahtumankäsittelijää seuraavasti:
+<!-- Muutetaan nyt uuden muistiinpanon lisäämisestä huolehtivaa tapahtumankäsittelijää seuraavasti: -->
+Let's make the following changes to the event handler responsible for creating a new note:
 
 ```js
 addNote = event => {
@@ -47,15 +56,19 @@ addNote = event => {
 }
 ```
 
-eli luodaan muistiinpanoa vastaava olio, ei kuitenkaan lisätä sille kenttää <i>id</i>, sillä on parempi jättää id:n generointi palvelimen vastuulle!
+<!-- eli luodaan muistiinpanoa vastaava olio, ei kuitenkaan lisätä sille kenttää <i>id</i>, sillä on parempi jättää id:n generointi palvelimen vastuulle! -->
+We create a new object for the note but omit the <i>id</i> property, since it's better to let the server generate id's for our resources!
 
-Olio lähetetään palvelimelle käyttämällä axiosin metodia <em>post</em>. Rekisteröity tapahtumankäsittelijä tulostaa konsoliin palvelimen vastauksen.
+<!-- Olio lähetetään palvelimelle käyttämällä axiosin metodia <em>post</em>. Rekisteröity tapahtumankäsittelijä tulostaa konsoliin palvelimen vastauksen. -->
+The object is sent to the server by using the axios <em>post</em> method. The registered event handler logs the response that is sent back from the server to the console.
 
-Kun nyt kokeillaan luoda uusi muistiinpano, konsoliin tulostus näyttää seuraavalta:
+<!-- Kun nyt kokeillaan luoda uusi muistiinpano, konsoliin tulostus näyttää seuraavalta: -->
+When we try to create a new note, the following output pops up in console:
 
 ![](../images/2/20b.png)
 
-Uusi muistiinpano on siis _response_-olion kentän <i>data</i> arvona. Palvelin on lisännyt muistiinpanolle tunnisteen, eli <i>id</i>-kentän.
+<!-- Uusi muistiinpano on siis _response_-olion kentän <i>data</i> arvona. Palvelin on lisännyt muistiinpanolle tunnisteen, eli <i>id</i>-kentän. -->
+The newly created note resource is stored in the value of the <i>data</i> property of the _response_ object.
 
 Joskus on hyödyllistä tarkastella HTTP-pyyntöjä [osan 0 alussa](/osa0#http-get) paljon käytetyn konsolin <i>Network</i>-välilehden kautta:
 
