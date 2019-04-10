@@ -431,7 +431,7 @@ You can find the code for our current application in its entirety in the <i>part
 <h3>Exercises</h3>
 
 <!-- <i>Seuraavassa tehtävässä aloitettavaa ohjelmaa kehitellään eteenpäin muutamassa seuraavassa tehtävässä. Tässä ja kurssin aikana muissakin vastaantulevissa tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i> -->
-In the following exercise we will start working on an application that will be further developed in later exercises. In this section and other similar sets of exercises it is sufficient to return the final version of your application. You may also make a separate commit after each part of the exercise set but doing so is not required.
+In the first exercise, we we will start working on an application that will be further developed in the later exercises. In related sets of exercises it is sufficient to return the final version of your application. You may also make a separate commit after you have finished each part of the exercise set, but doing so is not required.
 
 <!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
 **WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
@@ -440,7 +440,7 @@ In the following exercise we will start working on an application that will be f
 <h4>2.6: The Phonebook Step1</h4>
 
 <!-- Toteutetaan yksinkertainen puhelinluettelo. <i>**Aluksi luetteloon lisätään vaan nimiä.**</i> -->
-Let's create a simple phonebook. <i>**In this part we will only collect names.**</i>
+Let's create a simple phonebook. <i>**In this part we will only be adding names to the phonebook.**</i>
 
 <!-- Voit ottaa sovelluksesi komponentin <i>App</i> pohjaksi seuraavan: -->
 You can use the code below as a starting point for the <i>App</i> component of your application:
@@ -475,58 +475,73 @@ const App = () => {
 export default App
 ```
 
-Tila <em>newName</em> on tarkoitettu lomakkeen kentän kontrollointiin.
+<!-- Tila <em>newName</em> on tarkoitettu lomakkeen kentän kontrollointiin. -->
+The <em>newName</em> state is meant for controlling the form input element.
 
-Joskus tilaa tallettavia ja tarvittaessa muitakin muuttujia voi olla hyödyllistä renderöidä debugatessa komponenttiin, eli voi tilapäisesti lisätä komponentin  palauttamaan koodiin esim. seuraavan:
+<!-- Joskus tilaa tallettavia ja tarvittaessa muitakin muuttujia voi olla hyödyllistä renderöidä debugatessa komponenttiin, eli voi tilapäisesti lisätä komponentin  palauttamaan koodiin esim. seuraavan: -->
+Sometimes it can be useful to render state and other variables as text for debugging purposes. You can temporarily add the following element to the rendered component:
 
 ```
 <div>debug: {newName}</div>
 ```
 
-Muista myös osan 1 luku [React-sovellusten debuggaus](#react-sovellusten-debuggaus), erityisesti [react developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) on välillä todella kätevä komponentin tilan muutosten seuraamisessa.
+<!-- Muista myös osan 1 luku [React-sovellusten debuggaus](#react-sovellusten-debuggaus), erityisesti [react developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) on välillä todella kätevä komponentin tilan muutosten seuraamisessa. -->
+It's also important to put what we learned in the [debugging React applications](#react-sovellusten-debuggaus) chapter of part one into good use. The [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) extension especially, is incredibly useful for tracking changes that occur in the application's state.
 
-Sovellus voi näyttää tässä vaiheessa seuraavalta:
+<!-- Sovellus voi näyttää tässä vaiheessa seuraavalta: -->
+After finishing this exercise your application should look something like this:
 
 ![](../images/2/10b.png)
 
-Huomaa, React developer toolsin käyttö!
+<!-- Huomaa, React developer toolsin käyttö! -->
+Note the use of the React developer tools extension in the picture above!
 
-**Huom:**
+<!-- **Huom:** -->
+**NB:**
 
-- voit käyttää kentän <i>key</i> arvona henkilön nimeä
-- muista estää lomakkeen lähetyksen oletusarvoinen toiminta!
+<!-- - voit käyttää kentän <i>key</i> arvona henkilön nimeä
+- muista estää lomakkeen lähetyksen oletusarvoinen toiminta! -->
+- you can use the person's name as value of the <i>key</i> property
+- remember to prevent the default action of submitting HTML forms!
 
-<h4>2.7: puhelinluettelo step2</h4>
+<h4>2.7: The Phonebook Step2</h4>
 
-Jos lisättävä nimi on jo sovelluksen tiedossa, estä lisäys. Taulukolla on lukuisia sopivia [metodeja](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) tehtävän tekemiseen.
+<!-- Jos lisättävä nimi on jo sovelluksen tiedossa, estä lisäys. Taulukolla on lukuisia sopivia [metodeja](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) tehtävän tekemiseen. -->
+Prevent the user from being able to add names that  already exist in the phonebook. JavaScript arrays have numerous suitable [methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) for accomplishing this task.
 
-Anna tilanteessa virheilmoitus komennolla [alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert):
+<!-- Anna tilanteessa virheilmoitus komennolla [alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert): -->
+Issue a warning with the [alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) command when such an action is attempted:
 
 ![](../images/2/11b.png)
 
-**Muistutus edellisestä osasta:** kun muodostat Javascriptissä merkkijonoja muuttujaan perustuen, on tyylikkäin tapa asian hoitamiseen [template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals):
+<!-- **Muistutus edellisestä osasta:** kun muodostat Javascriptissä merkkijonoja muuttujaan perustuen, on tyylikkäin tapa asian hoitamiseen [template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals): -->
+**Brief reminder from the previous part:** when you are forming strings that contain values from variables, it is recommended to use a [template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals):
 
 ```js
 `${newName} on jo luettelossa`
 ```
 
-Jos muuttujalla <em>newName</em> on arvona <i>arto</i>, on tuloksena merkkijono
+<!-- Jos muuttujalla <em>newName</em> on arvona <i>arto</i>, on tuloksena merkkijono -->
+If the <em>newName</em> variable holds the value <i>arto</i>, the template string expression returns the string
 
 ```js
 `arto on jo luettelossa`
 ```
 
-Sama toki hoituisi javamaisesti merkkijonojen plus-metodilla
+<!-- Sama toki hoituisi javamaisesti merkkijonojen plus-metodilla -->
+The same could be done in a more Java-like fashion by using the plus operator:
 
 ```js
 newName + ' on jo luettelossa'
 ```
 
-Template stringin käyttö antaa kuitenkin professionaalimman vaikutelman.
+<!-- Template stringin käyttö antaa kuitenkin professionaalimman vaikutelman. -->
+Using template strings is the more idiomatic option and the sign of a true JavaScript professional.
 
-<h4>2.8: puhelinluettelo step3</h4>
+<h4>2.8: The Phonebook Step3</h4>
 
-Lisää sovellukseen mahdollisuus antaa henkilöille puhelinnumero. Tarvitset siis lomakkeeseen myös toisen <i>input</i>-elementin (ja sille oman muutoksenkäsittelijän):
+<!-- Lisää sovellukseen mahdollisuus antaa henkilöille puhelinnumero. Tarvitset siis lomakkeeseen myös toisen <i>input</i>-elementin (ja sille oman muutoksenkäsittelijän): -->
+Expand your application by allowing users to add phone numbers to the phone book. You will need to add a second <i>input</i> element to the form (along with its own event handler):
 
 ```
 <form>
@@ -536,19 +551,23 @@ Lisää sovellukseen mahdollisuus antaa henkilöille puhelinnumero. Tarvitset si
 </form>
 ```
 
-Sovellus voi näyttää tässä vaiheessa seuraavalta. Kuvassa myös [react developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi):in tarjoama näkymä komponentin <i>App</i> tilaan:
+<!-- Sovellus voi näyttää tässä vaiheessa seuraavalta. Kuvassa myös [react developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi):in tarjoama näkymä komponentin <i>App</i> tilaan: -->
+At this point the application could look something like this. The image also displays the application's state with the help of [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi):
 
 ![](../images/2/12b.png)
 
-<h4>2.9*: puhelinluettelo step4</h4>
+<h4>2.9*: The Phonebook Step4</h4>
 
-Tee lomakkeeseen hakukenttä, jonka avulla näytettävien nimien listaa voidaan rajata:
+<!-- Tee lomakkeeseen hakukenttä, jonka avulla näytettävien nimien listaa voidaan rajata: -->
+Implement a search field that can be used to filter the list of people by name:
 
 ![](../images/2/13b.png)
 
-Rajausehdon syöttämisen voi hoitaa omana lomakkeeseen kuulumattomana <i>input</i>-elementtinä. Kuvassa rajausehdosta on tehty <i>caseinsensitiivinen</i> eli ehto <i>arto</i> löytää isolla kirjaimella kirjoitetun Arton.
+<!-- Rajausehdon syöttämisen voi hoitaa omana lomakkeeseen kuulumattomana <i>input</i>-elementtinä. Kuvassa rajausehdosta on tehty <i>caseinsensitiivinen</i> eli ehto <i>arto</i> löytää isolla kirjaimella kirjoitetun Arton. -->
+You can implement the search field as an <i>input</i> element that is placed outside the HTML form. The filtering logic shown in the image is <i>case insensitive</i>, meaning that the search term <i>arto</i> also returns results that contain Arto with an uppercase A.
 
-**Huom:** Kun toteutat jotain uutta toiminnallisuutta, on usein hyötyä 'kovakoodata' sovellukseen jotain sisältöä, esim.
+<!-- **Huom:** Kun toteutat jotain uutta toiminnallisuutta, on usein hyötyä 'kovakoodata' sovellukseen jotain sisältöä, esim. -->
+**NB:** When you are working on new functionality, it's often useful to "hardcode" some dummy data into your application, e.g.
 
 ```js
 const App = () => {
@@ -563,15 +582,19 @@ const App = () => {
 }
 ```
 
-Näin vältytään turhalta manuaaliselta työltä, missä testaaminen edellyttäisi myös testiaineiston syöttämistä käsin soveluksen lomakkeen kautta.
+<!-- Näin vältytään turhalta manuaaliselta työltä, missä testaaminen edellyttäisi myös testiaineiston syöttämistä käsin soveluksen lomakkeen kautta. -->
+This saves you from having to manually input data into your application for testing out your new functionality.
 
-<h4>2.10: puhelinluettelo step5</h4>
+<h4>2.10: The Phonebook Step5</h4>
 
-Jos koko sovelluksesi on tehty yhteen komponenttiin, refaktoroi sitä eriyttämällä sopivia komponentteja. Pidä kuitenkin edelleen kaikki tila sekä tapahtumankäsittelijäfunktiot juurikomponentissa <i>App</i>.
+<!-- Jos koko sovelluksesi on tehty yhteen komponenttiin, refaktoroi sitä eriyttämällä sopivia komponentteja. Pidä kuitenkin edelleen kaikki tila sekä tapahtumankäsittelijäfunktiot juurikomponentissa <i>App</i>. -->
+If you have implemented your application in a single component, refactor it by extracting suitable parts into new components. Maintain the application's state and all event handlers in the <i>App</i> root component.
 
-Riittää että erotat sovelluksesta <i>**kolme**</i> komponenttia. Hyviä kandidaatteja ovat esim. filtteröintilomake, uuden henkilön lisäävä lomake, kaikki henkilöt renderöivä komponentti sekä yksittäisen henkilön renderöivä komponentti.
+<!-- Riittää että erotat sovelluksesta <i>**kolme**</i> komponenttia. Hyviä kandidaatteja ovat esim. filtteröintilomake, uuden henkilön lisäävä lomake, kaikki henkilöt renderöivä komponentti sekä yksittäisen henkilön renderöivä komponentti. -->
+It is sufficient to extract <i>**three**</i> components from the application. Good candidates for separate components are e.g. the search filter, the form for adding new people into the phonebook, a component that renders all people from the phonebook, and a component that renders a single person's details.
 
-Sovelluksen juurikomponentti voi näyttää refaktoroinnin jälkeen suunilleen seuraavalta, eli se ei itse renderöi suoraan oikeastaan mitään muita kuin otsikkoja:
+<!-- Sovelluksen juurikomponentti voi näyttää refaktoroinnin jälkeen suunilleen seuraavalta, eli se ei itse renderöi suoraan oikeastaan mitään muita kuin otsikkoja: -->
+The application's root component could look something like this after refactoring. The refactored root component below only renders titles and lets the extracted components take care of the rest.
 
 ```js
 const App = () => {
