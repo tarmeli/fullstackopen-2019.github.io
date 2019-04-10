@@ -188,13 +188,21 @@ In today's browsers it is possible to run parallelized code with the help of so-
 
 ### npm
 
-Palaamme jälleen asiaan, eli datan hakemiseen palvelimelta.
+<!-- Palaamme jälleen asiaan, eli datan hakemiseen palvelimelta. -->
 
-Voisimme käyttää datan palvelimelta hakemiseen aiemmin mainittua promiseihin perustuvaa funktiota [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch). Fetch on hyvä työkalu, se on standardoitu ja kaikkien modernien selaimien (poislukien IE) tukema.
+Let's get back to the topic of fetching data from the server.
 
-Käytetään selaimen ja palvelimen väliseen kommunikaatioon kuitenkin [axios](https://github.com/axios/axios)-kirjastoa, joka toimii samaan tapaan kuin fetch, mutta on hieman mukavampikäyttöinen. Hyvä syy axios:in käytölle on myös se, että pääsemme tutustumaan siihen miten ulkopuolisia kirjastoja eli <i>npm-paketteja</i> liitetään React-projektiin.
+<!-- Voisimme käyttää datan palvelimelta hakemiseen aiemmin mainittua promiseihin perustuvaa funktiota [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch). Fetch on hyvä työkalu, se on standardoitu ja kaikkien modernien selaimien (poislukien IE) tukema. -->
 
-Nykyään lähes kaikki Javascript-projektit määritellään node "pakkausmanagerin" eli [npm](https://docs.npmjs.com/getting-started/what-is-npm):n avulla. Myös create-react-app:in avulla generoidut projektit ovat npm-muotoisia projekteja. Varma tuntomerkki siitä on projektin juuressa oleva tiedosto <i>package.json:</i>
+We could use the previously mentioned promise based function [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) to pull the data from the server. Fetch is a great tool. It is standardized and supported by all modern browsers (excluding IE).
+
+<!-- Käytetään selaimen ja palvelimen väliseen kommunikaatioon kuitenkin [axios](https://github.com/axios/axios)-kirjastoa, joka toimii samaan tapaan kuin fetch, mutta on hieman mukavampikäyttöinen. Hyvä syy axios:in käytölle on myös se, että pääsemme tutustumaan siihen miten ulkopuolisia kirjastoja eli <i>npm-paketteja</i> liitetään React-projektiin. -->
+
+Having said that, for the communication between the browser and server we will instead be using the [axios](https://github.com/axios/axios) library, which functions like fetch, but is a bit more pleasant to use. Another good reason for the use of axios is us getting familiar with adding external libraries, so-called <i>npm packages</i>, to React projects.
+
+<!-- Nykyään lähes kaikki Javascript-projektit määritellään node "pakkausmanagerin" eli [npm](https://docs.npmjs.com/getting-started/what-is-npm):n avulla. Myös create-react-app:in avulla generoidut projektit ovat npm-muotoisia projekteja. Varma tuntomerkki siitä on projektin juuressa oleva tiedosto <i>package.json:</i> -->
+
+Nowadays practically all Javascript projects are defined using the node package manager, aka [npm](https://docs.npmjs.com/getting-started/what-is-npm). The projects created using create-react-app also follow the npm format. A strong sign that a project uses npm is the file <i>package.json</i> at the root of the project:
 
 ```json
 {
@@ -224,17 +232,24 @@ Nykyään lähes kaikki Javascript-projektit määritellään node "pakkausmanag
 }
 ```
 
-Tässä vaiheessa meitä kiinnostaa osa <i>dependencies</i>, joka määrittelee mitä <i>riippuvuuksia</i> eli ulkoisia kirjastoja projektilla on.
+<!-- Tässä vaiheessa meitä kiinnostaa osa <i>dependencies</i>, joka määrittelee mitä <i>riippuvuuksia</i> eli ulkoisia kirjastoja projektilla on. -->
 
-Haluamme nyt käyttöömme axioksen. Voisimme määritellä kirjaston suoraan tiedostoon <i>package.json</i>, mutta on parempi asentaa se komentoriviltä
+At this point the <i>dependencies</i> part is most interesting to us, because it defines what <i>dependencies</i>, or external libraries, the project has.
+
+<!-- Haluamme nyt käyttöömme axioksen. Voisimme määritellä kirjaston suoraan tiedostoon <i>package.json</i>, mutta on parempi asentaa se komentoriviltä -->
+
+Now we want to use axios. We define the library directly into the file <i>package.json</i>, but it is better to install it from the command line.
 
 ```js
 npm install axios --save
 ```
 
-**Huomaa, että _npm_-komennot tulee antaa aina projektin juurihakemistossa**, eli siinä minkä sisältä tiedosto <i>package.json_</i> löytyy.
+<!-- **Huomaa, että _npm_-komennot tulee antaa aina projektin juurihakemistossa**, eli siinä minkä sisältä tiedosto <i>package.json_</i> löytyy. -->
+**NB _npm_-commands should always be run in the project root directory**, which is where the <i>package.json</i> file can be found.
 
-Nyt axios on mukana riippuvuuksien joukossa:
+<!-- Nyt axios on mukana riippuvuuksien joukossa: -->
+
+Axios is now included among the other dependencies:
 
 ```json
 {
@@ -250,15 +265,21 @@ Nyt axios on mukana riippuvuuksien joukossa:
 
 ```
 
-Sen lisäksi, että komento <em>npm install</em> lisäsi axiosin riippuvuuksien joukkoon, se myös <i>latasi</i> kirjaston koodin. Koodi löytyy muiden riippuvuuksien tapaan projektin juuren hakemistosta <i>node_modules</i>, mikä kuten huomata saattaa sisältääkin runsaasti kaikenlaista.
+<!-- Sen lisäksi, että komento <em>npm install</em> lisäsi axiosin riippuvuuksien joukkoon, se myös <i>latasi</i> kirjaston koodin. Koodi löytyy muiden riippuvuuksien tapaan projektin juuren hakemistosta <i>node_modules</i>, mikä kuten huomata saattaa sisältääkin runsaasti kaikenlaista. -->
 
-Tehdään toinenkin pieni lisäys. Asennetaan myös <i>json-server</i> projektin <i>sovelluskehityksen aikaiseksi</i> riippuvuudeksi komennolla
+In addition to adding axios to the dependencies, the <em>npm install</em> command also  <i>downloaded</i> the library code. As with other dependencies the code can be found in the <i>node_modules</i> directory located in the root. As one might notice, <i>node_modules</i> contains a fair bit of interesting stuff.
+
+<!-- Tehdään toinenkin pieni lisäys. Asennetaan myös <i>json-server</i> projektin <i>sovelluskehityksen aikaiseksi</i> riippuvuudeksi komennolla -->
+
+Let's make another addition. Install <i>json-server</i> as a development dependency, which is only used during development, by providing the command
 
 ```js
 npm install json-server --save-dev
 ```
 
-ja tehdään tiedoston <i>package.json</i> osaan <i>scripts</i> pieni lisäys
+<!-- ja tehdään tiedoston <i>package.json</i> osaan <i>scripts</i> pieni lisäys -->
+
+and making a small addition to the <i>scripts</i> part of the <i>package.json</i> file
 
 ```json
 {
@@ -273,32 +294,46 @@ ja tehdään tiedoston <i>package.json</i> osaan <i>scripts</i> pieni lisäys
 }
 ```
 
-Nyt voimme käynnistää  json-serverin projektin hakemistosta mukavasti ilman tarvetta parametrien määrittelylle komennolla
+<!-- Nyt voimme käynnistää  json-serverin projektin hakemistosta mukavasti ilman tarvetta parametrien määrittelylle komennolla -->
+
+We can now conveniently, without parameter definitions, start the json-server from the project root directory with the command
 
 ```js
 npm run server
 ```
 
-Tutustumme _npm_-työkaluun tarkemmin kurssin [kolmannessa osassa](/osa3).
+<!-- Tutustumme _npm_-työkaluun tarkemmin kurssin [kolmannessa osassa](/osa3). -->
 
-Huomaa, että aiemmin käynnistetty json-server tulee olla sammutettuna, muuten seuraa ongelmia
+We will get more familiar with the _npm_ tool in the [third part of the course](/part3).
+
+<!-- Huomaa, että aiemmin käynnistetty json-server tulee olla sammutettuna, muuten seuraa ongelmia -->
+
+NB the previously started json-server must be terminated before staring a new one, otherwise there will be trouble
 
 ![](../images/2/15b.png)
 
-Virheilmoituksen punaisella oleva teksti kertoo mistä on kyse: 
+<!-- Virheilmoituksen punaisella oleva teksti kertoo mistä on kyse:  -->
+
+The red print in the error message informs us about the issue:
 
 <i>Cannot bind to the port 3001. Please specify another port number either through --port argument or through the json-server.json configuration file</i> 
 
-eli sovellus ei onnistu käynnistyessään kytkemään itseään [porttiin](https://en.wikipedia.org/wiki/Port_(computer_networking)), syy tälle on se, että portti 3001 on jo aiemmin käynnistetyn json-serverin varaama.
+<!-- eli sovellus ei onnistu käynnistyessään kytkemään itseään [porttiin](https://en.wikipedia.org/wiki/Port_(computer_networking)), syy tälle on se, että portti 3001 on jo aiemmin käynnistetyn json-serverin varaama. -->
 
-Käytimme komentoa _npm install_ kahteen kertaan hieman eri tavalla
+as we can see the application is not able to bind itself to the [port](https://en.wikipedia.org/wiki/Port_(computer_networking)). The reason being that port 3001 is already occupied by the previously started json-server.
+
+<!-- Käytimme komentoa _npm install_ kahteen kertaan hieman eri tavalla -->
+
+We used the command _npm install_ twice, but with slight differences
 
 ```js
 npm install axios --save
 npm install json-server --save-dev
 ```
 
-Parametrissa oli siis hienoinen ero. <i>axios</i> tallennettiin sovelluksen ajonaikaiseksi riippuvuudeksi (_--save_), sillä ohjelman suoritus edellyttää kirjaston olemassaoloa. <i>json-server</i> taas asennettiin sovelluskehityksen aikaiseksi riippuvuudeksi (_--save-dev_), sillä ohjelma itse ei varsinaisesti kirjastoa tarvitse, se on ainoastaan apuna sovelluksehityksen aikana. Erilaisista riipuvuuksista lisää kurssin seuraavassa osassa.
+<!-- Parametrissa oli siis hienoinen ero. <i>axios</i> tallennettiin sovelluksen ajonaikaiseksi riippuvuudeksi (_--save_), sillä ohjelman suoritus edellyttää kirjaston olemassaoloa. <i>json-server</i> taas asennettiin sovelluskehityksen aikaiseksi riippuvuudeksi (_--save-dev_), sillä ohjelma itse ei varsinaisesti kirjastoa tarvitse, se on ainoastaan apuna sovelluksehityksen aikana. Erilaisista riipuvuuksista lisää kurssin seuraavassa osassa. -->
+
+There is a fine difference in the parameters. <i>axios</i> is installed as a runtime dependency (_--save_) of the application, because the execution of the program requires the existence of the library. On the other hand <i>json-server</i> was installed as a development dependency (_--save-dev_), since the program itself doesn't require it. It is used as assistance during software development. There will be more on different dependencies in the next part of the course.
 
 ### Axios ja promiset
 
