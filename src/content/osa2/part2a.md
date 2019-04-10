@@ -7,7 +7,7 @@ letter: a
 <div class="content">
 
 <!-- Ennen kun menemme uuteen asiaan, nostetaan esiin muutama edellisen osan huomiota herättänyt seikka. -->
-Before we go into a new topic, let's mention some topics which drew attention in the previous part. 
+Before we go into a new topic, let's go through some topics which proved difficult last year. 
 
 ### console.log
 
@@ -17,7 +17,7 @@ Before we go into a new topic, let's mention some topics which drew attention in
 <!-- Paradoksaalista kyllä tämä näyttää olevan tilanne, vaikka kokematon ohjelmoija oikeastaan tarvitsisi console.logia (tai jotain muita debuggaustapoja) huomattavissa määrin kokenutta enemmän. 
 
 Eli kun joku ei toimi, älä arvaile vaan logaa tai käytä jotain muita debuggauskeinoja. -->
-Paradoxically, this seems to be true even though rookie programmers would need console.log (or any other way of debugging) more than experienced ones. 
+Paradoxically, this seems to be true even though rookie programmers would need console.log (or any debugging method) more than experienced ones. 
 
 When something does not work, don't just guess, but log or use some other way of debugging. 
 
@@ -34,7 +34,7 @@ console.log('propsin arvo on', props)
 ```
 
 <!-- Jos yhdistät merkkijonoon olion, tuloksena on suhteellisen hyödytön tulostusmuoto -->
-If you add an object to a string, the result is a pretty useless print out. 
+If you add an object to a string, the result is a pretty useless read. 
 
 ```js
 propsin arvo on [Object object]
@@ -86,7 +86,7 @@ The most important snippet is a shortcut to adding the <em>console.log()</em> co
 ### JavaScript Arrays
 
 <!-- Tästä osasta lähtien käytämme runsaasti Javascriptin [taulukkojen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) funktionaalisia käsittelymetodeja, kuten _find_, _filter_ ja _map_. Periaate niissä on täysin sama kuin Java 8:sta tutuissa streameissa, joita on käytetty jo parin vuoden ajan Tietojenkäsittelytieteen osaston Ohjelmoinnin perusteissa ja jatkokurssilla sekä Ohjelmoinnin MOOC:issa. -->
-From here on out, we will be using the functional programming methods of JavaScript [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), such as  _find_, _filter_  and _map_  all the time. They operate on the same general princible as streams in Java 8, which have been used last few years in ohjelmoinnin perusteet and ohjelmoinnin jatkokurssi at the department of Computer Science and in the programming MOOC. 
+From here on out, we will be using the functional programming methods of JavaScript [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), such as  _find_, _filter_  and _map_  all the time. They operate on the same general princible as streams in Java 8, which have been used last few years in ohjelmoinnin perusteet and ohjelmoinnin jatkokurssi at the department of Computer Science, and in the programming MOOC. 
 
 <!-- Jos taulukon funktionaalinen käsittely tuntuu vielä vieraalta, kannattaa katsoa Youtubessa olevasta videosarjasta <i>Functional Programming in JavaScript</i> ainakin kolme ensimmäistä osaa -->
 If functional programming with arrays feels foreign, it is worth it to watch at least the three first parts from YouTube video series <i>Functional Programming in JavaScript</i>:
@@ -265,7 +265,7 @@ React uses the key attributes of objects in an array to determine how to update 
 ### Map
 
 <!-- Taulukoiden metodin [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) toiminnan sisäistäminen on jatkon kannalta äärimmäisen tärkeää. -->
-Understanding how the array method [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) works is crucial the rest of the course. 
+Understanding how the array method [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) works is crucial for the rest of the course. 
 
 <!-- Sovellus siis sisältää taulukon _notes_ -->
 The application contains an array called _notes_
@@ -294,7 +294,7 @@ const notes = [
 ```
 
 <!-- Pysähdytään hetkeksi tarkastelemaan miten _map_ toimii. -->
-Lets pause for a moment to examine how _map_ works.
+Lets pause for a moment and examine how _map_ works.
 
 <!-- Jos esim. tiedoston loppuun lisätään seuraava koodi -->
 If the following code is added e.g to the end of the file 
@@ -306,7 +306,7 @@ console.log(result)
 
 <!-- tulostuu konsoliin <i>[1, 2, 3]</i> eli _map_ muodostaa uuden taulukon, jonka jokainen alkio on saatu alkuperäisen taulukon _notes_ alkioista <i>mappaamalla</i> komennon parametrina olevan funktion avulla. -->
 <i>[1, 2, 3]</i>  will be printed to the console.
- _Map_ always creates a new array, elements of which have been created from the elements of the original array _notes_  by <i>mapping</i> using the function given as a parameter to the map command. 
+ _Map_ always creates a new array, elements of which have been created from the elements of the original array by <i>mapping</i> using the function given as a parameter to the map method. 
 
 <!-- Funktio on -->
 The function is
@@ -716,7 +716,7 @@ const Course = ({ course }) => {
 ```
 
 <!-- Erittäin usein ongelma on siitä että propsien odotetaan olevan eri muodossa tai eri nimisiä, kuin ne todellisuudessa ovat ja destrukturointi epäonnistuu. Ongelma alkaa useimmiten ratketa kun poistetaan destrukturointi ja katsotaan mitä <em>props</em> oikeasti pitää sisällään: -->
-Very often the root of the problem is, that the props are expected to be different type or called different than they actually are, and desctructuring fails. The problem often begins to solve itself when desctructuring is removed and we see what the <em>props</em> actually contain. 
+Very often the root of the problem is, that the props are expected to be different type or called different than they actually are, and desctructuring fails. The problem often begins to solve itself when desctructuring is removed and we see what the <em>props</em> actually contains. 
 
 ```js
 const Course = (props) => { // highlight-line
