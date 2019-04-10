@@ -335,13 +335,20 @@ npm install json-server --save-dev
 
 There is a fine difference in the parameters. <i>axios</i> is installed as a runtime dependency (_--save_) of the application, because the execution of the program requires the existence of the library. On the other hand <i>json-server</i> was installed as a development dependency (_--save-dev_), since the program itself doesn't require it. It is used as assistance during software development. There will be more on different dependencies in the next part of the course.
 
-### Axios ja promiset
+<!-- ### Axios ja promiset -->
+### Axios and promises
 
-Olemme nyt valmiina käyttämään axiosia. Jatkossa oletetaan että <i>json-server</i> on käynnissä portissa 3001.
+<!-- Olemme nyt valmiina käyttämään axiosia. Jatkossa oletetaan että <i>json-server</i> on käynnissä portissa 3001. -->
 
-Kirjaston voi ottaa käyttöön samaan tapaan kuin esim. React otetaan käyttöön, eli sopivalla <em>import</em>-lauseella.
+Now we are ready to use axios. Going forward, json-server is assumed to be running on port 3001.
 
-Lisätään seuraava tiedostoon <i>index.js</i>
+<!-- Kirjaston voi ottaa käyttöön samaan tapaan kuin esim. React otetaan käyttöön, eli sopivalla <em>import</em>-lauseella. -->
+
+The library can be brought into use like other libraries, e.g. React, are brought in with an appropriate <em>import</em> statement.
+
+<!-- Lisätään seuraava tiedostoon <i>index.js</i> -->
+
+Add the following to the file <i>index.js</i>
 
 ```js
 import axios from 'axios'
@@ -353,25 +360,41 @@ const promise2 = axios.get('http://localhost:3001/foobar')
 console.log(promise2)
 ```
 
-Konsoliin tulostuu seuraavaa
+<!-- Konsoliin tulostuu seuraavaa -->
+
+This should be printed to the console
 
 ![](../images/2/16b.png)
 
-Axiosin metodi _get_ palauttaa [promisen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
+<!-- Axiosin metodi _get_ palauttaa [promisen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). -->
 
-Mozillan dokumentaatio sanoo promisesta seuraavaa:
+Axios' method _get_ returns a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
+
+<!-- Mozillan dokumentaatio sanoo promisesta seuraavaa: -->
+
+The documentation on Mozilla's site states the following about promises:
 
 > <i>A Promise is an object representing the eventual completion or failure of an asynchronous operation.</i>
 
-Promise siis edustaa asynkronista operaatiota. Promise voi olla kolmessa eri tilassa:
+<!-- Promise siis edustaa asynkronista operaatiota. Promise voi olla kolmessa eri tilassa: -->
 
-- aluksi promise on <i>pending</i>, eli promisea vastaava asynkroninen operaatio ei ole vielä tapahtunut
-- jos operaatio päättyy onnistuneesti, menee promise tilaan <i>fulfilled</i>, josta joskus käytetään nimitystä <i>resolved</i>
-- kolmas mahdollinen tila on <i>rejected</i>, joka edustaa epäonnistunutta operaatiota
+On other words a promise is an object that represents an asynchronous operation. A promise can have three distinct states:
 
-Esimerkkimme ensimmäinen promise on <i>fulfilled</i>, eli vastaa onnistunutta <em>axios.get('http://localhost:3001/notes')</em> pyyntöä. Promiseista toinen taas on <i>rejected</i>, syy selviää konsolista, eli yritettiin tehdä HTTP GET -pyyntöä osoitteeseen, jota ei ole olemassa.
+<!-- - aluksi promise on <i>pending</i>, eli promisea vastaava asynkroninen operaatio ei ole vielä tapahtunut -->
+<!-- - jos operaatio päättyy onnistuneesti, menee promise tilaan <i>fulfilled</i>, josta joskus käytetään nimitystä <i>resolved</i> -->
+<!-- - kolmas mahdollinen tila on <i>rejected</i>, joka edustaa epäonnistunutta operaatiota -->
 
-Jos ja kun haluamme tietoon promisea vastaavan operaation tuloksen, tulee promiselle rekisteröidä tapahtumankuuntelija. Tämä tapahtuu metodilla <em>then</em>:
+- first, the promise is <i>pending</i>, meaning the respective asynchronous operation has not yet occurred
+- if the operation finishes successfully, then the promise will move its state to <i>fulfilled</i>, sometimes called <i>resolved</i>
+- a third possible state is <i>rejected</i>, which represents a failed operation
+
+<!-- Esimerkkimme ensimmäinen promise on <i>fulfilled</i>, eli vastaa onnistunutta <em>axios.get('http://localhost:3001/notes')</em> pyyntöä. Promiseista toinen taas on <i>rejected</i>, syy selviää konsolista, eli yritettiin tehdä HTTP GET -pyyntöä osoitteeseen, jota ei ole olemassa. -->
+
+The first promise in our example is <i>fulfilled</i>, representing a successful <em>axios.get('http://localhost:3001/notes')</em> request. The second one, however, is <i>rejected</i>, and the console will tell us the reason. It looks like we were trying to make a HTTP GET request to an address, which doesn't exist.
+
+<!-- Jos ja kun haluamme tietoon promisea vastaavan operaation tuloksen, tulee promiselle rekisteröidä tapahtumankuuntelija. Tämä tapahtuu metodilla <em>then</em>: -->
+
+If and when we want to access the result of the operation represented by the promise, we must register an event handler to the promise. This is achieved using the method <em>then</em>:
 
 ```js
 const promise = axios.get('http://localhost:3001/notes')
@@ -381,13 +404,19 @@ promise.then(response => {
 })
 ```
 
-Konsoliin tulostuu seuraavaa
+<!-- Konsoliin tulostuu seuraavaa -->
+
+The following is printed to the console
 
 ![](../images/2/17b.png)
 
-Javascriptin suoritusympäristö kutsuu <em>then</em>-metodin avulla rekisteröityä takaisinkutsufunktiota antaen sille parametriksi olion <em>result</em>, joka sisältää kaiken oleellisen HTTP GET -pyynnön vastaukseen liittyvän, eli palautetun <i>datan</i>, <i>statuskoodin</i> ja <i>headerit</i>.
+<!-- Javascriptin suoritusympäristö kutsuu <em>then</em>-metodin avulla rekisteröityä takaisinkutsufunktiota antaen sille parametriksi olion <em>result</em>, joka sisältää kaiken oleellisen HTTP GET -pyynnön vastaukseen liittyvän, eli palautetun <i>datan</i>, <i>statuskoodin</i> ja <i>headerit</i>. -->
 
-Promise-olioa ei ole yleensä tarvetta tallettaa muuttujaan, ja onkin tapana ketjuttaa metodin <em>then</em> kutsu suoraan axiosin metodin kutsun perään:
+The Javascript runtime environment calls the callback function registered by the <em>then</em> method providing it with a <em>result</em> object as a parameter. The <em>result</em> object contains all the essential data related to the response of a HTTP GET request, which would include the returned <i>data</i>, <i>status code</i> and <i>headers</i>.
+
+<!-- Promise-olioa ei ole yleensä tarvetta tallettaa muuttujaan, ja onkin tapana ketjuttaa metodin <em>then</em> kutsu suoraan axiosin metodin kutsun perään: -->
+
+Rarely does one need to save the promise object to a variable, and it is common to chain the <em>then</em> method call right after the axios method call:
 
 ```js
 axios.get('http://localhost:3001/notes').then(response => {
@@ -396,9 +425,13 @@ axios.get('http://localhost:3001/notes').then(response => {
 })
 ```
 
-Takaisinkutsufunktio ottaa nyt vastauksen sisällä olevan datan muuttujaan ja tulostaa muistiinpanot konsoliin.
+<!-- Takaisinkutsufunktio ottaa nyt vastauksen sisällä olevan datan muuttujaan ja tulostaa muistiinpanot konsoliin. -->
 
-Luettavampi tapa formatoida <i>ketjutettuja</i> metodikutsuja on sijoittaa jokainen kutsu omalle rivilleen:
+The callback function now takes the data contained within the response, saves it to a variable and print the notes to the console.
+
+<!-- Luettavampi tapa formatoida <i>ketjutettuja</i> metodikutsuja on sijoittaa jokainen kutsu omalle rivilleen: -->
+
+A more readable way to format <i>chained</i> method calls is to place each call on its own line:
 
 ```js
 axios
@@ -409,14 +442,22 @@ axios
   })
 ```
 
-näin jo nopea, ruudun vasempaan laitaan kohdistunut vilkaisu kertoo mistä on kyse.
+<!-- näin jo nopea, ruudun vasempaan laitaan kohdistunut vilkaisu kertoo mistä on kyse. -->
 
-Palvelimen palauttama data on pelkkää tekstiä, käytännössä yksi iso merkkijono. 
-Axios-kirjasto osaa kuitenkin parsia datan Javascript-taulukoksi, sillä palvelin on kertonut headerin <i>content-type</i> avulla että datan muoto on <i>application/json; charset=utf-8</i> (ks. edellinen kuva).
+this way a quick glance at the left side of the screen gives a decent picture of what's going on.
 
-Voimme vihdoin siirtyä käyttämään sovelluksessamme palvelimelta haettavaa dataa.
+<!-- Palvelimen palauttama data on pelkkää tekstiä, käytännössä yksi iso merkkijono.  -->
+<!-- Axios-kirjasto osaa kuitenkin parsia datan Javascript-taulukoksi, sillä palvelin on kertonut headerin <i>content-type</i> avulla että datan muoto on <i>application/json; charset=utf-8</i> (ks. edellinen kuva). -->
 
-Tehdään se aluksi "huonosti", eli lisätään sovellusta vastaavan komponentin <i>App</i> renderöinti takaisinkutsufunktion sisälle muuttamalla <i>index.js</i> seuraavaan muotoon:
+The data returned by the server is plaint text, basically just one long string. The axios library is still able to parse the data into a Javascript array, since the server has specified that the data format is <i>application/json; charset=utf-8</i> (see previous image) using the <i>content-type</i> header.
+
+<!-- Voimme vihdoin siirtyä käyttämään sovelluksessamme palvelimelta haettavaa dataa. -->
+
+Finally we can begin using data fetched from the server.
+
+<!-- Tehdään se aluksi "huonosti", eli lisätään sovellusta vastaavan komponentin <i>App</i> renderöinti takaisinkutsufunktion sisälle muuttamalla <i>index.js</i> seuraavaan muotoon: -->
+
+Let's first do it "poorly", which would mean putting the <i>App</i> component representing the application inside the callback function by modifying <i>index.js</i> as follows:
 
 ```js
 import ReactDOM from 'react-dom'
@@ -434,9 +475,13 @@ axios.get('http://localhost:3001/notes').then(response => {
 })
 ```
 
-Joissain tilanteissa tämäkin tapa voisi olla ok, mutta se on hieman ongelmallinen ja päätetäänkin siirtää datan hakeminen komponenttiin <i>App</i>.
+<!-- Joissain tilanteissa tämäkin tapa voisi olla ok, mutta se on hieman ongelmallinen ja päätetäänkin siirtää datan hakeminen komponenttiin <i>App</i>. -->
 
-Ei ole kuitenkaan ihan selvää, mihin kohtaan komponentin koodia komento <em>axios.get</em> olisi hyvä sijoittaa.
+In some cases this way might be fine, but it is still a bit problematic. Instead we move the fetching of data into the <i>App</i> component.
+
+<!-- Ei ole kuitenkaan ihan selvää, mihin kohtaan komponentin koodia komento <em>axios.get</em> olisi hyvä sijoittaa. -->
+
+However, it is not immediately obvious where among the component's code the command <em>axios.get</em> should be placed.
 
 ### Effect-hookit
 
