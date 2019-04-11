@@ -781,29 +781,39 @@ The code for the current state of our application can be found in the  <i>part2-
 
 <div class="tasks">
 
-<h3>Tehtäviä</h3>
+<!-- <h3>Tehtäviä</h3> -->
+<h3>Exercises</h3>
 
-<h4>2.15: puhelinluettelo step7</h4>
+<!-- <h4>2.15: puhelinluettelo step7</h4> -->
+<h4>2.15: Phonebook step7</h4>
 
-Palataan jälleen puhelinluettelon pariin.
+<!-- Palataan jälleen puhelinluettelon pariin. -->
+Let's return to our phonebook application.
 
-Tällä hetkellä luetteloon lisättäviä uusia numeroita ei synkronoida palvelimelle. Korjaa tilanne.
+<!-- Tällä hetkellä luetteloon lisättäviä uusia numeroita ei synkronoida palvelimelle. Korjaa tilanne. -->
+Currently the numbers that are added to the phonebook are not saved to a backend server. Fix this situation.
 
-<h4>2.16: puhelinluettelo step8</h4>
+<h4>2.16: Phonebook step8</h4>
 
-Siirrä palvelimen kanssa kommunikoinnista vastaava toiminnallisuus omaan moduuliin tämän osan materiaalissa olevan esimerkin tapaan.
+<!-- Siirrä palvelimen kanssa kommunikoinnista vastaava toiminnallisuus omaan moduuliin tämän osan materiaalissa olevan esimerkin tapaan. -->
+Extract the code that handles the communication with the backend into its own module by following the example shown earlier in this part of the course material.
 
-<h4>2.17: puhelinluettelo step9</h4>
+<!-- <h4>2.17: puhelinluettelo step9</h4> -->
+<h4>2.17: Phonebook step9</h4>
 
-Tee ohjelmaan mahdollisuus yhteystietojen poistamiseen. Poistaminen voi tapahtua esim. nimen yhteyteen liitetyllä napilla. Poiston suorittaminen voidaan varmistaa käyttäjältä [window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm)-metodilla:
+<!-- Tee ohjelmaan mahdollisuus yhteystietojen poistamiseen. Poistaminen voi tapahtua esim. nimen yhteyteen liitetyllä napilla. Poiston suorittaminen voidaan varmistaa käyttäjältä [window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm)-metodilla: -->
+Make it possible for users to delete entries from the phonebook. The deletion can be done through a dedicated button for each person in the phonebook list. You can confirm the deletion from the user by using the [window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) method:
 
 ![](../images/2/24b.png)
 
-Palvelimelta tiettyä henkilöä vastaava resurssi tuhotaan tekemällä HTTP DELETE -pyyntö resurssia vastaavaan <i>URL</i>:iin, eli jos poistaisimme esim. käyttäjän, jonka <i>id</i> on 2, tulisi tapauksessamme tehdä HTTP DELETE osoitteeseen <i>localhost:3001/persons/2</i>. Pyynnön mukana ei lähetetä mitään dataa.
+<!-- Palvelimelta tiettyä henkilöä vastaava resurssi tuhotaan tekemällä HTTP DELETE -pyyntö resurssia vastaavaan <i>URL</i>:iin, eli jos poistaisimme esim. käyttäjän, jonka <i>id</i> on 2, tulisi tapauksessamme tehdä HTTP DELETE osoitteeseen <i>localhost:3001/persons/2</i>. Pyynnön mukana ei lähetetä mitään dataa. -->
+The associated resource for a person in the backend can be deleted by making an HTTP DELETE request to the resource's URL. If we're deleting e.g. a person who has the <i>id</i> 2, we would have to make an HTTP DELETE request to the URL <i>localhost:3001/persons/2</i>. No data is sent with the request.
 
-[Axios](https://github.com/axios/axios)-kirjaston avulla HTTP DELETE -pyyntö tehdään samaan tapaan kuin muutkin pyynnöt.
+<!-- [Axios](https://github.com/axios/axios)-kirjaston avulla HTTP DELETE -pyyntö tehdään samaan tapaan kuin muutkin pyynnöt. -->
+You can make an HTTP DELETE request with the [axios](https://github.com/axios/axios) library in the same way that you have done all the other requests.
 
-**Huom:** et voi käyttää Javascriptissa muuttujan nimeä <em>delete</em> sillä kyseessä on kielen varattu sana, eli seuraava ei onnistu:
+<!-- **Huom:** et voi käyttää Javascriptissa muuttujan nimeä <em>delete</em> sillä kyseessä on kielen varattu sana, eli seuraava ei onnistu: -->
+**NB:** You can't use the name <em>delete</em> for a variable because it's a reserved word in JavaScript. E.g. the following is not possible:
 
 ```js
 // käytä jotain muuta muuttujan nimeä
@@ -812,11 +822,14 @@ const delete = (id) => {
 }
 ```
 
-<h4>2.18*: puhelinluettelo step10</h4>
+<!-- <h4>2.18*: puhelinluettelo step10</h4> -->
+<h4>2.18*: Phonebook step10</h4>
 
-Muuta toiminnallisuutta siten, että jos jo olemassaolevalle henkilölle lisätään numero, korvaa lisätty numero aiemman numeron. Korvaaminen kannattaa tehdä HTTP PUT -pyynnöllä.
+<!-- Muuta toiminnallisuutta siten, että jos jo olemassaolevalle henkilölle lisätään numero, korvaa lisätty numero aiemman numeron. Korvaaminen kannattaa tehdä HTTP PUT -pyynnöllä. -->
+Change the functionality so that if a number is added to an already existing user, the new number will replace the old number. It's recommended to use the HTTP PUT method for updating the phone number. 
 
-Jos henkilön tiedot löytyvät jo luettelosta, voi ohjelma kysyä käyttäjältä varmistuksen korvataanko numero:
+<!-- Jos henkilön tiedot löytyvät jo luettelosta, voi ohjelma kysyä käyttäjältä varmistuksen korvataanko numero: -->
+If the person's information is already in the phonebook, the application can confirm the action from the user:
 
 ![](../images/teht/16a.png)
 
