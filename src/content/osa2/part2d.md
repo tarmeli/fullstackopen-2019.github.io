@@ -7,7 +7,7 @@ letter: d
 <div class="content">
 
 <!-- Kun sovelluksella luodaan uusia muistiinpanoja, täytyy ne luonnollisesti tallentaa palvelimelle. [json-server](https://github.com/typicode/json-server) mainitsee dokumentaatiossaan olevansa ns. REST- tai RESTful-API -->
-We naturally want to store all notes that are created in our application on a server. The [json-server](https://github.com/typicode/json-server) package claims to be a so-called REST or RESTful API in its documentation
+We naturally want to store all notes that are created in our application in the backend server. The [json-server](https://github.com/typicode/json-server) package claims to be a so-called REST or RESTful API in its documentation
 
 > <i>Get a full fake REST API with zero coding in less than 30 seconds (seriously)</i>
 
@@ -57,7 +57,7 @@ addNote = event => {
 ```
 
 <!-- eli luodaan muistiinpanoa vastaava olio, ei kuitenkaan lisätä sille kenttää <i>id</i>, sillä on parempi jättää id:n generointi palvelimen vastuulle! -->
-We create a new object for the note but omit the <i>id</i> property, since it's better to let the server generate id's for our resources!
+We create a new object for the note but omit the <i>id</i> property, since it's better to let the server generate ids for our resources!
 
 <!-- Olio lähetetään palvelimelle käyttämällä axiosin metodia <em>post</em>. Rekisteröity tapahtumankäsittelijä tulostaa konsoliin palvelimen vastauksen. -->
 The object is sent to the server by using the axios <em>post</em> method. The registered event handler logs the response that is sent back from the server to the console.
@@ -70,15 +70,19 @@ When we try to create a new note, the following output pops up in console:
 <!-- Uusi muistiinpano on siis _response_-olion kentän <i>data</i> arvona. Palvelin on lisännyt muistiinpanolle tunnisteen, eli <i>id</i>-kentän. -->
 The newly created note resource is stored in the value of the <i>data</i> property of the _response_ object.
 
-Joskus on hyödyllistä tarkastella HTTP-pyyntöjä [osan 0 alussa](/osa0#http-get) paljon käytetyn konsolin <i>Network</i>-välilehden kautta:
+<!-- Joskus on hyödyllistä tarkastella HTTP-pyyntöjä [osan 0 alussa](/osa0#http-get) paljon käytetyn konsolin <i>Network</i>-välilehden kautta: -->
+Sometimes it can be useful to inspect HTTP requests in the <i>Network</i> tab of Chrome developer tools, which was used heavily at the beginning of [part 0](/osa0#http-get):
 
 ![](../images/2/21b.png)
 
-Voimme esim. tarkastaa onko POST-pyynnön mukana menevä data juuri se mitä oletimme, onko headerit asetettu oikein ym.
+<!-- Voimme esim. tarkastaa onko POST-pyynnön mukana menevä data juuri se mitä oletimme, onko headerit asetettu oikein ym. -->
+We can use the inspector to check that the headers sent in the POST request are what we expected them to be and that their values are correct.
 
-Koska POST-pyynnössä lähettämämme data oli Javascript-olio, osasi axios automaattisesti asettaa pyynnön <i>Content-type</i> headerille oikean arvon eli <i>application/json</i>.
+<!-- Koska POST-pyynnössä lähettämämme data oli Javascript-olio, osasi axios automaattisesti asettaa pyynnön <i>Content-type</i> headerille oikean arvon eli <i>application/json</i>. -->
+Since the data we sent in the POST request was a JavaScript object, axios automatically knew to set the appropriate <i>application/json</i> value for the <i>Content-Type</i> header.
 
-Uusi muistiinpano ei vielä renderöidy ruudulle, sillä emme aseta komponentille <i>App</i> uutta tilaa muistiinpanon luomisen yhteydessä. Viimeistellään sovellus vielä tältä osin:
+<!-- Uusi muistiinpano ei vielä renderöidy ruudulle, sillä emme aseta komponentille <i>App</i> uutta tilaa muistiinpanon luomisen yhteydessä. Viimeistellään sovellus vielä tältä osin: -->
+The new note is not yet rendered to the screen because we did not update the state of the <i>App</i> component when we created the new note. Let's fix this:
 
 ```js
 addNote = event => {
@@ -100,27 +104,37 @@ addNote = event => {
 }
 ```
 
-Palvelimen palauttama uusi muistiinpano siis lisätään tuttuun tapaan funktiolla <em>setNotes</em> tilassa olevien muiden muistiinpanojen joukkoon (kannattaa [muistaa tärkeä detalji](/osa1#taulukon-käsittelyä) siitä, että metodi <em>concat</em> ei muuta komponentin alkuperäistä tilaa, vaan luo uuden taulukon) ja tyhjennetään lomakkeen teksti. 
+<!-- Palvelimen palauttama uusi muistiinpano siis lisätään tuttuun tapaan funktiolla <em>setNotes</em> tilassa olevien muiden muistiinpanojen joukkoon (kannattaa [muistaa tärkeä detalji](/osa1#taulukon-käsittelyä) siitä, että metodi <em>concat</em> ei muuta komponentin alkuperäistä tilaa, vaan luo uuden taulukon) ja tyhjennetään lomakkeen teksti.  -->
+The new note returned by the backend server is added to the list of notes in our application's state in a familiar fashion by using the <em>setNotes</em> function and then resetting the note creation form. An [important detail](/osa1#taulukon-käsittelyä) to remember is that the <em>concat</em> method does not change the original state, but rather creates a new copy of the list.
 
-Kun palvelimella oleva data alkaa vaikuttaa web-sovelluksen toimintalogiikkaan, tulee sovelluskehitykseen heti iso joukko uusia haasteita, joita tuo mukanaan mm. kommunikoinnin asynkronisuus. Debuggaamiseenkin tarvitaan uusia strategiota, debug-printtaukset ym. muuttuvat vain tärkeämmäksi, myös Javascriptin runtimen periaatteita ja React-komponenttien toimintaa on pakko tuntea riittävällä tasolla, arvaileminen ei riitä.
+<!-- Kun palvelimella oleva data alkaa vaikuttaa web-sovelluksen toimintalogiikkaan, tulee sovelluskehitykseen heti iso joukko uusia haasteita, joita tuo mukanaan mm. kommunikoinnin asynkronisuus. Debuggaamiseenkin tarvitaan uusia strategiota, debug-printtaukset ym. muuttuvat vain tärkeämmäksi, myös Javascriptin runtimen periaatteita ja React-komponenttien toimintaa on pakko tuntea riittävällä tasolla, arvaileminen ei riitä. -->
+Once the data returned by the server starts to have an effect on the behavior of our web applications, we are immediately faced by a whole new set of challenges that arise due to the nature of asynchronous communication among other things. This creates the demand for new debugging strategies. Logging to the console and other means of debugging become more and more important, and we have to develop an understanding of the inner workings of the JavaScript runtime and React components — guessing is no longer an option.
 
-Palvelimen tilaa kannattaa tarkastella myös suoraan, esim. selaimella:
+<!-- Palvelimen tilaa kannattaa tarkastella myös suoraan, esim. selaimella: -->
+It's beneficial to inspect the state of the backend server e.g. through the browser:
 
 ![](../images/2/22b.png)
 
-näin on mahdollista varmistua, mm. siirtyykö kaikki oletettu data palvelimelle.
+<!-- näin on mahdollista varmistua, mm. siirtyykö kaikki oletettu data palvelimelle. -->
+This makes it possible to verify that all the data we intended to send was actually received by the server.
 
-Kurssin seuraavassa osassa alamme toteuttaa itse myös palvelimella olevan sovelluslogiikan, tutustumme silloin tarkemmin palvelimen debuggausta auttaviin työkaluihin, mm. [postmaniin](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop). Tässä vaiheessa json-server-palvelimen tilan tarkkailuun riittänee selain.
+<!-- Kurssin seuraavassa osassa alamme toteuttaa itse myös palvelimella olevan sovelluslogiikan, tutustumme silloin tarkemmin palvelimen debuggausta auttaviin työkaluihin, mm. [postmaniin](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop). Tässä vaiheessa json-server-palvelimen tilan tarkkailuun riittänee selain. -->
+In the next part of the course we will learn to implement our own logic in the backend. We will then take a closer look at tools like [postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) that help us to debug our server applications. However, inspecting the state of the json-server through the browser is sufficient for our current needs.
 
-> **HUOM:** sovelluksen nykyisessä versiossa selain lisää uudelle muistiinpanolle sen luomishetkeä kuvaavan kentän. Koska koneen oma kello voi näyttää periaatteessa mitä sattuu, on aikaleimojen generointi todellisuudessa viisaampaa hoitaa palvelimella ja tulemmekin tekemään tämän muutoksen kurssin seuraavassa osassa.
+<!-- > **HUOM:** sovelluksen nykyisessä versiossa selain lisää uudelle muistiinpanolle sen luomishetkeä kuvaavan kentän. Koska koneen oma kello voi näyttää periaatteessa mitä sattuu, on aikaleimojen generointi todellisuudessa viisaampaa hoitaa palvelimella ja tulemmekin tekemään tämän muutoksen kurssin seuraavassa osassa. -->
+> **NB:** in the current version of our application the browser adds the creation date property to the note. Since the clock of the machine running the browser can be wrongly configured, it's much wiser to let the backend server generate this timestamp for us. This is in fact what we will do in the next part of the course.
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-5), branchissa <i>part2-5</i>.
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-5), branchissa <i>part2-5</i>. -->
+The code for the current state of our application can be found in the  <i>part2-5</i> branch on [github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-5).
 
-### Muistiinpanon tärkeyden muutos
+<!-- ### Muistiinpanon tärkeyden muutos -->
+### Changing the importance of notes
 
-Lisätään muistiinpanojen yhteyteen painike, millä niiden tärkeyttä voi muuttaa.
+<!-- Lisätään muistiinpanojen yhteyteen painike, millä niiden tärkeyttä voi muuttaa. -->
+Let's add a button to every note that can be used for toggling its importance.
 
-Muistiinpanon määrittelevän komponentin muutos on seuraavat:
+<!-- Muistiinpanon määrittelevän komponentin muutos on seuraavat: -->
+We make the following changes to the <i>Note</i> component:
 
 ```js
 const Note = ({ note, toggleImportance }) => {
@@ -136,9 +150,11 @@ const Note = ({ note, toggleImportance }) => {
 }
 ```
 
-Komponentissa on nappi, jolle on rekisteröity klikkaustapahtuman käsittelijäksi propsien avulla välitetty funktio <em>toggleImportance</em>.
+<!-- Komponentissa on nappi, jolle on rekisteröity klikkaustapahtuman käsittelijäksi propsien avulla välitetty funktio <em>toggleImportance</em>. -->
+We add a button to the component and assign its event handler as the <em>toggleImportance</em> function passed in the component's props.
 
-Komponentti <i>App</i> määrittelee alustavan version tapahtumankäsittelijästä <em>toggleImportanceOf</em> ja välittää sen jokaiselle <i>Note</i>-komponentille:
+<!-- Komponentti <i>App</i> määrittelee alustavan version tapahtumankäsittelijästä <em>toggleImportanceOf</em> ja välittää sen jokaiselle <i>Note</i>-komponentille: -->
+The <i>App</i> component defines an initial version of the <em>toggleImportanceOf</em> event handler function and passes it to every <i>Note</i> component:
 
 ```js
 const App = () => {
@@ -170,33 +186,40 @@ const App = () => {
 }
 ```
 
-Huomaa, että jokaisen muistiinpanon tapahtumankäsittelijäksi tulee nyt <i>yksilöllinen</i> funktio, sillä kunkin muistiinpanon <i>id</i> on uniikki.
+<!-- Huomaa, että jokaisen muistiinpanon tapahtumankäsittelijäksi tulee nyt <i>yksilöllinen</i> funktio, sillä kunkin muistiinpanon <i>id</i> on uniikki. -->
+Notice how every note receives its own <i>unique</i> event handler function, as the <i>id</i> of every note is unique.
 
-Esim. jos <i>node.id</i> on 3, tulee tapahtumankäsittelijäksi _toggleImportance(note.id)_ eli käytännössä:
+<!-- Esim. jos <i>node.id</i> on 3, tulee tapahtumankäsittelijäksi _toggleImportance(note.id)_ eli käytännössä: -->
+E.g. if <i>node.id</i> is 3, the event handler function returned by _toggleImportance(note.id)_ will be:
 
 ```js
 () => { console.log('importance of 3 needs to be toggled') }
 ```
 
-Pieni muistutus tähän väliin. Tapahtumankäsittelijän koodin tulostuksessa muodostetaan tulostettava merkkijono Javan tyyliin plussaamalla stringejä:
+<!-- Pieni muistutus tähän väliin. Tapahtumankäsittelijän koodin tulostuksessa muodostetaan tulostettava merkkijono Javan tyyliin plussaamalla stringejä: -->
+Short reminder. The string printed by the event handler in a Java-like manner by plussing strings:
 
 ```js
 console.log('importance of ' + id + ' needs to be toggled')
 ```
 
-ES6:n [template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) -ominaisuuden ansiosta Javascriptissa vastaavat merkkijonot voidaan kirjottaa hieman mukavammin:
+<!-- ES6:n [template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) -ominaisuuden ansiosta Javascriptissa vastaavat merkkijonot voidaan kirjottaa hieman mukavammin: -->
+The [template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) syntax added in ES6 can be used to write similar strings in a nicer way:
 
 ```js
 console.log(`importance of ${id} needs to be toggled`)
 ```
 
-Merkkijonon sisälle voi nyt määritellä "dollari-aaltosulku"-syntaksilla kohtia, minkä sisälle evaluoidaan javascript-lausekkeita, esim. muuttujan arvo. Huomaa, että template stringien hipsutyyppi poikkeaa Javascriptin normaaleista merkkijonojen käyttämistä hipsuista.
+<!-- Merkkijonon sisälle voi nyt määritellä "dollari-aaltosulku"-syntaksilla kohtia, minkä sisälle evaluoidaan javascript-lausekkeita, esim. muuttujan arvo. Huomaa, että template stringien hipsutyyppi poikkeaa Javascriptin normaaleista merkkijonojen käyttämistä hipsuista. -->
+We can now use the "dollar bracket"-syntax to add parts to the string that will evaluate JavaScript expressions, e.g. the value of a variable. Note that the quotation marks used in template strings differ from the quotation marks used in regular JavaScript strings.
 
-Yksittäistä json-serverillä olevaa muistiinpanoa voi muuttaa kahdella tavalla, joko <i>korvaamalla</i> sen tekemällä HTTP PUT -pyyntö muistiinpanon yksilöivään osoitteeseen tai muuttamalla ainoastaan joidenkin muistiinpanon kenttien arvoja HTTP PATCH -pyynnöllä.
+<!-- Yksittäistä json-serverillä olevaa muistiinpanoa voi muuttaa kahdella tavalla, joko <i>korvaamalla</i> sen tekemällä HTTP PUT -pyyntö muistiinpanon yksilöivään osoitteeseen tai muuttamalla ainoastaan joidenkin muistiinpanon kenttien arvoja HTTP PATCH -pyynnöllä. -->
+Individual notes stored in the json-server backend can be modified in two different ways by making HTTP requests to the note's unique URL. We can either <i>replace</i> the entire note with an HTTP PUT request, or only change some of the note's properties with an HTTP PATCH request.
 
-Korvaamme nyt muistiinpanon kokonaan, sillä samalla tulee esille muutama tärkeä React:iin ja Javascriptiin liittyvä seikka.
+<!-- Korvaamme nyt muistiinpanon kokonaan, sillä samalla tulee esille muutama tärkeä React:iin ja Javascriptiin liittyvä seikka. -->
 
-Tapahtumankäsittelijäfunktion lopullinen muoto on seuraavassa:
+<!-- Tapahtumankäsittelijäfunktion lopullinen muoto on seuraavassa: -->
+The final form of the event handler function is the following:
 
 ```js
 const toggleImportanceOf = id => {
