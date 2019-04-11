@@ -233,21 +233,27 @@ const toggleImportanceOf = id => {
 }
 ```
 
-Melkein jokaiselle riville sisältyy tärkeitä yksityiskohtia. Ensimmäinen rivi määrittelee jokaiselle muistiinpanolle id-kenttään perustuvan yksilöivän url:in.
+<!-- Melkein jokaiselle riville sisältyy tärkeitä yksityiskohtia. Ensimmäinen rivi määrittelee jokaiselle muistiinpanolle id-kenttään perustuvan yksilöivän url:in. -->
+Almost every line of code in the function body contains important details. The first line defines the unique url for each note resource based on its id.
 
-Taulukon metodilla [find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) etsitään muutettava muistiinpano ja talletetaan muuttujaan _note_ viite siihen.
+<!-- Taulukon metodilla [find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) etsitään muutettava muistiinpano ja talletetaan muuttujaan _note_ viite siihen. -->
+The array [find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) method is used to find the note we want to modify and assigns it to the _note_ variable.
 
-Sen jälkeen luodaan <i>uusi olio</i>, jonka sisältö on sama kuin vanhan olion sisältö poislukien kenttä important. Luominen näyttää hieman erikoiselta:
+<!-- Sen jälkeen luodaan <i>uusi olio</i>, jonka sisältö on sama kuin vanhan olion sisältö poislukien kenttä important. Luominen näyttää hieman erikoiselta: -->
+After this we create a <i>new object</i> that is an exact copy of the old note, excluding the important property. The code for creating the new object may seem a bit strange:
 
 ```js
 const changedNote = { ...note, important: !note.important }
 ```
 
-Kyseessä on vielä standardoimattoman [object spread](https://github.com/tc39/proposal-object-rest-spread) -operaation soveltaminen.
+<!-- Kyseessä on vielä standardoimattoman [object spread](https://github.com/tc39/proposal-object-rest-spread) -operaation soveltaminen. -->
+The command uses the [object spread](https://github.com/tc39/proposal-object-rest-spread) syntax which is not yet a standard part of the JavaScript language specification.
 
-Käytännössä <em>{ ... note}</em> luo olion, jolla on kenttinään kopiot olion _note_ kenttien arvoista. Kun aaltosulkeisiin lisätään asioita, esim. <em>{ ...note, important: true }</em>, tulee uuden olion kenttä _important_ saamaan arvon _true_. Eli esimerkissämme <em>important</em> saa uudessa oliossa vanhan arvonsa käänteisarvon.
+<!-- Käytännössä <em>{ ... note}</em> luo olion, jolla on kenttinään kopiot olion _note_ kenttien arvoista. Kun aaltosulkeisiin lisätään asioita, esim. <em>{ ...note, important: true }</em>, tulee uuden olion kenttä _important_ saamaan arvon _true_. Eli esimerkissämme <em>important</em> saa uudessa oliossa vanhan arvonsa käänteisarvon. -->
+In practice <em>{ ...note }</em> creates a new object, with copies of all the properties from the _note_ object. When we add properties inside the brackets after the spreaded object, e.g. <em>{ ...note, important: true }</em>, then the value of the _important_ property of the new object will be _true_. In our example the <em>important</em> property gets the negation of its previous value in the original object.
 
-Pari huomioita. Miksi teimme muutettavasta oliosta kopion vaikka myös seuraava koodi näyttää toimivan:
+<!-- Pari huomioita. Miksi teimme muutettavasta oliosta kopion vaikka myös seuraava koodi näyttää toimivan: -->
+There's a few things to point out. Why did we make a copy of the note object we wanted to modify, when the following code also appears to work:
 
 ```js
 const note = notes.find(n => n.id === id)
@@ -257,13 +263,17 @@ axios.put(url, note).then(response => {
   // ...
 ```
 
-Näin ei ole suositetavaa tehdä, sillä muuttuja <em>note</em> on viite komponentin tilassa, eli <em>notes</em>-taulukossa olevaan olioon, ja kuten muistamme tilaa ei Reactissa saa muuttaa suoraan!
+<!-- Näin ei ole suositetavaa tehdä, sillä muuttuja <em>note</em> on viite komponentin tilassa, eli <em>notes</em>-taulukossa olevaan olioon, ja kuten muistamme tilaa ei Reactissa saa muuttaa suoraan! -->
+This is not recommended because the variable <em>note</em> is a reference to an item in the <em>notes</em> array in the component's state, and as we recall we must never mutate state directly in React. 
 
-Kannattaa myös huomata, että uusi olio _changedNote_ on ainoastaan ns. [shallow copy](https://en.wikipedia.org/wiki/Object_copying#Shallow_copy), eli uuden olion kenttien arvoina on vanhan olion kenttien arvot. Jos vanhan olion kentät olisivat itsessään olioita, viittaisivat uuden olion kentät samoihin olioihin.
+<!-- Kannattaa myös huomata, että uusi olio _changedNote_ on ainoastaan ns. [shallow copy](https://en.wikipedia.org/wiki/Object_copying#Shallow_copy), eli uuden olion kenttien arvoina on vanhan olion kenttien arvot. Jos vanhan olion kentät olisivat itsessään olioita, viittaisivat uuden olion kentät samoihin olioihin. -->
+It's also worth noting that the new object _changedNote_ is only a so-called [shallow copy](https://en.wikipedia.org/wiki/Object_copying#Shallow_copy), meaning that the values of the new object are the same as the values of the old object. If the values of the old object were objects themselves, then the copied values in new object would reference the same objects that were in the old object.
 
-Uusi muistiinpano lähetetään sitten PUT-pyynnön mukana palvelimelle, jossa se korvaa aiemman muistiinpanon.
+<!-- Uusi muistiinpano lähetetään sitten PUT-pyynnön mukana palvelimelle, jossa se korvaa aiemman muistiinpanon. -->
+The new note is then sent with a PUT request to the backend where it will replace the old object.
 
-Takaisinkutsufunktiossa asetetaan komponentin <i>App</i> tilaan <em>notes</em>  kaikki vanhat muistiinpanot paitsi muuttuneen, josta tilaan asetetaan palvelimen palauttama versio:
+<!-- Takaisinkutsufunktiossa asetetaan komponentin <i>App</i> tilaan <em>notes</em>  kaikki vanhat muistiinpanot paitsi muuttuneen, josta tilaan asetetaan palvelimen palauttama versio: -->
+The callback function sets the component's <em>notes</em> state to a new array that contains all the items from the previous <em>notes</em> array, except for the old note which is replaced by the updated version of that note returned by the server:
 
 ```js
 axios.put(url, changedNote).then(response => {
@@ -271,21 +281,27 @@ axios.put(url, changedNote).then(response => {
 })
 ```
 
-Tämä saadaan aikaan metodilla <em>map</em>: 
+<!-- Tämä saadaan aikaan metodilla <em>map</em>:  -->
+This is accomplished with the <em>map</em> method:
 
 ```js
 notes.map(note => note.id !== id ? note : response.data)
 ```
 
-Operaatio siis luo uuden taulukon vanhan taulukon perusteella. Jokainen uuden taulukon alkio luodaan ehdollisesti siten, että jos ehto <em>note.id !== id</em> on tosi, otetaan uuteen taulukkoon suoraan vanhan taulukon kyseinen alkio. Jos ehto on epätosi, eli kyseessä on muutettu muistiinpano, otetaan uuteen taulukkoon palvelimen palauttama olio.
+<!-- Operaatio siis luo uuden taulukon vanhan taulukon perusteella. Jokainen uuden taulukon alkio luodaan ehdollisesti siten, että jos ehto <em>note.id !== id</em> on tosi, otetaan uuteen taulukkoon suoraan vanhan taulukon kyseinen alkio. Jos ehto on epätosi, eli kyseessä on muutettu muistiinpano, otetaan uuteen taulukkoon palvelimen palauttama olio. -->
+The map method creates a new array by mapping every item from the old array into an item in the new array. In our example, the new array is created conditionally so that if <em>note.id !== id</em> is true, we simply copy the item from the old array into the new array. If the condition is false, then the note object returned by the server is added to the array instead.
 
-Käytetty <em>map</em>-kikka saattaa olla aluksi hieman hämmentävä. Asiaa kannattaakin miettiä tovi. Tapaa tullaan käyttämään kurssilla vielä kymmeniä kertoja.
+<!-- Käytetty <em>map</em>-kikka saattaa olla aluksi hieman hämmentävä. Asiaa kannattaakin miettiä tovi. Tapaa tullaan käyttämään kurssilla vielä kymmeniä kertoja. -->
+This <em>map</em> trick may seem a bit strange at first but it's worth spending some time wrapping your head around it. We will use this method many times throughout the course.
 
-### Palvelimen kanssa tapahtuvan kommunikoinnin eristäminen omaan moduuliin
+<!-- ### Palvelimen kanssa tapahtuvan kommunikoinnin eristäminen omaan moduuliin -->
+### Extracting communication with the backend into a separate module
 
-<i>App</i>-komponentti alkaa kasvaa uhkaavasti kun myös palvelimen kanssa kommunikointi tapahtuu komponentissa. [Single responsibility](https://en.wikipedia.org/wiki/Single_responsibility_principle) -periaatteen hengessä kommunikointi onkin viisainta eristää omaan [moduuliinsa](#refaktorointia---moduulit).
+<!-- <i>App</i>-komponentti alkaa kasvaa uhkaavasti kun myös palvelimen kanssa kommunikointi tapahtuu komponentissa. [Single responsibility](https://en.wikipedia.org/wiki/Single_responsibility_principle) -periaatteen hengessä kommunikointi onkin viisainta eristää omaan [moduuliinsa](#refaktorointia---moduulit). -->
+The <i>App</i> component has become quite bloated after we added the code for communicating with the backend server. In the spirit of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle), we deem it wise to extract this communication into its own [module](#refaktorointia---moduulit).
 
-Luodaan hakemisto <i>src/services</i> ja sinne tiedosto <i>notes.js</i>:
+<!-- Luodaan hakemisto <i>src/services</i> ja sinne tiedosto <i>notes.js</i>: -->
+Let's create a <i>src/services</i> directory and add a file there called <i>notes.js</i>:
 
 ```js
 import axios from 'axios'
@@ -310,7 +326,8 @@ export default {
 }
 ```
 
-Moduuli palauttaa nyt olion, jonka kenttinä (<i>getAll</i>, <i>create</i> ja <i>update</i>) on kolme muistiinpanojen käsittelyä hoitavaa funktiota. Funktiot palauttavat suoraan axiosin metodien palauttaman promisen.
+<!-- Moduuli palauttaa nyt olion, jonka kenttinä (<i>getAll</i>, <i>create</i> ja <i>update</i>) on kolme muistiinpanojen käsittelyä hoitavaa funktiota. Funktiot palauttavat suoraan axiosin metodien palauttaman promisen. -->
+The module returns an object that has three functions (<i>getAll</i>, <i>create</i> ja <i>update</i>) for dealing with notes as its properties. The functions directly return the Promises returned by the axios methods.
 
 Komponentti <i>App</i> saa moduulin käyttöön <em>import</em>-lauseella
 
@@ -320,7 +337,8 @@ import noteService from './services/notes' // highlight-line
 const App = () => {
 ```
 
-moduulin funktioita käytetään importatun muuttujan _noteService_ kautta seuraavasti:
+<!-- moduulin funktioita käytetään importatun muuttujan _noteService_ kautta seuraavasti: -->
+The functions of the module can be used directly with the imported variable _noteService_ like this:
 
 ```js
 const App = () => {
@@ -373,7 +391,8 @@ const App = () => {
 export default App
 ```
 
-Voisimme viedä ratkaisua vielä askeleen pidemmälle, sillä käyttäessään moduulin funktioita komponentti <i>App</i> saa olion, joka sisältää koko HTTP-pyynnön vastauksen:
+<!-- Voisimme viedä ratkaisua vielä askeleen pidemmälle, sillä käyttäessään moduulin funktioita komponentti <i>App</i> saa olion, joka sisältää koko HTTP-pyynnön vastauksen: -->
+We could take our implementation one step further. When the <i>App</i> component uses the functions, it receives an object that contains the entire response for the HTTP request:
 
 ```js
 noteService
@@ -383,9 +402,11 @@ noteService
   })
 ```
 
-Eli asia mistä <i>App</i> on kiinnostunut on parametrin kentässä <i>response.data</i>.
+<!-- Eli asia mistä <i>App</i> on kiinnostunut on parametrin kentässä <i>response.data</i>. -->
+The <i>App</i> component only uses the <i>response.data</i> property of the response object.
 
-Moduulia olisi miellyttävämpi käyttää, jos se HTTP-pyynnön vastauksen sijaan palauttaisi suoraan muistiinpanot sisältävän taulukon. Tällöin moduulin käyttö näyttäisi seuraavalta
+<!-- Moduulia olisi miellyttävämpi käyttää, jos se HTTP-pyynnön vastauksen sijaan palauttaisi suoraan muistiinpanot sisältävän taulukon. Tällöin moduulin käyttö näyttäisi seuraavalta -->
+The module would be much nicer to use, if instead of the entire HTTP response we would only get the response data. Then using the module would look like this:
 
 ```js
 noteService
@@ -394,7 +415,8 @@ noteService
     setNotes(initialNotes)
   })
 ```
-Tämä onnistuu muuttamalla moduulin koodia seuraavasti (koodiin jää ikävästi copy-pastea, emme kuitenkaan nyt välitä siitä):
+<!-- Tämä onnistuu muuttamalla moduulin koodia seuraavasti (koodiin jää ikävästi copy-pastea, emme kuitenkaan nyt välitä siitä): -->
+We can achieve this by changing the code in the module as follows (the current code contains some copy-paste but we will tolerate that for now):
 
 ```js
 import axios from 'axios'
@@ -422,7 +444,8 @@ export default {
 }
 ```
 
-eli enää ei palautetakaan suoraan axiosin palauttamaa promisea, vaan otetaan promise ensin muuttujaan <em>request</em> ja kutsutaan sille metodia <em>then</em>:
+<!-- eli enää ei palautetakaan suoraan axiosin palauttamaa promisea, vaan otetaan promise ensin muuttujaan <em>request</em> ja kutsutaan sille metodia <em>then</em>: -->
+We no longer return the promise returned by axios directly. Instead, we assign the promise to the <em>request</em> variable and call its <em>then</em> method:
 
 ```js
 const getAll = () => {
@@ -431,7 +454,8 @@ const getAll = () => {
 }
 ```
 
-Täydellisessä muodossa kirjoitettuna viimeinen rivi olisi:
+<!-- Täydellisessä muodossa kirjoitettuna viimeinen rivi olisi: -->
+The last row in our function is simply a more compact expression of the same code as shown below:
 
 ```js
 const getAll = () => {
@@ -444,11 +468,14 @@ const getAll = () => {
 }
 ```
 
-Myös nyt funktio <em>getAll</em>  palauttaa promisen, sillä promisen metodi <em>then</em> [palauttaa promisen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then).
+<!-- Myös nyt funktio <em>getAll</em>  palauttaa promisen, sillä promisen metodi <em>then</em> [palauttaa promisen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then). -->
+The modified <em>getAll</em> function still returns a promise, as the <em>then</em> method of a promise also [returns a promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then). 
 
-Koska <em>then</em>:in parametri palauttaa suoraan arvon <i>response.data</i>, on funktion <em>getAll</em> palauttama promise sellainen, että jos HTTP-kutsu onnistuu, antaa promise takaisinkutsulleen HTTP-pyynnön mukana olleen datan, eli se toimii juuri niin kuin haluamme.
+<!-- Koska <em>then</em>:in parametri palauttaa suoraan arvon <i>response.data</i>, on funktion <em>getAll</em> palauttama promise sellainen, että jos HTTP-kutsu onnistuu, antaa promise takaisinkutsulleen HTTP-pyynnön mukana olleen datan, eli se toimii juuri niin kuin haluamme. -->
+After defining the parameter of the <em>then</em> method to directly return <i>response.data</i>, we have gotten the <em>getAll</em> function to work like we wanted it to. When the HTTP request is successful, the promise returns the data sent back in the response from the backend.
 
-Moduulin muutoksen jälkeen täytyy komponentti <i>App</i> muokata <em>noteService</em>:n metodien takaisinkutsujen osalta ottamaan huomioon, että ne palauttavat datan suoraan:
+<!-- Moduulin muutoksen jälkeen täytyy komponentti <i>App</i> muokata <em>noteService</em>:n metodien takaisinkutsujen osalta ottamaan huomioon, että ne palauttavat datan suoraan: -->
+We have to update the <i>App</i> component to work with the changes made to our module.  We have to fix the callback functions given as parameters to the <em>noteService</em> object's methods, so that they use the directly returned response data:
 
 ```js
 const App = () => {
@@ -499,17 +526,23 @@ const App = () => {
 }
 ```
 
-Tämä kaikki on hieman monimutkaista ja asian selittäminen varmaan vain vaikeuttaa sen ymmärtämistä. Internetistä löytyy paljon vaihtelevatasoista materiaalia aiheesta, esim. [tämä](https://javascript.info/promise-chaining).
+<!-- Tämä kaikki on hieman monimutkaista ja asian selittäminen varmaan vain vaikeuttaa sen ymmärtämistä. Internetistä löytyy paljon vaihtelevatasoista materiaalia aiheesta, esim. [tämä](https://javascript.info/promise-chaining). -->
+This is all quite complicated and attempting to explain it may just make it harder to understand. The internet is full of material discussin the topic, like [this](https://javascript.info/promise-chaining).
 
-[You do not know JS](https://github.com/getify/You-Dont-Know-JS) sarjan kirja "Async and performance" selittää asian [hyvin](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch3.md) mutta tarvitsee selitykseen kohtuullisen määrän sivuja.
+<!-- [You do not know JS](https://github.com/getify/You-Dont-Know-JS) sarjan kirja "Async and performance" selittää asian [hyvin](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch3.md) mutta tarvitsee selitykseen kohtuullisen määrän sivuja. -->
+The "Async and performance" book from the [You do not know JS](https://github.com/getify/You-Dont-Know-JS) book series explains the topic [well](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch3.md), but the explanation is many pages long.
 
-Promisejen ymmärtäminen on erittäin keskeistä modernissa Javascript-sovelluskehityksessä, joten asiaan kannattaa uhrata kohtuullisessa määrin aikaa.
+<!-- Promisejen ymmärtäminen on erittäin keskeistä modernissa Javascript-sovelluskehityksessä, joten asiaan kannattaa uhrata kohtuullisessa määrin aikaa. -->
+Promises are central to modern JavaScript development and it is highly recommended to invest a reasonable amount of time into understanding them.
 
-### Kehittyneempi tapa olioliteraalien määrittelyyn
+<!-- ### Kehittyneempi tapa olioliteraalien määrittelyyn -->
+### Cleaner syntax for defining object literals
 
-Muistiinpanopalvelut määrittelevä moduuli siis eksporttaa olion, jonka kenttinä <i>getAll</i>, <i>create</i> ja <i>update</i> ovat muistiinpanojen käsittelyyn tarkoitetut funktiot. 
+<!-- Muistiinpanopalvelut määrittelevä moduuli siis eksporttaa olion, jonka kenttinä <i>getAll</i>, <i>create</i> ja <i>update</i> ovat muistiinpanojen käsittelyyn tarkoitetut funktiot.  -->
+The module defining note related services currently exports an object with the properties <i>getAll</i>, <i>create</i> and <i>update</i> that are assigned to functions for handling notes.
 
-Moduulin määrittelu tapahtui seuraavasti:
+<!-- Moduulin määrittelu tapahtui seuraavasti: -->
+The module definition was done as follows:
 
 ```js
 import axios from 'axios'
@@ -537,7 +570,8 @@ export default {
 }
 ```
 
-Exportattava asia on siis seuraava, hieman erikoiselta näyttävä olio:
+<!-- Exportattava asia on siis seuraava, hieman erikoiselta näyttävä olio: -->
+The module exports the following, rather peculiar looking object:
 
 ```js
 { 
@@ -547,9 +581,11 @@ Exportattava asia on siis seuraava, hieman erikoiselta näyttävä olio:
 }
 ```
 
-Olion määrittelyssä vasemmalla puolella kaksoispistettä olevat nimet tarkoittavat eksportoitavan olion <i>kenttiä</i>, kun taas oikealla puolella olevat nimet ovat moduulin sisällä <i>määriteltyjä muuttujia</i>. 
+<!-- Olion määrittelyssä vasemmalla puolella kaksoispistettä olevat nimet tarkoittavat eksportoitavan olion <i>kenttiä</i>, kun taas oikealla puolella olevat nimet ovat moduulin sisällä <i>määriteltyjä muuttujia</i>.  -->
+The names to the left of the colon in the object definition are the <i>keys</i> of the object while the names to the right are <i>variables</i> that are defined inside of the module.
 
-Koska olion kenttien nimet ovat samat kuin niiden arvon määrittelevien muuttujien nimet, voidaan olion määrittely kirjoittaa tiivimmässä muodossa:
+<!-- Koska olion kenttien nimet ovat samat kuin niiden arvon määrittelevien muuttujien nimet, voidaan olion määrittely kirjoittaa tiivimmässä muodossa: -->
+Since the name of thy keys and the assigned variables are the same, we can write the object definition with a more compact syntax:
 
 ```js
 { 
@@ -559,7 +595,8 @@ Koska olion kenttien nimet ovat samat kuin niiden arvon määrittelevien muuttuj
 }
 ```
 
-Eli moduulin määrittely yksinkertaisuu seuraavaan muotoon 
+<!-- Eli moduulin määrittely yksinkertaisuu seuraavaan muotoon  -->
+As a result the module definition gets simplified into the following form:
 
 ```js
 import axios from 'axios'
@@ -583,16 +620,19 @@ const update = (id, newObject) => {
 export default { getAll, create, update } // highlight-line
 ```
 
-Tässä tiiviimmässä olioiden määrittelytavassa hyödynnetään ES6:n myötä Javascriptiin  tullutta [uutta ominaisuutta](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Property_definitions), joka mahdollistaa hieman tiiviimmän tavan muuttujien avulla tapahtuvaan olioiden määrittelyyn.
+<!-- Tässä tiiviimmässä olioiden määrittelytavassa hyödynnetään ES6:n myötä Javascriptiin  tullutta [uutta ominaisuutta](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Property_definitions), joka mahdollistaa hieman tiiviimmän tavan muuttujien avulla tapahtuvaan olioiden määrittelyyn. -->
+In this more compact definition we are using a [new feature](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Property_definitions) that that was added to JavaScript in the ES6 language specification. The feature specifically enables this more compact way of defining objects.
 
-Havainnollistaaksemme asiaa tarkastellaan tilannetta, jossa meillä on muuttujissa arvoja
+<!-- Havainnollistaaksemme asiaa tarkastellaan tilannetta, jossa meillä on muuttujissa arvoja -->
+To demonstrate this feature, let's consider a situation where we have the following values assigned to variables:
 
 ```js 
 const name = 'Leevi'
 const age = 0
 ```
 
-Vanhassa Javascriptissä olio täytyi määritellä seuraavaan tyyliin
+<!-- Vanhassa Javascriptissä olio täytyi määritellä seuraavaan tyyliin -->
+In older versions of JavaScript we had to define an object like this:
 
 ```js 
 const person = {
@@ -601,15 +641,18 @@ const person = {
 }
 ```
 
-koska muuttujien ja luotavan olion kenttien nimi nyt on sama, riittää ES6:ssa kirjoittaa:
+<!-- koska muuttujien ja luotavan olion kenttien nimi nyt on sama, riittää ES6:ssa kirjoittaa: -->
+Because the name of the variables and the name of keys of the object are the same, it's enough to simple write the following in ES6 JavaScript: 
 
 ```js 
 const person = { name, age }
 ```
 
-lopputulos molemmissa on täsmälleen sama, eli ne luovat olion jonka kentän <i>name</i> arvo on <i>Leevi</i> ja kentän <i>age</i> arvo <i>0</i>.
+<!-- lopputulos molemmissa on täsmälleen sama, eli ne luovat olion jonka kentän <i>name</i> arvo on <i>Leevi</i> ja kentän <i>age</i> arvo <i>0</i>. -->
+The result is identical in both expressions. They both create an object with a <i>name</i> property with the value <i>Leevi</i> and an <i>age</i> property with the value <i>0</i>.
 
-### Promise ja virheet
+<!-- ### Promise ja virheet -->
+### Promises and errors
 
 Jos sovelluksemme mahdollistaisi muistiinpanojen poistamisen, voisi syntyä tilanne, missä käyttäjä yrittää muuttaa sellaisen muistiinpanon tärkeyttä, joka on jo poistettu järjestelmästä.
 
