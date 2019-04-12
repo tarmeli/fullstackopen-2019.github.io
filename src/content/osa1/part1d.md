@@ -44,7 +44,7 @@ const App = (props) => {
 The component gets access to the functions _setLeft_ and _setRight_ that it can use to update the two pieces of state.
 
 <!-- Komponentin tila tai yksittäinen tilan pala voi olla minkä tahansa tyyppinen. Voisimme toteuttaa saman toiminnallisuuden tallentamalla nappien <i>vasen</i> ja <i>oikea</i> painallukset yhteen olioon -->
-The component's state or a piece of its state can be of any type. We could implement the same functionality by saving the click count of both the <i>left</i> and <i>right</i> buttons into a single object
+The component's state or a piece of its state can be of any type. We could implement the same functionality by saving the click count of both the <i>left</i> and <i>right</i> buttons into a single object:
 ```js
 {
   left: 0,
@@ -106,7 +106,7 @@ const handleLeftClick = () => {
 ```
 
 <!-- uudeksi tilaksi siis aseteaan seuraava olio -->
-The following object is set as the new state of the application
+The following object is set as the new state of the application:
 ```js
 {
   left: clicks.left + 1,
@@ -143,7 +143,7 @@ const handleRightClick = () => {
 The syntax may seem a bit strange at first. In practice <em>{ ...clicks }</em> creates a new object that has copies of all of the properties of the _clicks_ object. When we add new properties to the object, e.g. <em>{ ...clicks, right: 1 }</em>, the value of the _right_ property in the new object will be 1.
 
 <!-- Esimerkissämme siis -->
-In our example above
+In the example above, this:
 
 ```js
 { ...clicks, right: clicks.right + 1 }
@@ -164,7 +164,7 @@ const handleRightClick = () =>
 ```
 
 <!-- Lukijalle voi tässä vaiheessa herätä kysymys miksi emme hoitaneet tilan päivitystä seuraavalla tavalla -->
-Some readers might be wondering why we didn't just update the state directly like this
+Some readers might be wondering why we didn't just update the state directly, like this:
 
 ```js
 const handleLeftClick = () => {
@@ -223,7 +223,7 @@ const App = (props) => {
 ```
 
 <!-- Kaikki klikkaukset siis talletetaan omaan tilan osaansa _allClicks_, joka alustetaan tyhjäksi taulukoksi -->
-Every click is stored into a separate piece of state called _allClicks_ that is initialized as an empty array.
+Every click is stored into a separate piece of state called _allClicks_ that is initialized as an empty array:
 
 ```js
 const [allClicks, setAll] = useState([])
@@ -240,7 +240,7 @@ const handleLeftClick = () => {
 ```
 
 <!-- Tilan osa _allClicks_ saa nyt arvokseen taulukon, missä on entisen taulukon alkiot ja <i>L</i>. Uuden alkion liittäminen on tehty metodilla [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), joka toimii siten, että se ei muuta olemassaolevaa taulukkoa vaan luo <i>uuden taulukon</i>, mihin uusi alkio on lisätty. -->
-The piece of state stored in _allClicks_ is now set to be an array that contains all of the items of the previous state array and the letter <i>L</i>. Adding the new item to the array is accomplished with the [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat) method, that does not mutate the existing array but rather returns a <i>new copy of the array</i> with the item added to it.
+The piece of state stored in _allClicks_ is now set to be an array that contains all of the items of the previous state array plus the letter <i>L</i>. Adding the new item to the array is accomplished with the [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat) method, that does not mutate the existing array but rather returns a <i>new copy of the array</i> with the item added to it.
 
 <!-- Kuten jo aiemmin mainittiin, Javascriptissa on myös mahdollista lisätä taulukkoon metodilla [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) ja sovellus näyttäisi tässä tilanteessa toimivan myös jos lisäys hoidettaisiin siten että _allClicks_-tilaa muuteaan pushaamalla siihen alkio ja sitten päivitetään tila: -->
 As mentioned previously, it's also possible in JavaScript to add items to an array with the [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) method. If we add the item by pushing it to the _allClicks_ array and then updating the state, the application would still appear to work:
@@ -278,7 +278,7 @@ const App = (props) => {
 ```
 
 <!-- Taulukolle _allClicks_ kutsutaan metodia [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join), joka muodostaa taulukosta merkkijonon, joka sisältää taulukon alkiot erotettuina parametrina olevalla merkillä, eli välilyönnillä. -->
-We call the [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) method for the _allClicks_ array that joins all the items into a single string separated by the string passed as the function parameter, which in our case is an empty space.
+We call the [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) method for the _allClicks_ array that joins all the items into a single string, separated by the string passed as the function parameter, which in our case is an empty space.
 
 <!-- ### Ehdollinen renderöinti -->
 ### Conditional rendering
@@ -321,14 +321,14 @@ const App = (props) => {
 ```
 
 <!-- Nyt komponentin toiminta riippuu siitä, onko näppäimiä jo painettu. Jos ei, eli taulukko <em>allClicks</em> on tyhjä, renderöi komponentti "käyttöohjeen" sisältävän divin. -->
-The behavior of the component depends on whether or not any buttons have been clicked. If not, meaning that the <em>allClicks</em> array is empty, the component renders a div component with some instructions.
+The behavior of the component depends on whether or not any buttons have been clicked. If not, meaning that the <em>allClicks</em> array is empty, the component renders a div component with some instructions:
 
 ```js
 <div>sovellusta käytetään nappeja painelemalla</div>
 ```
 
 <!-- ja muussa tapauksessa näppäilyhistorian: -->
-and in all other cases the component renders the clicking history:
+And in all other cases the component renders the clicking history:
 
 ```js
 <div>
@@ -337,7 +337,7 @@ and in all other cases the component renders the clicking history:
 ```
 
 <!-- Komponentin <i>History</i> ulkoasun muodostamat React-elementit siis ovat erilaisia riippuen sovelluksen tilasta, eli komponentissa on <i>ehdollista renderöintiä</i>. -->
-The <i>History</i> component renders completely different React-elements depending on the state of the application, meaning that the component does <i>conditional rendering</i>.
+The <i>History</i> component renders completely different React-elements depending on the state of the application. This is called <i>conditional rendering</i>.
 
 <!-- Reactissa on monia muitakin tapoja [ehdolliseen renderöintiin](https://reactjs.org/docs/conditional-rendering.html). Katsotaan niitä tarkemmin [seuraavassa osassa](/osa2). -->
 React also offers many other ways of doing [conditional rendering](https://reactjs.org/docs/conditional-rendering.html). We will take a closer look at this in [part 2](/osa2).
@@ -408,7 +408,7 @@ const App = (props) => {
 In this course we use the the [state hook](https://reactjs.org/docs/hooks-state.html) to add state to our React components, which is a part of the newer versions of React and is available from version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) onward. Before the addition of hooks there was no way to add state to React functional components. Components that required state had to be defined as React [class](https://reactjs.org/docs/react-component.html) components using the JavaScript class syntax.
 
 <!-- Olemme tällä kurssilla tehneet hieman radikaalinkin ratkaisun käyttää pelkästään hookeja ja näin ollen opetella heti alusta asti ohjelmoimaan "huomisen" Reactia. Luokkasyntaksin hallitseminen on kuitenkin sikäli tärkeää, että vaikka funktiona määriteltävät komponentit ovat Reactin tulevaisuus, on maailmassa miljardeja rivejä vanhaa Reactia, jota kenties sinäkin joudut jonain päivänä ylläpitämään. Dokumentaation ja internetistä löytyvien esimerkkien suhteen tilanne on sama, törmäät class-komponentteihin välittömästi. -->
-In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the React style of the future. Even though functional components are the future of React, it is still important to learn the class syntax as there are billions of lines of old React code that you may end up maintaining in the future. The same applies to documentation and examples of React that you may stumble across on the internet.
+In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the future style of React. Even though functional components are the future of React, it is still important to learn the class syntax as there are billions of lines of old React code that you might end up maintaining some day. The same applies to documentation and examples of React that you may stumble across on the internet.
 
 <!-- Tutustummekin riittävällä tasolla class-komponentteihin hieman myöhemmin kurssilla. -->
 We will get to learn more about React class components later on in the course.
@@ -417,13 +417,13 @@ We will get to learn more about React class components later on in the course.
 ### Debugging React applications
 
 <!-- Ohjelmistokehittäjän elämä koostuu pääosin debuggaamisesta (ja olemassaolevan koodin lukemisesta). Silloin tällöin syntyy toki muutama rivi uuttakin koodia, mutta suuri osa ajasta ihmetellään miksi joku on rikki tai miksi joku asia ylipäätään toimii. Hyvät debuggauskäytänteet ja työkalut ovatkin todella tärkeitä. -->
-A large part of a developer's time is spent on debugging and reading existing code. Every now and then we do get to write a line or two of new code, but a large majority of our of time is spent on trying to figure out why something is broken or how something actually works. Good practices and tools for debugging are extremely important for this reason.
+A large part of a typical developer's time is spent on debugging and reading existing code. Every now and then we do get to write a line or two of new code, but a large part of our of time is spent on trying to figure out why something is broken or how something works. Good practices and tools for debugging are extremely important for this reason.
 
 <!-- Onneksi React on debuggauksen suhteen jopa harvinaisen kehittäjäystävällinen kirjasto. -->
 Lucky for us, React is an extremely developer friendly library when it comes to debugging.
 
 <!-- Muistutetaan vielä tärkeimmästä web-sovelluskehitykseen liittyvästä asiasta: -->
-Before we move on let us reminds ourselves of one of the most important rules of web development.
+Before we move on, let us reminds ourselves of one of the most important rules of web development.
 
 <!-- <h4>Web-sovelluskehityksen sääntö numero yksi</h4> -->
 <h4>The first rule of web development</h4>
@@ -439,13 +439,13 @@ Before we move on let us reminds ourselves of one of the most important rules of
 Keep both your code and the web page open together **at the same time, all the time**.
 
 <!-- Jos ja kun koodi ei käänny, eli selaimessa alkaa näkyä punaista -->
-If and when your code fails to compile and your browser lights up like a Christmas tree
+If and when your code fails to compile and your browser lights up like a Christmas tree:
 
 ![](../images/1/6a.png)
 
 <!-- älä kirjota enää lisää koodia vaan selvitä ongelma **välittömästi**. Koodauksen historia ei tunne tilannetta, missä kääntymätön koodi alkaisi ihmeenomaisesti toimimaan kirjoittamalla suurta määrää lisää koodia, enkä usko että sellaista ihmettä nähdään tälläkään kurssilla. -->
 
-don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such an event will occur during this course either.
+don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such an event will transpire during this course either.
 
 <!-- Vanha kunnon printtaukseen perustuva debuggaus kannattaa aina. Eli jos esim. komponentissa -->
 Old school, print based debugging is rarely a bad idea. If, e.g. the component
@@ -474,35 +474,35 @@ const Button = (props) => {
 ```
 
 <!-- näin selviää heti onko esim. joku propsia vastaava attribuutti nimetty väärin komponenttia käytettäessä. -->
-this will immediately reveal if e.g. one of the attributes has been misspelled when using the component.
+This will immediately reveal if e.g. one of the attributes has been misspelled when using the component.
 
 <!-- **HUOM** kun käytät komentoa _console.log_ debuggaukseen, älä yhdistele asioita "javamaisesti" plussalla, eli sen sijaan että kirjoittaisit -->
 
-**NB** when you use _console.log_ for debugging, don't combine objects in a Java-like fashion by  using a plus. Instead of writing
+**NB** when you use _console.log_ for debugging, don't combine objects in a Java-like fashion by  using a plus. Instead of writing:
 
 ```js
 console.log('propsin arvo on' + props)
 ```
 
 <!-- erottele tulostettavat asiat pilkulla: -->
-separate the the things you want to log to the console with a comma:
+Separate the the things you want to log to the console with a comma:
 
 ```js
 console.log('propsin arvo on', props)
 ```
 
 <!-- Jos yhdistät merkkijonoon olion, tuloksena on suhteellisen hyödytön tulostusmuoto -->
-If you use Java-like way of combine a string with an object you will end up with a rather uninformative log message
+If you use the Java-like way to combine a string with an object, you will end up with a rather uninformative log message:
 
 ```js
 propsin arvo on [Object object]
 ```
 
 <!-- kun taas pilkulla tulostettavat asiat erotellessa saat developer-konsoliin olion, jonka sisältöä on mahdollista tarkastella. -->
-whereas the items separated by a comma will all be available in the browser console for further inspection.
+Whereas the items separated by a comma will all be available in the browser console for further inspection.
 
 <!-- Konsoliin tulostus ei ole suinkaan ainoa keino debuggaamiseen. Koodin suorituksen voi pysäyttää Chromen developer konsolin <i>debuggeriin</i> kirjoittamalla mihin tahansa kohtaa koodia komennon [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger). -->
-Logging to the console is by no means the only way of debugging our applications. You can pause the execution of your application code in the Chrome developer console's <i>debugger</i> by writing the command [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) anywhere in your code.
+Logging to the console is by no means the only way of debugging our applications. You can pause the execution of your application code in the Chrome developer console's <i>debugger</i>, by writing the command [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) anywhere in your code.
 
 <!-- Koodi pysähtyy kun suoritus etenee sellaiseen pisteeseen, missä komento _debugger_ suoritetaan: -->
 The execution will pause once it arrives at a point where the _debugger_ command gets executed:
@@ -510,7 +510,7 @@ The execution will pause once it arrives at a point where the _debugger_ command
 ![](../images/1/7a.png)
 
 <!-- Menemällä välilehdelle <i>Console</i> on helppo tutkia muuttujien tilaa: -->
-By going to the <i>Console</i>  tab it is easy to inspect the current state of variables:
+By going to the <i>Console</i> tab, it is easy to inspect the current state of variables:
 
 ![](../images/1/8a.png)
 
@@ -526,12 +526,12 @@ You can also access the debugger with the _debugger_ command by adding break poi
 ![](../images/1/9a.png)
 
 <!-- Chromeen kannattaa ehdottomasti asentaa [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) -lisäosa, joka tuo konsoliin uuden tabin _React_: -->
-It is highly recommended to install the [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) extension to Chrome which adds a new _React_ tab to the developer tools.
+It is highly recommended to add the [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) extension to Chrome which adds a new _React_ tab to the developer tools:
 
 ![](../images/1/10a.png)
 
 <!-- Uuden konsolitabin avulla voidaan tarkkailla sovelluksen React-elementtejä ja niiden tilaa ja propseja. -->
-The new _React_ developer tools tab can be used to inspect the different React elements in the application along with their state and props.
+The new _React_ developer tools tab can be used to inspect the different React elements in the application, along with their state and props.
 
 <!-- React developer tools ei osaa toistaiseksi näyttää hookeilla muodostettua tilaa parhaalla mahdollisella tavalla. -->
 Unfortunately the current version of React developer tools leaves something to be desired when displaying component state created with hooks:
@@ -557,7 +557,7 @@ The topmost <i>baseState</i> shows the current value of the first piece of state
 There's a few limitations and rules we have to follow to ensure that our application using hooks based state functions correctly.
 
 <!-- Funktiota _useState_ (eikä seuraavassa osassa esiteltävää funktiota _useEffect_) <i>ei saa kutsua</i> loopissa, ehtolausekkeiden sisältä tai muista kun komponentin määrittelevästä funktioista. Tämä takaa sen, että hookeja kutsutaan aina samassa järjestyksessä, jos näin ei ole, sovellus toimii miten sattuu. -->
-The _useState_ function (as well as the _useEffect_ function introduced later on in the course) <i>must not be called</i> from inside of a loop, a conditional expression or any place that is not a function defining a component. This must be done to ensure that the hooks are always called in the same order, and if this isn't the case the application will behave erratically.
+The _useState_ function (as well as the _useEffect_ function introduced later on in the course) <i>must not be called</i> from inside of a loop, a conditional expression, or any place that is not a function defining a component. This must be done to ensure that the hooks are always called in the same order, and if this isn't the case the application will behave erratically.
 
 <!-- Hookeja siis kuuluu kutsua ainoastaan React-komponentin määrittelevän funktion rungosta: -->
 To recap, hooks may only be called from inside of a function body that defines a React component:
@@ -622,7 +622,7 @@ ReactDOM.render(
 We want the clicking of the button to reset the state stored in the _value_ variable.
 
 <!-- Jotta saamme napin reagoimaan, on sille lisättävä <i>tapahtumankäsittelijä</i>. -->
-In order to make the button react to a click event we have add an <i>event handler</i> to it.
+In order to make the button react to a click event, we have add an <i>event handler</i> to it.
 
 <!-- Tapahtumankäsittelijän tulee aina olla <i>funktio</i> tai viite funktioon. Jos tapahtumankäsittelijän paikalle yritetään laittaa jotain muuta, ei nappi toimi. -->
 Event handlers must always be a function or a reference to a function. The button will not work if the event handler is set to a variable of any other type.
@@ -644,27 +644,27 @@ index.js:2178 Warning: Expected `onClick` listener to be a function, instead got
 ```
 
 <!-- myös seuraavanlainen yritys olisi tuhoon tuomittu -->
-The following attempt will also not work:
+The following attempt would also not work:
 
 ```js
 <button onClick={value + 1}>nappi</button>
 ```
 
 <!-- nyt tapahtumankäsittelijäksi on yritetty laittaa _value + 1_ mikä tarkoittaa laskuoperaation tulosta. React varoittaa tästäkin konsolissa -->
-we have attempted to set the event handler to _value + 1_ which simply returns the result of the operation. React will kindly warn us about this in the console
+We have attempted to set the event handler to _value + 1_ which simply returns the result of the operation. React will kindly warn us about this in the console:
 
 ```js
 index.js:2178 Warning: Expected `onClick` listener to be a function, instead got a value of `number` type.
 ```
 
 <!-- Myöskään seuraava ei toimi -->
-This attempt will not work either:
+This attempt would not work either:
 ```js
 <button onClick={value = 0}>nappi</button>
 ```
 
 <!-- taaskaan tapahtumankäsittelijänä ei ole funktio vaan sijoitusoperaatio. Konsoliin tulee valitus. Tämä tapa on myös toisella tavalla väärin. Tilan muuttaminen ei onnistu suoraan tilan arvon tallentavaa muuttujaa muuttamalla. -->
-The event handler is not a function but a variable assignment and React will once again issue a warning to the console. This attempt is also flawed in the sense that we must never mutate state directly in React.
+The event handler is not a function but a variable assignment, and React will once again issue a warning to the console. This attempt is also flawed in the sense that we must never mutate state directly in React.
 
 <!-- Entä seuraava: -->
 What about the following:
@@ -679,19 +679,19 @@ What about the following:
 The message gets printed to the console once but nothing happens when we click the button a second time. Why does this not work even when our event handler contains a function _console.log_?
 
 <!-- Ongelma on nyt siinä, että tapahtumankäsittelijänä on <i>funktion kutsu</i>, eli varsinaiseksi tapahtumankäsittelijäksi tulee funktion kutsun paluuarvo, joka on tässä tapauksessa määrittelemätön arvo <i>undefined</i>. -->
-The issue here is that our event handler is defined as a <i>function call</i> which means that the event handler is actually assigned the returned value from the function which in the case of _console.log_ is <i>undefined</i>.
+The issue here is that our event handler is defined as a <i>function call</i> which means that the event handler is actually assigned the returned value from the function, which in the case of _console.log_ is <i>undefined</i>.
 
 <!-- Funktiokutsu _console.log('nappia painettu')_ suoritetaan siinä vaiheessa kun komponentti renderöidään, ja tämän takia konsoliin tulee tulostus kertalleen. -->
 The _console.log_ function call gets executed when the component is rendered and for this reason it gets printed once to the console.
 
 <!-- Myös seuraava yritys on virheellinen -->
-The following attempt is flawed as well
+The following attempt is flawed as well:
 ```js
 <button onClick={setValue(0)}>nappi</button>
 ```
 
 <!-- jälleen olemme yrittäneet laittaa tapahtumankäsittelijäksi funktiokutsun. Ei toimi. Tämä yritys aiheuttaa myös toisen ongelman. Kun komponenttia renderöidään, suoritetaan tapahtumankäsittelijänä oleva funktiokutsu _setValue(0)_ joka taas saa aikaan komponentin uudelleenrenderöinnin. Ja uudelleenrenderöinnin yhteydessä funktiota kutsutaan uudelleen käynnistäen jälleen uusi uudelleenrenderöinti, ja joudutaan päättymättömään rekursioon. -->
-We have once again tried to set a function call as the event handler. This does not work. This particular attempt also causes another problem. When the component is rendered the function _setValue(0)_ gets executed which in turn causes the component to be re-rendered. Re-rendering in turn calls the _setValue(0)_ again resulting in an infinite recursion.
+We have once again tried to set a function call as the event handler. This does not work. This particular attempt also causes another problem. When the component is rendered the function _setValue(0)_ gets executed which in turn causes the component to be re-rendered. Re-rendering in turn calls _setValue(0)_ again, resulting in an infinite recursion.
 
 <!-- Jos haluamme suorittaa tietyn funktiokutsun tapahtuvan nappia painettaessa, toimii seuraava -->
 Executing a particular function call when the button is clicked can be accomplished like this:
@@ -703,10 +703,10 @@ Executing a particular function call when the button is clicked can be accomplis
 ```
 
 <!-- Nyt tapahtumankäsittelijä on nuolisyntaksilla määritelty funktio _() => console.log('nappia painettu')_. Kun komponentti renderöidään, ei suoriteta mitään, ainoastaan talletetaan funktioviite tapahtumankäsittelijäksi. Itse funktion suoritus tapahtuu vasta napin painallusten yhteydessä. -->
-Now the event handler is a function defined with the arrow function syntax _() => console.log('nappia painettu')_. When the component gets rendered on function call is executed, only the reference to the arrow function is set to the event handler. Calling the function happens only once the button is clicked.
+Now the event handler is a function defined with the arrow function syntax _() => console.log('nappia painettu')_. When the component gets rendered, no function gets called and only the reference to the arrow function is set to the event handler. Calling the function happens only once the button is clicked.
 
 <!-- Saamme myös nollauksen toimimaan samalla tekniikalla -->
-We can implement resetting the state in our application with this same technique
+We can implement resetting the state in our application with this same technique:
 
 ```js
 <button onClick={() => setValue(0)}>nappi</button>
@@ -798,17 +798,17 @@ const App = (props) => {
 The code functions correctly even though it looks complicated. 
 
 <!-- Tapahtumankäsittelijäksi on nyt "rekisteröity" funktiokutsu: -->
-The event handler is now set to a function call. 
+The event handler is now set to a function call:
 
 ```js
 <button onClick={hello()}>nappi</button>
 ```
 
 <!-- Aiemmin varoteltiin, että tapahtumankäsittelijä ei saa olla funktiokutsu vaan sen on oltava funktio tai viite funktioon. Miksi funktiokutsu kuitenkin toimii nyt? -->
-Earlier on we stated that an event handler may not be a call to a function, it has to be a function or a reference to a function. Why then does a function call work in this case?
+Earlier on we stated that an event handler may not be a call to a function, and that it has to be a function or a reference to a function. Why then does a function call work in this case?
 
 <!-- Kun komponenttia renderöidään suoritetaan seuraava funktio: -->
-When the component is rendered the following function gets executed:
+When the component is rendered, the following function gets executed:
 
 ```js
 const hello = () => {
@@ -819,17 +819,17 @@ const hello = () => {
 ```
 
 <!-- funktion <i>paluuarvona</i> on nyt toinen, muuttujaan _handler_ määritelty funktio. -->
-then <i>return value</i> of the function is another function that is assigned to the _handler_ variable.
+The <i>return value</i> of the function is another function that is assigned to the _handler_ variable.
 
 <!-- eli kun react renderöi seuraavan rivin -->
-When React renders the line
+When React renders the line:
 
 ```js
 <button onClick={hello()}>nappi</button>
 ```
 
 <!-- sijoittaa se onClick-käsittelijäksi funktiokutsun _hello()_ paluuarvon. Eli oleellisesti ottaen rivi "muuttuu" seuraavaksi -->
-It assigns the return value of _hello()_ to the onClick-attribute. Essentially the line gets transformed into
+It assigns the return value of _hello()_ to the onClick-attribute. Essentially the line gets transformed into:
 
 ```js
 <button onClick={() => console.log('hello world')}>
@@ -884,7 +884,7 @@ The first button is defined as
 ```
 
 <!-- Tapahtumankäsittelijä siis saadaan <i>suorittamalla</i> funktiokutsu _hello('world')_. Funktiokutsu palauttaa funktion -->
-The event handler is created by <i>executing</i> the function call _hello('world')_. The function call returns the function
+The event handler is created by <i>executing</i> the function call _hello('world')_. The function call returns the function:
 
 ```js
 () => {
@@ -893,14 +893,14 @@ The event handler is created by <i>executing</i> the function call _hello('world
 ```
 
 <!-- Toinen nappi määritellään seuraavasti -->
-The second button is defined as
+The second button is defined as:
 
 ```js
 <button onClick={hello('react')}>nappi</button>
 ```
 
 <!-- Tapahtumankäsittelijän määrittelevä funktiokutsu _hello('react')_ palauttaa -->
-The function call _hello('react')_ that creates the event handler returns
+The function call _hello('react')_ that creates the event handler returns:
 
 ```js
 () => {
@@ -912,10 +912,10 @@ The function call _hello('react')_ that creates the event handler returns
 Both buttons get their own individualized event handlers.
 
 <!-- Funktioita palauttavia funktioita voikin hyödyntää määrittelemään geneeristä toiminnallisuutta, jota voi tarkentaa parametrien avulla. Tapahtumankäsittelijöitä luovan funktion _hello_ voikin ajatella olevan eräänlainen tehdas, jota voi pyytää valmistamaan sopivia tervehtimiseen tarkoitettuja tapahtumankäsittelijäfunktioita. -->
-Functions returning functions can be utilized in defining generic functionality that can be customized with parameters. The _hello_ function that creates the event handlers can be thought of as a factory, that produces customized event handlers meant for greeting users.
+Functions returning functions can be utilized in defining generic functionality that can be customized with parameters. The _hello_ function that creates the event handlers can be thought of as a factory that produces customized event handlers meant for greeting users.
 
 <!-- Käyttämämme määrittelytapa -->
-Our current definition is slightly verbose.
+Our current definition is slightly verbose:
 
 ```js
 const hello = (who) => {
@@ -939,7 +939,7 @@ const hello = (who) => {
 ```
 
 <!-- ja koska funktio _hello_ sisältää ainoastaan yhden komennon, eli returnin, voidaan käyttää aaltosulutonta muotoa -->
-Since our _hello_ function is composed of a single return command we can omit the curly braces and use the more compact syntax for arrow functions.
+Since our _hello_ function is composed of a single return command, we can omit the curly braces and use the more compact syntax for arrow functions:
 
 ```js
 const hello = (who) =>
@@ -949,7 +949,7 @@ const hello = (who) =>
 ```
 
 <!-- ja tuodaan vielä "kaikki nuolet" samalle riville -->
-Lastly, let's write "all of the arrows" on the same line
+Lastly, let's write "all of the arrows" on the same line:
 
 ```js
 const hello = (who) => () => {
@@ -978,14 +978,14 @@ render() {
 ```
 
 <!-- Kun komponentti renderöidään, ja tehdään nappia <i>tuhat</i> -->
-When the component is rendered the <i>tuhat</i> button is created
+When the component is rendered, the <i>tuhat</i> button is created:
 
 ```js
 <button onClick={setToValue(1000)}>tuhat</button>
 ```
 
 <!-- tulee tapahtumankäsittelijäksi funktiokutsun _setToValue(1000)_ paluuarvo eli seuraava funktio -->
-the event handler is set to the return value of _setToValue(1000)_ which is the following function
+The event handler is set to the return value of _setToValue(1000)_ which is the following function:
 
 ```js
 () => {
@@ -994,14 +994,14 @@ the event handler is set to the return value of _setToValue(1000)_ which is the 
 ```
 
 <!-- Kasvatusnapin generoima rivi on seuraava -->
-The row generated for the increase button is the following
+The row generated for the increase button is the following:
 
 ```js
 <button onClick={setToValue(value + 1)}>kasvata</button>
 ```
 
 <!-- Tapahtumankäsittelijän muodostaa funktiokutsu _setToValue(value + 1)_, joka saa parametrikseen tilan tallettavan muuttujan _value_ nykyisen arvon kasvatettuna yhdellä. Jos _value_ olisi 10, tulisi tapahtumankäsittelijäksi funktio -->
-The event handler is created by the function call _setToValue(value + 1)_ which receives as its parameter the current value of the state variable _value_ increased by one. If the value of _value_ was 10, then the created event handler would be the function
+The event handler is created by the function call _setToValue(value + 1)_ which receives as its parameter the current value of the state variable _value_ increased by one. If the value of _value_ was 10, then the created event handler would be the function:
 
 ```js
 () => {
@@ -1010,7 +1010,7 @@ The event handler is created by the function call _setToValue(value + 1)_ which 
 ```
 
 <!-- Funktioita palauttavia funktioita ei tässäkään tapauksessa olisi ollut pakko käyttää. Muutetaan tilan päivittämisestä huolehtiva funktio _setToValue_ normaaliksi funktioksi: -->
-Using functions that return functions is not required to achieve this functionality. Let's return the _setToValue_ function that is response for updating state into a normal function:
+Using functions that return functions is not required to achieve this functionality. Let's return the _setToValue_ function that is responsible for updating state, into a normal function:
 
 ```js
 const App = (props) => {
@@ -1051,7 +1051,7 @@ Choosing between the two presented ways of defining your event handlers is mostl
 ### Passing Event Handlers to Child Components
 
 <!-- Eriytetään vielä painike omaksi komponentikseen -->
-Let's extract the button into its own component
+Let's extract the button into its own component:
 
 ```js
 const Button = (props) => (
@@ -1062,7 +1062,7 @@ const Button = (props) => (
 ```
 
 <!-- Komponentti saa siis propsina _handleClick_ tapahtumankäsittelijän ja propsina _text_ merkkijonon, jonka se renderöi painikkeen tekstiksi. -->
-The component gets the event handler function from the _handleClick_ prop and the text of the button from the _text_ prop.
+The component gets the event handler function from the _handleClick_ prop, and the text of the button from the _text_ prop.
 
 <!-- Komponentin <i>Button</i> käyttö on helppoa, on toki pidettävä huolta siitä, että komponentille annettavat propsit on nimetty niin kuin komponentti olettaa: -->
 Using the <i>Button</i> component is simple, although we have to make sure that the we use the correct attribute names when passing props to the component.
@@ -1108,7 +1108,7 @@ const App = props => {
 ```
 
 <!-- Kaikki näyttää toimivan. Mutta **älä tee koskaan näin!**, eli määrittele komponenttia toisen komponentin sisällä. Tapa on hyödytön ja johtaa useissa tilanteissa ikäviin ongelmiin. Siirretäänkin komponentin <i>Display</i> määrittely oikeaan paikkaan, eli komponentin <i>App</i> määrittelevän funktion ulkopuolelle: -->
-The application still appears to work but **don't implement components like this!** Never define components inside of other components. The method provides no benefits and leads to many unpleasant problems. Let's instead move the <i>Display</i> component function to its correct place which is outside of the <i>App</i> component function:
+The application still appears to work but **don't implement components like this!** Never define components inside of other components. The method provides no benefits and leads to many unpleasant problems. Let's instead move the <i>Display</i> component function to its correct place, which is outside of the <i>App</i> component function:
 
 ```js
 const Display = props => <div>{props.value}</div>
@@ -1163,7 +1163,7 @@ You may find the following links useful:
 You submit your solutions to the exercises by first pushing your code to GitHub and then marking the completed exercises into the [exercise submission system](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
 <!-- Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä. -->
-You submit all of your solutions to the exercise of one part **in a single submission.**. Once you have submitted your solutions for one part, you can not add more exercise solutions to your submission.
+You submit all of your solutions to the exercise of one part **in a single submission**. Once you have submitted your solutions for one part, you can not add more exercise solutions to your submission.
 
 <!-- <i>Samaa ohjelmaa kehittelevissä tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i> -->
 <i>Some of the exercises work on the same application. In these cases it is sufficient to submit just the final version of the application. If you wish, you can make a commit after every finished exercise but it is not mandatory.</i>
@@ -1180,7 +1180,7 @@ You submit all of your solutions to the exercise of one part **in a single submi
 The reason for this is that <i>you have not installed</i> a new enough version of React as was instructed at [the beginning of part 1](/osa1/reactin_alkeet).
 
 <!-- Joissain tilanteissa saatat myös joutua antamaan komennon -->
-In some situations you may also have to run the command below from the root of the project
+In some situations you may also have to run the command below from the root of the project:
 
 ``` 
 rm -rf node_modules/ && npm i
@@ -1281,7 +1281,7 @@ Let's continue refactoring the application. Extract the following two components
 - <i>Statistic</i> for displaying a single statistic, e.g. the average score.
 
 <!-- Tarkennuksena: komponentti <i>Statistic</i> näyttää aina yhden tilastorivin, joten sovellus käyttää montaa komponenttia kaikkien tilastorivien renderöintiin  -->
-Clarification: the <i>Statistic</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics
+Clarification: the <i>Statistic</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics:
 
 ```js
 const Statistics = (props) => {
@@ -1299,7 +1299,7 @@ const Statistics = (props) => {
 ```
 
 <!-- Sovelluksen tila säilytetään edelleen juurikomponentissa <i>App</i>. -->
-The application's state should still be kept in the root component <i>App</i>.
+The application's state should still be kept in the root <i>App</i> component.
 
 <h4>1.11*: unicafe step6</h4>
 
@@ -1309,12 +1309,12 @@ Display the statistics in an HTML [table](https://developer.mozilla.org/en-US/do
 ![](../images/1/16a.png)
 
 <!-- Muista pitää konsoli koko ajan auki. Jos saat konsoliin seuraavan warningin: -->
-Remember to keep your console open at all times. If you see this warning in your console
+Remember to keep your console open at all times. If you see this warning in your console:
 
 ![](../images/1/17a.png)
 
 <!-- tee tarvittavat toimenpiteet jotta saat warningin katoamaan. Googlaa tarvittaessa virheilmoituksella. -->
-then perform the necessary actions to make the warning disappear. Try Googling the error message if you get stuck.
+Then perform the necessary actions to make the warning disappear. Try Googling the error message if you get stuck.
 
 <!-- **Huolehdi nyt ja jatkossa, että konsolissa ei näy mitään warningeja!** -->
 **Make sure that from now on you don't see any warnings in your console!**
@@ -1325,7 +1325,7 @@ then perform the necessary actions to make the warning disappear. Try Googling t
 The world of software engineering is filled with [anecdotes](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) that distill timeless truths from our field into short one-liners.
 
 <!-- Laajenna seuraavaa sovellusta siten, että siihen tulee nappi, jota painamalla sovellus näyttää <i>satunnaisen</i> ohjelmistotuotantoon liittyvän anekdootin: -->
-Expand the following application by adding that can be clicked to display a <i>random</i> anecdote from the field of software engineering: 
+Expand the following application by adding a button that can be clicked to display a <i>random</i> anecdote from the field of software engineering: 
 
 ```js
 import React, { useState } from 'react'
@@ -1375,7 +1375,7 @@ Expand your application so that you can vote for the displayed anecdote.
 ![](../images/1/19a.png)
 
 <!-- **Huom:** jos päätät tallettaa kunkin anekdootin äänet komponentin tilassa olevan olion kenttiin tai taulukkoon, saatat tarvita päivittäessäsi tilaa oikeaoppisesti olion tai taulukon <i>kopioimista</i>. -->
-**NB** if you decide to store the votes of each anecdote into an array or object in the component's state, you should refer to the material to see the correct way of updating state stored into complex data structures like objects and arrays.
+**NB** if you decide to store the votes of each anecdote into an array or object in the component's state, you should refer to the material to see the correct way of updating state stored in complex data structures like objects and arrays.
 
 <!-- Olio voidaan kopioida esim. seuraavasti: -->
 You can create a copy of an object like this:
