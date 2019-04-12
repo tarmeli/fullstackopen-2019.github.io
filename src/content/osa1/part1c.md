@@ -78,11 +78,11 @@ If we examine our current code closely, we'll notice that the helper function is
 ### Destructuring
 
 <!-- Ennen kuin siirrymme eteenpäin, tarkastellaan erästä pientä, mutta käyttökelpoista ES6:n mukanaan tuomaa uutta piirrettä Javascriptissä, eli muuttujaan sijoittamisen yhteydessä tapahtuvaa [destrukturointia](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). -->
-Before we move onward, we will take a look at a small but useful feature of the JavaScript language that was added in the ES6 specification, that allows us to [destructure](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) values from objects and arrays upon assignment.
+Before we move forward, we will take a look at a small but useful feature of the JavaScript language that was added in the ES6 specification, that allows us to [destructure](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) values from objects and arrays upon assignment.
 
 <!-- Jouduimme äskeisessä koodissa viittaamaan propseina välitettyyn dataan hieman ikävästi muodossa _props.name_ ja _props.age_. Näistä _props.age_ pitää toistaa komponentissa kahteen kertaan. -->
 
-In our previous code we had to reference the data passed to our component as _props.name_ and _props.age_. Out of these two expressions we had to repeat _props.age_ twice in our code.
+In our previous code we had to reference the data passed to our component as _props.name_ and _props.age_. Of these two expressions we had to repeat _props.age_ twice in our code.
 
 Since <i>props</i> is an object
 
@@ -202,7 +202,7 @@ const Hello = ({ name, age }) => {
 
 <!-- Toistaiseksi tekemämme sovellukset ovat olleet sellaisia, että kun niiden komponentit on kerran renderöity, niiden ulkoasua ei ole enää voinut muuttaa. Entä jos haluaisimme toteuttaa laskurin, jonka arvo kasvaa esim. ajan kuluessa tai nappien painallusten yhteydessä? -->
 
-So far all of our applications have been such that their appearance remains the same after the initial rendering. What if we wanted to create a counter where the value increased as a function of time or after clicking a button?
+So far all of our applications have been such that their appearance remains the same after the initial rendering. What if we wanted to create a counter where the value increased as a function of time or at the click of a button?
 
 <!-- Aloitetaan seuraavasta rungosta: -->
 Let's start with the following body:
@@ -233,7 +233,7 @@ counter.value += 1
 
 <!-- ei komponenttia kuitenkaan renderöidä uudelleen. Voimme saada komponentin uudelleenrenderöitymään kutsumalla uudelleen metodia _ReactDOM.render_, esim. seuraavasti -->
 
-the component won't re-render. We can get the component to re-render by calling the _ReactDOM.render_ method a second time, e.g. in the following way
+the component won't re-render. We can get the component to re-render by calling the _ReactDOM.render_ method a second time, e.g. in the following way:
 
 ```js
 const App = (props) => {
@@ -261,7 +261,7 @@ refresh()
 The re-rendering command has been wrapped inside of the _refresh_ function to cut down on the amount of copy-pasted code.
 
 <!-- Nyt komponentti <i>renderöityy kolme kertaa</i>, saaden ensin arvon 1, sitten 2 ja lopulta 3. 1 ja 2 tosin ovat ruudulla niin vähän aikaa, että niitä ei ehdi havaita. -->
-Now the component  <i>renders three times</i>, first with the value 1, then 2 and finally 3. However, the values 1 and 2 are displayed on the screen for such a short amount of time that they can't even be witnessed.
+Now the component  <i>renders three times</i>, first with the value 1, then 2, and finally 3. However, the values 1 and 2 are displayed on the screen for such a short amount of time that they can't be witnessed.
 
 <!-- Hieman mielenkiintoisempaan toiminnallisuuteen pääsemme tekemällä renderöinnin ja laskurin kasvatuksen toistuvasti sekunnin välein käyttäen [SetInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval): -->
 We can implement slightly more interesting functionality by re-rendering and incrementing the counter every second by using [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval):
@@ -286,7 +286,7 @@ All of our components up till now have been simple in the sense that they have n
 Next, let's add state to our application's <i>App</i> component with the help of React's [state hook](https://reactjs.org/docs/hooks-state.html).
 
 <!-- Muutetaan ohjelmaa seuraavasti -->
-We will change the application to the following
+We will change the application to the following:
 
 ```js
 import React, { useState } from 'react' // highlight-line
@@ -321,20 +321,20 @@ import React, { useState } from 'react'
 ```
 
 <!-- Komponentin määrittelevä funktio alkaa metodikutsulla -->
-The function body that defines the component begins with the function call
+The function body that defines the component begins with the function call:
 
 ```js
 const [ counter, setCounter ] = useState(0)
 ```
 
 <!-- Kutsu saa aikaan sen, että komponentille luodaan <i>tila</i>, joka saa alkuarvokseen nollan. Metodi palauttaa taulukon, jolla on kaksi alkiota. Alkiot otetaan taulukon destrukturointisyntaksilla talteen muuttujiin _counter_ ja _setCounter_. -->
-The function call adds <i>state</i> to the component that gets the initial value of zero. The functio returns an array that contains two items. We assign the items to the variables _counter_ and _setCounter_ by using the destructuring assignment syntax shown earlier.
+The function call adds <i>state</i> to the component, that gets initialized with the value of zero. The function returns an array that contains two items. We assign the items to the variables _counter_ and _setCounter_ by using the destructuring assignment syntax shown earlier.
 
 <!-- Muuttuja _counter_ pitää sisällään <i>tilan arvon</i> joka on siis aluksi nolla. Muuttuja _setCounter_ taas on viite funktioon, jonka avulla <i>tilaa voidaan muuttaa</i>. -->
-The _counter_ variable is assigned the value of the current <i>state</i> which is zero initially. The variable _setCounter_ is assigned to a function that can be used to <i>modify the state</i>.
+The _counter_ variable is assigned the value of the current <i>state</i> which is initially zero. The variable _setCounter_ is assigned to a function that can be used to <i>modify the state</i>.
 
 <!-- Sovellus määrittelee funktion [setTimeout](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout) avulla, että tilan _counter_ arvoa kasvatetaan yhdellä sekunnin päästä: -->
-The application uses the [setTimeout](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout) function to increment the _counter_ state after a second has gone by:
+The application uses the [setTimeout](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout) function to increment the _counter_ state after a second has passed:
 
 ```js
 setTimeout(
@@ -344,7 +344,7 @@ setTimeout(
 ```
 
 <!-- Kun tilaa muuttavaa funktiota _setCounter_ kutsutaan, <i>renderöi React komponentin uudelleen</i>, eli käytännössä suorittaa uudelleen komponentin määrittelevän koodin -->
-When the state modifying function _setCounter_ is called <i>React re-renders the component</i>, which means that the function body of the component function gets re-executed:
+When the state modifying function _setCounter_ is called, <i>React re-renders the component</i> which means that the function body of the component function gets re-executed:
 
 ```js
 (props) => {
@@ -362,7 +362,7 @@ When the state modifying function _setCounter_ is called <i>React re-renders the
 ```
 
 <!-- kun koodi suoritetaan toista kertaa, funktion _useState_ kutsuminen palauttaa komponentin jo olemassaolevan tilan arvon, joka on nyt 1. Komponentin suoritus määrittelee jälleen laskuria kasvatettavaksi yhdellä sekunnin päästä ja renderöi ruudulle laskurin nykyisen arvon, joka on 1. -->
-When the component function gets executed a second time, calling the _useState_ function returns the already-existing current value of the state which is now 1. Executing the function body again also makes the function call to _setState_ which will increment the _counter_ state after a second has gone by. Finally the current value of the _counter_ is rendered on the screen, which is currently 1.
+When the component function gets executed a second time, calling the _useState_ function returns the already-existing current value of the state which is now 1. Executing the function body again also makes the function call to _setState_, which will increment the _counter_ state after a second has passed. Finally, the current value of _counter_ is rendered to the screen which is 1.
 
 <!-- Sekunnin päästä siis suoritetaan funktion _setTimeout_ parametrina ollut koodi -->
 The function passed as the first parameter to the _setTimeout_ function will get invoked one second after calling the _setTimeout_ function
@@ -382,7 +382,7 @@ and because the value of the _counter_ variable is 1, the code is essentially th
 This again causes the component to re-render. The value of the state will be incremented again after one second, and this will continue to repeat for as long as the application is running.
 
 <!-- Jos komponentti ei renderöidy vaikka sen omasta mielestä pitäisi, tai se renderöityy "väärään aikaan", debuggaamista auttaa joskus komponentin määrittelevään funktioon lisätty konsoliin tulostus. Esim. jos lisäämme koodiin seuraavan, -->
-If the component doesn't render when you think it should, or if it renders at the "wrong time", you can debug the application by logging the values of the component's variables to the console. If we make the following additions to our code
+If the component doesn't render when you think it should, or if it renders at the "wrong time", you can debug the application by logging the values of the component's variables to the console. If we make the following additions to our code:
 ```js
 const App = (props) => {
   const [ counter, setCounter ] = useState(0)
@@ -401,7 +401,7 @@ const App = (props) => {
 ```
 
 <!-- on konsolista helppo seurata metodin _render_ kutsuja: -->
-it's easy to follow and track the calls made to the _render_ function:
+It's easy to follow and track the calls made to the _render_ function:
 
 ![](../images/1/4a.png)
 
@@ -422,13 +422,13 @@ rm -rf node_modules/ && npm i
 ### Event handling
 
 <!-- Mainitsimme jo [osassa 0](/osa0) muutamaan kertaan <i>tapahtumankäsittelijät</i>, eli funktiot, jotka on rekisteröity kutsuttavaksi tiettyjen tapahtumien eli eventien yhteydessä. Esim. käyttäjän interaktio sivun elementtien kanssa aiheuttaa joukon erinäisiä tapahtumia. -->
-We have already mentioned <i>event handlers</i> a few times in [part 0](/osa0), that are registered to be called when specific events occur. E.g. a user's interaction with the different elements of a web page can cause a collection of various different kind of events to be triggered.
+We have already mentioned <i>event handlers</i> a few times in [part 0](/osa0), that are registered to be called when specific events occur. E.g. a user's interaction with the different elements of a web page can cause a collection of various different kinds of events to get triggered.
 
 <!-- Muutetaan sovellusta siten, että laskurin kasvaminen tapahtuukin käyttäjän painaessa [button](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)-elementin avulla toteutettua nappia. -->
 Let's change the application so that increasing the counter happens when a user clicks on a button implemented with the [button](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)-element.
 
 <!-- Button-elementit tukevat mm. [hiiritapahtumia](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) (mouse events), joista yleisin on [click](https://developer.mozilla.org/en-US/docs/Web/Events/click). -->
-Button-elements support so-called [mouse events](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent), out of which [click](https://developer.mozilla.org/en-US/docs/Web/Events/click) is the most common event.
+Button-elements support so-called [mouse events](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent), of which [click](https://developer.mozilla.org/en-US/docs/Web/Events/click) is the most common event.
 
 <!-- Reactissa funktion rekisteröiminen tapahtumankäsittelijäksi tapahtumalle <i>click</i> [tapahtuu](https://reactjs.org/docs/handling-events.html) seuraavasti: -->
 In React registering an event handler function to the <i>click</i> event [happens](https://reactjs.org/docs/handling-events.html) like this:
@@ -518,7 +518,7 @@ const App = (props) => {
 Our application is now ready!
 
 <!-- Tapahtumankäsittelijöiden määrittely suoraan JSX-templatejen sisällä ei useimmiten ole kovin viisasta. Eriytetään vielä nappien tapahtumankäsittelijät omiksi komponentin sisäisiksi apufunktioikseen: -->
-Defining event handlers directly inside JSX-templates is often not a wise move. Let's extract the event handler functions into the their own separate helper functions:
+Defining event handlers directly inside JSX-templates is usually not a wise move. Let's extract the event handler functions into their own separate helper functions:
 
 ```js
 const App = (props) => {
@@ -579,17 +579,17 @@ We realize that this change breaks our application entirely:
 ![](../images/1/5a.png)
 
 <!-- Mistä on kyse? Tapahtumankäsittelijäksi on tarkoitus määritellä <i>viite funktioon</i>. Kun koodissa on -->
-What's causing the application to break? The event handler is supposed to define a <i>reference to a function</i>. However, in our code we've defined
+What's causing the application to break? The event handler is supposed to define a <i>reference to a function</i>. However, in our code we have defined:
 
 ```js
 <button onClick={setToValue(0)}>
 ```
 
 <!-- tapahtumankäsittelijäksi tulee määriteltyä <i>funktiokutsu</i>. Sekin on monissa tilanteissa ok, mutta ei nyt, nimittäin kun React renderöi metodin, se suorittaa kutsun <em>setToValue(0)</em>. Kutsu aiheuttaa komponentin tilan päivittävän funktion _setCounter_ kutsumisen. Tämä taas aiheuttaa komponentin uudelleenrenderöitymisen. Ja sama toistuu uudelleen... -->
-meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to the _setCounter_ function, which in turn causes the component to be re-rendered. And this cycle goes on and one...
+meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to the _setCounter_ function, which in turn causes the component to be re-rendered. And this cycle goes on and on...
 
 <!-- Tilanteeseen on kaksi ratkaisua. Ratkaisuista yksinkertaisempi on muuttaa tapahtumankäsittelyä seuraavasti -->
-There's two potential solutions to this problem. The simpler solution is to change the event handlers into the form shown below
+There's two potential solutions to this problem. The simpler solution is to change the event handlers into the form shown below:
 
 ```js
 const App = (props) => {
@@ -677,7 +677,7 @@ Defining the event handler by calling <em>setToValue(0)</em> results in the func
 which is exactly the desired function for resetting the state!
 
 <!-- Plus-napin tapahtumankäsittelijä määritellään kutsumalla <em>setToValue(counter + 1)</em>. Kun komponentti renderöidään ensimmäisen kerran, _counter_ on saanut alkuarvon 0, eli plus-napin tapahtumankäsittelijäksi tulee funktiokutsun <em>setToValue(1)</em> tulos, eli funktio -->
-The event handler for the plus-button is defined by calling <em>setToValue(counter + 1)</em>. When the component is rendered for the first time, the _counter_ will have the initial value 0, meaning that the event handler for the plus-button will be the result of <em>setToValue(1)</em>:
+The event handler for the plus button is defined by calling <em>setToValue(counter + 1)</em>. When the component is rendered for the first time, the _counter_ will have the initial value 0, meaning that the event handler for the plus-button will be the result of <em>setToValue(1)</em>:
 
 ```js
 () => {
@@ -686,7 +686,7 @@ The event handler for the plus-button is defined by calling <em>setToValue(count
 ```
 
 <!-- Vastaavasti, kun laskurin tila on esim 41, tulee plus-napin tapahtumakuuntelijaksi -->
-Likewise, when the state of the counter is 41 the event handler for the plus-button will be
+Likewise, when the state of the counter is 41 the event handler for the plus-button will be:
 
 ```js
 () => {
@@ -735,13 +735,13 @@ The first function call is used to "configure" the second function, by defining 
 This way of utilizing functions that return functions is effectively the same thing as [currying](http://www.datchley.name/currying-vs-partial-application/) in functional programming. The term currying does not originate from functional programming, rather the term is deeply rooted in [mathematics](https://en.wikipedia.org/wiki/Currying).
 
 <!-- Jo muutamaan kertaan mainittu termi <i>funktionaalinen ohjelmointi</i> ei ole välttämättä kaikille tässä vaiheessa tuttu. Asiaa avataan hiukan kurssin kuluessa, sillä React tukee ja osin edellyttää funktionaalisen tyylin käyttöä. -->
-We've mentioned <i>functional programming</i> a few times now, which may not be familiar to everyone. We will explore some aspects of functional programming throughout the course, as React supports and partially requires the use of some of the styles of functional programming:
+We've mentioned <i>functional programming</i> a few times now, which may not be familiar to everyone. We will explore some aspects of functional programming throughout the course, as React supports and partially requires the use of some of the styles of functional programming.
 
 <!-- **HUOM:** muutos, missä korvasimme metodit _increaseByOne_ ja _setToZero_ metodilla _setToValue_ ei välttämättä ole järkevä, sillä erikoistuneemmat metodit ovat paremmin nimettyjä. Teimme muutoksen oikeastaan ainoastaan demonstroidaksemme _currying_-tekniikan soveltamista. -->
-**NB** the change where we replaced the functions _increaseByOne_ and _setToZero_ with the function _setToValue_ is not necessarily an improvement, since specialized function have more descriptive names. The reason we made the change was mostly to demonstrate the usage of the _currying_-technique.
+**NB** the change where we replaced the functions _increaseByOne_ and _setToZero_ with the function _setToValue_ is not necessarily an improvement, since specialized functions have more descriptive names. The reason we made the change was mostly to demonstrate the usage of the _currying_-technique.
 
 <!-- **HUOM2:** et välttämättä tarvitse tämän osan, etkä kenties kurssin muissakaan tehtävissä funktioita palauttavia funktioita, joten älä sekoita päätäsi asialla turhaan. -->
-**NB** You don't necessarily need to use functions that return functions in any of the exercises, so don't worry too much about understanding this technique if the topic seems too confusing.
+**NB** You don't necessarily need to use functions that return functions in any of the exercises, so don't worry too much about understanding this technique if the topic seems particularly confusing.
 
 <!-- ### Tilan vieminen alikomponenttiin -->
 ### Passing state to child components
@@ -753,7 +753,7 @@ It's recommended to write React components that are small and reusable across th
 Let's first implement a <i>Display</i> component that's responsible for displaying the value of the counter.
 
 <!-- Reactissa parhaana käytänteenä on sijoittaa tila [mahdollisimman ylös](https://reactjs.org/docs/lifting-state-up.html) komponenttihierarkiassa, mielellään sovelluksen juurikomponenttiin <i>App</i>. -->
-One best practice in React is to [lift the state up](https://reactjs.org/docs/lifting-state-up.html) as high up as possible in the component hierarchy, preferably to the <i>App</i> root component.
+One best practice in React is to [lift the state up](https://reactjs.org/docs/lifting-state-up.html) as high as possible in the component hierarchy, preferably to the <i>App</i> root component.
 
 <!-- Jätetään sovelluksen tila, eli laskimen arvo komponenttiin <i>App</i> ja välitetään tila <i>propsien</i> avulla komponentille <i>Display</i>: -->
 Let's place the application's state in the <i>App</i> component and pass it down to the <i>Display</i> component through <i>props</i>:
