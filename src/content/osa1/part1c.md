@@ -69,10 +69,10 @@ The logic for guessing the year of birth is separated into its own function that
 
 <!-- Tervehdittävän henkilön ikää ei metodille tarvitse välittää parametrina, sillä funktio näkee sen sisältävälle komponentille välitettävät propsit. -->
 
-The person's age does not have to passed as a parameter to the function since it can directly access all of the props that are passed to the component.
+The person's age does not have to be passed as a parameter to the function, since it can directly access all props that are passed to the component.
 
 <!-- Teknisesti ajatellen syntymävuoden selvittävä funktio on määritelty komponentin toiminnan määrittelevän funktion sisällä. Esim. Javalla ohjelmoitaessa metodien määrittely toisen metodin sisällä ei onnistu. Javascriptissa taas funktioiden sisällä määritellyt funktiot on hyvin yleisesti käytetty tekniikka. -->
-If we examine our current code closely, we'll notice that the helper function is actually defined inside of another function that defines the behavior of our component. In Java-programming defining a method inside of another method is not possible, but in JavaScript defining functions within functions is a commonly used technique.
+If we examine our current code closely, we'll notice that the helper function is actually defined inside of another function that defines the behavior of our component. In Java-programming, defining a method inside another method is not possible, but in JavaScript, defining functions within functions is a commonly used technique.
 
 <!-- ### Destrukturointi -->
 ### Destructuring
@@ -82,7 +82,7 @@ Before we move forward, we will take a look at a small but useful feature of the
 
 <!-- Jouduimme äskeisessä koodissa viittaamaan propseina välitettyyn dataan hieman ikävästi muodossa _props.name_ ja _props.age_. Näistä _props.age_ pitää toistaa komponentissa kahteen kertaan. -->
 
-In our previous code we had to reference the data passed to our component as _props.name_ and _props.age_. Of these two expressions we had to repeat _props.age_ twice in our code.
+In our previous code, we had to reference the data passed to our component as _props.name_ and _props.age_. Of these two expressions we had to repeat _props.age_ twice in our code.
 
 Since <i>props</i> is an object
 
@@ -116,7 +116,7 @@ const Hello = (props) => {
 
 <!-- Huomaa, että olemme myös hyödyntäneet nuolifunktion kompaktimpaa kirjoitustapaa metodin _bornYear_ määrittelyssä. Kuten aiemmin totesimme, jos nuolifunktio koostuu ainoastaan yhdestä komennosta, ei funktion runkoa tarvitse kirjoittaa aaltosulkeiden sisään ja funktio palauttaa ainoan komentonsa arvon. -->
 
-Note that we've also utilized the more compact syntax for arrow functions when defining the _bornYear_ function. As mentioned earlier, if an arrow function consists of a single command then the function body does not need to be written inside of curly braces. In this more compact form the function simply returns the result of the single command.
+Note that we've also utilized the more compact syntax for arrow functions when defining the _bornYear_ function. As mentioned earlier, if an arrow function consists of a single command, then the function body does not need to be written inside of curly braces. In this more compact form, the function simply returns the result of the single command.
 
 <!-- Seuraavat ovat siis vaihtoehtoiset tavat määritellä sama funktio: -->
 To recap, the two function definitions shown below are equivalent:
@@ -362,7 +362,7 @@ When the state modifying function _setCounter_ is called, <i>React re-renders th
 ```
 
 <!-- kun koodi suoritetaan toista kertaa, funktion _useState_ kutsuminen palauttaa komponentin jo olemassaolevan tilan arvon, joka on nyt 1. Komponentin suoritus määrittelee jälleen laskuria kasvatettavaksi yhdellä sekunnin päästä ja renderöi ruudulle laskurin nykyisen arvon, joka on 1. -->
-When the component function gets executed a second time, calling the _useState_ function returns the already-existing current value of the state which is now 1. Executing the function body again also makes the function call to _setState_, which will increment the _counter_ state after a second has passed. Finally, the current value of _counter_ is rendered to the screen which is 1.
+When the component function gets executed a second time, calling the _useState_ function returns the already-existing current value of the state which is now "1". Executing the function body again also makes the function call to _setState_, which will increment the _counter_ state after a second has passed. Finally, the current value of _counter_, which is "1", is rendered to the screen.
 
 <!-- Sekunnin päästä siis suoritetaan funktion _setTimeout_ parametrina ollut koodi -->
 The function passed as the first parameter to the _setTimeout_ function will get invoked one second after calling the _setTimeout_ function
@@ -383,6 +383,7 @@ This again causes the component to re-render. The value of the state will be inc
 
 <!-- Jos komponentti ei renderöidy vaikka sen omasta mielestä pitäisi, tai se renderöityy "väärään aikaan", debuggaamista auttaa joskus komponentin määrittelevään funktioon lisätty konsoliin tulostus. Esim. jos lisäämme koodiin seuraavan, -->
 If the component doesn't render when you think it should, or if it renders at the "wrong time", you can debug the application by logging the values of the component's variables to the console. If we make the following additions to our code:
+
 ```js
 const App = (props) => {
   const [ counter, setCounter ] = useState(0)
@@ -422,16 +423,16 @@ rm -rf node_modules/ && npm i
 ### Event handling
 
 <!-- Mainitsimme jo [osassa 0](/osa0) muutamaan kertaan <i>tapahtumankäsittelijät</i>, eli funktiot, jotka on rekisteröity kutsuttavaksi tiettyjen tapahtumien eli eventien yhteydessä. Esim. käyttäjän interaktio sivun elementtien kanssa aiheuttaa joukon erinäisiä tapahtumia. -->
-We have already mentioned <i>event handlers</i> a few times in [part 0](/osa0), that are registered to be called when specific events occur. E.g. a user's interaction with the different elements of a web page can cause a collection of various different kinds of events to get triggered.
+We have already mentioned <i>event handlers</i> a few times in [part 0](/osa0), that are registered to be called when specific events occur. E.g. a user's interaction with the different elements of a web page can cause a collection of various different kinds of events to be triggered.
 
 <!-- Muutetaan sovellusta siten, että laskurin kasvaminen tapahtuukin käyttäjän painaessa [button](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)-elementin avulla toteutettua nappia. -->
-Let's change the application so that increasing the counter happens when a user clicks on a button implemented with the [button](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)-element.
+Let's change the application so that increasing the counter happens when a user clicks a button, which is implemented with the [button](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)-element.
 
 <!-- Button-elementit tukevat mm. [hiiritapahtumia](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) (mouse events), joista yleisin on [click](https://developer.mozilla.org/en-US/docs/Web/Events/click). -->
 Button-elements support so-called [mouse events](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent), of which [click](https://developer.mozilla.org/en-US/docs/Web/Events/click) is the most common event.
 
 <!-- Reactissa funktion rekisteröiminen tapahtumankäsittelijäksi tapahtumalle <i>click</i> [tapahtuu](https://reactjs.org/docs/handling-events.html) seuraavasti: -->
-In React registering an event handler function to the <i>click</i> event [happens](https://reactjs.org/docs/handling-events.html) like this:
+In React, registering an event handler function to the <i>click</i> event [happens](https://reactjs.org/docs/handling-events.html) like this:
 
 ```js
 const App = (props) => {
@@ -574,7 +575,7 @@ const App = (props) => {
 ```
 
 <!-- Huomaamme kuitenkin että muutos hajottaa sovelluksemme täysin: -->
-We realize that this change breaks our application entirely:
+We realize, however, that this change breaks our application entirely:
 
 ![](../images/1/5a.png)
 
@@ -586,7 +587,7 @@ What's causing the application to break? The event handler is supposed to define
 ```
 
 <!-- tapahtumankäsittelijäksi tulee määriteltyä <i>funktiokutsu</i>. Sekin on monissa tilanteissa ok, mutta ei nyt, nimittäin kun React renderöi metodin, se suorittaa kutsun <em>setToValue(0)</em>. Kutsu aiheuttaa komponentin tilan päivittävän funktion _setCounter_ kutsumisen. Tämä taas aiheuttaa komponentin uudelleenrenderöitymisen. Ja sama toistuu uudelleen... -->
-meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to the _setCounter_ function, which in turn causes the component to be re-rendered. And this cycle goes on and on...
+meaning that the event handler is actually a <i>function call</i>, not a reference to the function. As a general rule, there is nothing wrong with this, but in this particular case the <em>setToValue(0)</em> function is called when React renders the component. This function then makes a call to the _setCounter_ function, which in turn causes the component to be re-rendered. And this cycle goes on and on...
 
 <!-- Tilanteeseen on kaksi ratkaisua. Ratkaisuista yksinkertaisempi on muuttaa tapahtumankäsittelyä seuraavasti -->
 There's two potential solutions to this problem. The simpler solution is to change the event handlers into the form shown below:
@@ -622,7 +623,7 @@ The event hander is now a <i>function</i> that calls the _setToValue_ function w
 ### Function that returns a function
 
 <!-- Toinen vaihtoehto on käyttää yleistä Javascriptin ja yleisemminkin funktionaalisen ohjelmoinnin kikkaa, eli määritellä <i>funktio joka palauttaa funktion</i>: -->
-The other solution is to use a common trick often seen in JavaScript and functional programming at large. The trick is to define <i>a function that returns a function</i>:
+Another solution is to use a common trick often seen in JavaScript and functional programming at large. The trick is to define <i>a function that returns a function</i>:
 
 ```js
 const App = (props) => {
