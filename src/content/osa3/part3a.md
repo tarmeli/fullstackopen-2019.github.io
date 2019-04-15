@@ -593,9 +593,10 @@ const id = request.params.id
 The now familiar _find_ method of arrays is used to find the note with an id that matches the parameter. The note is then returned to the sender of the request.
 
 <!-- Kun sovellusta testataan menemällä selaimella osoitteeseen <http://localhost:3001/notes/1>, havaitaan että se ei toimi, selain näyttää tyhjältä. Tämä on tietenkin softadevaajan arkipäivää, ja on ruvettava debuggaamaan. -->
-When we test our application by going to <http://localhost:3001/notes/1> in our browser, we notice that it does not appear to work, as the browser displays an empty page. This comes as no surprise to a software developer and it's time to debug.
+When we test our application by going to <http://localhost:3001/notes/1> in our browser, we notice that it does not appear to work, as the browser displays an empty page. This comes as no surprise to us as software developers, and it's time to debug.
 
-Vanha hyvä keino on alkaa lisäillä koodiin _console.log_-komentoja:
+<!-- Vanha hyvä keino on alkaa lisäillä koodiin _console.log_-komentoja: -->
+Adding _console.log_ commands into our code is a time-proven trick:
 
 ```js
 app.get('/notes/:id', (request, response) => {
@@ -607,13 +608,16 @@ app.get('/notes/:id', (request, response) => {
 })
 ```
 
-Kun selaimella mennään jälleen osoitteeseen <http://localhost:3001/notes/1> konsoliin, eli siihen terminaaliin, mihin sovellus on käynnistetty tulostuu
+<!-- Kun selaimella mennään jälleen osoitteeseen <http://localhost:3001/notes/1> konsoliin, eli siihen terminaaliin, mihin sovellus on käynnistetty tulostuu -->
+When we visit <http://localhost:3001/notes/1> again in the browser, the console which is the terminal in this case, will display the following:
 
 ![](../images/3/8.png)
 
-eli halutun muistiinpanon id välittyy sovellukseen aivan oikein, mutta _find_ komento ei löydä mitään.
+<!-- eli halutun muistiinpanon id välittyy sovellukseen aivan oikein, mutta _find_ komento ei löydä mitään. -->
+The id parameter from the route is passed to our application but the _find_ method does not find a matching note.
 
-Päätetään tulostella konsoliin myös _find_-komennon sisällä olevasta vertailijafunktiosta, joka onnistuu helposti kun tiiviissä muodossa oleva funktio <em>note => note.id === id</em> kirjoitetaan eksplisiittisen returnin sisältävässä muodossa:
+<!-- Päätetään tulostella konsoliin myös _find_-komennon sisällä olevasta vertailijafunktiosta, joka onnistuu helposti kun tiiviissä muodossa oleva funktio <em>note => note.id === id</em> kirjoitetaan eksplisiittisen returnin sisältävässä muodossa: -->
+To further our investigation, we also add a console log inside of the comparison function passed to the _find_ method. In order to do this, we have to get rid of the compact arrow function syntax <em>note => note.id === id</em>, and use the syntax with an explicit return statement:
 
 ```js
 app.get('/notes/:id', (request, response) => {
@@ -627,7 +631,8 @@ app.get('/notes/:id', (request, response) => {
 })
 ```
 
-Vierailtaessa jälleen yksittäisen muistiinpanon sivulla jokaisesta vertailufunktion kutsusta tulostetaan nyt monta asiaa. Konsolin tulostus on seuraava:
+<!-- Vierailtaessa jälleen yksittäisen muistiinpanon sivulla jokaisesta vertailufunktion kutsusta tulostetaan nyt monta asiaa. Konsolin tulostus on seuraava: -->
+When we visit the URL again in the browser, each call to the comparison function prints a few different things to the console. The console output in its entirety is the following:
 
 <pre>
 1 'number' '1' 'string' false
@@ -635,9 +640,11 @@ Vierailtaessa jälleen yksittäisen muistiinpanon sivulla jokaisesta vertailufun
 3 'number' '1' 'string' false
 </pre>
 
-ongelman syy selviää: muuttujassa _id_ on tallennettuna merkkijono '1' kun taas muistiinpanojen id:t ovat numeroita. Javascriptissä === vertailu katsoo kaikki eri tyyppiset arvot oletusarvoisesti erisuuriksi, joten 1 ei ole '1'.
+<!-- ongelman syy selviää: muuttujassa _id_ on tallennettuna merkkijono '1' kun taas muistiinpanojen id:t ovat numeroita. Javascriptissä === vertailu katsoo kaikki eri tyyppiset arvot oletusarvoisesti erisuuriksi, joten 1 ei ole '1'. -->
+The cause of the bug becomes clear. The _id_ variable contains a string '1', whereas the id's of notes are integers. In JavaScript the "triple equals" comparison === considers all values of different types to not be equal by default, meaning that 1 is not '1'. 
 
-Korjataan ongelma, muuttamalla parametrina oleva merkkijonomuotoinen id [numeroksi](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number):
+<!-- Korjataan ongelma, muuttamalla parametrina oleva merkkijonomuotoinen id [numeroksi](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): -->
+Let's fix the issue by changing the id parameter from a string into a [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number):
 
 ```js
 app.get('/notes/:id', (request, response) => {
@@ -647,13 +654,16 @@ app.get('/notes/:id', (request, response) => {
 })
 ```
 
-ja nyt yksittäisen resurssin hakeminen toimii.
+<!-- ja nyt yksittäisen resurssin hakeminen toimii. -->
+Now fetching an individual resource works.
 
 ![](../images/3/9.png)
 
-Toiminnallisuuteen jää kuitenkin pieni ongelma.
+<!-- Toiminnallisuuteen jää kuitenkin pieni ongelma. -->
+However, there's another problem with our application.
 
-Jos haemme muistiinpanoa sellaisella indeksillä, mitä vastaavaa muistiinpanoa ei ole olemassa, vastaa palvelin seuraavasti
+<!-- Jos haemme muistiinpanoa sellaisella indeksillä, mitä vastaavaa muistiinpanoa ei ole olemassa, vastaa palvelin seuraavasti -->
+If we search for a note with an id that does not exist, the server responds with:
 
 ![](../images/3/10.png)
 
