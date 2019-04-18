@@ -60,7 +60,7 @@ Voit halutessasi laajentaa 3 op suorituksen myöhemmin laajempaan 5-8 op suoritu
 
 Arvosana/opintopisterajat:
 
-| tehtäviä     | opintopisteitä | arvosana | 
+| tehtäviä     | opintopisteitä | arvosana | 
 | ------------ | :------------: | :------: |
 | 138          |       7        | 5        |
 | 127          |       6        | 5        |
@@ -145,3 +145,4 @@ Jos löydät kirjoitusvirheen tai jokin asia on ilmaistu epäselvästi tai kieli
 Materiaalin jokaisen osan alalaidassa on linkki <em>Ehdota muutosta materiaalin sisältöön</em>, jota klikkaamalla pääset suoraan editoimaan sivun lähdekoodia.
 
 </div>
+
