@@ -65,7 +65,7 @@ The course can be taken as a shorter course worth 3 credits, or as the full cour
 The amount of credits and the grade are determined by the number of submitted exercises, so also the exercises without stars count towards your final grade. There is also a course exam  which must be passed. The exam does not however count towards your grade. 
 
 <!-- Jos haluat kurssilta suorituksen, tallenna opiskelijanumerosi [palautussovelluksen](https://studies.cs.helsinki.fi/fullstackopen2019) näkymään my submissions. -->
-If you want the university credits, save your student id number to the my submissions view on the [submission system](https://studies.cs.helsinki.fi/fullstackopen2019)
+If you want the university credits, save your student id number to the my submissions view on the [submission system](https://studies.cs.helsinki.fi/fullstackopen2019). To register university credits, you must have a Finnish social security number. 
 
 ####  3 credits
 
