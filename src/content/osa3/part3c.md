@@ -84,45 +84,58 @@ When bugs occur, <i>the worst of all possible strategies</i> is to continue writ
 <!-- Jotta saisimme talletettua muistiinpanot pysyvästi, tarvitsemme tietokannan. Useimmilla laitoksen kursseilla on käytetty relaatiotietokantoja. Tällä kurssilla käytämme [MongoDB](https://www.mongodb.com/):tä, joka on ns. [dokumenttitietokanta](https://en.wikipedia.org/wiki/Document-oriented_database). -->
 In order to store our saved notes indefinitely, we need a database. Most of the courses taught at the University of Helsinki use relational databases. In this course we will use [MongoDB](https://www.mongodb.com/) which is a so-called [document database](https://en.wikipedia.org/wiki/Document-oriented_database).
 
-Dokumenttitietokannat poikkeavat jossain määrin relaatiotietokannoista niin datan organisointitapansa kuin kyselykielensäkin suhteen. Dokumenttitietokantojen ajatellaan kuuluvan sateenvarjotermin [NoSQL](https://en.wikipedia.org/wiki/NoSQL) alle. Lisää dokumenttitietokannoista ja NoSQL:stä Tietokantojen perusteiden [viikon 7 materiaalista](https://tikape-s18.mooc.fi/part7/).
+<!-- Dokumenttitietokannat poikkeavat jossain määrin relaatiotietokannoista niin datan organisointitapansa kuin kyselykielensäkin suhteen. Dokumenttitietokantojen ajatellaan kuuluvan sateenvarjotermin [NoSQL](https://en.wikipedia.org/wiki/NoSQL) alle. Lisää dokumenttitietokannoista ja NoSQL:stä Tietokantojen perusteiden [viikon 7 materiaalista](https://tikape-s18.mooc.fi/part7/). -->
+Document databases differ from relational databases in how they organize data as well as the query languages they support. Document databases are usually categorized under the [NoSQL](https://en.wikipedia.org/wiki/NoSQL) umbrella term. You can read more about document databases and NoSQL from the course material for [week 7](https://tikape-s18.mooc.fi/part7/) from the introduction to databases course. Unfortunately the material is currently only available in Finnish.
 
 **Lue nyt Tietokantojen perusteiden dokumenttitietokantoja kuvaava osuus.** Jatkossa oletetaan, että hallitset käsitteet <i>dokumentti</i> ja <i>kokoelma</i> (collection).
 
-MongoDB:n voi luonnollisesti asentaa omalle koneelle. Internetistä löytyy kuitenkin myös palveluna toimivia Mongoja, joista tämän hetken paras valinta on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+<!-- MongoDB:n voi luonnollisesti asentaa omalle koneelle. Internetistä löytyy kuitenkin myös palveluna toimivia Mongoja, joista tämän hetken paras valinta on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). -->
+Naturally, you can install and run MongoDB on your own computer. However, the internet is also full of Mongo database services that you can use. Our preferred MongoDB provider in this course will be [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
 
-> <i>Jos ehdit jo konfiguroida itsellesi mlabin, löydät ohjeita sen käyttöön [viime vuoden materiaalista](https://fullstackopen.github.io/osa3/).</i>
+<!-- > <i>Jos ehdit jo konfiguroida itsellesi mlabin, löydät ohjeita sen käyttöön [viime vuoden materiaalista](https://fullstackopen.github.io/osa3/).</i> -->
+<i>If you have already configured mlab, you can continue to use it with instructions from [last year's course material](https://fullstackopen.github.io/osa3/).</i>
 
-Kun käyttäjätili on luotu ja kirjauduttu, Atlas kehoittaa luomaan klusterin:
+<!-- Kun käyttäjätili on luotu ja kirjauduttu, Atlas kehoittaa luomaan klusterin: -->
+Once you've created and logged into your account, Atlas will recommend creating a cluster:
 
 ![](../images/3/57.png)
 
-Valitaan <i>AWS</i> ja <i>Frankfurt</i> ja luodaan klusteri.
+<!-- Valitaan <i>AWS</i> ja <i>Frankfurt</i> ja luodaan klusteri. -->
+Let's choose <i>AWS</i> and <i>Frankfurt</i> and create a cluster.
 
 ![](../images/3/58.png)
 
-Odotetaan että klusteri on valmiina, tähän menee noin 10 minuuttia. 
+<!-- Odotetaan että klusteri on valmiina, tähän menee noin 10 minuuttia.  -->
+Let's wait for the cluster to be ready for use. This will take approximately 10 minutes.
 
-**HUOM** älä jatka eteenpäin ennen kun klusteri on valmis!
+<!-- **HUOM** älä jatka eteenpäin ennen kun klusteri on valmis! -->
+**NB** do not continue before the cluster is ready.
 
-Luodaan <i>security</i> välilehdeltä tietokantakäyttäjätunnus joka on siis eri tunnus kuin se, jonka avulla kirjaudutaan MongoDB Atlasiin:
+<!-- Luodaan <i>security</i> välilehdeltä tietokantakäyttäjätunnus joka on siis eri tunnus kuin se, jonka avulla kirjaudutaan MongoDB Atlasiin: -->
+Let's use the <i>security</i> tab for creating user credentials for the database. Please note that these are not the same credentials you use for logging into MongoDB Atlas.
 
 ![](../images/3/59.png)
 
-annetaan käyttäjälle luku- ja kirjoitustoikeus kaikkiin tietokantoihin
+<!-- annetaan käyttäjälle luku- ja kirjoitustoikeus kaikkiin tietokantoihin -->
+Let's grant the user with permissions to read and write to the databases.
 
 ![](../images/3/60.png)
 
-**HUOM** muutamissa tapauksissa uusi käyttäjä ei ole toiminut heti luomisen jälkeen. On saattanut kestää jopa useita minuutteja ennen kuin käyttäjätunnus on ruvennut toimimaan.
+<!-- **HUOM** muutamissa tapauksissa uusi käyttäjä ei ole toiminut heti luomisen jälkeen. On saattanut kestää jopa useita minuutteja ennen kuin käyttäjätunnus on ruvennut toimimaan. -->
+**NB** for some people the new user credentials have not worked immediately after creation. In some cases it has taken minutes before the credentials have worked.
 
-Seuraavaksi tulee määritellä ne ip-osoitteet, joista tietokantaan pääsee käsiksi
+<!-- Seuraavaksi tulee määritellä ne ip-osoitteet, joista tietokantaan pääsee käsiksi -->
+Next we have to define the IP addresses that are allowed access to the database.
 
 ![](../images/3/61.png)
 
-Sallitaan yksinkertaisuuden vuoksi yhteydet kaikkialta:
+<!-- Sallitaan yksinkertaisuuden vuoksi yhteydet kaikkialta: -->
+For the sake of simplicity we will allow access from all IP addresses:
 
 ![](../images/3/62.png)
 
-Lopultakin ollaan valmiina ottamaan tietokantayhteyden. Valitaan <i>Connect your application</i> ja <i>Short SRV connection string</i>
+<!-- Lopultakin ollaan valmiina ottamaan tietokantayhteyden. Valitaan <i>Connect your application</i> ja <i>Short SRV connection string</i> -->
+Finally we are ready to connect to our database.
 
 ![](../images/3/64.png)
 
