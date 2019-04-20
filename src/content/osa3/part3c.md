@@ -486,7 +486,8 @@ We can verify in the browser that the backend works for displaying all of the do
 <!-- Toiminnallisuus on muuten kunnossa, mutta frontend olettaa, että olioiden yksikäsitteinen tunniste on kentässä <i>id</i>. Emme myöskään halua näyttää frontendille mongon versiointiin käyttämää kenttää <i>\_\_v</i>.  -->
 The application works almost perfectly. The frontend assumes that every object has a unique id in the <i>id</i> field. We also don't want to return the mongo versioning field <i>\_\_v</i> to the frontend.
 
-Eräs tapa muotoilla Mongoosen palauttamat oliot haluttuun muotoon on [muokata](https://stackoverflow.com/questions/7034848/mongodb-output-id-instead-of-id) kannasta haettavilla olioilla olevan _toJSON_-metodin palauttamaa muotoa. Metodin muokkaus onnistuu seuraavasti:
+<!-- Eräs tapa muotoilla Mongoosen palauttamat oliot haluttuun muotoon on [muokata](https://stackoverflow.com/questions/7034848/mongodb-output-id-instead-of-id) kannasta haettavilla olioilla olevan _toJSON_-metodin palauttamaa muotoa. Metodin muokkaus onnistuu seuraavasti: -->
+One way to format the objects returned by Mongoose is to [modify](https://stackoverflow.com/questions/7034848/mongodb-output-id-instead-of-id) the _toJSON_ method of the objects. Modifying the method happens like this:
 
 ```js
 noteSchema.set('toJSON', {
@@ -498,9 +499,11 @@ noteSchema.set('toJSON', {
 })
 ```
 
-Vaikka Mongoose-olioiden kenttä <i>\_id</i> näyttääkin merkkijonolta, se on todellisuudessa olio. Määrittelemämme metodi _toJSON_ muuttaa sen merkkijonoksi kaiken varalta. Jos emme tekisi muutosta, siitä aiheutuisi ylimääräistä harmia testien yhteydessä.
+<!-- Vaikka Mongoose-olioiden kenttä <i>\_id</i> näyttääkin merkkijonolta, se on todellisuudessa olio. Määrittelemämme metodi _toJSON_ muuttaa sen merkkijonoksi kaiken varalta. Jos emme tekisi muutosta, siitä aiheutuisi ylimääräistä harmia testien yhteydessä. -->
+Even though the <i>\_id</i> property of Mongoose objects looks like a string, it is in fact an object. The _toJSON_ method we defined transforms it into a string just to be safe. If we didn't make this change, it would cause more harm for us in the future once we start writing tests.
 
-Palautetaan HTTP-pyynnön vastauksena _toJSON_-metodin avulla muotoiltuja oliota:
+<!-- Palautetaan HTTP-pyynnön vastauksena _toJSON_-metodin avulla muotoiltuja oliota: -->
+Let's respond to the HTTP request with a list of objects formatted with the _toJSON_ method:
 
 ```js
 app.get('/api/notes', (request, response) => {
@@ -510,13 +513,17 @@ app.get('/api/notes', (request, response) => {
 });
 ```
 
-Nyt siis muuttujassa _notes_ on taulukollinen mongon palauttamia olioita. Kun suoritamme operaation <em>notes.map(note => note.toJSON())</em> seurauksena on uusi taulukko, missä on jokaista alkuperäisen taulukon alkiota vastaava metodin _toJSON_ avulla muodostettu alkio.
+<!-- Nyt siis muuttujassa _notes_ on taulukollinen mongon palauttamia olioita. Kun suoritamme operaation <em>notes.map(note => note.toJSON())</em> seurauksena on uusi taulukko, missä on jokaista alkuperäisen taulukon alkiota vastaava metodin _toJSON_ avulla muodostettu alkio. -->
+Now the _notes_ variable is assigned to an array of objects returned by Mongo. When we call <em>notes.map(note => note.toJSON())</em> the result is a new array, where every item from the old one is mapped to a new object with the _toJSON_ method.
 
-### Tietokantamäärittelyjen eriyttäminen moduuliksi
+<!-- ### Tietokantamäärittelyjen eriyttäminen moduuliksi -->
+### Database configuration into its own module
 
-Ennen kuin täydennämme backendin muutkin osat käyttämään tietokantaa, eriytetään Mongoose-spesifinen koodi omaan moduuliin.
+<!-- Ennen kuin täydennämme backendin muutkin osat käyttämään tietokantaa, eriytetään Mongoose-spesifinen koodi omaan moduuliin. -->
+Before we refactor the rest of the backend to use the database, let's extract the Mongoose specific code into its own module.
 
-Tehdään moduulia varten hakemisto <i>models</i> ja sinne tiedosto <i>note.js</i>:
+<!-- Tehdään moduulia varten hakemisto <i>models</i> ja sinne tiedosto <i>note.js</i>: -->
+Let's create a new directory for the module called <i>models</i>, and add a file called <i>note.js</i>:
 
 ```js
 const mongoose = require('mongoose')
@@ -552,19 +559,24 @@ noteSchema.set('toJSON', {
 module.exports = mongoose.model('Note', noteSchema) // highlight-line
 ```
 
-Noden [moduulien](https://nodejs.org/docs/latest-v8.x/api/modules.html) määrittely poikkeaa hiukan osassa 2 määrittelemistämme frontendin käyttämistä [ES6-moduuleista](/osa2/kokoelmien_renderointi_ja_moduulit#refaktorointia-moduulit).
+<!-- Noden [moduulien](https://nodejs.org/docs/latest-v8.x/api/modules.html) määrittely poikkeaa hiukan osassa 2 määrittelemistämme frontendin käyttämistä [ES6-moduuleista](/osa2/kokoelmien_renderointi_ja_moduulit#refaktorointia-moduulit). -->
+Defining Node [modules](https://nodejs.org/docs/latest-v8.x/api/modules.html) differs slightly from the way pf defining [ES6 modules](/osa2/kokoelmien_renderointi_ja_moduulit#refaktorointia-moduulit) in part 2.
 
-Moduulin ulos näkyvä osa määritellään asettamalla arvo muuttujalle _module.exports_. Asetamme arvoksi modelin <i>Note</i>. Muut moduulin sisällä määritellyt asiat, esim. muuttujat _mongoose_ ja _url_ eivät näy moduulin käyttäjälle.
+<!-- Moduulin ulos näkyvä osa määritellään asettamalla arvo muuttujalle _module.exports_. Asetamme arvoksi modelin <i>Note</i>. Muut moduulin sisällä määritellyt asiat, esim. muuttujat _mongoose_ ja _url_ eivät näy moduulin käyttäjälle. -->
+The public interface of the module is defined by setting a value to the _module.exports_ variable. We will set the value to be the <i>Note</i> model. The other things defined inside of the module, like the variables _mongoose_ and _url_ will not be accessible or visible to users of the module.
 
-Moduulin käyttöönotto tapahtuu lisäämällä tiedostoon <i>index.js</i> seuraava rivi
+<!-- Moduulin käyttöönotto tapahtuu lisäämällä tiedostoon <i>index.js</i> seuraava rivi -->
+Importing the module happens by adding the following line to <i>index.js</i>:
 
 ```js
 const Note = require('./models/note')
 ```
 
-Näin muuttuja _Note_ saa arvokseen saman olion, jonka moduuli määrittelee.
+<!-- Näin muuttuja _Note_ saa arvokseen saman olion, jonka moduuli määrittelee. -->
+This way the _Note_ variable will be assigned to the same object that the module defines.
 
-Yhteyden muodostustavassa on pieni muutos aiempaan:
+<!-- Yhteyden muodostustavassa on pieni muutos aiempaan: -->
+The way that the connection is made has changed slightly:
 
 ```js
 const url = process.env.MONGODB_URI
@@ -580,39 +592,47 @@ mongoose.connect(url, { useNewUrlParser: true })
   })
 ```
 
-Tietokannan osoitetta ei kannata kirjoittaa koodiin, joten osoite annetaan sovellukselle ympäristömuuttujan <em>MONGODB_URI</em> välityksellä. 
+<!-- Tietokannan osoitetta ei kannata kirjoittaa koodiin, joten osoite annetaan sovellukselle ympäristömuuttujan <em>MONGODB_URI</em> välityksellä.  -->
+It's not a good idea to hardcode the address of the database into the code, so instead the address of the database is passed to the application via the <em>MONGODB_URI</em> environment variable.
 
-Yhteyden muodostavalle metodille on nyt rekisteröity onnistuneen ja epäonnistuneen yhteydenmuodostuksen käsittelevät funktiot, jotka tulostavat konsoliin tiedon siitä, onnistuuko yhteyden muodostaminen:
+<!-- Yhteyden muodostavalle metodille on nyt rekisteröity onnistuneen ja epäonnistuneen yhteydenmuodostuksen käsittelevät funktiot, jotka tulostavat konsoliin tiedon siitä, onnistuuko yhteyden muodostaminen: -->
+The method for establishing the connection is now given functions for dealing with a successful and unsuccessful connection attempt. Both functions just log a message to the console about the success status:
 
 ![](../images/3/45.png)
 
-On useita tapoja määritellä ympäristömuuttujan arvo, voimme esim. antaa sen ohjelman käynnistyksen yhteydessä seuraavasti
+<!-- On useita tapoja määritellä ympäristömuuttujan arvo, voimme esim. antaa sen ohjelman käynnistyksen yhteydessä seuraavasti -->
+There are many ways to define the value of an environment variable. One way would be to define it when the application is started:
 
 ```bash
 MONGODB_URI=osoite_tahan npm run watch
 ```
 
-Eräs kehittyneempi tapa on käyttää [dotenv](https://github.com/motdotla/dotenv#readme)-kirjastoa. Asennetaan kirjasto komennolla
+<!-- Eräs kehittyneempi tapa on käyttää [dotenv](https://github.com/motdotla/dotenv#readme)-kirjastoa. Asennetaan kirjasto komennolla -->
+A more sophisticated way is to use the [dotenv](https://github.com/motdotla/dotenv#readme) library. You can install the library with the command:
 
 ```bash
 npm install dotenv --save
 ```
 
-Sovelluksen juurihakemistoon tehdään sitten tiedosto nimeltään <i>.env</i>, minne tarvittavien ympäristömuuttujien arvot määritellään. Tiedosto näyttää seuraavalta
+<!-- Sovelluksen juurihakemistoon tehdään sitten tiedosto nimeltään <i>.env</i>, minne tarvittavien ympäristömuuttujien arvot määritellään. Tiedosto näyttää seuraavalta -->
+To use the library, we create a <i>.env</i> file at the root of the project. The environment variables are defined inside of the file, and it can look like this:
 
 ```bash
 MONGODB_URI=mongodb+srv://fullstack:sekred@cluster0-ostce.mongodb.net/note-app?retryWrites=true
 PORT=3001
 ```
 
-Määrittelimme samalla aiemmin kovakoodaamamme sovelluksen käyttämän portin eli ympäristömuuttujan <em>PORT</em>.
+<!-- Määrittelimme samalla aiemmin kovakoodaamamme sovelluksen käyttämän portin eli ympäristömuuttujan <em>PORT</em>. -->
+We also added the hardcoded port of the server into the <em>PORT</em> environment variable.
 
-**Tiedosto <i>.env</i> tulee heti gitignorata sillä emme halua julkaista tiedoston sisältöä verkkoon!**
+<!-- **Tiedosto <i>.env</i> tulee heti gitignorata sillä emme halua julkaista tiedoston sisältöä verkkoon!** -->
+**The <i>.env</i> file should be gitignored right away, since we do not want to publish any confidential information publicly online!**
 
-dotenvissä määritellyt ympäristömuuttujat otetaan koodissa käyttöön komennolla
-<em>require('dotenv').config()</em> ja niihin viitataan Nodessa kuten "normaaleihin" ympäristömuuttujiin syntaksilla <em>process.env.MONGODB_URI</em>.
+<!-- dotenvissä määritellyt ympäristömuuttujat otetaan koodissa käyttöön komennolla <em>require('dotenv').config()</em> ja niihin viitataan Nodessa kuten "normaaleihin" ympäristömuuttujiin syntaksilla <em>process.env.MONGODB_URI</em>. -->
+The enviroment variables defined in the dotenv file can be taken into use with the command <em>require('dotenv').config()</em> and you can reference them in your code just like you would reference normal environment variables, with the familiar <em>process.env.MONGODB_URI</em> syntax.
 
-Muutetaan nyt tiedostoa <i>index.js</i> seuraavasti
+<!-- Muutetaan nyt tiedostoa <i>index.js</i> seuraavasti -->
+Let's change the <i>index.js</i> file in the following way:
 
 ```js
 require('dotenv').config() // highlight-line
@@ -629,13 +649,17 @@ app.listen(PORT, () => {
 })
 ```
 
-On tärkeää, että <i>dotenv</i> otetaan käyttöön ennen modelin <i>note</i> importtaamista, tällöin varmistutaan siitä, että tiedostossa <i>.env</i> olevat ympäristömuuttujat ovat alustettuja kun moduulin koodia importoidaan.
+<!-- On tärkeää, että <i>dotenv</i> otetaan käyttöön ennen modelin <i>note</i> importtaamista, tällöin varmistutaan siitä, että tiedostossa <i>.env</i> olevat ympäristömuuttujat ovat alustettuja kun moduulin koodia importoidaan. -->
+It's important that <i>dotenv</i> gets imported before the <i>note</i> model is imported. This ensures that the environment variables from the <i>.env</i> file are available globally before the code from the other modules are imported.
 
-### Muut operaatiot
+<!-- ### Muut operaatiot -->
+### Other operations
 
-Muutetaan nyt kaikki operaatiot tietokantaa käyttävään muotoon.
+<!-- Muutetaan nyt kaikki operaatiot tietokantaa käyttävään muotoon. -->
+Next, let's change the rest of the backend functionality to use the database.
 
-Uuden muistiinpanon luominen tapahtuu seuraavasti:
+<!-- Uuden muistiinpanon luominen tapahtuu seuraavasti: -->
+Creating a new note is accomplished like this:
 
 ```js
 app.post('/api/notes', (request, response) => {
@@ -657,15 +681,18 @@ app.post('/api/notes', (request, response) => {
 })
 ```
 
-Muistiinpano-oliot siis luodaan _Note_-konstruktorifunktiolla. Pyyntöön vastataan _save_-operaation takaisinkutsufunktion sisällä. Näin varmistutaan, että operaation vastaus tapahtuu vain jos operaatio on onnistunut. Palaamme virheiden käsittelyyn myöhemmin.
+<!-- Muistiinpano-oliot siis luodaan _Note_-konstruktorifunktiolla. Pyyntöön vastataan _save_-operaation takaisinkutsufunktion sisällä. Näin varmistutaan, että operaation vastaus tapahtuu vain jos operaatio on onnistunut. Palaamme virheiden käsittelyyn myöhemmin. -->
+The note objects are created with the _Note_ constructor function. The response for the request is sent inside of the callback function for the _save_ operation. This ensures that the response is sent only if the operation succeeded. We will discuss error handling a little bit later.
 
-Takaisinkutsufunktion parametrina oleva _savedNote_ on talletettu muistiinpano. HTTP-pyyntöön palautetaan kuitenkin siitä metodilla _toJSON_formatoitu muoto:
+<!-- Takaisinkutsufunktion parametrina oleva _savedNote_ on talletettu muistiinpano. HTTP-pyyntöön palautetaan kuitenkin siitä metodilla _toJSON_formatoitu muoto: -->
+The _savedNote_ parameter in the callback function is the saved and newly created note. The data sent back in the response is the formatted version created with the _toJSON_ method:
 
 ```js
 response.json(savedNote.toJSON())
 ```
 
-Yksittäisen muistiinpanon tarkastelu muuttuu muotoon
+<!-- Yksittäisen muistiinpanon tarkastelu muuttuu muotoon -->
+Fetching an individual note gets changed into the following:
 
 ```js
 app.get('/api/notes/:id', (request, response) => {
@@ -675,35 +702,47 @@ app.get('/api/notes/:id', (request, response) => {
 })
 ```
 
-### Frontendin ja backendin yhteistoiminnallisuuden varmistaminen
+<!-- ### Frontendin ja backendin yhteistoiminnallisuuden varmistaminen -->
+### Verifying frontend and backend integration
 
-Kun backendia laajennetaan, kannattaa sitä testailla aluksi **ehdottomasti selaimella, postmanilla tai VS Coden REST clientillä**. Seuraavassa kokeillaan uuden muistiinpanon luomista tietokannan käyttöönoton jälkeen:
+<!-- Kun backendia laajennetaan, kannattaa sitä testailla aluksi **ehdottomasti selaimella, postmanilla tai VS Coden REST clientillä**. Seuraavassa kokeillaan uuden muistiinpanon luomista tietokannan käyttöönoton jälkeen: -->
+When the backend gets expanded, it's a good idea to test the backend first with **the browser, Postman or the VS Code REST client**. Next, let's try creating a new note after taking the database into use:
 
 ![](../images/3/46.png)
 
-Vasta kun kaikki on todettu toimivaksi, kannattaa siirtyä testailemaan että muutosten jälkeinen backend toimii yhdessä myös frontendin kanssa. Kaikkien kokeilujen tekeminen ainoastaan frontendin kautta on todennäköisesti varsin tehotonta.
+<!-- Vasta kun kaikki on todettu toimivaksi, kannattaa siirtyä testailemaan että muutosten jälkeinen backend toimii yhdessä myös frontendin kanssa. Kaikkien kokeilujen tekeminen ainoastaan frontendin kautta on todennäköisesti varsin tehotonta. -->
+Only once everything has been verified to work in the backend, is it a good idea to test that the frontend works with the backend. It is highly inefficient to test things exclusively through the frontend.
 
-Todennäköisesti voi olla kannattavaa edetä frontin ja backin integroinnissa toiminnallisuus kerrallaan, eli ensin voidaan toteuttaa esim. kaikkien muistiinpanojen näyttäminen backendiin ja testata että toiminnallisuus toimii selaimella. Tämän jälkeen varmistetaan, että frontend toimii yhteen muutetun backendin kanssa. Kun kaikki on todettu olevan kunnossa, siirrytään seuraavan ominaisuuden toteuttamiseen.
+<!-- Todennäköisesti voi olla kannattavaa edetä frontin ja backin integroinnissa toiminnallisuus kerrallaan, eli ensin voidaan toteuttaa esim. kaikkien muistiinpanojen näyttäminen backendiin ja testata että toiminnallisuus toimii selaimella. Tämän jälkeen varmistetaan, että frontend toimii yhteen muutetun backendin kanssa. Kun kaikki on todettu olevan kunnossa, siirrytään seuraavan ominaisuuden toteuttamiseen. -->
+It's probably a good idea to integrate the frontend and backend one functionality at a time. First we could implement fetching all of the notes from the database and test it through the backend endpoint in the browser. After this we could verify that the frontend works with the new backend. Once everything seems to work, we would move onto the next feature.
 
-Kun kuvioissa on mukana tietokanta, on tietokannan tilan tarkastelu MongoDB Atlasin hallintanäkymästä varsin hyödyllistä, usein myös suoraan tietokantaa käyttävät Node-apuohjelmat, kuten tiedostoon <i>mongo.js</i> kirjoittamamme koodi auttavat sovelluskehityksen edetessä.
+<!-- Kun kuvioissa on mukana tietokanta, on tietokannan tilan tarkastelu MongoDB Atlasin hallintanäkymästä varsin hyödyllistä, usein myös suoraan tietokantaa käyttävät Node-apuohjelmat, kuten tiedostoon <i>mongo.js</i> kirjoittamamme koodi auttavat sovelluskehityksen edetessä. -->
+Once we introduce a database into the mix, it is useful to inspect the state persisted in the database, e.g. from the control panel in MongoDB Atlas. Quite often little Node helper programs like the <i>mongo.js</i> program we wrote earlier can be very helpful during development.
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-3), branchissa <i>part3-3</i>.
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-3), branchissa <i>part3-3</i>. -->
+You can find the code for our current application in its entirety in the <i>part3-3</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-3).
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-Seuraavat tehtävät saattavat olla melko suoraviivaisia, tosin jos frontend-koodissasi sattuu olemaan bugeja tai epäyhteensopivuutta backendin kanssa, voi seurauksena olla myös mielenkiintoisia bugeja.
+<!-- Seuraavat tehtävät saattavat olla melko suoraviivaisia, tosin jos frontend-koodissasi sattuu olemaan bugeja tai epäyhteensopivuutta backendin kanssa, voi seurauksena olla myös mielenkiintoisia bugeja. -->
+The following exercises are pretty straightforward, but if your frontend stops working with the backend, then finding and fixing the bugs can be quite interesting. 
 
-#### 3.13: puhelinluettelo ja tietokanta, step1
+<!-- #### 3.13: puhelinluettelo ja tietokanta, step1 -->
+#### 3.13: Phonebook database, step1
 
-Muuta backendin kaikkien puhelintietojen näyttämistä siten, että se <i>hakee näytettävät puhelintiedot tietokannasta</i>.
+<!-- Muuta backendin kaikkien puhelintietojen näyttämistä siten, että se <i>hakee näytettävät puhelintiedot tietokannasta</i>. -->
+Change the fetching of all phonebook entries so that the data is <i>fetched from the database</i>.
 
-Varmista, että frontend toimii muutosten jälkeen.
+<!-- Varmista, että frontend toimii muutosten jälkeen. -->
+Verify that the frontend works after the changes have been made.
 
-Tee tässä ja seuraavissa tehtävissä Mongoose-spesifinen koodi omaan moduuliin samaan tapaan kuin luvussa [Tietokantamäärittelyjen eriyttäminen moduuliksi](/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantamaarittelyjen-eriyttaminen-moduuliksi).
+<!-- Tee tässä ja seuraavissa tehtävissä Mongoose-spesifinen koodi omaan moduuliin samaan tapaan kuin luvussa [Tietokantamäärittelyjen eriyttäminen moduuliksi](/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantamaarittelyjen-eriyttaminen-moduuliksi). -->
+In the following exercises, write all Mongoose-specific code into its own module, just like we did in the chapter [Database configuration into its own module](/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantamaarittelyjen-eriyttaminen-moduuliksi)
 
 #### 3.14: puhelinluettelo ja tietokanta, step2
 
