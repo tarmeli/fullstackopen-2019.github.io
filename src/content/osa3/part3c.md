@@ -267,13 +267,17 @@ First we define the [schema](http://mongoosejs.com/docs/guide.html) of a note th
 <!-- Modelin _Note_ määrittelyssä ensimmäisenä parametrina oleva merkkijono <i>Note</i> määrittelee, että mongoose tallettaa muistiinpanoa vastaavat oliot kokoelmaan nimeltään <i>notes</i>, sillä [Mongoosen konventiona](http://mongoosejs.com/docs/models.html) on määritellä kokoelmien nimet monikossa (esim. <i>notes</i>), kun niihin viitataan skeeman määrittelyssä yksikkömuodossa (esim. <i>Note</i>). -->
 In the _Note_ model definition, the first <i>'Note'</i> parameter is the singular name of the model. The name of collection will the lowercased plural <i>notes</i>, because the [Mongoose convention](http://mongoosejs.com/docs/models.html) is to automatically name collections as the plural (e.g. <i>notes</i>) when the schema refers to them in the singular (e.g. <i>Note</i>).
 
-Dokumenttikannat, kuten Mongo ovat <i>skeemattomia</i>, eli tietokanta itsessään ei välitä mitään sinne talletettavan tiedon muodosta. Samaan kokoelmaankin on mahdollista tallettaa olioita joilla on täysin eri kentät.
+<!-- Dokumenttikannat, kuten Mongo ovat <i>skeemattomia</i>, eli tietokanta itsessään ei välitä mitään sinne talletettavan tiedon muodosta. Samaan kokoelmaankin on mahdollista tallettaa olioita joilla on täysin eri kentät. -->
+Document databases like Mongo are <i>schemaless</i>, meaning that the database itself does not  care about the structure of the data that is stored in the database. It is possible to store documents with completely different fields in the same collection.
 
-Mongoosea käytettäessä periaatteena on kuitenkin se, että tietokantaan talletettavalle tiedolle määritellään <i>sovelluksen koodin tasolla skeema</i>, joka määrittelee minkä muotoisia olioita kannan eri kokoelmiin talletetaan.
+<!-- Mongoosea käytettäessä periaatteena on kuitenkin se, että tietokantaan talletettavalle tiedolle määritellään <i>sovelluksen koodin tasolla skeema</i>, joka määrittelee minkä muotoisia olioita kannan eri kokoelmiin talletetaan. -->
+The idea behind Mongoose is that the data stored in the database is given a <i>schema at the level of the application</i> that defines the shape of the documents stored in any given collection.
 
-### Olioiden luominen ja tallettaminen
+<!-- ### Olioiden luominen ja tallettaminen -->
+### Creating and saving objects
 
-Seuraavaksi sovellus luo muistiinpanoa vastaavan [model](http://mongoosejs.com/docs/models.html):in avulla muistiinpano-olion:
+<!-- Seuraavaksi sovellus luo muistiinpanoa vastaavan [model](http://mongoosejs.com/docs/models.html):in avulla muistiinpano-olion: -->
+Next, the application creates a new note object with the help of the <i>Note</i> [model](http://mongoosejs.com/docs/models.html):
 
 ```js
 const note = new Note({
@@ -283,9 +287,11 @@ const note = new Note({
 })
 ```
 
-Modelit ovat ns. <i>konstruktorifunktioita</i>, jotka luovat parametrien perusteella Javascript-olioita. Koska oliot on luotu modelien konstruktorifunktiolla, niillä on kaikki modelien ominaisuudet, eli joukko metodeja, joiden avulla olioita voidaan mm. tallettaa tietokantaan.
+<!-- Modelit ovat ns. <i>konstruktorifunktioita</i>, jotka luovat parametrien perusteella Javascript-olioita. Koska oliot on luotu modelien konstruktorifunktiolla, niillä on kaikki modelien ominaisuudet, eli joukko metodeja, joiden avulla olioita voidaan mm. tallettaa tietokantaan. -->
+Models are so-called <i>constructor functions</i> that create new JavaScript objects based on the provided parameters. Since the objects are created with the model's constructor function, they have all the properties of the model, which include methods for saving the object to the database.
 
-Tallettaminen tapahtuu metodilla _save_. Metodi palauttaa <i>promisen</i>, jolle voidaan rekisteröidä _then_-metodin avulla tapahtumankäsittelijä:
+<!-- Tallettaminen tapahtuu metodilla _save_. Metodi palauttaa <i>promisen</i>, jolle voidaan rekisteröidä _then_-metodin avulla tapahtumankäsittelijä: -->
+Saving the object to the database happens with the appropriately named _save_ method, that can be provided with an event handler with the _then_ method:
 
 ```js
 note.save().then(result => {
@@ -294,17 +300,23 @@ note.save().then(result => {
 })
 ```
 
-Kun olio on tallennettu kantaan, kutsutaan _then_:in parametrina olevaa tapahtumankäsittelijää, joka sulkee tietokantayhteyden komennolla <code>mongoose.connection.close()</code>. Ilman yhteyden sulkemista ohjelman suoritus ei pääty.
+<!-- Kun olio on tallennettu kantaan, kutsutaan _then_:in parametrina olevaa tapahtumankäsittelijää, joka sulkee tietokantayhteyden komennolla <code>mongoose.connection.close()</code>. Ilman yhteyden sulkemista ohjelman suoritus ei pääty. -->
+When the object is saved to the database, the event handler provided to _then_  gets called. The event handler closes the database connection with the command <code>mongoose.connection.close()</code>. If the connection is not closed, the program will never finish its execution.
 
-Tallennusoperaation tulos on takaisinkutsun parametrissa _result_. Yhtä olioa tallentaessamme tulos ei ole kovin mielenkiintoinen, olion sisällön voi esim. tulostaa konsoliin jos haluaa tutkia sitä tarkemmin sovelluslogiikassa tai esim. debugatessa.
+<!-- Tallennusoperaation tulos on takaisinkutsun parametrissa _result_. Yhtä olioa tallentaessamme tulos ei ole kovin mielenkiintoinen, olion sisällön voi esim. tulostaa konsoliin jos haluaa tutkia sitä tarkemmin sovelluslogiikassa tai esim. debugatessa. -->
+The result of the save operation is in the _result_ parameter of the event handler. The result is not that interesting when we're storing one object to the database. You can print the object to the console if you want to take a closer look at it while implementing your application or during debugging.
 
-Talletetaan kantaan myös pari muuta muistiinpanoa muokkaamalla dataa koodista ja suorittamalla ohjelma uudelleen.
+<!-- Talletetaan kantaan myös pari muuta muistiinpanoa muokkaamalla dataa koodista ja suorittamalla ohjelma uudelleen. -->
+Let's also save a few more notes by modifying the data in the code and by executing the program again.
 
-**HUOM** valitettavasti Mongoosen dokumentaatiossa käytetään joka paikassa takaisinkutsufunktioita, joten sieltä ei kannata suoraan copypasteta koodia, sillä promisejen ja vanhanaikaisten callbackien sotkeminen samaan koodiin ei ole kovin järkevää.
+<!-- **HUOM** valitettavasti Mongoosen dokumentaatiossa käytetään joka paikassa takaisinkutsufunktioita, joten sieltä ei kannata suoraan copypasteta koodia, sillä promisejen ja vanhanaikaisten callbackien sotkeminen samaan koodiin ei ole kovin järkevää. -->
+**NB** unfortunately the Mongoose documentation uses callbacks in its examples, so it is not recommended to copy paste code directly from there. Mixing promises with old-school callbacks in the same code is not recommended. 
 
-### Olioiden hakeminen tietokannasta
+<!-- ### Olioiden hakeminen tietokannasta -->
+### Fetching objects from the database
 
-Kommentoidaan koodista uusia muistiinpanoja generoiva osa, ja korvataan se seuraavalla:
+<!-- Kommentoidaan koodista uusia muistiinpanoja generoiva osa, ja korvataan se seuraavalla: -->
+Let's comment out the code for generating new notes and replace it with the following:
 
 ```js
 Note.find({}).then(result => {
@@ -315,13 +327,17 @@ Note.find({}).then(result => {
 })
 ```
 
-Kun koodi suoritetaan, kantaan talletetut muistiinpanot tulostuvat.
+<!-- Kun koodi suoritetaan, kantaan talletetut muistiinpanot tulostuvat. -->
+When the code gets executed, all of the notes stored in the database get printed.
 
-Oliot haetaan kannasta _Note_-modelin metodilla [find](http://mongoosejs.com/docs/api.html#find_find). Metodin parametrina on hakuehto. Koska hakuehtona on tyhjä olio <code>{}</code>, saimme kannasta kaikki _notes_-kokoelmaan talletetut oliot.
+<!-- Oliot haetaan kannasta _Note_-modelin metodilla [find](http://mongoosejs.com/docs/api.html#find_find). Metodin parametrina on hakuehto. Koska hakuehtona on tyhjä olio <code>{}</code>, saimme kannasta kaikki _notes_-kokoelmaan talletetut oliot. -->
+The objects are retrieved from the database with the [find](http://mongoosejs.com/docs/api.html#find_find) method of the _Note_ model. The parameter of the method is an object expressing search conditions. Since the parameter is an empty object<code>{}</code>, we get all of the notes stored in the  _notes_ collection.
 
-Hakuehdot noudattavat mongon [syntaksia](https://docs.mongodb.com/manual/reference/operator/).
+<!-- Hakuehdot noudattavat mongon [syntaksia](https://docs.mongodb.com/manual/reference/operator/). -->
+The search conditions adhere to the Mongo search query [syntax](https://docs.mongodb.com/manual/reference/operator/).
 
-Voisimme hakea esim. ainoastaan tärkeät muistiinpanot seuraavasti:
+<!-- Voisimme hakea esim. ainoastaan tärkeät muistiinpanot seuraavasti: -->
+We could restrict our search to only include important notes like this:
 
 ```js
 Note.find({ important: true }).then(result => {
@@ -333,41 +349,51 @@ Note.find({ important: true }).then(result => {
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 3.12: tietokanta komentoriviltä
+<!-- #### 3.12: tietokanta komentoriviltä -->
+#### 3.12: Command-line database
 
-Luo puhelinluettelo-sovellukselle pilvessä oleva mongo Mongo DB Atlaksen avulla.
+<!-- Luo puhelinluettelo-sovellukselle pilvessä oleva mongo Mongo DB Atlaksen avulla. -->
+Create a cloud-based MongoDB database for the phonebook application with MongoDB Atlas. 
 
-Tee projektihakemistoon tiedosto <i>mongo.js</i>, jonka avulla voit lisätä tietokantaan puhelinnumeroja sekä listata kaikki kannassa olevat numerot.
+<!-- Tee projektihakemistoon tiedosto <i>mongo.js</i>, jonka avulla voit lisätä tietokantaan puhelinnumeroja sekä listata kaikki kannassa olevat numerot. -->
+Create a <i>mongo.js</i> file in the project directory, that can be used for adding entries to the phonebook, and for listing all of the existing entries in the phonebook.
 
-**Huom** jos/kun laitat tiedoston Githubiin, älä laita tietokannan salasanaa mukaan!
+<!-- **Huom** jos/kun laitat tiedoston Githubiin, älä laita tietokannan salasanaa mukaan! -->
+**NB** Do not include the password in the file that you commit and push to GitHub! 
 
-Ohjelma toimii siten, että jos sille annetaan käynnistäessä kolme komentoriviparametria (joista ensimmäinen on salasana), esim:
+<!-- Ohjelma toimii siten, että jos sille annetaan käynnistäessä kolme komentoriviparametria (joista ensimmäinen on salasana), esim: -->
+The application should work as follows. You use the program by passing three command-line arguments (the first is the password), e.g.:
 
 ```bash
 node mongo.js salasana Joulupukki 040-1234556
 ```
 
-Ohjelma tulostaa
+<!-- Ohjelma tulostaa -->
+As a result, the application will print:
 
 ```bash
 lisätään Joulupukki numero 040-1234556 luetteloon
 ```
 
-ja lisää uuden yhteystiedon tietokantaan. Huomaa, että jos nimi sisältää välilyöntejä, on se annettava hipsuissa:
+<!-- ja lisää uuden yhteystiedon tietokantaan. Huomaa, että jos nimi sisältää välilyöntejä, on se annettava hipsuissa: -->
+The new entry to the phonebook will be saved to the database. Notice that if the name contains whitespace characters, it must be specified in quotes:
 
 ```bash
 node mongo.js salasana "Arto Vihavainen" 040-1234556
 ```
 
-Jos komentoriviparametreina ei ole muuta kuin salasana, eli ohjelma suoritetaan komennolla
+<!-- Jos komentoriviparametreina ei ole muuta kuin salasana, eli ohjelma suoritetaan komennolla -->
+If the password is the only parameter given to the program, meaning that it is invoked like this:
 
 ```bash
 node mongo.js salasana
 ```
 
-tulostaa ohjelma tietokannassa olevat numerotiedot:
+<!-- tulostaa ohjelma tietokannassa olevat numerotiedot: -->
+Then the program should display all of the entries in the phonebook:
 
 <pre>
 puhelinluettelo:
@@ -376,9 +402,11 @@ Arto Vihavainen 045-1232456
 Tiina Niklander 040-1231236
 </pre>
 
-Saat selville ohjelman komentoriviparametrit muuttujasta [process.argv](https://nodejs.org/docs/latest-v8.x/api/process.html#process_process_argv)
+<!-- Saat selville ohjelman komentoriviparametrit muuttujasta [process.argv](https://nodejs.org/docs/latest-v8.x/api/process.html#process_process_argv) -->
+You can get the command-line parameters from the [process.argv](https://nodejs.org/docs/latest-v8.x/api/process.html#process_process_argv) variable.
 
-**HUOM: älä sulje tietokantayhteyttä väärässä kohdassa**. Esim. seuraava koodi ei toimi
+<!-- **HUOM: älä sulje tietokantayhteyttä väärässä kohdassa**. Esim. seuraava koodi ei toimi -->
+**NB: do not close the connection in the wrong place**. E.g. the following code will not work:
 
 ```js
 Person
@@ -390,9 +418,11 @@ Person
 mongoose.connection.close()
 ```
 
-Koodin suoritus nimittäin etenee siten, että heti operaation <i>Person.find</i> käynnistymisen jälkeen suoritetaan komento <i>mongoose.connection.close()</i> ja tietokantayhteys katkeaa välittömästi. Näin ei koskaan päästä siihen pisteeseen, että <i>Person.find</i>-operaation valmistumisen käsittelevää <i>takaisinkutsufunktiota</i> kutsuttaisiin.
+<!-- Koodin suoritus nimittäin etenee siten, että heti operaation <i>Person.find</i> käynnistymisen jälkeen suoritetaan komento <i>mongoose.connection.close()</i> ja tietokantayhteys katkeaa välittömästi. Näin ei koskaan päästä siihen pisteeseen, että <i>Person.find</i>-operaation valmistumisen käsittelevää <i>takaisinkutsufunktiota</i> kutsuttaisiin. -->
+In the code above the <i>mongoose.connection.close()</i> command will get executed immediately after the <i>Person.find</i> operation gets started. This means that the database connection will be closed immediately, and the execution will never get to the point where <i>Person.find</i> operation finishes and the <i>callback</i> function gets called.
 
-Oikea paikka tietokantayhteyden sulkemiselle on takaisinkutsufunktion loppu:
+<!-- Oikea paikka tietokantayhteyden sulkemiselle on takaisinkutsufunktion loppu: -->
+The correct place for closing the database connection is at the end of the callback function:
 
 ```js
 Person
@@ -403,17 +433,21 @@ Person
   })
 ```
 
-**HUOM2** jos määrittelet modelin nimeksi <i>Person</i>, muuttaa mongoose sen monikkomuotoon <i>people</i>, jota se käyttää vastaavan kokoelman nimenä.
+<!-- **HUOM2** jos määrittelet modelin nimeksi <i>Person</i>, muuttaa mongoose sen monikkomuotoon <i>people</i>, jota se käyttää vastaavan kokoelman nimenä. -->
+**NB2** if you define a model with the name <i>Person</i>, mongoose will automatically name the associated collection as <i>people</i>.
 
 </div>
 
 <div class="content">
 
-### Tietokantaa käyttävä backend
+<!-- ### Tietokantaa käyttävä backend -->
+### Backend connected to a database
 
-Nyt meillä on periaatteessa hallussamme riittävä tietämys ottaa mongo käyttöön sovelluksessamme.
+<!-- Nyt meillä on periaatteessa hallussamme riittävä tietämys ottaa mongo käyttöön sovelluksessamme. -->
+Now we have enough knowledge to start using Mongo in our application.
 
-Aloitetaan nopean kaavan mukaan, copypastetaan tiedostoon <i>index.js</i> Mongoosen määrittelyt, eli
+<!-- Aloitetaan nopean kaavan mukaan, copypastetaan tiedostoon <i>index.js</i> Mongoosen määrittelyt, eli -->
+Let's get a quick start by copy pasting the Mongoose definitions to the <i>index.js</i> file:
 
 ```js
 const mongoose = require('mongoose')
@@ -433,7 +467,8 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema)
 ```
 
-ja muutetaan kaikkien muistiinpanojen hakemisesta vastaava käsittelijä seuraavaan muotoon
+<!-- ja muutetaan kaikkien muistiinpanojen hakemisesta vastaava käsittelijä seuraavaan muotoon -->
+Let's change the handler for fetching all notes into the following form:
 
 ```js
 app.get('/api/notes', (request, response) => {
@@ -443,11 +478,13 @@ app.get('/api/notes', (request, response) => {
 })
 ```
 
-Voimme todeta selaimella, että backend toimii kaikkien dokumenttien näyttämisen osalta:
+<!-- Voimme todeta selaimella, että backend toimii kaikkien dokumenttien näyttämisen osalta: -->
+We can verify in the browser that the backend works for displaying all of the documents:
 
 ![](../images/3/44.png)
 
-Toiminnallisuus on muuten kunnossa, mutta frontend olettaa, että olioiden yksikäsitteinen tunniste on kentässä <i>id</i>. Emme myöskään halua näyttää frontendille mongon versiointiin käyttämää kenttää <i>\_\_v</i>. 
+<!-- Toiminnallisuus on muuten kunnossa, mutta frontend olettaa, että olioiden yksikäsitteinen tunniste on kentässä <i>id</i>. Emme myöskään halua näyttää frontendille mongon versiointiin käyttämää kenttää <i>\_\_v</i>.  -->
+The application works almost perfectly. The frontend assumes that every object has a unique id in the <i>id</i> field. We also don't want to return the mongo versioning field <i>\_\_v</i> to the frontend.
 
 Eräs tapa muotoilla Mongoosen palauttamat oliot haluttuun muotoon on [muokata](https://stackoverflow.com/questions/7034848/mongodb-output-id-instead-of-id) kannasta haettavilla olioilla olevan _toJSON_-metodin palauttamaa muotoa. Metodin muokkaus onnistuu seuraavasti:
 
