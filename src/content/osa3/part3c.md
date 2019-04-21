@@ -900,9 +900,11 @@ app.get('/api/notes/:id', (request, response, next) => {
 })
 ```
 
-Eteenpäin siirrettävä virhe annetaan funktiolle <em>next</em> parametrina. Jos funktiota <em>next</em> kutsuttaisiin ilman parametria, käsittely siirtyisi ainoastaan eteenpäin seuraavaksi määritellylle routelle tai middlewarelle. Jos funktion <em>next</em> kutsussa annetaan parametri, siirtyy käsittely <i>virheidenkäsittelymiddlewarelle</i>.
+<!-- Eteenpäin siirrettävä virhe annetaan funktiolle <em>next</em> parametrina. Jos funktiota <em>next</em> kutsuttaisiin ilman parametria, käsittely siirtyisi ainoastaan eteenpäin seuraavaksi määritellylle routelle tai middlewarelle. Jos funktion <em>next</em> kutsussa annetaan parametri, siirtyy käsittely <i>virheidenkäsittelymiddlewarelle</i>. -->
+The error that is passed forward, is given to the <em>next</em> function as a parameter. If <em>next</em> was called without a parameter, then the execution would simply move onto the next route or middleware. If the <em>next</em> function is called with a parameter, then the execution will continue to the <i>error handler middleware</i>.
 
-Expressin [virheidenkäsittelijät](https://expressjs.com/en/guide/error-handling.html) ovat middlewareja, joiden määrittelevällä funktiolla on <i>neljä parametria</i>. Virheidenkäsittelijämme näyttää seuraavalta:
+<!-- Expressin [virheidenkäsittelijät](https://expressjs.com/en/guide/error-handling.html) ovat middlewareja, joiden määrittelevällä funktiolla on <i>neljä parametria</i>. Virheidenkäsittelijämme näyttää seuraavalta: -->
+Express [error handlers](https://expressjs.com/en/guide/error-handling.html) are middleware that are defined with a function that accepts <i>four parameters</i>. Our error handler looks like this:
 
 ```js
 const errorHandler = (error, request, response, next) => {
@@ -918,13 +920,17 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 ```
 
-Virhekäsittelijä tarkastaa onko kyse <i>CastError</i>-poikkeuksesta, eli virheellisestä olioid:stä, jos on, se lähettä pyynnön tehneelle selaimelle vastauksen käsittelijän parametrina olevan response-olion avulla. Muussa tapauksessa se siirtää funktiolla <em>next</em> virheen käsittelyn Expressin oletusarvoisen virheidenkäsittelijän hoidettavavksi.
+<!-- Virhekäsittelijä tarkastaa onko kyse <i>CastError</i>-poikkeuksesta, eli virheellisestä olioid:stä, jos on, se lähettä pyynnön tehneelle selaimelle vastauksen käsittelijän parametrina olevan response-olion avulla. Muussa tapauksessa se siirtää funktiolla <em>next</em> virheen käsittelyn Expressin oletusarvoisen virheidenkäsittelijän hoidettavavksi. -->
+The error handler checks if the error was a <i>CastError</i> exception, and if was, then we know that the error was caused by an invalid object id for Mongo. In this situation the error handler will send a response to the browser with the response object passed as a parameter. In all other error situations the middleware passes the error forward to the default Express error handler. 
 
-### Middlewarejen käyttöönottojärjestys
+<!-- ### Middlewarejen käyttöönottojärjestys -->
+### The order of middleware loading
 
-Koska middlewaret suoritetaan siinä järjestyksessä, missä ne on otettu käyttöön funktiolla _app.use_ on niiden määrittelyn kanssa oltava tarkkana.
+<!-- Koska middlewaret suoritetaan siinä järjestyksessä, missä ne on otettu käyttöön funktiolla _app.use_ on niiden määrittelyn kanssa oltava tarkkana. -->
+The execution order of middleware is the same as the order that they are loaded into express with the _app.use_ function. For this reason it is important to be careful when defining middleware.
 
-Oikeaoppinen järjestys seuraavassa:
+<!-- Oikeaoppinen järjestys seuraavassa: -->
+The correct order is the following:
 
 ```js
 app.use(express.static('build'))
@@ -951,7 +957,8 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 ```
 
-_bodyParser_ on syytä ottaa käyttöön melkeimpä ensimmäisenä. Jos järjestys olisi seuraava
+<!-- _bodyParser_ on syytä ottaa käyttöön melkeimpä ensimmäisenä. Jos järjestys olisi seuraava -->
+The _bodyParser_ middleware should be among the very first middleware loaded into Express. If the order was the following:
 
 ```js
 app.use(logger) // request.body on tyhjä
@@ -965,11 +972,14 @@ app.post('/api/notes', (request, response) => {
 app.use(bodyParser.json())
 ```
 
-ei HTTP-pyynnön mukana oleva data olisi loggerin eikä POST-pyynnön käsittelyn aikana käytettävissä, kentässä _request.body_ olisi tyhjä olio.
+<!-- ei HTTP-pyynnön mukana oleva data olisi loggerin eikä POST-pyynnön käsittelyn aikana käytettävissä, kentässä _request.body_ olisi tyhjä olio. -->
+Then the JSON data sent with the HTTP requests would not be available for the logger middleware the or POST route handler, since the _request.body_ would be an empty object.
 
-Tärkeää on myös ottaa käyttöön olemattomien osoitteiden käsittely viimeisenä.
+<!-- Tärkeää on myös ottaa käyttöön olemattomien osoitteiden käsittely viimeisenä. -->
+It's also important that the middleware for handling unsupported routes is the last middleware that is loaded into Express.
 
-Myös seuraava järjestys aiheuttaisi ongelman
+<!-- Myös seuraava järjestys aiheuttaisi ongelman -->
+The following loading order would also cause an issue:
 
 ```js
 const unknownEndpoint = (request, response) => {
