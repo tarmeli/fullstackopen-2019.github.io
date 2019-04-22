@@ -225,7 +225,8 @@ If an HTTP POST request tries to add a name that is already in the phonebook, th
 <!-- Laajenna validaatiota siten, että tietokantaan talletettavan nimen on oltava pituudeltaan vähintään 3 merkkiä ja puhelinnumeron vähitään 8 merkkiä.  -->
 Expand the validation so that the name stored in the database has to be at least three characters long, and the phone number must have at least 8 digits.
 
-Laajenna sovelluksen frontendia siten, että se antaa jonkinlaisen virheilmoituksen validoinnin epäonnistuessa. Virheidenkäsittely hoidetaan lisäämällä <em>catch</em>-lohko uuden henkilön lisäämisen yhteyteen:
+<!-- Laajenna sovelluksen frontendia siten, että se antaa jonkinlaisen virheilmoituksen validoinnin epäonnistuessa. Virheidenkäsittely hoidetaan lisäämällä <em>catch</em>-lohko uuden henkilön lisäämisen yhteyteen: -->
+Expand the frontend so that it displays some form of error message when a validation error occurs. Error handling can be implemented by adding a <em>catch</em> block as shown below:
 
 
 ```js
@@ -240,47 +241,60 @@ personService
     })
 ```
 
-Voit näyttää frontendissa käyttäjälle Mongoosen validoinnin oletusarvoisen virheilmoituksen vaikka ne eivät olekaan luettavuudeltaan parhaat mahdolliset:
+<!-- Voit näyttää frontendissa käyttäjälle Mongoosen validoinnin oletusarvoisen virheilmoituksen vaikka ne eivät olekaan luettavuudeltaan parhaat mahdolliset: -->
+You can display the default error message returned by Mongoose, even though they are not as readable as they could be:
 
 ![](../images/3/56.png)
 
-#### 3.21 tietokantaa käyttävä versio internettiin
+<!-- #### 3.21 tietokantaa käyttävä versio internettiin -->
+#### 3.21 Deploying the database backend to production
 
-Generoi päivitetystä sovelluksesta "full stack"-versio, eli tee frontendista uusi production build ja kopioi se backendin repositorioon. Varmista että kaikki toimii paikallisesti käyttämällä koko sovellusta backendin osoitteesta <https://localhost:3001>.
+<!-- Generoi päivitetystä sovelluksesta "full stack"-versio, eli tee frontendista uusi production build ja kopioi se backendin repositorioon. Varmista että kaikki toimii paikallisesti käyttämällä koko sovellusta backendin osoitteesta <https://localhost:3001>. -->
+Generate a new "full stack" version of the application by creating a new production build of the frontend, and copy it to the backend repository. Verify that everything works locally by using the entire application from the address <https://localhost:3001>.
 
-Pushaa uusi versio Herokuun ja varmista, että kaikki toimii myös siellä.
+<!-- Pushaa uusi versio Herokuun ja varmista, että kaikki toimii myös siellä. -->
+Push the latest version to Heroku and verify that everything works there as well.
 
 </div>
 
 <div class="content">
 
+<!-- ### Lint -->
 ### Lint
 
-Ennen osan lopetusta katsomme vielä nopeasti paitsioon jäänyttä tärkeää työkalua [lintiä](<https://en.wikipedia.org/wiki/Lint_(software)>). Wikipedian sanoin:
+<!-- Ennen osan lopetusta katsomme vielä nopeasti paitsioon jäänyttä tärkeää työkalua [lintiä](<https://en.wikipedia.org/wiki/Lint_(software)>). Wikipedian sanoin: -->
+Before we move onto the next part, we will take a look at an important tool called [lint](<https://en.wikipedia.org/wiki/Lint_(software)>). Wikipedia says the following about lint:
 
 > <i>Generically, lint or a linter is any tool that detects and flags errors in programming languages, including stylistic errors. The term lint-like behavior is sometimes applied to the process of flagging suspicious language usage. Lint-like tools generally perform static analysis of source code.</i>
 
-Staattisesti tyypitetyissä, käännettävissä kielissä esim. Javassa ohjelmointiympäristöt, kuten NetBeans osaavat huomautella monista koodiin liittyvistä asioista, sellaisistakin, jotka eivät ole välttämättä käännösvirheitä. Erilaisten [staattisen analyysin](https://en.wikipedia.org/wiki/Static_program_analysis) lisätyökalujen, kuten [checkstylen](http://checkstyle.sourceforge.net/) avulla voidaan vielä laajentaa Javassa huomautettavien asioiden määrää koskemaan koodin tyylillisiä seikkoja, esim. sisentämistä.
+<!-- Staattisesti tyypitetyissä, käännettävissä kielissä esim. Javassa ohjelmointiympäristöt, kuten NetBeans osaavat huomautella monista koodiin liittyvistä asioista, sellaisistakin, jotka eivät ole välttämättä käännösvirheitä. Erilaisten [staattisen analyysin](https://en.wikipedia.org/wiki/Static_program_analysis) lisätyökalujen, kuten [checkstylen](http://checkstyle.sourceforge.net/) avulla voidaan vielä laajentaa Javassa huomautettavien asioiden määrää koskemaan koodin tyylillisiä seikkoja, esim. sisentämistä. -->
+In compiled statically typed languages like Java, IDEs like NetBeans can point out errors in the code, even ones that are more than just compile errors. Additional tools for performing [static analysis](https://en.wikipedia.org/wiki/Static_program_analysis) like [checkstyle](http://checkstyle.sourceforge.net/), can be used for expanding the capabilities of the IDE to also point out problems related to style, like indentation.
 
-Javascript-maailmassa tämän hetken johtava työkalu staattiseen analyysiin, eli "linttaukseen" on [ESlint](https://eslint.org/).
 
-Asennetaan ESlint backendiin kehitysaikaiseksi riippuvuudeksi komennolla
+<!-- Javascript-maailmassa tämän hetken johtava työkalu staattiseen analyysiin, eli "linttaukseen" on [ESlint](https://eslint.org/). -->
+In the JavaScript university, the current leading tool for static analysis aka. "linting" is [ESlint](https://eslint.org/).
+
+<!-- Asennetaan ESlint backendiin kehitysaikaiseksi riippuvuudeksi komennolla -->
+Let's install ESlint as a development dependency to the backend project with the command:
 
 ```bash
 npm install eslint --save-dev
 ```
 
-Tämän jälkeen voidaan muodostaa alustava ESlint-konfiguraatio komennolla
+<!-- Tämän jälkeen voidaan muodostaa alustava ESlint-konfiguraatio komennolla -->
+After this we can initialize a default ESlint configuration with the command:
 
 ```bash
 node_modules/.bin/eslint --init
 ```
 
-Vastaillaan kysymyksiin:
+<!-- Vastaillaan kysymyksiin: -->
+We will answer all of the questions:
 
 ![](../images/3/52.png)
 
-Konfiguraatiot tallentuvat tiedostoon _.eslintrc.js_:
+<!-- Konfiguraatiot tallentuvat tiedostoon _.eslintrc.js_: -->
+The configuration will be saved in the _.eslintrc.js_ file:
 
 ```js
 module.exports = {
@@ -313,8 +327,8 @@ module.exports = {
 };
 ```
 
-Muutetaan heti konfiguraatioista sisennystä määrittelevä sääntö, siten että sisennystaso on 2 välilyöntiä
-
+<!-- Muutetaan heti konfiguraatioista sisennystä määrittelevä sääntö, siten että sisennystaso on 2 välilyöntiä -->
+Let's immediately change the rule concerning indentation, so that the indentation level is two spaces.
 
 ```js
 "indent": [
@@ -323,13 +337,15 @@ Muutetaan heti konfiguraatioista sisennystä määrittelevä sääntö, siten et
 ],
 ```
 
-Esim tiedoston _index.js_ tarkastus tapahtuu komennolla
+<!-- Esim tiedoston _index.js_ tarkastus tapahtuu komennolla -->
+Inspecting and validating a file like _index.js_ can be done with the following command:
 
 ```bash
 node_modules/.bin/eslint index.js
 ```
 
-Kannattaa ehkä tehdä linttaustakin varten _npm-skripti_:
+<!-- Kannattaa ehkä tehdä linttaustakin varten _npm-skripti_: -->
+It is recommended to create a separate _npm script_ for linting:
 
 ```json
 {
@@ -343,33 +359,43 @@ Kannattaa ehkä tehdä linttaustakin varten _npm-skripti_:
 }
 ```
 
-Nyt komennot _npm run lint_ suorittaa tarkastukset koko projektille.
+<!-- Nyt komennot _npm run lint_ suorittaa tarkastukset koko projektille. -->
+Now the _npm run lint_ command will check every file in the project.
 
-Myös hakemistossa <em>build</em> oleva frontendin tuotantoversio tulee näin tarkastettua. Sitä emme kuitenkaan halua, eli tehdään projektin juureen tiedosto [.eslintignore](https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories) ja sille seuraava sisältö
+<!-- Myös hakemistossa <em>build</em> oleva frontendin tuotantoversio tulee näin tarkastettua. Sitä emme kuitenkaan halua, eli tehdään projektin juureen tiedosto [.eslintignore](https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories) ja sille seuraava sisältö -->
+Also the files in the <em>build</em> directory get checked when the command is run. We do not want this to happen, and we can accomplish this by creating an [.eslintignore](https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories) file in the project's root with the following contents:
 
 ```bash
 build
 ```
 
-Näin koko hakemiston <em>build</em> sisältö jätetään huomioimatta linttauksessa.
+<!-- Näin koko hakemiston <em>build</em> sisältö jätetään huomioimatta linttauksessa. -->
+This causes the entire <em>build</em> directory to not be checked by ESlint.
 
-Lintillä on jonkin verran huomautettavaa koodistamme:
+<!-- Lintillä on jonkin verran huomautettavaa koodistamme: -->
+Lint has quite a lot to say about our code:
 
 ![](../images/3/53.png)
 
-Ei kuitenkaan korjata ongelmia vielä.
+<!-- Ei kuitenkaan korjata ongelmia vielä. -->
+Let's not fix these issues just yet.
 
-Parempi vaihtoehto kuin linttauksen suorittaminen komentoriviltä on konfiguroida editorille _lint-plugin_, joka suorittaa linttausta koko ajan. Näin pääset korjaamaan pienet virheet välittömästi. Tietoja esim. Visual Studion ESlint-pluginsta [täällä](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+<!-- Parempi vaihtoehto kuin linttauksen suorittaminen komentoriviltä on konfiguroida editorille _lint-plugin_, joka suorittaa linttausta koko ajan. Näin pääset korjaamaan pienet virheet välittömästi. Tietoja esim. Visual Studion ESlint-pluginsta [täällä](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). -->
+A better alternative to executing the linter from the command line is to configure a _lint plugin_ to the editor, that runs the linter continuously. By using the plugin you will see errors in your code immediately. You can find more information about the Visual Studio ESLint plugin [here](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
-VS Coden ESlint-plugin alleviivaa tyylisääntöjä rikkovat kohdat punaisella:
+<!-- VS Coden ESlint-plugin alleviivaa tyylisääntöjä rikkovat kohdat punaisella: -->
+The VS Code ESlint plugin will underline style violations with a red line:
 
 ![](../images/3/54a.png)
 
-Näin ongelmat on helppo korjata koodiin heti.
+<!-- Näin ongelmat on helppo korjata koodiin heti. -->
+This makes errors easy to spot and fix right away.
 
-ESlintille on määritelty suuri määrä [sääntöjä](https://eslint.org/docs/rules/), joita on helppo ottaa käyttöön muokkaamalla tiedostoa <i>.eslintrc.js</i>.
+<!-- ESlintille on määritelty suuri määrä [sääntöjä](https://eslint.org/docs/rules/), joita on helppo ottaa käyttöön muokkaamalla tiedostoa <i>.eslintrc.js</i>. -->
+ESlint has a vast array of [rules](https://eslint.org/docs/rules/) that are easy to take into use by editing the <i>.eslintrc.js</i> file.
 
-Otetaan käyttöön sääntö [eqeqeq](https://eslint.org/docs/rules/eqeqeq) joka varoittaa, jos koodissa yhtäsuuruutta verrataan muuten kuin käyttämällä kolmea = -merkkiä. Sääntö lisätään konfiguraatiotiedostoon kentän <i>rules</i> alle.
+<!-- Otetaan käyttöön sääntö [eqeqeq](https://eslint.org/docs/rules/eqeqeq) joka varoittaa, jos koodissa yhtäsuuruutta verrataan muuten kuin käyttämällä kolmea = -merkkiä. Sääntö lisätään konfiguraatiotiedostoon kentän <i>rules</i> alle. -->
+Let's add the [eqeqeq](https://eslint.org/docs/rules/eqeqeq) rule that warns us, if equality is checked with anything but the the triple equals operator. The rule is added under the <i>rules</i> field in the configuration file.
 
 ```json
 {
@@ -381,9 +407,11 @@ Otetaan käyttöön sääntö [eqeqeq](https://eslint.org/docs/rules/eqeqeq) jok
 }
 ```
 
-Tehdään samalla muutama muukin muutos tarkastettaviin sääntöihin.
+<!-- Tehdään samalla muutama muukin muutos tarkastettaviin sääntöihin. -->
+While we're at it, let's make a few other changes to the rules.
 
-Estetään rivien lopussa olevat [turhat välilyönnit](https://eslint.org/docs/rules/no-trailing-spaces), vaaditaan että [aaltosulkeiden edessä/jälkeen on aina välilyönti](https://eslint.org/docs/rules/object-curly-spacing) ja vaaditaan myös konsistenttia välilyöntien käyttöä [nuolifunktioiden parametrien suhteen](https://eslint.org/docs/rules/arrow-spacing):
+<!-- Estetään rivien lopussa olevat [turhat välilyönnit](https://eslint.org/docs/rules/no-trailing-spaces), vaaditaan että [aaltosulkeiden edessä/jälkeen on aina välilyönti](https://eslint.org/docs/rules/object-curly-spacing) ja vaaditaan myös konsistenttia välilyöntien käyttöä [nuolifunktioiden parametrien suhteen](https://eslint.org/docs/rules/arrow-spacing): -->
+Let's prevent unnecessary [trailing spaces](https://eslint.org/docs/rules/no-trailing-spaces) at the ends of lines, let's require that [there is always a space before and after curly braces](https://eslint.org/docs/rules/object-curly-spacing), and let's also demand a consistent use of whitespaces in the function parameters of arrow functions.
 
 ```json
 {
@@ -402,14 +430,15 @@ Estetään rivien lopussa olevat [turhat välilyönnit](https://eslint.org/docs/
 }
 ```
 
-Oletusarvoinen konfiguraatiomme ottaa käyttöön joukon valmiiksi määriteltyjä sääntöjä <i>eslint:recommended</i>
+<!-- Oletusarvoinen konfiguraatiomme ottaa käyttöön joukon valmiiksi määriteltyjä sääntöjä <i>eslint:recommended</i> -->
+Our default configuration takes a bunch of predetermined rules into use from <i>eslint:recommended</i>:
 
 ```bash
 "extends": "eslint:recommended",
 ```
 
-Mukana on myös _console.log_-komennoista varoittava sääntö.
-Yksittäisen sääntö on helppo kytkeä [pois päältä](https://eslint.org/docs/user-guide/configuring#configuring-rules) määrittelemällä sen "arvoksi" konfiguraatiossa 0. Tehdään toistaiseksi näin säännölle <i>no-console</i>.
+<!-- Mukana on myös _console.log_-komennoista varoittava sääntö. Yksittäisen sääntö on helppo kytkeä [pois päältä](https://eslint.org/docs/user-guide/configuring#configuring-rules) määrittelemällä sen "arvoksi" konfiguraatiossa 0. Tehdään toistaiseksi näin säännölle <i>no-console</i>. -->
+This includes a rule that warns about _console.log_ commands. [Disabling](https://eslint.org/docs/user-guide/configuring#configuring-rules) a rule can be accomplished by defining its "value" as 0 in the configuration file. Let's do this for the <i>no-console</i> rule in the meantime.
 
 ```json
 {
@@ -429,24 +458,30 @@ Yksittäisen sääntö on helppo kytkeä [pois päältä](https://eslint.org/doc
 }
 ```
 
-**HUOM** kun teet muutoksia tiedostoon <i>.eslintrc.js</i>, kannattaa muutosten jälkeen suorittaa linttaus komentoriviltä ja varmistaa että konfiguraatio ei ole viallinen:
+<!-- **HUOM** kun teet muutoksia tiedostoon <i>.eslintrc.js</i>, kannattaa muutosten jälkeen suorittaa linttaus komentoriviltä ja varmistaa että konfiguraatio ei ole viallinen: -->
+**NB** when you make changes to the <i>.eslintrc.js</i> file, it is recommended to run the linter from the command line. This will verify that the configuration file is correctly formatted:
 
 ![](../images/3/55.png)
 
-Jos konfiguraatiossa on jotain vikaa, voi editorin lint-plugin näyttää mitä sattuu.
+<!-- Jos konfiguraatiossa on jotain vikaa, voi editorin lint-plugin näyttää mitä sattuu. -->
+If there is something wrong in your configuration file, the lint plugin can behave quite erratically.
 
-Monissa yrityksissä on tapana määritellä yrityksen laajuiset koodausstandardit ja näiden käyttöä valvova ESlint-konfiguraatio. Pyörää ei kannata välttämättä keksiä uudelleen ja voi olla hyvä idea ottaa omaan projektiin käyttöön joku jossain muualla hyväksi havaittu konfiguraatio. Viime aikoina monissa projekteissa on omaksuttu AirBnB:n [Javascript](https://github.com/airbnb/javascript)-tyyliohjeet ottamalla käyttöön firman määrittelemä [ESLint](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)-konfiguraatio.
+<!-- Monissa yrityksissä on tapana määritellä yrityksen laajuiset koodausstandardit ja näiden käyttöä valvova ESlint-konfiguraatio. Pyörää ei kannata välttämättä keksiä uudelleen ja voi olla hyvä idea ottaa omaan projektiin käyttöön joku jossain muualla hyväksi havaittu konfiguraatio. Viime aikoina monissa projekteissa on omaksuttu AirBnB:n [Javascript](https://github.com/airbnb/javascript)-tyyliohjeet ottamalla käyttöön firman määrittelemä [ESLint](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)-konfiguraatio. -->
+Many companies define coding standards that are enforced throughout the organization through the ESlint configuration file. It is not recommended to keep reinventing the wheel over and over again, and it can be a good idea to adopt a ready-made configuration from someone else's project into yours. Recently many projects have adopted the AirBnB [Javascript style guide](https://github.com/airbnb/javascript) by taking AirBnB's [ESlint](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) configuration into use.
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-6), branchissa <i>part3-6</i>.
-
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-6), branchissa <i>part3-6</i>. -->
+You can find the code for our current application in its entirety in the <i>part3-6</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-6).
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 3.22: lint-konfiguraatio
+<!-- #### 3.22: lint-konfiguraatio -->
+#### 3.22: Lint configuration
 
-Ota sovellukseesi käyttöön ESlint.
+<!-- Ota sovellukseesi käyttöön ESlint. -->
+Add ESlint to your application.
 
 </div>
