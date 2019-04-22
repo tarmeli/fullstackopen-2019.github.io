@@ -6,7 +6,8 @@ letter: d
 
 <div class="content">
 
-Sovelluksen tietokantaan tallettamalle datan muodolle on usein tarve asettaa joitain ehtoja. Sovelluksemme ei esim. hyväksy muistiinpanoja, joiden sisältö eli <i>content</i> kenttä puuttuu. Muistiinpanon oikeellisuus tallennetaan sen luovassa metodissa:
+<!-- Sovelluksen tietokantaan tallettamalle datan muodolle on usein tarve asettaa joitain ehtoja. Sovelluksemme ei esim. hyväksy muistiinpanoja, joiden sisältö eli <i>content</i> kenttä puuttuu. Muistiinpanon oikeellisuus tallennetaan sen luovassa metodissa: -->
+There are usually constraints that we want to apply to the data that is stored in our application's database. Our application shouldn't accept notes that have a missing or empty <i>content</i> property. The validity of the note is checked in the route handler:
 
 ```js
 app.post('/api/notes', (request, response) => {
@@ -21,11 +22,14 @@ app.post('/api/notes', (request, response) => {
 })
 ```
 
-Eli jos muistiinpanolla ei ole kenttää <i>content</i>, vastataan pyyntöön statuskoodilla <i>400 bad request</i>. 
+<!-- Eli jos muistiinpanolla ei ole kenttää <i>content</i>, vastataan pyyntöön statuskoodilla <i>400 bad request</i>.  -->
+If the note does not have the <i>content</i> property, we respond to the request with the status code <i>400 bad request</i>.
 
-Routejen tapahtumakäsittelijöissä tehtävää tarkastusta järkevämpi tapa tietokantaan talletettavan tiedon oikean muodon määrittelylle ja tarkastamiselle on Mongoosen [validointitoiminnallisuuden](https://mongoosejs.com/docs/validation.html) käyttö.
+<!-- Routejen tapahtumakäsittelijöissä tehtävää tarkastusta järkevämpi tapa tietokantaan talletettavan tiedon oikean muodon määrittelylle ja tarkastamiselle on Mongoosen [validointitoiminnallisuuden](https://mongoosejs.com/docs/validation.html) käyttö. -->
+One smarter way of validating the format of the data before it is stored in the database, is to use the [validation](https://mongoosejs.com/docs/validation.html) functionality available in Mongoose.
 
-Kullekin talletettavan datan kentälle voidaan määritellä validointisääntöjä skeemassa:
+<!-- Kullekin talletettavan datan kentälle voidaan määritellä validointisääntöjä skeemassa: -->
+We can define specific validation rules for each field in the schema:
 
 ```js
 const noteSchema = new mongoose.Schema({
@@ -44,11 +48,14 @@ const noteSchema = new mongoose.Schema({
 })
 ```
 
-Kentän <i>content</i> pituuden vaaditaan nyt olevan vähintään 5 merkkiä. Kentälle <i>data</i> taas on asetettu ehdoksi että sillä on oltava joku arvo, eli kenttä ei voi olla tyhjä. Sama ehto on asetettu myös kentälle <i>content</i>, sillä minimipituuden tarkistava ehto ei huomioi tilannetta, missä kentällä ei ole mitään arvoa. Kentälle <i>important</i> ei ole asetettu mitään ehtoa, joten se on määritelty edelleen yksinkertaisemmassa muodossa.
+<!-- Kentän <i>content</i> pituuden vaaditaan nyt olevan vähintään 5 merkkiä. Kentälle <i>data</i> taas on asetettu ehdoksi että sillä on oltava joku arvo, eli kenttä ei voi olla tyhjä. Sama ehto on asetettu myös kentälle <i>content</i>, sillä minimipituuden tarkistava ehto ei huomioi tilannetta, missä kentällä ei ole mitään arvoa. Kentälle <i>important</i> ei ole asetettu mitään ehtoa, joten se on määritelty edelleen yksinkertaisemmassa muodossa. -->
+The <i>content</i> field is now required to be at least five characters long. The <i>data</i> field is set as required, meaning that it can not be missing. The same constraint is also implicitly applied to the <i>content</i> field, since the minimum length constraint by default requires the field to not be missing. We have not added any constraints to the <i>important</i> field, so its definition in the schema has not changed.
 
-Esimerkissä käytetyt validaattorit <i>minlength</i> ja <i>required</i> ovat Mongooseen [sisäänrakennettuja](https://mongoosejs.com/docs/validation.html#built-in-validators) validointisääntöjä. Mongoosen [custom validator](https://mongoosejs.com/docs/validation.html#custom-validators) -ominaisuus mahdollistaa mielivaltaisten validaattorien toteuttamisen jos valmiiden joukosta ei löydy tarkoitukseen sopivaa.
+<!-- Esimerkissä käytetyt validaattorit <i>minlength</i> ja <i>required</i> ovat Mongooseen [sisäänrakennettuja](https://mongoosejs.com/docs/validation.html#built-in-validators) validointisääntöjä. Mongoosen [custom validator](https://mongoosejs.com/docs/validation.html#custom-validators) -ominaisuus mahdollistaa mielivaltaisten validaattorien toteuttamisen jos valmiiden joukosta ei löydy tarkoitukseen sopivaa. -->
+The <i>minlength</i> and <i>required</i> validators are [built-in](https://mongoosejs.com/docs/validation.html#built-in-validators) and provided by Mongoose. The Mongoose [custom validator](https://mongoosejs.com/docs/validation.html#custom-validators) functionality allows us to create new validators, if none of the built-in ones cover our needs.
 
-Jos tietokantaan yritetään tallettaa validointisäännön rikkova olio, heittää tallennusoperaatio poikkeuksen. Muutetaan uuden muistiinpanon luomisesta huolehtivaa käsittelijää siten, että se välittää mahdollisen poikkeuksen virheenkäsittelijämiddlewaren huolehdittavaksi:  
+<!-- Jos tietokantaan yritetään tallettaa validointisäännön rikkova olio, heittää tallennusoperaatio poikkeuksen. Muutetaan uuden muistiinpanon luomisesta huolehtivaa käsittelijää siten, että se välittää mahdollisen poikkeuksen virheenkäsittelijämiddlewaren huolehdittavaksi:   -->
+If we try to store an object in the database that breaks one of the constraints, the operation will throw an exception. Let's change our handler for creating a new note so that it passes any potential exceptions to the error handler middleware:
 
 ```js
 app.post('/api/notes', (request, response, next) => {
@@ -68,7 +75,8 @@ app.post('/api/notes', (request, response, next) => {
 })
 ```
 
-Laajennetaan virheenkäsittelijää huomioimaan validointivirheet:
+<!-- Laajennetaan virheenkäsittelijää huomioimaan validointivirheet: -->
+Let's expand the error handler to deal with these validation errors:
 
 ```js
 const errorHandler = (error, request, response, next) => {
@@ -84,13 +92,16 @@ const errorHandler = (error, request, response, next) => {
 }
 ```
 
-Validoinnin epäonnistuessa palautetaan validaattorin oletusarvoinen virheviesti:
+<!-- Validoinnin epäonnistuessa palautetaan validaattorin oletusarvoinen virheviesti: -->
+When validating an object fails, we return the following default error message from Mongoose:
 
 ![](../images/3/50.png)
 
-### Promisejen ketjutus
+<!-- ### Promisejen ketjutus -->
+### Promise chaining
 
-Useat routejen tapahtumankäsittelijöistä muuttivat palautettavan datan oikeaan formaattiin kutsumalla palautetuille olioille niiden metodia _toJSON_. Esimimerkiksi uuden muistiinpanon luomisessa metodia kutsutaan _then_:in parametrina palauttamalle oliolle:
+<!-- Useat routejen tapahtumankäsittelijöistä muuttivat palautettavan datan oikeaan formaattiin kutsumalla palautetuille olioille niiden metodia _toJSON_. Esimimerkiksi uuden muistiinpanon luomisessa metodia kutsutaan _then_:in parametrina palauttamalle oliolle: -->
+Many of the route handlers changed the response data into the right format by calling the _toJSON_ method. When we created a new note, the _toJSON_ method was called for the object passed as a parameter to _then_:
 
 ```js
 app.post('/api/notes', (request, response, next) => {
@@ -104,7 +115,8 @@ app.post('/api/notes', (request, response, next) => {
 })
 ```
 
-Voisimme tehdä saman myös hieman tyylikkäämmin [promiseja ketjuttamalla](https://javascript.info/promise-chaining):
+<!-- Voisimme tehdä saman myös hieman tyylikkäämmin [promiseja ketjuttamalla](https://javascript.info/promise-chaining): -->
+We can accomplish the same functionality in a much cleaner way with [promise chaining](https://javascript.info/promise-chaining):
 
 ```js
 app.post('/api/notes', (request, response) => {
