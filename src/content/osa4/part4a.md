@@ -450,21 +450,27 @@ module.exports = {
 }
 ```
 
-> Metodi _average_ käyttää taulukoiden metodia [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce). Jos metodi ei ole vieläkään tuttu, on korkea aika katsoa Youtubesta [Functional Javascript](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84) -sarjasta ainakin kolme ensimmäistä videoa.
+<!-- > Metodi _average_ käyttää taulukoiden metodia [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce). Jos metodi ei ole vieläkään tuttu, on korkea aika katsoa Youtubesta [Functional Javascript](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84) -sarjasta ainakin kolme ensimmäistä videoa. -->
+> The _average_ function uses the array [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) method. If the method is not familiar to you yet, then now is a good time to watch the the first three videos from the [Functional Javascript](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84) series on Youtube.
 
-Javascriptiin on tarjolla runsaasti erilaisia testikirjastoja eli <i>test runnereita</i>. Käytämme tällä kurssilla Facebookin kehittämää ja sisäisesti käyttämää [jest](https://jestjs.io/):iä, joka on toiminnaltaan ja syntaksiltaankin hyvin samankaltainen kuin testikirjastojen entinen kuningas [Mocha](https://mochajs.org/). Muitakin mahdollisuuksia olisi, esim. eräissä piireissä suosiota nopeasti saavuttanut [ava](https://github.com/avajs/ava).
+<!-- Javascriptiin on tarjolla runsaasti erilaisia testikirjastoja eli <i>test runnereita</i>. Käytämme tällä kurssilla Facebookin kehittämää ja sisäisesti käyttämää [jest](https://jestjs.io/):iä, joka on toiminnaltaan ja syntaksiltaankin hyvin samankaltainen kuin testikirjastojen entinen kuningas [Mocha](https://mochajs.org/). Muitakin mahdollisuuksia olisi, esim. eräissä piireissä suosiota nopeasti saavuttanut [ava](https://github.com/avajs/ava). -->
+There are many different testing libraries or <i>test runners</i> available for JavaScript. In this course we will be using a testing library developed and used internally by Facebook called [jest](https://jestjs.io/), that resembles the previous king of JavaScript testing libraries [Mocha](https://mochajs.org/). Other alternatives do exist, like [ava](https://github.com/avajs/ava) that has gained popularity in some circles.
 
-Jest on tälle kurssille luonteva valinta, sillä se sopii hyvin backendien testaamiseen, mutta suorastaan loistaa Reactilla tehtyjen frontendien testauksessa.
+<!-- Jest on tälle kurssille luonteva valinta, sillä se sopii hyvin backendien testaamiseen, mutta suorastaan loistaa Reactilla tehtyjen frontendien testauksessa. -->
+Jest is a natural choice for this course, as it works well for testing backends, and it shines when it comes to testing React applications. 
 
-> <i>**Huomio Windows-käyttäjille:**</i> jest ei välttämättä toimi, jos projektin hakemistopolulla on hakemisto, jonka nimessä on välilyöntejä.
+<!-- > <i>**Huomio Windows-käyttäjille:**</i> jest ei välttämättä toimi, jos projektin hakemistopolulla on hakemisto, jonka nimessä on välilyöntejä. -->
+> <i>**Windows users:**</i> Jest may not work if the path of the project directory contains a directory that has spaces in its name.
 
-Koska testejä on tarkoitus suorittaa ainoastaan sovellusta kehitettäessä, asennetaan <i>jest</i> kehitysaikaiseksi riippuvuudeksi komennolla
+<!-- Koska testejä on tarkoitus suorittaa ainoastaan sovellusta kehitettäessä, asennetaan <i>jest</i> kehitysaikaiseksi riippuvuudeksi komennolla -->
+Since tests are only executed during the development of our application, we will install <i>jest</i> as a development dependency with the command:
 
 ```bash
 npm install --save-dev jest
 ```
 
-määritellään <i>npm skripti _test</i> suorittamaan testaus jestillä ja raportoimaan testien suorituksesta <i>verbose</i>-tyylillä:
+<!-- määritellään <i>npm skripti _test</i> suorittamaan testaus jestillä ja raportoimaan testien suorituksesta <i>verbose</i>-tyylillä: -->
+Let's define the <i>npm script _test_</i> to execute tests with Jest and to report about the test execution with the <i>verbose</i> style:
 
 ```bash
 {
@@ -479,7 +485,8 @@ määritellään <i>npm skripti _test</i> suorittamaan testaus jestillä ja rapo
 }
 ```
 
-Jestin uudemmissa versioissa näyttäisi olevan tarve kertoa, että suoritusympäristönä on käytössä Node. Tämä tapahtuu esim. lisäämällä <i>package.json</i> tiedoston loppuun:
+<!-- Jestin uudemmissa versioissa näyttäisi olevan tarve kertoa, että suoritusympäristönä on käytössä Node. Tämä tapahtuu esim. lisäämällä <i>package.json</i> tiedoston loppuun: -->
+I newer versions of Jest, there appears to be the need to specify that the execution environment is Node. This can be done by adding the following to the end of <i>package.json</i>:
 
 ```js
 {
@@ -490,7 +497,8 @@ Jestin uudemmissa versioissa näyttäisi olevan tarve kertoa, että suoritusymp�
 }
 ```
 
-Tai vaihtoehtoisesti Jest löytää myös oletuksena asetustiedoston nimellä <i>jest.config.js</i>, jonne suoritusympäristön määrittely tapahtuu seuraavasti:
+<!-- Tai vaihtoehtoisesti Jest löytää myös oletuksena asetustiedoston nimellä <i>jest.config.js</i>, jonne suoritusympäristön määrittely tapahtuu seuraavasti: -->
+Alternatively, Jest can look for a configuration file with the default name <i>jest.config.js</i>, where we can define the execution environment like this:
 
 ```js
 module.exports = {
@@ -498,7 +506,8 @@ module.exports = {
 };
 ```
 
-Tehdään testejä varten hakemisto <i>tests</i> ja sinne tiedosto <i>palindrom.test.js</i>, jonka sisältö on seuraava
+<!-- Tehdään testejä varten hakemisto <i>tests</i> ja sinne tiedosto <i>palindrom.test.js</i>, jonka sisältö on seuraava -->
+Let's create a separate directory for our tests called <i>tests</i> and create a new file called <i>palindrom.test.js</i> with the following contents:
 
 ```js
 const palindrom = require('../utils/for_testing').palindrom
@@ -522,7 +531,8 @@ test('palindrom of saippuakauppias', () => {
 })
 ```
 
-Edellisessä osassa käyttöön ottamamme ESlint valittaa testien käyttämistä komennoista _test_ ja _expect_ sillä käyttämämme konfiguraatio kieltää <i>globaalina</i> määriteltyjen asioiden käytön. Poistetaan valitus lisäämällä <i>.eslintrc.js</i>-tiedoston kenttään <i>env</i> arvo <i>"jest": true</i>. Näin kerromme ESlintille, että käytämme projektissamme Jestiä ja sen globaaleja muuttujia.
+<!-- Edellisessä osassa käyttöön ottamamme ESlint valittaa testien käyttämistä komennoista _test_ ja _expect_ sillä käyttämämme konfiguraatio kieltää <i>globaalina</i> määriteltyjen asioiden käytön. Poistetaan valitus lisäämällä <i>.eslintrc.js</i>-tiedoston kenttään <i>env</i> arvo <i>"jest": true</i>. Näin kerromme ESlintille, että käytämme projektissamme Jestiä ja sen globaaleja muuttujia. -->
+The ESLint configuration we added to the project in the previous part complains about the _test_ and _expect_ commands in our test file, since the configuration does not allow <i>globals</i>. Let's get rid of the complaints by adding <i>"jest": true</i> to the <i>env</i> property in the <i>.eslintrc.js</i> file.
 
 ```js
 module.exports = {
@@ -538,13 +548,15 @@ module.exports = {
 };
 ```
 
-Testi ottaa ensimmäisellä rivillä käyttöön testattavan funktion sijoittaen sen muuttujaan _palindrom_:
+<!-- Testi ottaa ensimmäisellä rivillä käyttöön testattavan funktion sijoittaen sen muuttujaan _palindrom_: -->
+In the first row, the test file imports the function to be tested and assigns it to a variable called _palindrom_:
 
 ```js
 const palindrom = require('../utils/for_testing').palindrom
 ```
 
-Yksittäiset testitapaukset määritellään funktion _test_ avulla. Ensimmäisenä parametrina on merkkijonomuotoinen testin kuvaus. Toisena parametrina on <i>funktio</i>, joka määrittelee testitapauksen toiminnallisuuden. Esim. toisen testitapauksen toiminnallisuus näyttää seuraavalta:
+<!-- Yksittäiset testitapaukset määritellään funktion _test_ avulla. Ensimmäisenä parametrina on merkkijonomuotoinen testin kuvaus. Toisena parametrina on <i>funktio</i>, joka määrittelee testitapauksen toiminnallisuuden. Esim. toisen testitapauksen toiminnallisuus näyttää seuraavalta: -->
+Individual test cases are defined with the _test_ function. The first parameter of the function is the test description as a string. The second parameter is a <i>function</i>, that defines the functionality for the test case. The functionality for the second test case looks like this:
 
 ```js
 () => {
@@ -554,13 +566,16 @@ Yksittäiset testitapaukset määritellään funktion _test_ avulla. Ensimmäise
 }
 ```
 
-Ensin suoritetaan testattava koodi, eli generoidaan merkkijonon <i>react</i> palindromi. Seuraavaksi varmistetaan tulos metodin [expect](https://facebook.github.io/jest/docs/en/expect.html#content) avulla. Expect käärii tuloksena olevan arvon olioon, joka tarjoaa joukon <i>matcher</i>-funktioita, joiden avulla tuloksen oikeellisuutta voidaan tarkastella. Koska kyse on kahden merkkijonon samuuden vertailusta, sopii tilanteeseen matcheri [toBe](https://facebook.github.io/jest/docs/en/expect.html#tobevalue).
+<!-- Ensin suoritetaan testattava koodi, eli generoidaan merkkijonon <i>react</i> palindromi. Seuraavaksi varmistetaan tulos metodin [expect](https://facebook.github.io/jest/docs/en/expect.html#content) avulla. Expect käärii tuloksena olevan arvon olioon, joka tarjoaa joukon <i>matcher</i>-funktioita, joiden avulla tuloksen oikeellisuutta voidaan tarkastella. Koska kyse on kahden merkkijonon samuuden vertailusta, sopii tilanteeseen matcheri [toBe](https://facebook.github.io/jest/docs/en/expect.html#tobevalue). -->
+First we execute the code to be tested, meaning that we generate a palindrome for the string <i>react</i>. Next we verify the results with the [expect](https://facebook.github.io/jest/docs/en/expect.html#content) function. Expect wraps the resulting value into an object that offers a collection of <i>matcher</i> functions, that can be used for verifying the correctness of the result. Since in this test case we are comparing two strings, we can use the [toBe](https://facebook.github.io/jest/docs/en/expect.html#tobevalue) matcher.
 
-Kuten odotettua, testit menevät läpi:
+<!-- Kuten odotettua, testit menevät läpi: -->
+As expected, all of the tests pass:
 
 ![](../images/4/1.png)
 
-Jest olettaa oletusarvoisesti, että testitiedoston nimessä on merkkijono <i>.test</i>. Käytetään kurssilla konventiota, millä testitiedostojen nimen loppu on <i>.test.js</i>
+<!-- Jest olettaa oletusarvoisesti, että testitiedoston nimessä on merkkijono <i>.test</i>. Käytetään kurssilla konventiota, millä testitiedostojen nimen loppu on <i>.test.js</i> -->
+Jest expects by default that the names of test files contain <i>.test</i>. In this course, we will follow the convention of naming our tests files with the extension <i>test.js</i>.
 
 Jestin antamat virheilmoitukset ovat hyviä, rikotaan testi
 
