@@ -669,11 +669,14 @@ test('of empty array is zero', () => {
 <!-- ### Tehtäviä -->
 ### Exercises
 
-Tehdään joukko blogilistan käsittelyyn tarkoitettuja apufunktioita. Tee funktiot esim. tiedostoon <i>utils/list_helper.js</i>. Tee testit sopivasti nimettyyn tiedostoon hakemistoon <i>tests</i>.
+<!-- Tehdään joukko blogilistan käsittelyyn tarkoitettuja apufunktioita. Tee funktiot esim. tiedostoon <i>utils/list_helper.js</i>. Tee testit sopivasti nimettyyn tiedostoon hakemistoon <i>tests</i>. -->
+Let's create a collection of helper functions that are meant to assist dealing with the blog list. Create the functions into a file called <i>utils/list_helper.js</i>. Write your tests into an appropriately named test file under the <i>tests</i> directory.
 
-#### 4.3: apufunktioita ja yksikkötestejä, step1
+<!-- #### 4.3: apufunktioita ja yksikkötestejä, step1 -->
+#### 4.3: helper functions and unit tests, step1
 
-Määrittele ensin funktio _dummy_ joka saa parametrikseen taulukollisen blogeja ja palauttaa aina luvun 1. Tiedoston <i>list_helper.js</i> sisällöksi siis tulee tässä vaiheessa
+<!-- Määrittele ensin funktio _dummy_ joka saa parametrikseen taulukollisen blogeja ja palauttaa aina luvun 1. Tiedoston <i>list_helper.js</i> sisällöksi siis tulee tässä vaiheessa -->
+First define a _dummy_ function that receives an array of blog posts as a parameter and always returns the value 1. The contents of the <i>list_helper.js</i> file at this point should be the following:
 
 ```js
 const dummy = (blogs) => {
@@ -685,7 +688,8 @@ module.exports = {
 }
 ```
 
-Varmista testikonfiguraatiosi toimivuus seuraavalla testillä:
+<!-- Varmista testikonfiguraatiosi toimivuus seuraavalla testillä: -->
+Verify that your test configuration works with the following test:
 
 ```js
 const listHelper = require('../utils/list_helper')
@@ -698,15 +702,19 @@ test('dummy returns one', () => {
 })
 ```
 
-#### 4.4: apufunktioita ja yksikkötestejä, step2
+<!-- #### 4.4: apufunktioita ja yksikkötestejä, step2 -->
+#### 4.4: helper functions and unit tests, step2
 
-Määrittele funktio _totalLikes_ joka saa parametrikseen taulukollisen blogeja. Funktio palauttaa blogien yhteenlaskettujen tykkäysten eli <i>likejen</i> määrän.
+<!-- Määrittele funktio _totalLikes_ joka saa parametrikseen taulukollisen blogeja. Funktio palauttaa blogien yhteenlaskettujen tykkäysten eli <i>likejen</i> määrän. -->
+Define a new _totalLikes_ function that receives a list of blog posts as a parameter. The function returns the total sum of <i>likes</i> in all of the blog posts.
 
-Määrittele funktiolle sopivat testit. Funktion testit kannattaa laittaa <i>describe</i>-lohkoon jolloin testien tulostus ryhmittyy miellyttävästi:
+<!-- Määrittele funktiolle sopivat testit. Funktion testit kannattaa laittaa <i>describe</i>-lohkoon jolloin testien tulostus ryhmittyy miellyttävästi: -->
+Write appropriate tests for the function. It's recommended to put the tests inside of a <i>describe</i> block, so that the test report output gets grouped nicely:
 
 ![](../images/4/5.png)
 
-Testisyötteiden määrittely onnistuu esim. seuraavaan tapaan:
+<!-- Testisyötteiden määrittely onnistuu esim. seuraavaan tapaan: -->
+Defining test inputs for the function can be done like this:
 
 ```js
 describe('total likes', () => {
@@ -728,23 +736,30 @@ describe('total likes', () => {
 })
 ```
 
-Jos et viitsi itse määritellä testisyötteenä käytettäviä blogeja, saat valmiin listan [täältä.](https://github.com/fullstack-hy2019/misc/blob/master/blogs_for_test.md)
+<!-- Jos et viitsi itse määritellä testisyötteenä käytettäviä blogeja, saat valmiin listan [täältä.](https://github.com/fullstack-hy2019/misc/blob/master/blogs_for_test.md) -->
+If defining your own test input list of blogs is too much work, you can use the ready-made list [here](https://github.com/fullstack-hy2019/misc/blob/master/blogs_for_test.md).
 
-Törmäät varmasti testien tekemisen yhteydessä erinäisiin ongelmiin. Pidä mielessä osassa 3 käsitellyt [debuggaukseen](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#node-sovellusten-debuggaaminen) liittyvät asiat, voit testejäkin suorittaessasi printtailla konsoliin komennolla _console.log_. Myös debuggerin käyttö testejä suorittaessa on mahdollista, ohje [täällä](https://jestjs.io/docs/en/troubleshooting).
+<!-- Törmäät varmasti testien tekemisen yhteydessä erinäisiin ongelmiin. Pidä mielessä osassa 3 käsitellyt [debuggaukseen](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#node-sovellusten-debuggaaminen) liittyvät asiat, voit testejäkin suorittaessasi printtailla konsoliin komennolla _console.log_. Myös debuggerin käyttö testejä suorittaessa on mahdollista, ohje [täällä](https://jestjs.io/docs/en/troubleshooting). -->
+You are bound to run into problems while writing tests. Remember the things that we learned about [debugging](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#node-sovellusten-debuggaaminen) in part 3. You can print things to the console with _console.log_ even during test execution. It is even possible to use the debugger while running tests, you can find instructions for that [here](https://jestjs.io/docs/en/troubleshooting).
 
-**HUOM:** jos jokin testi ei mene läpi, ei ongelmaa korjatessa kannata suorittaa kaikkia testejä, vaan ainoastaan rikkinäistä testiä hyödyntäen [only](https://facebook.github.io/jest/docs/en/api.html#testonlyname-fn-timeout)-metodia. 
+<!-- **HUOM:** jos jokin testi ei mene läpi, ei ongelmaa korjatessa kannata suorittaa kaikkia testejä, vaan ainoastaan rikkinäistä testiä hyödyntäen [only](https://facebook.github.io/jest/docs/en/api.html#testonlyname-fn-timeout)-metodia.  -->
+**NB:** if some test is failing, then it is recommended to only run that test while you are fixing the issue. You can run a single test with the [only](https://facebook.github.io/jest/docs/en/api.html#testonlyname-fn-timeout) method.
 
-Toinen tapa suorittaa yksittäinen testi (tai describe-lohko) on kutsua jestiä suoraan ja määritellä sille suoritettava testi argumentin [-t](https://jestjs.io/docs/en/cli.html) avulla:
+<!-- Toinen tapa suorittaa yksittäinen testi (tai describe-lohko) on kutsua jestiä suoraan ja määritellä sille suoritettava testi argumentin [-t](https://jestjs.io/docs/en/cli.html) avulla: -->
+Another way of running a single test (or describe block) is to run Jest from the command line and to specify the name of the test to be run with the [-t](https://jestjs.io/docs/en/cli.html) flag:
 
 ```js
 npx jest -t 'when list has only one blog equals the likes of that'
 ```
 
-#### 4.5*: apufunktioita ja yksikkötestejä, step3
+<!-- #### 4.5*: apufunktioita ja yksikkötestejä, step3 -->
+#### 4.5*: helper functions and unit tests, step3
 
-Määrittele funktio _favoriteBlog_ joka saa parametrikseen taulukollisen blogeja. Funktio selvittää millä blogilla on eniten likejä. Jos suosikkeja on monta, riittää että funktio palauttaa niistä jonkun.
+<!-- Määrittele funktio _favoriteBlog_ joka saa parametrikseen taulukollisen blogeja. Funktio selvittää millä blogilla on eniten likejä. Jos suosikkeja on monta, riittää että funktio palauttaa niistä jonkun. -->
+Define a new _favoriteBlog_ function that receives a list of blogs as a parameter. The function finds out which blog has most likes. If there are many top favorites, it is enough to return one of them.
 
-Paluuarvo voi olla esim. seuraavassa muodossa:
+<!-- Paluuarvo voi olla esim. seuraavassa muodossa: -->
+The value returned by the function could be in the following format:
 
 ```js
 {
@@ -754,17 +769,22 @@ Paluuarvo voi olla esim. seuraavassa muodossa:
 }
 ```
 
-**Huom**, että kun vertailet olioita, metodi [toEqual](https://jestjs.io/docs/en/expect#toequalvalue) on todennäköisesti se mitä haluat käyttää sillä [toBe](https://jestjs.io/docs/en/expect#tobevalue)-vertailu, joka sopii esim. lukujen ja merkkijonojen vertailuun vaatisi olioiden vertailussa, että oliot ovat samat, pelkkä sama sisältöisyys ei riitä.
+<!-- **Huom**, että kun vertailet olioita, metodi [toEqual](https://jestjs.io/docs/en/expect#toequalvalue) on todennäköisesti se mitä haluat käyttää sillä [toBe](https://jestjs.io/docs/en/expect#tobevalue)-vertailu, joka sopii esim. lukujen ja merkkijonojen vertailuun vaatisi olioiden vertailussa, että oliot ovat samat, pelkkä sama sisältöisyys ei riitä. -->
+**NB** when you are comparing objects, the [toEqual](https://jestjs.io/docs/en/expect#toequalvalue) method is probably what you want to use, since the [toBe](https://jestjs.io/docs/en/expect#tobevalue) tries to verify that the two values are the same value, and not just that they contain the same properties.
 
-Tee myös tämän ja seuraavien kohtien testit kukin oman <i>describe</i>-lohkon sisälle.
+<!-- Tee myös tämän ja seuraavien kohtien testit kukin oman <i>describe</i>-lohkon sisälle. -->
+Write the tests for this exercise inside of a new <i>describe</i> block. Do the same for the remaining exercises as well.
 
 #### 4.6*: apufunktioita ja yksikkötestejä, step4
 
-Tämä ja seuraava tehtävä ovat jo hieman haastavampia. Tehtävien tekeminen ei ole osan jatkon kannalta oleellista, eli voi olla hyvä idea palata näihin vasta kun muu osa on kahlattu läpi.
+<!-- Tämä ja seuraava tehtävä ovat jo hieman haastavampia. Tehtävien tekeminen ei ole osan jatkon kannalta oleellista, eli voi olla hyvä idea palata näihin vasta kun muu osa on kahlattu läpi. -->
+This and the next exercise are a little bit more challenging. Finishing these two exercises is not required in order to advance in the course material, so it may be a good idea to return to these once you're done going through the material for this part in its entirety.
 
-Tehtävän tekeminen onnistuu hyvin ilman mitään kirjastojakin, mutta tämä saattaa olla hyvä paikka tutustua kokoelmien käsittelyä suuresti helpottavaan [Lodash](https://lodash.com/)-kirjastoon.
+<!-- Tehtävän tekeminen onnistuu hyvin ilman mitään kirjastojakin, mutta tämä saattaa olla hyvä paikka tutustua kokoelmien käsittelyä suuresti helpottavaan [Lodash](https://lodash.com/)-kirjastoon. -->
+Finishing this exercise can be done without the use of additional libraries. However, this exercise is a great opportunity to learn how to use the [Lodash](https://lodash.com/) library.
 
-Määrittele funktio _mostBlogs_ joka saa parametrikseen taulukollisen blogeja. Funktio selvittää <i>kirjoittajan</i>, kenellä on eniten blogeja. Funktion paluuarvo kertoo myös ennätysblogaajan blogien määrän:
+<!-- Määrittele funktio _mostBlogs_ joka saa parametrikseen taulukollisen blogeja. Funktio selvittää <i>kirjoittajan</i>, kenellä on eniten blogeja. Funktion paluuarvo kertoo myös ennätysblogaajan blogien määrän: -->
+Define a function called _mostBlogs_ that receives an array of blogs as a parameter. The function return the <i>author</i> who has the largest amount of blogs. The return value also contains the number of blogs the top author has:
 
 ```js
 {
@@ -773,11 +793,14 @@ Määrittele funktio _mostBlogs_ joka saa parametrikseen taulukollisen blogeja. 
 }
 ```
 
-Jos ennätysblogaajia on monta, riittää että funktio palauttaa niistä jonkun.
+<!-- Jos ennätysblogaajia on monta, riittää että funktio palauttaa niistä jonkun. -->
+If there are many top bloggers, then it is enough to return any one of them.
 
-#### 4.7*: apufunktioita ja yksikkötestejä, step5
+<!-- #### 4.7*: apufunktioita ja yksikkötestejä, step5 -->
+#### 4.7*: helper functions and unit tests, step5
 
-Määrittele funktio _mostLikes_ joka saa parametrikseen taulukollisen blogeja. Funktio selvittää kirjoittajan, kenen blogeilla on eniten likejä. Funktion paluuarvo kertoo myös suosikkiblogaajan likejen yhteenlasketun määrän:
+<!-- Määrittele funktio _mostLikes_ joka saa parametrikseen taulukollisen blogeja. Funktio selvittää kirjoittajan, kenen blogeilla on eniten likejä. Funktion paluuarvo kertoo myös suosikkiblogaajan likejen yhteenlasketun määrän: -->
+Define a function called _mostLikes_ that receives an array of blogs as its parameter. The function returns the author, whose blog posts have the largest amount of likes. The return value also contains the total number of likes that the author has received:
 
 ```js
 {
@@ -786,6 +809,7 @@ Määrittele funktio _mostLikes_ joka saa parametrikseen taulukollisen blogeja. 
 }
 ```
 
-Jos suosikkiblogaajia on monta, riittää että funktio palauttaa niistä jonkun.
+<!-- Jos suosikkiblogaajia on monta, riittää että funktio palauttaa niistä jonkun. -->
+If there are many top bloggers, then it is enough to show any one of them.
 
 </div>
