@@ -577,7 +577,8 @@ As expected, all of the tests pass:
 <!-- Jest olettaa oletusarvoisesti, että testitiedoston nimessä on merkkijono <i>.test</i>. Käytetään kurssilla konventiota, millä testitiedostojen nimen loppu on <i>.test.js</i> -->
 Jest expects by default that the names of test files contain <i>.test</i>. In this course, we will follow the convention of naming our tests files with the extension <i>test.js</i>.
 
-Jestin antamat virheilmoitukset ovat hyviä, rikotaan testi
+<!-- Jestin antamat virheilmoitukset ovat hyviä, rikotaan testi -->
+Jest has excellent error messages, let's break the test to demonstrate this:
 
 ```js
 test('palindrom of react', () => {
@@ -587,11 +588,13 @@ test('palindrom of react', () => {
 })
 ```
 
-seurauksena on seuraava virheilmotus
+<!-- seurauksena on seuraava virheilmotus -->
+Running the tests above results in the following error message:
 
 ![](../images/4/2.png)
 
-Lisätään muutama testi metodille _average_, tiedostoon <i>tests/average.test.js</i>.
+<!-- Lisätään muutama testi metodille _average_, tiedostoon <i>tests/average.test.js</i>. -->
+Let's add a few tests for the _average_ function, into a new file <i>tests/average.test.js</i>.
 
 ```js
 const average = require('../utils/for_testing').average
@@ -611,11 +614,13 @@ describe('average', () => {
 })
 ```
 
-Testi paljastaa, että metodi toimii väärin tyhjällä taulukolla (sillä nollallajaon tulos on Javascriptissä <i>NaN</i>):
+<!-- Testi paljastaa, että metodi toimii väärin tyhjällä taulukolla (sillä nollallajaon tulos on Javascriptissä <i>NaN</i>): -->
+The test reveals that the function does not work correctly with an empty array (this is because in JavaScript diving by zero results in <i>NaN</i>):
 
 ![](../images/4/3.png)
 
-Metodi on helppo korjata
+<!-- Metodi on helppo korjata -->
+Fixing the function is quite easy:
 
 ```js
 const average = array => {
@@ -628,9 +633,11 @@ const average = array => {
 }
 ```
 
-Eli jos taulukon pituus on 0, palautetaan 0 ja muussa tapauksessa palautetaan metodin _reduce_ avulla laskettu keskiarvo.
+<!-- Eli jos taulukon pituus on 0, palautetaan 0 ja muussa tapauksessa palautetaan metodin _reduce_ avulla laskettu keskiarvo. -->
+If the length of the array is 0 then we return 0, and in all other cases we use the _reduce_ method to calculate the average.
 
-Pari huomiota keskiarvon testeistä. Määrittelimme testien ympärille nimellä _average_ varustetun <i>describe</i>-lohkon.
+<!-- Pari huomiota keskiarvon testeistä. Määrittelimme testien ympärille nimellä _average_ varustetun <i>describe</i>-lohkon. -->
+There's a few things to notice about the tests that we just wrote. We defined a <i>describe</i> block around the tests that was given the name _average_:
 
 ```js
 describe('average', () => {
@@ -638,13 +645,16 @@ describe('average', () => {
 })
 ```
 
-Describejen avulla yksittäisessä tiedostossa olevat testit voidaan jaotella loogisiin kokonaisuuksiin. Testituloste hyödyntää myös describe-lohkon nimeä:
+<!-- Describejen avulla yksittäisessä tiedostossa olevat testit voidaan jaotella loogisiin kokonaisuuksiin. Testituloste hyödyntää myös describe-lohkon nimeä: -->
+Describe blocks can be used for grouping tests into logical collections. The test output of Jest also uses the name of the describe block:
 
 ![](../images/4/4.png)
 
-Kuten myöhemmin tulemme näkemään, <i>describe</i>-lohkot ovat tarpeellisia siinä vaiheessa, jos haluamme osalle yksittäisen testitiedoston testitapauksista jotain yhteisiä alustus- tai lopetustoimenpiteitä.
+<!-- Kuten myöhemmin tulemme näkemään, <i>describe</i>-lohkot ovat tarpeellisia siinä vaiheessa, jos haluamme osalle yksittäisen testitiedoston testitapauksista jotain yhteisiä alustus- tai lopetustoimenpiteitä. -->
+As we will see later on <i>describe</i> blocks are necessary when we want to run some shared setup or teardown operations for a group of tests.
 
-Toisena huomiona se, että kirjoitimme testit aavistuksen tiiviimmässä muodossa, ottamatta testattavan metodin tulosta erikseen apumuuttujaan:
+<!-- Toisena huomiona se, että kirjoitimme testit aavistuksen tiiviimmässä muodossa, ottamatta testattavan metodin tulosta erikseen apumuuttujaan: -->
+Another thing to notice is that we wrote the tests in quite a compact way, without assigning the output of the function being tested to a variable:
 
 ```js
 test('of empty array is zero', () => {
@@ -656,7 +666,8 @@ test('of empty array is zero', () => {
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
 Tehdään joukko blogilistan käsittelyyn tarkoitettuja apufunktioita. Tee funktiot esim. tiedostoon <i>utils/list_helper.js</i>. Tee testit sopivasti nimettyyn tiedostoon hakemistoon <i>tests</i>.
 
