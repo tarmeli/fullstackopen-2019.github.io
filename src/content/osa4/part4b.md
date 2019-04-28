@@ -110,9 +110,11 @@ module.exports = {
 }
 ```
 
-Koodi siis lataa ympäristömuuttujat tiedostosta <i>.env</i> jos se <i>ei ole</i> tuotantomoodissa. Tuotantomoodissa käytetään Herokuun asetettuja ympäristömuuttujia.
+<!-- Koodi siis lataa ympäristömuuttujat tiedostosta <i>.env</i> jos se <i>ei ole</i> tuotantomoodissa. Tuotantomoodissa käytetään Herokuun asetettuja ympäristömuuttujia. -->
+The code imports the environment variables from the <i>.env</i> file if <i>it is not</i> in production mode. In production mode our application will use the environment variables defined in Heroku.
 
-Tiedostossa <i>.env</i> on nyt määritelty <i>erikseen</i> sekä sovelluskehitysympäristön että testausympäristön tietokannan osoite (esimerkissä molemmat ovat sovelluskehityskoneen lokaaleja mongo-kantoja):
+<!-- Tiedostossa <i>.env</i> on nyt määritelty <i>erikseen</i> sekä sovelluskehitysympäristön että testausympäristön tietokannan osoite (esimerkissä molemmat ovat sovelluskehityskoneen lokaaleja mongo-kantoja): -->
+The <i>.env</i> file has <i>separate variables</i> for the database addresses of the development and test databases (the addresses shown in the example are for locally running databases):
 
 ```bash
 MONGODB_URI=mongodb+srv://fullstack:secred@cluster0-ostce.mongodb.net/note-app?retryWrites=true
@@ -123,23 +125,31 @@ TEST_MONGODB_URI=mongodb+srv://fullstack:fullstack@cluster0-ostce.mongodb.net/no
 // highlight-end
 ```
 
-Oma tekemämme eri ympäristöjen konfiguroinnista huolehtiva _config_-moduuli toimii hieman samassa hengessä kuin [node-config](https://github.com/lorenwest/node-config)-kirjasto. Oma tekemä konfigurointiympäristö sopii tarkoitukseemme, sillä sovellus on yksinkertainen ja oman konfiguraatio-moduulin tekeminen on myös jossain määrin opettavaista. Isommissa sovelluksissa kannattaa harkita valmiiden kirjastojen, kuten [node-config](https://github.com/lorenwest/node-config):in käyttöä.
+<!-- Oma tekemämme eri ympäristöjen konfiguroinnista huolehtiva _config_-moduuli toimii hieman samassa hengessä kuin [node-config](https://github.com/lorenwest/node-config)-kirjasto. Oma tekemä konfigurointiympäristö sopii tarkoitukseemme, sillä sovellus on yksinkertainen ja oman konfiguraatio-moduulin tekeminen on myös jossain määrin opettavaista. Isommissa sovelluksissa kannattaa harkita valmiiden kirjastojen, kuten [node-config](https://github.com/lorenwest/node-config):in käyttöä. -->
+The _config_ module that we have implemented slightly resembles the [node-config](https://github.com/lorenwest/node-config) package. Writing our own implementation is justified since our application is simple and also because doing so teaches us valuable lessons.
 
-Muualle koodiin ei muutoksia tarvita.
+<!-- Muualle koodiin ei muutoksia tarvita. -->
+These are the only changes we need to make to our application's code.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-2), branchissä <i>part4-2</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-2), branchissä <i>part4-2</i>. -->
+You can find the code for our current application in its entirety in the <i>part4-2</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-2).
 
+
+<!-- ### supertest -->
 ### supertest
 
-Käytetään API:n testaamiseen Jestin apuna [supertest](https://github.com/visionmedia/supertest)-kirjastoa.
+<!-- Käytetään API:n testaamiseen Jestin apuna [supertest](https://github.com/visionmedia/supertest)-kirjastoa. -->
+Let's use the [supertest](https://github.com/visionmedia/supertest) package to help us write our tests for testing the API.
 
-Kirjasto asennetaan kehitysaikaiseksi riippuvuudeksi komennolla
+<!-- Kirjasto asennetaan kehitysaikaiseksi riippuvuudeksi komennolla -->
+We will install the package as a development dependency:
 
 ```bash
 npm install --save-dev supertest
 ```
 
-Luodaan heti ensimmäinen testi tiedostoon <i>tests/note_api.test.js</i>
+<!-- Luodaan heti ensimmäinen testi tiedostoon <i>tests/note_api.test.js</i> -->
+Let's write our first test in the <i>tests/note_api.test.js</i> file:
 
 ```js
 const mongoose = require('mongoose')
@@ -160,13 +170,17 @@ afterAll(() => {
 })
 ```
 
-Testi importtaa tiedostoon <i>app.js</i> määritellyn Express-sovelluksen ja käärii sen  funktion <i>supertest</i> avulla ns. [superagent](https://github.com/visionmedia/superagent)-olioksi. Tämä olio sijoitetaan muuttujaan <i>api</i> ja sen kautta testit voivat tehdä HTTP-pyyntöjä backendiin.
+<!-- Testi importtaa tiedostoon <i>app.js</i> määritellyn Express-sovelluksen ja käärii sen  funktion <i>supertest</i> avulla ns. [superagent](https://github.com/visionmedia/superagent)-olioksi. Tämä olio sijoitetaan muuttujaan <i>api</i> ja sen kautta testit voivat tehdä HTTP-pyyntöjä backendiin. -->
+The test imports the Express application from the <i>app.js</i> module and wraps it with the <i>supertest</i> function into a so-called [superagent](https://github.com/visionmedia/superagent) object. This object is assigned to the <i>api</i> variable and tests can use it for making HTTP requests to the backend.
 
-Testimetodi tekee HTTP GET -pyynnön osoitteeseen <i>api/notes</i> ja varmistaa, että pyyntöön vastataan statuskoodilla 200 ja että data palautetaan oikeassa muodossa, eli että <i>Content-Type</i>:n arvo on <i>application/json</i>.
+<!-- Testimetodi tekee HTTP GET -pyynnön osoitteeseen <i>api/notes</i> ja varmistaa, että pyyntöön vastataan statuskoodilla 200 ja että data palautetaan oikeassa muodossa, eli että <i>Content-Type</i>:n arvo on <i>application/json</i>. -->
+Our test makes an HTTP GET request to the <i>api/notes</i> url and verifies that the request is responded to with the status code 200. The test also verifies that the <i>Content-Type</i> header is set to <i>application/json</i> indicating that the data is in the desired format.
 
-Testissä on muutama detalji joihin tutustumme vasta [hieman myöhemmin](/osa4/backendin_testaaminen#async-await) tässä osassa. Testikoodin määrittelevä nuolifunktio alkaa sanalla <i>async</i> ja <i>api</i>-oliolle tehtyä metodikutsua edeltää sama <i>await</i>. Teemme ensin muutamia testejä ja tutustumme sen jälkeen async/await-magiaan. Tällä hetkellä niistä ei tarvitse välittää, kaikki toimii kun kirjoitat testimetodit esimerkin mukaan. Async/await-syntaksin käyttö liittyy siihen, että palvelimelle tehtävät pyynnöt ovat <i>asynkronisia</i> operaatioita. [Async/await-kikalla](https://facebook.github.io/jest/docs/en/asynchronous.html) saamme pyynnön näyttämään koodin tasolla synkroonisesti toimivalta.
+<!-- Testissä on muutama detalji joihin tutustumme vasta [hieman myöhemmin](/osa4/backendin_testaaminen#async-await) tässä osassa. Testikoodin määrittelevä nuolifunktio alkaa sanalla <i>async</i> ja <i>api</i>-oliolle tehtyä metodikutsua edeltää sama <i>await</i>. Teemme ensin muutamia testejä ja tutustumme sen jälkeen async/await-magiaan. Tällä hetkellä niistä ei tarvitse välittää, kaikki toimii kun kirjoitat testimetodit esimerkin mukaan. Async/await-syntaksin käyttö liittyy siihen, että palvelimelle tehtävät pyynnöt ovat <i>asynkronisia</i> operaatioita. [Async/await-kikalla](https://facebook.github.io/jest/docs/en/asynchronous.html) saamme pyynnön näyttämään koodin tasolla synkroonisesti toimivalta. -->
+The test contains some details that we will explore [a bit later on](/osa4/backendin_testaaminen#async-await). The arrow function that defines the test is preceded by the <i>async</i> keyword and the method call for the <i>api</i> object is preceded by the <i>await</i> keyword. We will write a few tests and then take a closer look at this async/await magic. Do not concern yourself with them for now, just be assured that the example tests work correctly. The async/await syntax is related to the fact that making a request to the API is an <i>asynchronous</i> operation. The [Async/await syntax](https://facebook.github.io/jest/docs/en/asynchronous.html) can be used for writing asynchronous code with the appearance of synchronous code.
 
-Kaikkien testien (joita siis tällä kertaa on vain yksi) päätteeksi on vielä lopputoimenpiteenä katkaistava Mongoosen käyttämä tietokantayhteys. Tämä onnistuu helposti metodissa [afterAll](https://facebook.github.io/jest/docs/en/api.html#afterallfn-timeout):
+<!-- Kaikkien testien (joita siis tällä kertaa on vain yksi) päätteeksi on vielä lopputoimenpiteenä katkaistava Mongoosen käyttämä tietokantayhteys. Tämä onnistuu helposti metodissa [afterAll](https://facebook.github.io/jest/docs/en/api.html#afterallfn-timeout): -->
+Once all the tests (there is currently only one) have finished running we have to close the database connection used by Mongoose. This can be easily achieved with the [afterAll](https://facebook.github.io/jest/docs/en/api.html#afterallfn-timeout) method:
 
 ```js
 afterAll(() => {
@@ -174,11 +188,13 @@ afterAll(() => {
 })
 ```
 
-Testejä suorittaessa saattaa tulla seuraava ilmoitus
+<!-- Testejä suorittaessa saattaa tulla seuraava ilmoitus -->
+When running your tests you may run across the following console warning:
 
 ![](../images/4/8.png)
 
-Jos näin käy, toimitaan [ohjeen](https://mongoosejs.com/docs/jest.html) mukaan ja lisätään projektin hakemiston juureen tiedosto <i>jest.config.js</i> jolla on seuraava sisältö:
+<!-- Jos näin käy, toimitaan [ohjeen](https://mongoosejs.com/docs/jest.html) mukaan ja lisätään projektin hakemiston juureen tiedosto <i>jest.config.js</i> jolla on seuraava sisältö: -->
+If this occurs, let's follow the [instructions](https://mongoosejs.com/docs/jest.html) and add a <i>jest.config.js</i> file at the root of the project with the following content:
 
 ```js
 module.exports = {
@@ -186,7 +202,8 @@ module.exports = {
 }
 ```
 
-Pieni mutta tärkeä huomio: eristimme tämän osan [alussa](/osa4/sovelluksen_rakenne_ja_testauksen_alkeet#sovelluksen-rakenne) Express-sovelluksen tiedostoon <i>app.js</i> ja tiedoston <i>index.js</i> rooliksi jäi sovelluksen käynnistäminen määriteltyyn porttiin Noden <i>http</i>-olion avulla:
+<!-- Pieni mutta tärkeä huomio: eristimme tämän osan [alussa](/osa4/sovelluksen_rakenne_ja_testauksen_alkeet#sovelluksen-rakenne) Express-sovelluksen tiedostoon <i>app.js</i> ja tiedoston <i>index.js</i> rooliksi jäi sovelluksen käynnistäminen määriteltyyn porttiin Noden <i>http</i>-olion avulla: -->
+One tiny but important detail: at the [beginning](/osa4/sovelluksen_rakenne_ja_testauksen_alkeet#sovelluksen-rakenne) of this part we extracted the Express application into the <i>app.js</i> file, and the role of the <i>index.js</i> file was changed to launch the application at the specified port with Node's built-in <i>http</i> object:
 
 ```js
 const app = require('./app') // varsinainen Express-sovellus
@@ -200,7 +217,9 @@ server.listen(config.PORT, () => {
 })
 ```
 
-Testit käyttävät ainoastaan tiedostossa <i>app.js</i> määriteltyä express-sovellusta:
+<!-- Testit käyttävät ainoastaan tiedostossa <i>app.js</i> määriteltyä express-sovellusta: -->
+The tests only use the express application defined in the <i>app.js</i> file:
+
 ```js
 const mongoose = require('mongoose')
 const supertest = require('supertest')
@@ -211,13 +230,16 @@ const api = supertest(app) // highlight-line
 // ...
 ```
 
-Supertestin dokumentaatio toteaa seuraavasti
+<!-- Supertestin dokumentaatio toteaa seuraavasti -->
+The documentation for supertest says the following:
 
 > <i>if the server is not already listening for connections then it is bound to an ephemeral port for you so there is no need to keep track of ports.</i>
 
-eli Supertest huolehtii testattavan sovelluksen käynnistämisestä sisäisesti käyttämäänsä porttiin.
+<!-- eli Supertest huolehtii testattavan sovelluksen käynnistämisestä sisäisesti käyttämäänsä porttiin. -->
+In other words, supertest takes care that the application being tested is started at the port that it uses internally.
 
-Tehdään pari testiä lisää:
+<!-- Tehdään pari testiä lisää: -->
+Let's write a few more tests:
 
 ```js
 test('there are five notes', async () => {
@@ -233,9 +255,11 @@ test('the first note is about HTTP methods', async () => {
 })
 ```
 
-Molemmat testit sijoittavat pyynnön vastauksen muuttujaan _response_ ja toisin kuin edellinen testi, joka käytti _supertestin_ mekanismeja statuskoodin ja vastauksen headereiden oikeellisuuden varmistamiseen, tällä kertaa tutkitaan vastauksessa olevan datan, eli <i>response.body</i>:n oikeellisuutta Jestin [expect](https://facebook.github.io/jest/docs/en/expect.html#content):in avulla.
+<!-- Molemmat testit sijoittavat pyynnön vastauksen muuttujaan _response_ ja toisin kuin edellinen testi, joka käytti _supertestin_ mekanismeja statuskoodin ja vastauksen headereiden oikeellisuuden varmistamiseen, tällä kertaa tutkitaan vastauksessa olevan datan, eli <i>response.body</i>:n oikeellisuutta Jestin [expect](https://facebook.github.io/jest/docs/en/expect.html#content):in avulla. -->
+Both tests store the response of the request to the _response_ variable, and unlike the previous test that used the methods provided by _supertest_ for verifying the status code and headers, this time we are inspecting the response data stored in <i>response.body</i> property. Our tests verify the format and content of the response data with the [expect](https://facebook.github.io/jest/docs/en/expect.html#content) method of Jest.
 
-Async/await-kikan hyödyt tulevat nyt selkeästi esiin. Normaalisti tarvitsisimme asynkronisten pyyntöjen vastauksiin käsille pääsemiseen promiseja ja takaisinkutsuja, mutta nyt kaikki menee mukavasti:
+<!-- Async/await-kikan hyödyt tulevat nyt selkeästi esiin. Normaalisti tarvitsisimme asynkronisten pyyntöjen vastauksiin käsille pääsemiseen promiseja ja takaisinkutsuja, mutta nyt kaikki menee mukavasti: -->
+The benefit of using the async/await syntax is starting to become evident. Normally we would have to use callback functions to access the data returned by promises, but with the new syntax things are a lot more comfortable:
 
 ```js
 const res = await api.get('/api/notes')
@@ -245,9 +269,11 @@ const res = await api.get('/api/notes')
 expect(res.body.length).toBe(3)
 ```
 
-### Loggeri
+<!-- ### Loggeri -->
+### Logger
 
-HTTP-pyyntöjen tiedot konsoliin kirjoittava middleware häiritsee hiukan testien tulostusta. Konsoliin tulostaminen onkin viisainta estää silloin kuin sovellus on testausmoodissa. Eristetään samalla kaikki konsoliin tulostelu omaan moduliinsa <i>utils/logger.js</i>:
+<!-- HTTP-pyyntöjen tiedot konsoliin kirjoittava middleware häiritsee hiukan testien tulostusta. Konsoliin tulostaminen onkin viisainta estää silloin kuin sovellus on testausmoodissa. Eristetään samalla kaikki konsoliin tulostelu omaan moduliinsa <i>utils/logger.js</i>: -->
+The logger middleware that outputs information about the HTTP requests is obstructing the test execution output. It's a good idea to prevent logging when the application is in test mode. While we're at it, let's extract console logging into its own <i>utils/logger.js</i> module:
 
 ```js
 const info = (...params) => {
@@ -265,9 +291,11 @@ module.exports = {
 }
 ```
 
-Loggeri tarjoaa kaksi funktiota, joista _info_ ei tulosta mitään sovelluksen ollessa testausmoodissa. Virhetilanteisiin tarkoitettu funktio _error_ tulostaa konsoliin myös testausmoodissa.
+<!-- Loggeri tarjoaa kaksi funktiota, joista _info_ ei tulosta mitään sovelluksen ollessa testausmoodissa. Virhetilanteisiin tarkoitettu funktio _error_ tulostaa konsoliin myös testausmoodissa. -->
+The logger offers two functions. The _info_ function does not print anything if the application is in test mode. The _error_ function intended for error logging will still print to console in test mode.
 
-Otetaan loggeri käyttöön muualla sovelluksessa. Muutoksia tulee middlewaret määrittelevään tiedostoon
+<!-- Otetaan loggeri käyttöön muualla sovelluksessa. Muutoksia tulee middlewaret määrittelevään tiedostoon -->
+Let's take the logger into use in the application. We will need to make changes to the file that defines the middleware of the application:
 
 ```js
 const logger = require('./logger') // highlight-line
