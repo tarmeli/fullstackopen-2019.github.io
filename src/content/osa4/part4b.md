@@ -333,7 +333,8 @@ module.exports = {
 }
 ```
 
-ja express-sovelluksen määrittelevään tiedostoon <i>app.js</i>:
+<!-- ja express-sovelluksen määrittelevään tiedostoon <i>app.js</i>: -->
+We also have to make changes to the <i>app.js</i> file that creates the Express application:
 
 ```js 
 // ...
@@ -352,15 +353,20 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 // ...
 ```
 
-Logauksen eristäminen omaan moduulinsa vastuulle on monellakin tapaa järkevää. Jos esim. päätämme ruveta kirjoittamaan logeja tiedostoon tai keräämään ne johonkin ulkoiseen palveuun kuten [graylog](https://www.graylog.org/) tai [papertrail](https://papertrailapp.com), on muutos helppo tehdä yhteen paikkaan.
+<!-- Logauksen eristäminen omaan moduulinsa vastuulle on monellakin tapaa järkevää. Jos esim. päätämme ruveta kirjoittamaan logeja tiedostoon tai keräämään ne johonkin ulkoiseen palveuun kuten [graylog](https://www.graylog.org/) tai [papertrail](https://papertrailapp.com), on muutos helppo tehdä yhteen paikkaan. -->
+Extracting logging into its own module is a good idea in more ways than one. If we wanted to start writing logs to a file or send them to an external logging service like [graylog](https://www.graylog.org/) or [papertrail](https://papertrailapp.com) we would only have to make changes in one place.
 
-### Tietokannan alustaminen ennen testejä
+<!-- ### Tietokannan alustaminen ennen testejä -->
+### Initializing the database before tests
 
-Testaus vaikuttaa helpolta ja testit menevät läpi. Testimme ovat kuitenkin huonoja, niiden läpimeno riippuu tietokannan tilasta (joka sattuu omassa testikannassani olemaan sopiva). Jotta saisimme robustimmat testit, tulee tietokannan tila nollata testien alussa ja sen jälkeen laittaa kantaan hallitusti testien tarvitsema data.
+<!-- Testaus vaikuttaa helpolta ja testit menevät läpi. Testimme ovat kuitenkin huonoja, niiden läpimeno riippuu tietokannan tilasta (joka sattuu omassa testikannassani olemaan sopiva). Jotta saisimme robustimmat testit, tulee tietokannan tila nollata testien alussa ja sen jälkeen laittaa kantaan hallitusti testien tarvitsema data. -->
+Testing appears to be easy and our tests are currently passing. However, our tests are bad as they are dependent on the state of the database (that happens to be correct in my test database). In order to make our tests more robust we have to reset the database and generate the needed test data in a controlled manner before we run the tests.
 
-Testimme käyttää jo jestin metodia [afterAll](https://facebook.github.io/jest/docs/en/api.html#afterallfn-timeout) sulkemaan tietokannan testien suoritusten jälkeen. Jest tarjoaa joukon muitakin [funktioita](https://facebook.github.io/jest/docs/en/setup-teardown.html#content), joiden avulla voidaan suorittaa operaatioita ennen yhdenkään testin suorittamista tai ennen jokaisen testin suoritusta.
+<!-- Testimme käyttää jo jestin metodia [afterAll](https://facebook.github.io/jest/docs/en/api.html#afterallfn-timeout) sulkemaan tietokannan testien suoritusten jälkeen. Jest tarjoaa joukon muitakin [funktioita](https://facebook.github.io/jest/docs/en/setup-teardown.html#content), joiden avulla voidaan suorittaa operaatioita ennen yhdenkään testin suorittamista tai ennen jokaisen testin suoritusta. -->
+Our tests are already using the [afterAll](https://facebook.github.io/jest/docs/en/api.html#afterallfn-timeout) function of Jest to close the connection to the database after the tests are finished executing. Jest offers many other [functions](https://facebook.github.io/jest/docs/en/setup-teardown.html#content) that can be used for executing operations once before any test is run, or every time before a test is run.
 
-Päätetään alustaa tietokanta ennen <i>jokaisen testin suoritusta,</i> eli funktiossa [beforeEach](https://jestjs.io/docs/en/api.html#aftereachfn-timeout):
+<!-- Päätetään alustaa tietokanta ennen <i>jokaisen testin suoritusta,</i> eli funktiossa [beforeEach](https://jestjs.io/docs/en/api.html#aftereachfn-timeout): -->
+Let's initialize the database <i>before every test</i> with the [beforeEach](https://jestjs.io/docs/en/api.html#aftereachfn-timeout) function:
 
 ```js
 const supertest = require('supertest')
@@ -390,9 +396,11 @@ beforeEach(async () => {
 })
 ```
 
-Tietokanta siis tyhjennetään aluksi ja sen jälkeen kantaan lisätään kaksi taulukkoon _initialNotes_ talletettua muistiinpanoa. Näin testien suoritus aloitetaan aina hallitusti samasta tilasta.
+<!-- Tietokanta siis tyhjennetään aluksi ja sen jälkeen kantaan lisätään kaksi taulukkoon _initialNotes_ talletettua muistiinpanoa. Näin testien suoritus aloitetaan aina hallitusti samasta tilasta. -->
+The database is cleared out at the beginning and after that we save the two notes stored in the _initialNotes_ array to the database. By doing this we ensure that the database is in the same state before every test is run.
 
-Muutetaan kahta jälkimmäistä testiä vielä seuraavasti:
+<!-- Muutetaan kahta jälkimmäistä testiä vielä seuraavasti: -->
+Let's also make the following changes to the last two tests:
 
 ```js
 test('all notes are returned', async () => {
@@ -412,45 +420,56 @@ test('a specific note is within the returned notes', async () => {
 })
 ```
 
-Huomaa jälkimmäisen testin ekspektaatio. Komennolla <code>response.body.map(r => r.content)</code> muodostetaan taulukko API:n palauttamien muistiinpanojen sisällöistä. Jestin [toContain](https://facebook.github.io/jest/docs/en/expect.html#tocontainitem)-ekspektaatiometodilla tarkistetaan että parametrina oleva muistiinpano on kaikkien API:n palauttamien muistiinpanojen joukossa.
+<!-- Huomaa jälkimmäisen testin ekspektaatio. Komennolla <code>response.body.map(r => r.content)</code> muodostetaan taulukko API:n palauttamien muistiinpanojen sisällöistä. Jestin [toContain](https://facebook.github.io/jest/docs/en/expect.html#tocontainitem)-ekspektaatiometodilla tarkistetaan että parametrina oleva muistiinpano on kaikkien API:n palauttamien muistiinpanojen joukossa. -->
+Pay special attention to the expect in the latter test. The <code>response.body.map(r => r.content)</code> command is used to create an array containing the content of every note returned by the API. The [toContain](https://facebook.github.io/jest/docs/en/expect.html#tocontainitem) method is used for checking that the note given to it as a parameter is in the list of notes returned by the API.
 
-### Testien suorittaminen yksitellen
+<!-- ### Testien suorittaminen yksitellen -->
+### Running tests one by one
 
-Komento _npm test_ suorittaa projektin kaikki testit. Kun olemme vasta tekemässä testejä, on useimmiten järkevämpää suorittaa kerrallaan ainoastaan yhtä tai muutamaa testiä. Jest tarjoaa tähän muutamia vaihtoehtoja. Eräs näistä on komennon [only](https://jestjs.io/docs/en/api#testonlyname-fn-timeout) käyttö. Jos testit on kirjoitettu useaan tiedotoon, ei menetelmä ole kovin hyvä.
+<!-- Komento _npm test_ suorittaa projektin kaikki testit. Kun olemme vasta tekemässä testejä, on useimmiten järkevämpää suorittaa kerrallaan ainoastaan yhtä tai muutamaa testiä. Jest tarjoaa tähän muutamia vaihtoehtoja. Eräs näistä on komennon [only](https://jestjs.io/docs/en/api#testonlyname-fn-timeout) käyttö. Jos testit on kirjoitettu useaan tiedotoon, ei menetelmä ole kovin hyvä. -->
+The _npm test_ command executes all of the tests of the application. When we are writing tests it is usually wise to only execute one or two tests. Jest offers a few different ways of accomplishing this, one of which is the [only](https://jestjs.io/docs/en/api#testonlyname-fn-timeout) method. If tests are written across many files this method is not great.
 
-Parempi vaihtoehto on käyttää jestiä suoraan, ilman npm:ää. Tällöin on mahdollista määritellä tarkasti mitä testejä jest suorittaa. Seuraava komento suorittaa ainoastaan tiedostossa <i>tests/note_api.test.js</i> olevat testit
+<!-- Parempi vaihtoehto on käyttää jestiä suoraan, ilman npm:ää. Tällöin on mahdollista määritellä tarkasti mitä testejä jest suorittaa. Seuraava komento suorittaa ainoastaan tiedostossa <i>tests/note_api.test.js</i> olevat testit -->
+A better option is to use Jest directly without npm. This way we can specify what the tests that we want to run with Jest. The following command only runs the tests found in the <i>tests/note_api.test.js</i> file:
 
 ```js
 npx jest tests/note_api.test.js --runInBand
 ```
 
-Parametrin <i>-t</i> avulla voidaan suorittaa testejä nimen perusteella:
+<!-- Parametrin <i>-t</i> avulla voidaan suorittaa testejä nimen perusteella: -->
+The <i>-t</i> option can be used for running tests with a specific name:
 
 ```js
 npx jest -t 'a specific note is within the returned notes'
 ```
 
-Parametri voi viitata testin tai describe-lohkon nimeen. Parametrina voidaan antaa myös nimen osa. Seuraava komento suorittaisi kaikki testit, joiden nimessä on sana <i>notes</i>:
+<!-- Parametri voi viitata testin tai describe-lohkon nimeen. Parametrina voidaan antaa myös nimen osa. Seuraava komento suorittaisi kaikki testit, joiden nimessä on sana <i>notes</i>: -->
+The provided parameter can refer to the name of the test or the describe block. The parameter can also contain just a part of the name. The following command will run all of the tests that contain <i>notes</i> in their name:
 
 ```js
 npx jest -t 'notes' --runInBand
 ```
 
-Jos asennat koneellesi jestin <i>globaalisti</i>, eli komennolla
+<!-- Jos asennat koneellesi jestin <i>globaalisti</i>, eli komennolla -->
+If you install Jest <i>globally</i> with the command:
 
 ```js
 npm install -g jest
 ```
 
-testien suoritus onnistuu suoraan komennolla _jest_. Globaaliin asennukseen tarvitset pääkäyttäjän oikeudet.
+<!-- testien suoritus onnistuu suoraan komennolla _jest_. Globaaliin asennukseen tarvitset pääkäyttäjän oikeudet. -->
+Then you can run tests directly with the _jest_ command. To install packages globally you need to have admin rights.
 
 ### async/await
 
-Ennen kuin teemme lisää testejä, tarkastellaan tarkemmin mitä _async_ ja _await_ tarkoittavat.
+<!-- Ennen kuin teemme lisää testejä, tarkastellaan tarkemmin mitä _async_ ja _await_ tarkoittavat. -->
+Before we write more tests let's take a look at the _async_ and _await_ keywords. 
 
-Async- ja await ovat ES7:n mukanaan tuoma uusi syntaksi, joka mahdollistaa <i>promisen palauttavien asynkronisten funktioiden</i> kutsumisen siten, että kirjoitettava koodi näyttää synkroniselta.
+<!-- Async- ja await ovat ES7:n mukanaan tuoma uusi syntaksi, joka mahdollistaa <i>promisen palauttavien asynkronisten funktioiden</i> kutsumisen siten, että kirjoitettava koodi näyttää synkroniselta. -->
+The async/await syntax that was introduced in ES7 makes it possible to use <i>asynchronous functions that return a promise</i> in a way that makes the code look synchronous.
 
-Esim. muistiinpanojen hakeminen tietokannasta hoidetaan promisejen avulla seuraavasti:
+<!-- Esim. muistiinpanojen hakeminen tietokannasta hoidetaan promisejen avulla seuraavasti: -->
+As an example, the fetching notes from the database with promises looks like this:
 
 ```js
 Note.find({}).then(notes => {
@@ -458,11 +477,14 @@ Note.find({}).then(notes => {
 })
 ```
 
-Metodikutsu _Note.find()_ palauttaa promisen, ja saamme itse operaation tuloksen rekisteröimällä promiselle tapahtumankäsittelijän metodilla _then_.
+<!-- Metodikutsu _Note.find()_ palauttaa promisen, ja saamme itse operaation tuloksen rekisteröimällä promiselle tapahtumankäsittelijän metodilla _then_. -->
+The _Note.find()_ method returns a promise and we can access the result of the operation by registering a callback function with the _then_ method.
 
-Kaikki operaation suorituksen jälkeinen koodi kirjoitetaan tapahtumankäsittelijään. Jos haluaisimme tehdä peräkkäin useita asynkronisia funktiokutsuja, menisi tilanne ikävämmäksi. Joutuisimme tekemään kutsut tapahtumankäsittelijästä. Näin syntyisi potentiaalisesti monimutkaista koodia, pahimmassa tapauksessa jopa niin sanottu [callback-helvetti](http://callbackhell.com/).
+<!-- Kaikki operaation suorituksen jälkeinen koodi kirjoitetaan tapahtumankäsittelijään. Jos haluaisimme tehdä peräkkäin useita asynkronisia funktiokutsuja, menisi tilanne ikävämmäksi. Joutuisimme tekemään kutsut tapahtumankäsittelijästä. Näin syntyisi potentiaalisesti monimutkaista koodia, pahimmassa tapauksessa jopa niin sanottu [callback-helvetti](http://callbackhell.com/). -->
+All of the code we want to execute once the operation finishes is written in the callback function. If we wanted make several asynchronous function calls in sequence, the situation would start to become painful. The asynchronous calls would have to be made in the callback. This would likely lead to complicated code and could potentially give birth to a so-called [callback hell](http://callbackhell.com/).
 
-[Ketjuttamalla promiseja](https://javascript.info/promise-chaining) tilanne pysyy jollain tavalla hallinnassa, callback-helvetin eli monien sisäkkäisten callbackien sijaan saadaan aikaan siistihkö _then_-kutsujen ketju. Olemmekin nähneet jo kurssin aikana muutaman sellaisen. Seuraavassa vielä erittäin keinotekoinen esimerkki, joka hakee ensin kaikki muistiinpanot ja sitten tuhoaa niistä ensimmäisen:
+<!-- [Ketjuttamalla promiseja](https://javascript.info/promise-chaining) tilanne pysyy jollain tavalla hallinnassa, callback-helvetin eli monien sisäkkäisten callbackien sijaan saadaan aikaan siistihkö _then_-kutsujen ketju. Olemmekin nähneet jo kurssin aikana muutaman sellaisen. Seuraavassa vielä erittäin keinotekoinen esimerkki, joka hakee ensin kaikki muistiinpanot ja sitten tuhoaa niistä ensimmäisen: -->
+By [chaining promises](https://javascript.info/promise-chaining) we could keep the situation somewhat under control, and avoid callback hell by creating a fairly clean chain of _then_ method calls. We have seen a few of these during the course. To illustrate this, you can view an artificial example of a function that fetches all notes and then deletes the first one:
 
 ```js
 Note.find({})
@@ -475,11 +497,14 @@ Note.find({})
   })
 ```
 
-Then-ketju on ok, mutta parempaankin pystytään. Jo ES6:ssa esitellyt [generaattorifunktiot](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) mahdollistivat [ovelan tavan](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md#iterating-generators-asynchronously) määritellä asynkronista koodia siten että se "näyttää synkroniselta". Syntaksi ei kuitenkaan ole täysin luonteva ja sitä ei käytetä kovin yleisesti.
+<!-- Then-ketju on ok, mutta parempaankin pystytään. Jo ES6:ssa esitellyt [generaattorifunktiot](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) mahdollistivat [ovelan tavan](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md#iterating-generators-asynchronously) määritellä asynkronista koodia siten että se "näyttää synkroniselta". Syntaksi ei kuitenkaan ole täysin luonteva ja sitä ei käytetä kovin yleisesti. -->
+The then-chain is alright but we can do better. The [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) introduced in ES6 provided a [clever way](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md#iterating-generators-asynchronously) of writing asynchronous code in a way that "looks synchronous". The syntax is a bit clunky and not widely used.
 
-ES7:ssa _async_ ja _await_ tuovat generaattoreiden tarjoaman toiminnallisuuden ymmärrettävästi ja syntaksin puolesta selkeällä tavalla koko Javascript-kansan ulottuville.
+<!-- ES7:ssa _async_ ja _await_ tuovat generaattoreiden tarjoaman toiminnallisuuden ymmärrettävästi ja syntaksin puolesta selkeällä tavalla koko Javascript-kansan ulottuville. -->
+The _async_ and _await_ keywords introduced in ES7 bring the same functionality as the generators, but in an understandable and syntactically cleaner way to the hands of all citizens of the JavaScript world.
 
-Voisimme hakea tietokannasta kaikki muistiinpanot [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)-operaattoria hyödyntäen seuraavasti:
+<!-- Voisimme hakea tietokannasta kaikki muistiinpanot [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)-operaattoria hyödyntäen seuraavasti: -->
+We could fetch all of the notes in the database by utilizing the [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) operator like this:
 
 ```js
 const notes = await Note.find({})
@@ -487,9 +512,11 @@ const notes = await Note.find({})
 console.log('operaatio palautti seuraavat muistiinpanot ', notes)
 ```
 
-Koodi siis näyttää täsmälleen synkroniselta koodilta. Suoritettavan koodinpätkän suhteen tilanne on se, että suoritus pysähtyy komentoon <em>const notes = await Note.find({})</em> ja jatkuu kyselyä vastaavan promisen <i>fulfillmentin</i> eli onnistuneen suorituksen jälkeen seuraavalta riviltä. Kun suoritus jatkuu, promisea vastaavan operaation tulos on muuttujassa _notes_.
+<!-- Koodi siis näyttää täsmälleen synkroniselta koodilta. Suoritettavan koodinpätkän suhteen tilanne on se, että suoritus pysähtyy komentoon <em>const notes = await Note.find({})</em> ja jatkuu kyselyä vastaavan promisen <i>fulfillmentin</i> eli onnistuneen suorituksen jälkeen seuraavalta riviltä. Kun suoritus jatkuu, promisea vastaavan operaation tulos on muuttujassa _notes_. -->
+The code looks exactly like synchronous code. The execution of code pauses at <em>const notes = await Note.find({})</em> and waits until the related promise is <i>fulfilled</i>, and then continues its execution to the next line. When the execution continues, the result of the operation that returned a promise is assigned to the _notes_ variable.
 
-Ylempänä oleva monimutkaisempi esimerkki suoritettaisiin awaitin avulla seuraavasti:
+<!-- Ylempänä oleva monimutkaisempi esimerkki suoritettaisiin awaitin avulla seuraavasti: -->
+The slightly complicated example presented above could be implemented by using await like this:
 
 ```js
 const notes = await Note.find({})
