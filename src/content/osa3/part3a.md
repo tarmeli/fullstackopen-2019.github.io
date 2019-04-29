@@ -943,19 +943,25 @@ If the <i>important</i> property is missing, we will default the value to <i>fal
 important: body.important || false,
 ```
 
-jos sovelluksen vastaanottamassa muuttujaan _body_ talletetussa datassa on kenttä <i>important</i>, tulee lausekkeelle sen arvo. Jos kenttää ei ole olemassa, tulee lausekkeen arvoksi oikeanpuoleinen osa eli <i>false</i>.
+<!-- jos sovelluksen vastaanottamassa muuttujaan _body_ talletetussa datassa on kenttä <i>important</i>, tulee lausekkeelle sen arvo. Jos kenttää ei ole olemassa, tulee lausekkeen arvoksi oikeanpuoleinen osa eli <i>false</i>. -->
+If the data saved in the _body_ variable has the <i>important</i> property, the expression will evaluate to its value. If the property does not exist, then the expression will evaluate to false which is defined on the right-hand side of the the vertical lines.
 
-> Jos ollaan tarkkoja, niin kentän <i>important</i> arvon ollessa <i>false</i>, tulee lausekkeen <em>body.important || false</em> arvoksi oikean puoleinen <i>false</i>...
+<!-- > Jos ollaan tarkkoja, niin kentän <i>important</i> arvon ollessa <i>false</i>, tulee lausekkeen <em>body.important || false</em> arvoksi oikean puoleinen <i>false</i>... -->
+> To be exact, when the <i>important</i> property is <i>false</i>, then the <em>body.important || false</em> expression will in fact return the <i>false</i> from the right-hand side...
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-1)
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-1) -->
+You can find the code for our current application in its entirety in the <i>part3-1</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-1).
 
-Huomaa, että repositorion master-haarassa on myöhemmän vaiheen koodi, tämän hetken koodi on branchissa [part3-1](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-1):
+<!-- Huomaa, että repositorion master-haarassa on myöhemmän vaiheen koodi, tämän hetken koodi on branchissa [part3-1](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-1): -->
+Notice that the master branch of the repository contains the code from a later version of the application. The code for the current state of the application is specifically in branch [part3-1](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-1).
 
 ![](../images/3/21.png)
 
-Jos kloonaat projektin itsellesi, suorita komento _npm install_ ennen käynnistämistä eli komentoa _npm start_ tai _npm run watch_.
+<!-- Jos kloonaat projektin itsellesi, suorita komento _npm install_ ennen käynnistämistä eli komentoa _npm start_ tai _npm run watch_. -->
+If you clone the project, run the _npm install_ command before starting the application with _npm start_ or _npm run watch_.
 
-Vielä pieni huomio ennen tehtäviä. Uuden id:n generoiva funktio näyttää seuraavalta
+<!-- Vielä pieni huomio ennen tehtäviä. Uuden id:n generoiva funktio näyttää seuraavalta -->
+One more thing before we move onto the exercises. The function for generating id's looks currently like this:
 
 ```js
 const generateId = () => {
@@ -966,72 +972,99 @@ const generateId = () => {
 }
 ```
 
-Koodi sisältää hieman erikoisen näköisen rivin
+<!-- Koodi sisältää hieman erikoisen näköisen rivin -->
+The function body contains a row that looks a bit intriguing:
 
 ```js
 Math.max(...notes.map(n => n.id))
 ```
 
-Mitä rivillä tapahtuu? <em>notes.map(n => n.id)</em> muodostaa taulukon, joka koostuu muistiinpanojen id-kentisstä. [Math.max](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) palauttaa maksimin sille parametrina annetuista luvuista. <em>notes.map(n => n.id)</em> on kuitenkin <i>taulukko</i>, joten se ei kelpaa parametriksi komennolle _Math.max_. Taulukko voidaan muuttaa yksittäisiksi luvuiksi käyttäen taulukon [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)-syntaksia, eli kolmea pistettä <em>... taulukko</em>.
+<!-- Mitä rivillä tapahtuu? <em>notes.map(n => n.id)</em> muodostaa taulukon, joka koostuu muistiinpanojen id-kentisstä. [Math.max](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) palauttaa maksimin sille parametrina annetuista luvuista. <em>notes.map(n => n.id)</em> on kuitenkin <i>taulukko</i>, joten se ei kelpaa parametriksi komennolle _Math.max_. Taulukko voidaan muuttaa yksittäisiksi luvuiksi käyttäen taulukon [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)-syntaksia, eli kolmea pistettä <em>... taulukko</em>. -->
+What exactly is happening in that line of code? <em>notes.map(n => n.id)</em> creates a new array that contains all the id's of the notes. [Math.max](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) returns the maximum value of the numbers that are passed to it. However, <em>notes.map(n => n.id)</em> is an <i>array</i> so it can't directly be given as a parameter to _Math.max_. The array can be transformed into individual numbers by using the "three dot" [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) syntax <em>... taulukko</em>.
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä 
+<!-- ### Tehtäviä  -->
+### Exercises
 
-**HUOM:** tämän osan tehtäväsarja kannattaa tehdä omaan git-repositorioon, suoraan repositorion juureen! Jos et tee näin, joudut ongelmiin tehtävässä 3.10
+<!-- **HUOM:** tämän osan tehtäväsarja kannattaa tehdä omaan git-repositorioon, suoraan repositorion juureen! Jos et tee näin, joudut ongelmiin tehtävässä 3.10 -->
+**NB:** It's recommended to do all of the exercises from this part into a new dedicated git repository, and place your source code right at the root of the repository. Otherwise you will run into problems in exercise 3.10.
 
-**HUOM2:** Koska nyt ei ole kyse frontendista ja Reactista, sovellusta <strong>ei luoda</strong> create-react-app:illa vaan komennolla <em>npm init</em> kuten ylempänä tämän osan materiaalissa.
+<!-- **HUOM2:** Koska nyt ei ole kyse frontendista ja Reactista, sovellusta <strong>ei luoda</strong> create-react-app:illa vaan komennolla <em>npm init</em> kuten ylempänä tämän osan materiaalissa. -->
+**NB:** Because this is not a frontend project and we are not working with React, the application <strong>is not created</strong> with create-react-app. You initialize this project with the <em>npm init</em> command that was demonstrated earlier in this part of the material.
 
+<!-- **Vahva suositus:** kun teet backendin koodia, pidä koko ajan silmällä mitä palvelimen koodia suorittavassa konsolissa tapahtuu. -->
+**Strong recommendation:** When you are working on backend code, always keep an eye on what's going on in the terminal that is running your application.
 
-**Vahva suositus:** kun teet backendin koodia, pidä koko ajan silmällä mitä palvelimen koodia suorittavassa konsolissa tapahtuu.
+<!-- #### 3.1 puhelinluettelon backend step1 -->
+#### 3.1: Phonebook backend step1
 
-#### 3.1 puhelinluettelon backend step1
-
-Tee Node-sovellus, joka tarjoaa osoitteessa <http://localhost:3001/api/persons> kovakoodatun taulukon puhelinnumerotietoja:
+<!-- Tee Node-sovellus, joka tarjoaa osoitteessa <http://localhost:3001/api/persons> kovakoodatun taulukon puhelinnumerotietoja: -->
+Implement a Node application that returns a hardcoded list of phonebook entries from the address <http://localhost:3001/api/persons>:
 
 ![](../images/3/22a.png)
 
-Huomaa, että Noden routejen määrittelyssä merkkijonon <i>api/persons</i> vinoviiva käyttäytyy kuten mikä tahansa muu merkki.
+<!-- Huomaa, että Noden routejen määrittelyssä merkkijonon <i>api/persons</i> vinoviiva käyttäytyy kuten mikä tahansa muu merkki. -->
+Notice that the forward slash in the route <i>api/persons</i> is not a special character, and is just like any other character in thes string. 
 
-Sovellus pitää pystyä käynnistämään komennolla _npm start_.
+<!-- Sovellus pitää pystyä käynnistämään komennolla _npm start_. -->
+The application must be started with the command _npm start_.
 
-Komennolla _npm run watch_ käynnistettäessa sovelluksen tulee käynnistyä uudelleen kun koodiin tehdään muutoksia.
+<!-- Komennolla _npm run watch_ käynnistettäessa sovelluksen tulee käynnistyä uudelleen kun koodiin tehdään muutoksia. -->
+The application must also offer an _npm run command_ that will run the application and restart the server whenever changes are made and saved to a file in the source code.
 
-#### 3.2: puhelinluettelon backend step2
+<!-- #### 3.2: puhelinluettelon backend step2 -->
+#### 3.2: Phonebook backend step2
 
-Tee sovelluksen osoitteeseen <http://localhost:3001/info> suunnilleen seuraavanlainen sivu
+<!-- Tee sovelluksen osoitteeseen <http://localhost:3001/info> suunnilleen seuraavanlainen sivu -->
+Implement a page at the address <http://localhost:3001/info> that looks roughly like this:
 
 ![](../images/3/23.png)
 
-eli sivu kertoo pyynnön tekohetken sekä sen kuinka monta puhelinluettelotietoa sovelluksen muistissa olevassa taulukossa on.
+<!-- eli sivu kertoo pyynnön tekohetken sekä sen kuinka monta puhelinluettelotietoa sovelluksen muistissa olevassa taulukossa on. -->
+The page has to show the time that the request was received and how many entries are in the phonebook at the time of processing the request.
 
-#### 3.3: puhelinluettelon backend step3
+<!-- #### 3.3: puhelinluettelon backend step3 -->
+#### 3.3: Phonebook backend step3
 
-Toteuta toiminnallisuus yksittäisen puhelinnumerotiedon näyttämiseen. Esim. id:n 5 omaavan numerotiedon url on <http://localhost:3001/api/persons/5>
+<!-- Toteuta toiminnallisuus yksittäisen puhelinnumerotiedon näyttämiseen. Esim. id:n 5 omaavan numerotiedon url on <http://localhost:3001/api/persons/5> -->
+Implement the functionality for displaying the information for a single phonebook entry. The url for getting the data for a person with the id 5 should be <http://localhost:3001/api/persons/5>
 
-Jos id:tä vastaavaa puhelinnumerotietoa ei ole, tulee palvelimen vastata asianmukaisella statuskoodilla.
+<!-- Jos id:tä vastaavaa puhelinnumerotietoa ei ole, tulee palvelimen vastata asianmukaisella statuskoodilla. -->
+If an entry for the given id is not found, the server has to respond with the appropriate status code.
 
-#### 3.4: puhelinluettelon backend step4
+<!-- #### 3.4 puhelinluettelon backend step4 -->
+#### 3.4: Phonebook backend step4
 
-Toteuta toiminnallisuus, jonka avulla puhelinnumerotieto on mahdollista poistaa numerotiedon yksilöivään URL:iin tehtävällä HTTP DELETE -pyynnöllä.
+<!-- Toteuta toiminnallisuus, jonka avulla puhelinnumerotieto on mahdollista poistaa numerotiedon yksilöivään URL:iin tehtävällä HTTP DELETE -pyynnöllä. -->
+Implement functionality that makes it possible to delete a single phonebook entry by making an HTTP DELETE request to the unique URL of that phonebook entry.
 
-Testaa toiminnallisuus Postmanilla tai Visual Studio Coden REST clientillä
+<!-- Testaa toiminnallisuus Postmanilla tai Visual Studio Coden REST clientillä -->
+Test that your functionality works with either Postman or the Visual Studio Code REST client.
 
-#### 3.5: puhelinluettelon backend step5
+<!-- #### 3.5: puhelinluettelon backend step5 -->
+#### 3.5: Phonebook backend step5
 
-Laajenna backendia siten, että uusia puhelintietoja on mahdollista lisätä osoitteeseen <http://localhost:3001/api/persons> tapahtuvalla HTTP POST -pyynnöllä.
+<!-- Laajenna backendia siten, että uusia puhelintietoja on mahdollista lisätä osoitteeseen <http://localhost:3001/api/persons> tapahtuvalla HTTP POST -pyynnöllä. -->
+Expand the backend so that new phonebook entries can be added by making HTTP POST requests to the address <http://localhost:3001/api/persons>.
 
-Generoi uuden puhelintiedon tunniste funktiolla [Math.random](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random). Käytä riittävän isoa arvoväliä jotta arvottu id on riittävän suurella todennäköisyydellä sellainen, joka ei ole jo käytössä.
+<!-- Generoi uuden puhelintiedon tunniste funktiolla [Math.random](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random). Käytä riittävän isoa arvoväliä jotta arvottu id on riittävän suurella todennäköisyydellä sellainen, joka ei ole jo käytössä. -->
+Generate a new id for the phonebook entry with the [Math.random](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) function. Use a big enough range for your random values so that the likelihood of creating duplicate id's is small.
 
-#### 3.6: puhelinluettelon backend step6
+<!-- #### 3.6: puhelinluettelon backend step6 -->
+#### 3.6: Phonebook backend step6
 
-Tee uuden numeron lisäykseen virheiden käsittely. Pyyntö ei saa onnistua, jos
-- nimi tai numero puuttuu
-- lisättävä nimi on jo luettelossa
+<!-- Tee uuden numeron lisäykseen virheiden käsittely. Pyyntö ei saa onnistua, jos -->
+<!-- - nimi tai numero puuttuu -->
+<!-- - lisättävä nimi on jo luettelossa -->
+Implement error handling for creating new entries. The request is not allowed to succeed, if:
+- The name or number is missing 
+- The name already exists in the phonebook
 
-Vastaa asiaankuuluvalla statuskoodilla, liitä vastaukseen mukaan myös tieto, joka kertoo virheen syyn, esim:
+<!-- Vastaa asiaankuuluvalla statuskoodilla, liitä vastaukseen mukaan myös tieto, joka kertoo virheen syyn, esim: -->
+Respond to requests like these with the appropriate status code, and also send back information that explains the reason for the error, e.g.:
 
 ```js
 { error: 'name must be unique' }
@@ -1041,45 +1074,63 @@ Vastaa asiaankuuluvalla statuskoodilla, liitä vastaukseen mukaan myös tieto, j
 
 <div class="content">
 
-### Huomioita HTTP pyyntötyyppien käytöstä
+<!-- ### Huomioita HTTP pyyntötyyppien käytöstä -->
+### About HTTP request types
 
 [HTTP-standardi](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) puhuu pyyntötyyppien yhteydessä kahdesta ominaisuudesta, **safe** ja **idempotent**.
+[The HTTP standard](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) talks about two qualities related to request types, **safety** and **idempotence**.
 
-HTTP-pyynnöistä GET:in tulisi olla <i>safe</i>:
+<!-- HTTP-pyynnöistä GET:in tulisi olla <i>safe</i>: -->
+The HTTP GET request should be <i>safe</i>:
 
 > <i>In particular, the convention has been established that the GET and HEAD methods SHOULD NOT have the significance of taking an action other than retrieval. These methods ought to be considered "safe".</i>
 
-Safety siis tarkoittaa, että pyynnön suorittaminen ei saa aiheuttaa palvelimelle <i>sivuvaikutuksia</i> eli esim. muuttaa palvelimen tietokannan tilaa, pyynnön tulee ainoastaan palauttaa palvelimella olevaa dataa.
+<!-- Safety siis tarkoittaa, että pyynnön suorittaminen ei saa aiheuttaa palvelimelle <i>sivuvaikutuksia</i> eli esim. muuttaa palvelimen tietokannan tilaa, pyynnön tulee ainoastaan palauttaa palvelimella olevaa dataa. -->
+Safety means that the executing request must not cause any <i>side effects</i> in the server. By side-effects we mean that the state of the database must not change as a result of the request, and the response must only return data that already exists on the server.
 
-Mikään ei automaattisesti takaa, että GET-pyynnöt olisivat luonteeltaan <i>safe</i>, kyseessä onkin HTTP-standardin suositus palvelimien toteuttajille. RESTful-periaatetta noudattaessa GET-pyyntöjä käytetäänkin aina siten, että ne ovat safe.
+<!-- Mikään ei automaattisesti takaa, että GET-pyynnöt olisivat luonteeltaan <i>safe</i>, kyseessä onkin HTTP-standardin suositus palvelimien toteuttajille. RESTful-periaatetta noudattaessa GET-pyyntöjä käytetäänkin aina siten, että ne ovat safe. -->
+Nothing can ever guarantee that a GET request is actually <i>safe</i>, this is in fact just a recommendation that is defined in the HTTP standard. By adhering to RESTful principles in our API, GET requests are in fact always used in a way that they are <i>safe</i>.
 
-HTTP-standardi määrittelee myös pyyntötyypin [HEAD](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.4), jonka tulee olla safe. Käytännössä HEAD:in tulee toimia kuten GET, mutta se ei palauta vastauksenaan muuta kuin statuskoodin ja headerit, viestin bodyä HEAD ei palauta ollenkaan.
+<!-- HTTP-standardi määrittelee myös pyyntötyypin [HEAD](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.4), jonka tulee olla safe. Käytännössä HEAD:in tulee toimia kuten GET, mutta se ei palauta vastauksenaan muuta kuin statuskoodin ja headerit, viestin bodyä HEAD ei palauta ollenkaan. -->
+The HTTP standard also defines the request type [HEAD](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.4), that ought to be safe. In practice HEAD should work exactly like GET but it does not return anything but the status code and response headers. The response body will not be returned when you make a HEAD request.
 
-HTTP-pyynnöistä muiden paitsi POST:in tulisi olla <i>idempotentteja</i>:
+<!-- HTTP-pyynnöistä muiden paitsi POST:in tulisi olla <i>idempotentteja</i>: -->
+All HTTP requests except POST should be <i>idempotent</i>:
 
 > <i>Methods can also have the property of "idempotence" in that (aside from error or expiration issues) the side-effects of N > 0 identical requests is the same as for a single request. The methods GET, HEAD, PUT and DELETE share this property</i>
 
-Eli jos pyynnöllä on sivuvaikutuksia, lopputulos on sama suoritetaanko pyyntö yhden tai useamman kerran.
+<!-- Eli jos pyynnöllä on sivuvaikutuksia, lopputulos on sama suoritetaanko pyyntö yhden tai useamman kerran. -->
+This means that if a request has side-effects, then the result should be same regardless of how many times the request is sent.
 
-Esim. jos tehdään HTTP PUT pyyntö osoitteeseen <i>/notes/10</i> ja pyynnön mukana on <em>{ content: "ei sivuvaikutuksia", important: true }</em>, on lopputulos sama riippumatta siitä kuinka monta kertaa pyyntö suoritetaan.
+<!-- Esim. jos tehdään HTTP PUT pyyntö osoitteeseen <i>/notes/10</i> ja pyynnön mukana on <em>{ content: "ei sivuvaikutuksia", important: true }</em>, on lopputulos sama riippumatta siitä kuinka monta kertaa pyyntö suoritetaan. -->
+If we make an HTTP PUT request to the url <i>/notes/10</i> and with the request we send the data <em>{ content: "ei sivuvaikutuksia", important: true }</em>, the result is the same regardless of many times the request is sent.
 
-Kuten metodin GET <i>safety</i> myös <i>idempotence</i> on HTTP-standardin suositus palvelimien toteuttajille. RESTful-periaatetta noudattaessa GET, HEAD, PUT ja DELETE-pyyntöjä käytetäänkin aina siten, että ne ovat idempotentteja.
+<!-- Kuten metodin GET <i>safety</i> myös <i>idempotence</i> on HTTP-standardin suositus palvelimien toteuttajille. RESTful-periaatetta noudattaessa GET, HEAD, PUT ja DELETE-pyyntöjä käytetäänkin aina siten, että ne ovat idempotentteja. -->
+Like <i>safety</i> for the GET request, also <i>idempotence</i> is simply a recommendation in the HTTP standard and not something that can be guaranteed simply based on the request type. However, when our API adheres to RESTful principles, then GET, HEAD, PUT, and DELETE requests are used in such a way that they are idempotent.
 
-HTTP pyyntötyypeistä POST on ainoa joka ei ole <i>safe</i> eikä <i>idempotent</i>. Jos tehdään 5 kertaa HTTP POST -pyyntö osoitteeseen <i>/notes</i> siten että pyynnön mukana on <em>{ content: "monta samaa", important: true }</em>, tulee palvelimelle 5 saman sisältöistä muistiinpanoa.
+<!-- HTTP pyyntötyypeistä POST on ainoa joka ei ole <i>safe</i> eikä <i>idempotent</i>. Jos tehdään 5 kertaa HTTP POST -pyyntö osoitteeseen <i>/notes</i> siten että pyynnön mukana on <em>{ content: "monta samaa", important: true }</em>, tulee palvelimelle 5 saman sisältöistä muistiinpanoa. -->
+POST is the only HTTP request type that is neither <i>safe</i> nor <i>idempotent</i>. If we make an HTTP POST request five time into the <i>/notes</i> url, so that each time we send the 
 
-### Middlewaret
+<!-- ### Middlewaret -->
+### Middleware
 
-Äsken käyttöönottamamme [body-parser](https://github.com/expressjs/body-parser) on terminologiassa niin sanottu [middleware](http://expressjs.com/en/guide/using-middleware.html).
+<!-- Äsken käyttöönottamamme [body-parser](https://github.com/expressjs/body-parser) on terminologiassa niin sanottu [middleware](http://expressjs.com/en/guide/using-middleware.html). -->
+The [body-parser](https://github.com/expressjs/body-parser) we took into use earlier is a so-called [middleware](http://expressjs.com/en/guide/using-middleware.html).
 
-Middlewaret ovat funktioita, joiden avulla voidaan käsitellä _request_- ja _response_-olioita.
+<!-- Middlewaret ovat funktioita, joiden avulla voidaan käsitellä _request_- ja _response_-olioita. -->
+Middleware are functions that can be used for handling _request_ and _response_ objects.
 
-Esim. body-parser ottaa pyynnön mukana tulevan raakadatan _request_-oliosta, parsii sen Javascript-olioksi ja sijoittaa olion _request_:in kenttään <i>body</i>
+<!-- Esim. body-parser ottaa pyynnön mukana tulevan raakadatan _request_-oliosta, parsii sen Javascript-olioksi ja sijoittaa olion _request_:in kenttään <i>body</i> -->
+The body-parser we used earlier takes the raw data from the requests that's stored in the _request_ object, parses it into a JavaScript object and assigns it to the _request_ object as a new property <i>body</i>.
 
-Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön.
+<!-- Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön. -->
+In practice you can use several middleware at the same time. When you have more than one, they're executed one by one in the order that they were taken into use in express.
 
-Toteutetaan itse yksinkertainen middleware, joka tulostaa konsoliin palvelimelle tulevien pyyntöjen perustietoja.
+<!-- Toteutetaan itse yksinkertainen middleware, joka tulostaa konsoliin palvelimelle tulevien pyyntöjen perustietoja. -->
+Let's implement our own middleware that prints information about every request that is sent to the server.
 
-Middleware on funktio, joka saa kolme parametria:
+<!-- Middleware on funktio, joka saa kolme parametria: -->
+Middleware is a function that receives three parameters:
 
 ```js
 const requestLogger = (request, response, next) => {
@@ -1091,19 +1142,24 @@ const requestLogger = (request, response, next) => {
 }
 ```
 
-Middleware kutsuu lopussa parametrina olevaa funktiota _next_, jolla se siirtää kontrollin seuraavalle middlewarelle.
+<!-- Middleware kutsuu lopussa parametrina olevaa funktiota _next_, jolla se siirtää kontrollin seuraavalle middlewarelle. -->
+At the end of the function body the _next_ function that was passed as a parameter is called. The _next_ function yields control to the next middleware.
 
-Middleware otetaan käyttöön seuraavasti:
+<!-- Middleware otetaan käyttöön seuraavasti: -->
+Middleware are taken into use like this:
 
 ```js
 app.use(requestLogger)
 ```
 
-Middlewaret suoritetaan siinä järjestyksessä, jossa ne on otettu käyttöön sovellusolion metodilla _use_. Huomaa, että _bodyParser_ tulee ottaa käyttään ennen middlewarea _requestLogger_, muuten <i>request.body</i> ei ole vielä alustettu loggeria suoritettaessa!
+<!-- Middlewaret suoritetaan siinä järjestyksessä, jossa ne on otettu käyttöön sovellusolion metodilla _use_. Huomaa, että _bodyParser_ tulee ottaa käyttään ennen middlewarea _requestLogger_, muuten <i>request.body</i> ei ole vielä alustettu loggeria suoritettaessa! -->
+Middleware functions are called in the order that they're taken into use with the express server object's _use_ method. Notice that _bodyParser_ is taken into use before the _requestLogger_ middleware, because otherwise <i>request.body</i> will not be initialized when the logger is executed!
 
-Middlewaret tulee ottaa käyttöön ennen routeja jos ne halutaan suorittaa ennen niitä. On myös eräitä tapauksia, joissa middleware tulee määritellä vasta routejen jälkeen, käytännössä tällöin on kyse middlewareista, joita suoritetaan vain, jos mikään route ei käsittele HTTP-pyyntöä.
+<!-- Middlewaret tulee ottaa käyttöön ennen routeja jos ne halutaan suorittaa ennen niitä. On myös eräitä tapauksia, joissa middleware tulee määritellä vasta routejen jälkeen, käytännössä tällöin on kyse middlewareista, joita suoritetaan vain, jos mikään route ei käsittele HTTP-pyyntöä. -->
+Middleware functions have to be taken into use before routes if we want them to be executed before the route event handlers are called. There are also situations where we want to define middleware functions after routes. In practice, this means that we are defining middleware functions that are only called if no route handles the HTTP request.
 
-Lisätään routejen jälkeen seuraava middleware, jonka ansiosta saadaan routejen käsittelemättömistä virhetilanteista JSON-muotoinen virheilmoitus:
+<!-- Lisätään routejen jälkeen seuraava middleware, jonka ansiosta saadaan routejen käsittelemättömistä virhetilanteista JSON-muotoinen virheilmoitus: -->
+Let's add the following middleware after our routes, that is used for catching requests made to non-existent routes. For these requests the middleware will return an error message in the JSON format.
 
 ```js
 const unknownEndpoint = (request, response) => {
@@ -1113,31 +1169,41 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 ```
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-2), branchissa <i>part3-2</i>.
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-2), branchissa <i>part3-2</i>. -->
+You can find the code for our current application in its entirety in the <i>part3-2</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part3-2).
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 3.7: puhelinluettelon backend step7
+<!-- #### 3.7: puhelinluettelon backend step7 -->
+#### 3.7: Phonebook backend step7
 
-Lisää sovellukseesi loggausta tekevä middleware [morgan](https://github.com/expressjs/morgan). Konfiguroi se logaamaan konsoliin <i>tiny</i>-konfiguraation mukaisesti.
+<!-- Lisää sovellukseesi loggausta tekevä middleware [morgan](https://github.com/expressjs/morgan). Konfiguroi se logaamaan konsoliin <i>tiny</i>-konfiguraation mukaisesti. -->
+Add the [morgan](https://github.com/expressjs/morgan) middleware to your application for logging. Configure it to log messages to your console based on the <i>tiny</i> configuration.
 
-Morganin ohjeet eivät ole ehkä kaikkein selvimmät ja joudut kenties miettimään hiukan. Toisaalta juuri koskaan dokumentaatio ei ole aivan itsestäänselvää, joten kryptisempiäkin asioita on hyvä oppia tulkitsemaan.
+<!-- Morganin ohjeet eivät ole ehkä kaikkein selvimmät ja joudut kenties miettimään hiukan. Toisaalta juuri koskaan dokumentaatio ei ole aivan itsestäänselvää, joten kryptisempiäkin asioita on hyvä oppia tulkitsemaan. -->
+The documentation for Morgan is not the best, and you may have to some time figuring out how to configure it correctly. However, most documentation in the world falls under the same category and it's good to learn to decipher and interpret more cryptic documentation.
 
-Morgan asennetaan kuten muutkin kirjastot, eli komennolla _npm install_ ja sen käyttöönotto tapahtuu kaikkien middlewarejen tapaan komennolla _app.use_
+<!-- Morgan asennetaan kuten muutkin kirjastot, eli komennolla _npm install_ ja sen käyttöönotto tapahtuu kaikkien middlewarejen tapaan komennolla _app.use_ -->
+Morgan is installed just like all other libraries with the _npm install_ command. Taking morgan into use happens the same as configuring any other middle by using the _app.use_ command.
 
-#### 3.8*: puhelinluettelon backend step8
+<!-- #### 3.8*: puhelinluettelon backend step8 -->
+#### 3.8*: Phonebook backend step8
 
-Konfiguroi morgania siten, että se näyttää myös HTTP POST -pyyntöjen mukana tulevan datan:
+<!-- Konfiguroi morgania siten, että se näyttää myös HTTP POST -pyyntöjen mukana tulevan datan: -->
+Configure morgan so that it also shows the data sent in HTTP POST requests:
 
 ![](../images/3/24.png)
 
-Tämä tehtävä on kohtuullisen haastava vaikka koodia ei tarvitakkaan paljoa. 
+<!-- Tämä tehtävä on kohtuullisen haastava vaikka koodia ei tarvitakkaan paljoa.  -->
+This exercise can be quite challenging even though the solution does not require a lot of code.
 
-Tehtävän voi tehdä muutamallakin tavalla, eräs näistä onnistuu hyödyntämällä seuraavia
+<!-- Tehtävän voi tehdä muutamallakin tavalla, eräs näistä onnistuu hyödyntämällä seuraavia -->
+This exercise can be completed in a few different ways. One of the possible solutions utilizes these two techniques:
 - [creating new tokens](https://github.com/expressjs/morgan#creating-new-tokens)
 - [JSON.stringify](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
 
