@@ -525,13 +525,17 @@ const response = await notes[0].remove()
 console.log('the first note is removed')
 ```
 
-Koodi siis yksinkertaistuu huomattavasti verrattuna promiseja käyttävään then-ketjuun.
+<!-- Koodi siis yksinkertaistuu huomattavasti verrattuna promiseja käyttävään then-ketjuun. -->
+Thanks to the new syntax the code is a lot simpler than the previous then-chain.
 
-Awaitin käyttöön liittyy parikin tärkeää seikkaa. Jotta asynkronisia operaatioita voi kutsua awaitin avulla, niiden täytyy palauttaa promiseja. Tämä ei sinänsä ole ongelma, sillä myös "normaaleja" callbackeja käyttävä asynkroninen koodi on helppo kääriä promiseksi.
+<!-- Awaitin käyttöön liittyy parikin tärkeää seikkaa. Jotta asynkronisia operaatioita voi kutsua awaitin avulla, niiden täytyy palauttaa promiseja. Tämä ei sinänsä ole ongelma, sillä myös "normaaleja" callbackeja käyttävä asynkroninen koodi on helppo kääriä promiseksi. -->
+There are a few important details to pay attention to when using async/await syntax. In order to use the await operator with asynchronous operations they have to return a promise. This is not a problem as such, as regular asynchronous functions using callbacks are easy to wrap around promises.
 
-Mistä tahansa kohtaa Javascript-koodia ei awaitia kuitenkaan pysty käyttämään. Awaitin käyttö onnistuu ainoastaan jos ollaan [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)-funktiossa.
+<!-- Mistä tahansa kohtaa Javascript-koodia ei awaitia kuitenkaan pysty käyttämään. Awaitin käyttö onnistuu ainoastaan jos ollaan [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)-funktiossa. -->
+The await keyword can't be used just anywhere in JavaScript code. Using await is possible only inside of an [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) function.
 
-Eli jotta edelliset esimerkit toimisivat, on ne suoritettava async-funktioiden sisällä, huomaa funktion määrittelevä rivi:
+<!-- Eli jotta edelliset esimerkit toimisivat, on ne suoritettava async-funktioiden sisällä, huomaa funktion määrittelevä rivi: -->
+This means that in order for the previous examples to work they have to be using async functions. Notice the first line in the arrow function definition:
 
 ```js
 const main = async () => { // highlight-line
@@ -547,13 +551,17 @@ const main = async () => { // highlight-line
 main() // highlight-line
 ```
 
-Koodi määrittelee ensin asynkronisen funktion, joka sijoitetaan muuttujaan _main_. Määrittelyn jälkeen koodi kutsuu metodia komennolla <code>main()</code>
+<!-- Koodi määrittelee ensin asynkronisen funktion, joka sijoitetaan muuttujaan _main_. Määrittelyn jälkeen koodi kutsuu metodia komennolla <code>main()</code> -->
+The code declares that the function assigned to _main_ is asynchronous. After this the code calls the function with <code>main()</code>.
 
-### async/await backendissä
+<!-- ### async/await backendissä -->
+### async/await in the backend
 
-Muutetaan nyt backend käyttämään asyncia ja awaitia. Koska kaikki asynkroniset operaatiot tehdään joka tapauksessa funktioiden sisällä, awaitin käyttämiseen riittää, että muutamme routejen käsittelijät async-funktioiksi.
+<!-- Muutetaan nyt backend käyttämään asyncia ja awaitia. Koska kaikki asynkroniset operaatiot tehdään joka tapauksessa funktioiden sisällä, awaitin käyttämiseen riittää, että muutamme routejen käsittelijät async-funktioiksi. -->
+Let's change the backend to async and await. As all of the asynchronous operations are currently done inside of a function, it is enough to change the route handler functions into async functions.
 
-Kaikkien muistiinpanojen hakemisesta vastaava route muuttuu seuraavasti:
+<!-- Kaikkien muistiinpanojen hakemisesta vastaava route muuttuu seuraavasti: -->
+The route for fetching all notes gets changed to the following:
 
 ```js
 notesRouter.get('/', async (request, response) => { 
@@ -562,15 +570,20 @@ notesRouter.get('/', async (request, response) => {
 })
 ```
 
-Voimme varmistaa refaktoroinnin onnistumisen selaimella, sekä suorittamalla juuri määrittelemämme testit.
+<!-- Voimme varmistaa refaktoroinnin onnistumisen selaimella, sekä suorittamalla juuri määrittelemämme testit. -->
+We can verify that our refactoring was successful by testing the endpoint through the browser and by running the tests that we wrote earlier.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-3), branchissa <i>part4-3</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-3), branchissa <i>part4-3</i>. -->
+You can find the code for our current application in its entirety in the <i>part4-3</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-3).
 
-### Lisää testejä ja backendin refaktorointia
+<!-- ### Lisää testejä ja backendin refaktorointia -->
+### More tests and refactoring the backend
 
-Koodia refaktoroidessa vaanii aina [regression](https://en.wikipedia.org/wiki/Regression_testing) vaara, eli on olemassa riski, että jo toimineet ominaisuudet hajoavat. Tehdäänkin muiden operaatioiden refaktorointi siten, että ennen koodin muutosta tehdään jokaiselle API:n routelle sen toiminnallisuuden varmistavat testit.
+<!-- Koodia refaktoroidessa vaanii aina [regression](https://en.wikipedia.org/wiki/Regression_testing) vaara, eli on olemassa riski, että jo toimineet ominaisuudet hajoavat. Tehdäänkin muiden operaatioiden refaktorointi siten, että ennen koodin muutosta tehdään jokaiselle API:n routelle sen toiminnallisuuden varmistavat testit. -->
+When code gets refactored there is always the risk of [regression](https://en.wikipedia.org/wiki/Regression_testing), meaning that existing functionality may break. Let's refactor the remaining operations by first writing a test for each route of the API.
 
-Aloitetaan lisäysoperaatiosta. Tehdään testi, joka lisää uuden muistiinpanon ja tarkistaa, että API:n palauttamien muistiinpanojen määrä kasvaa, ja että lisätty muistiinpano on palautettujen joukossa:
+<!-- Aloitetaan lisäysoperaatiosta. Tehdään testi, joka lisää uuden muistiinpanon ja tarkistaa, että API:n palauttamien muistiinpanojen määrä kasvaa, ja että lisätty muistiinpano on palautettujen joukossa: -->
+Let's start with the operation for adding a new note. Let's write a test that adds a new note and verifies that the amount of notes returned by the API increases, and that the newly added note is in the list.
 
 ```js
 test('a valid note can be added ', async () => {
@@ -596,9 +609,11 @@ test('a valid note can be added ', async () => {
 })
 ```
 
-Kuten odotimme ja toivoimme, menee testi läpi.
+<!-- Kuten odotimme ja toivoimme, menee testi läpi. -->
+The test passes just like we hoped and expected it to.
 
-Tehdään myös testi, joka varmistaa, että muistiinpanoa, jolle ei ole asetettu sisältöä, ei talleteta
+<!-- Tehdään myös testi, joka varmistaa, että muistiinpanoa, jolle ei ole asetettu sisältöä, ei talleteta -->
+Let's also write a test that verifies that a note without content will not be saved into the database.
 
 ```js
 test('note without content is not added', async () => {
@@ -617,13 +632,15 @@ test('note without content is not added', async () => {
 })
 ```
 
-Molemmat testit tarkastavat lisäyksen jälkeen mihin tilaan tietokanta on päätynyt hakemalla kaikki sovelluksen muistiinpanot
+<!-- Molemmat testit tarkastavat lisäyksen jälkeen mihin tilaan tietokanta on päätynyt hakemalla kaikki sovelluksen muistiinpanot -->
+Both tests check the state stored in the database after the saving operation, by fetching all the notes of the application.  
 
 ```js
 const response = await api.get('/api/notes')
 ```
 
-Sama tulee toistumaan myöhemminkin monissa testeissä ja operaatio kannattaakin eristää apufunktioon. Sijoitetaan se testien yhteyteen tiedostoon <i>tests/test_helper.js</i> 
+<!-- Sama tulee toistumaan myöhemminkin monissa testeissä ja operaatio kannattaakin eristää apufunktioon. Sijoitetaan se testien yhteyteen tiedostoon <i>tests/test_helper.js</i>  -->
+The same verification steps will repeat in other tests later on, and it is a good idea to extract these steps into helper functions. Let's add the function into a new file called <i>tests/test_helper.js</i> that is in the same directory as the test file.
 
 ```js
 const Note = require('../models/note')
@@ -657,9 +674,11 @@ module.exports = {
 }
 ```
 
-Moduuli määrittelee funktion _notesInDb_, jonka avulla voidaan tarkastaa sovelluksen tietokannassa olevat muistiinpanot. Tietokantaan alustettava sisältö _initialNotes_ on siirretty samaan tiedostoon. Määrittelimme myös tulevan varalta funktion _nonExistingId_, jonka avulla on mahdollista luoda tietokantaid, joka ei kuulu millekään kannassa olevalle oliolle.
+<!-- Moduuli määrittelee funktion _notesInDb_, jonka avulla voidaan tarkastaa sovelluksen tietokannassa olevat muistiinpanot. Tietokantaan alustettava sisältö _initialNotes_ on siirretty samaan tiedostoon. Määrittelimme myös tulevan varalta funktion _nonExistingId_, jonka avulla on mahdollista luoda tietokantaid, joka ei kuulu millekään kannassa olevalle oliolle. -->
+The module defines the _notesInDb_ function that can be used for checking the notes stored in the database. The _initialNotes_ array containing the initial database state is also in the module. We also define the _nonExistingId_ function ahead of time, that can be used for creating a database object ID that does not belong to any note object in the database.
 
-Testit muuttuvat muotoon
+<!-- Testit muuttuvat muotoon -->
+Our tests can now use helper module and be changed like this:
 
 ```js
 const supertest = require('supertest')
@@ -744,9 +763,11 @@ afterAll(() => {
 }) 
 ```
 
-Promiseja käyttävä koodi toimii nyt ja testitkin menevät läpi. Olemme valmiit muuttamaan koodin käyttämään async/await-syntaksia.
+<!-- Promiseja käyttävä koodi toimii nyt ja testitkin menevät läpi. Olemme valmiit muuttamaan koodin käyttämään async/await-syntaksia. -->
+The code using promises works and the tests pass. We are ready to refactor our code to use the async/await syntax.
 
-Koodi muuttuu seuraavasti (huomaa, että käsittelijän alkuun on laitettava määre _async_):
+<!-- Koodi muuttuu seuraavasti (huomaa, että käsittelijän alkuun on laitettava määre _async_): -->
+We make the following changes to our code (notice that the route handler definition is preceded by the _async_ keyword):
 
 ```js
 notesRouter.post('/', async (request, response, next) => {
@@ -763,17 +784,22 @@ notesRouter.post('/', async (request, response, next) => {
 })
 ```
 
-Koodiin jää kuitenkin pieni ongelma: virhetilanteita ei nyt käsitellä ollenkaan. Miten niiden suhteen tulisi toimia?
+<!-- Koodiin jää kuitenkin pieni ongelma: virhetilanteita ei nyt käsitellä ollenkaan. Miten niiden suhteen tulisi toimia? -->
+There's a slight problem with our code: we don't handle error situations. How should we deal with them?
 
-### virheiden käsittely ja async/await
+<!-- ### virheiden käsittely ja async/await -->
+### Error handling and async/await
 
-Jos sovellus POST-pyyntöä käsitellessään aiheuttaa jonkinlaisen ajonaikaisen virheen, syntyy jälleen tuttu tilanne:
+<!-- Jos sovellus POST-pyyntöä käsitellessään aiheuttaa jonkinlaisen ajonaikaisen virheen, syntyy jälleen tuttu tilanne: -->
+If there's an exception while handling the POST request we end up in a familiar situation:
 
 ![](../images/4/6.png)
 
-eli käsittelemätön promisen rejektoituminen. Pyyntöön ei vastata tilanteessa mitenkään.
+<!-- eli käsittelemätön promisen rejektoituminen. Pyyntöön ei vastata tilanteessa mitenkään. -->
+In other words we end up with an unhandled promise rejection, and the request never receives a response.
 
-Async/awaitia käyttäessä kannattaa käyttää vanhaa kunnon _try/catch_-mekanismia virheiden käsittelyyn:
+<!-- Async/awaitia käyttäessä kannattaa käyttää vanhaa kunnon _try/catch_-mekanismia virheiden käsittelyyn: -->
+With async/await the recommended way of dealing with exceptions is the old and familiar _try/catch_ mechanism:
 
 ```js
 notesRouter.post('/', async (request, response, next) => {
@@ -795,11 +821,14 @@ notesRouter.post('/', async (request, response, next) => {
 })
 ```
 
-Catch-lohkossa siis ainoastaan kutsutaan funktiota _next_ siirretään poikkeuksen käsittely virheidenkäsittelymiddlewarelle.
+<!-- Catch-lohkossa siis ainoastaan kutsutaan funktiota _next_ siirretään poikkeuksen käsittely virheidenkäsittelymiddlewarelle. -->
+The catch block simply calls the _next_ function, which passes the request handling to the error handling middleware.
 
-Muutoksen jälkeen testit menevät läpi.
+<!-- Muutoksen jälkeen testit menevät läpi. -->
+After making the change, all of our tests will pass once again.
 
-Tehdään sitten testit yksittäisen muistiinpanon tietojen katsomiselle ja muistiinpanon poistolle:
+<!-- Tehdään sitten testit yksittäisen muistiinpanon tietojen katsomiselle ja muistiinpanon poistolle: -->
+Next, let's write tests for fetching and removing an individual note:
 
 ```js
 test('a specific note can be viewed', async () => {
@@ -839,9 +868,11 @@ test('a note can be deleted', async () => {
 })
 ```
 
-Molemmat testit ovat rakenteeltaan samankaltaisia. Alustusvaiheessa ne hakevat kannasta yksittäisen muistiinpanon. Tämän jälkeen on itse testattava operaatio, joka on koodissa korostettuna. Lopussa tarkastetaan, että operaation tulos on haluttu. 
+<!-- Molemmat testit ovat rakenteeltaan samankaltaisia. Alustusvaiheessa ne hakevat kannasta yksittäisen muistiinpanon. Tämän jälkeen on itse testattava operaatio, joka on koodissa korostettuna. Lopussa tarkastetaan, että operaation tulos on haluttu.  -->
+Both tests share a similar structure. In the initialization phase they fetch a note from the database. After this the tests call the actual operation being tested, which is highlighted in the code block. Lastly, the tests verify that the outcome of the operation is as expected.
 
-Testit menevät läpi, joten voimme turvallisesti refaktoroida testatut routet käyttämään async/awaitia:
+<!-- Testit menevät läpi, joten voimme turvallisesti refaktoroida testatut routet käyttämään async/awaitia: -->
+The tests pass and we can safely refactor the tested routes to use async/await:
 
 ```js
 notesRouter.get('/:id', async (request, response, next) => {
@@ -867,7 +898,8 @@ notesRouter.delete('/:id', async (request, response, next) => {
 })
 ```
 
-Async/await ehkä selkeyttää koodia jossain määrin, mutta saavutettava hyöty ei ole sovelluksessamme vielä niin iso mitä se tulee olemaan jos asynkronisia kutsuja on tehtävä useampia. Async/awaitin 'hinta' on poikkeusten käsittelyn edellyttämä iso <i>try/catch</i>-rakenne. Kaikki routejen käsittelijät noudattavatkin samaa kaavaa
+<!-- Async/await ehkä selkeyttää koodia jossain määrin, mutta saavutettava hyöty ei ole sovelluksessamme vielä niin iso mitä se tulee olemaan jos asynkronisia kutsuja on tehtävä useampia. Async/awaitin 'hinta' on poikkeusten käsittelyn edellyttämä iso <i>try/catch</i>-rakenne. Kaikki routejen käsittelijät noudattavatkin samaa kaavaa -->
+The async/await syntax makes the code somewhat clearer, but the experienced benefit of the syntax is not as great as it would be in the case of multiple asynchronous function calls. The price of the async/await syntax is the syntactically heavy <i>try/catch</i> block. All of the route handlers indeed share the structure:
 
 ```js
 try {
@@ -877,16 +909,20 @@ try {
 }
 ```
 
-Mieleen herää kysymys, olisiko koodia mahdollista refaktoroida siten, että <i>catch</i> saataisiin refaktoroitua ulos metodeista? Siihen on olemassa eräitä ratkaisuja mutta koska ne muuttavat koodia kompleksisemmaksi, jätämme sen ennalleen.
+<!-- Mieleen herää kysymys, olisiko koodia mahdollista refaktoroida siten, että <i>catch</i> saataisiin refaktoroitua ulos metodeista? Siihen on olemassa eräitä ratkaisuja mutta koska ne muuttavat koodia kompleksisemmaksi, jätämme sen ennalleen. -->
+This begs the question, would it be possible to refactor the repeated <i>catch</i> block out from the route handler functions? There are some existing ways of accomplishing this, but we will skip them due to their complexity.
 
-Kaikki eivät ole vakuuttuneita siitä, että async/await on hyvä lisä Javascriptiin, lue esim. [ES7 async functions - a step in the wrong direction](https://spion.github.io/posts/es7-async-await-step-in-the-wrong-direction.html)
+<!-- Kaikki eivät ole vakuuttuneita siitä, että async/await on hyvä lisä Javascriptiin, lue esim. [ES7 async functions - a step in the wrong direction](https://spion.github.io/posts/es7-async-await-step-in-the-wrong-direction.html) -->
+Not everyone is convinced that the async/await syntax is a good addition to JavaScript. To provide an example, you can read [ES7 async functions - a step in the wrong direction](https://spion.github.io/posts/es7-async-await-step-in-the-wrong-direction.html).
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-4), haarassa <i>part4-4</i>. Samassa on "vahingossa" mukana testeistä seuraavan luvun jälkeinen paranneltu versio.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-4), haarassa <i>part4-4</i>. Samassa on "vahingossa" mukana testeistä seuraavan luvun jälkeinen paranneltu versio. -->
+You can find the code for our current application in its entirety in the <i>part4-4</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-4). The same branch also contains a slightly improved version of tests from the next part of the course material.
 
+<!-- ### Testin beforeEach-metodin optimointi -->
+### Optimizing the beforeEach function
 
-### Testin beforeEach-metodin optimointi
-
-Palataan takaisin testien pariin, ja tarkastellaan määrittelemäämme testit alustavaa funktiota _beforeEach_:
+<!-- Palataan takaisin testien pariin, ja tarkastellaan määrittelemäämme testit alustavaa funktiota _beforeEach_: -->
+Let's return to writing our tests and take a closer look at the _beforeEach_ function that sets up the tests:
 
 ```js
 beforeEach(async () => {
@@ -900,7 +936,8 @@ beforeEach(async () => {
 })
 ```
 
-Funktio tallettaa tietokantaan taulukon _helper.initialNotes_ nollannen ja ensimmäisen alkion, kummankin erikseen taulukon alkioita indeksöiden. Ratkaisu on ok, mutta jos haluaisimme tallettaa alustuksen yhteydessä kantaan useampia alkioita, olisi toisto parempi ratkaisu:
+<!-- Funktio tallettaa tietokantaan taulukon _helper.initialNotes_ nollannen ja ensimmäisen alkion, kummankin erikseen taulukon alkioita indeksöiden. Ratkaisu on ok, mutta jos haluaisimme tallettaa alustuksen yhteydessä kantaan useampia alkioita, olisi toisto parempi ratkaisu: -->
+The function saves the first two notes from the   _helper.initialNotes_ array into the database with two separate operations. The solution is alright, but there's a better way of saving multiple objects to the database:
 
 ```js
 beforeEach(async () => {
@@ -921,9 +958,11 @@ test('notes are returned as json', async () => {
 }
 ```
 
-Talletamme siis taulukossa olevat muistiinpanot tietokantaan _forEach_-loopissa. Testeissä kuitenkin ilmenee jotain häikkää, ja sitä varten koodin sisään on lisätty aputulosteita.
+<!-- Talletamme siis taulukossa olevat muistiinpanot tietokantaan _forEach_-loopissa. Testeissä kuitenkin ilmenee jotain häikkää, ja sitä varten koodin sisään on lisätty aputulosteita. -->
+We save the notes stored in the array into the database inside of a _forEach_ loop. The tests don't quite seem to work however, so we have added some console logs to help us find the problem. 
 
-Konsoliin tulostuu
+<!-- Konsoliin tulostuu -->
+The console displays the following output:
 
 <pre>
 cleared
@@ -933,9 +972,11 @@ saved
 saved
 </pre>
 
-Yllättäen ratkaisu ei async/awaitista huolimatta toimi niin kuin oletamme, testin suoritus aloitetaan ennen kuin tietokannan tila on saatu alustettua!
+<!-- Yllättäen ratkaisu ei async/awaitista huolimatta toimi niin kuin oletamme, testin suoritus aloitetaan ennen kuin tietokannan tila on saatu alustettua! -->
+Despite our use of the async/await syntax our solution does not work like we expected it to. The test execution begins before the database is initialized!
 
-Ongelma on siinä, että jokainen forEach-loopin läpikäynti generoi oman asynkronisen operaation ja _beforeEach_ ei odota näiden suoritusta. Eli forEach:in sisällä olevat _await_-komennot eivät ole funktiossa _beforeEach_ vaan erillisissä funktioissa, joiden päättymistä _beforeEach_ ei odota.
+<!-- Ongelma on siinä, että jokainen forEach-loopin läpikäynti generoi oman asynkronisen operaation ja _beforeEach_ ei odota näiden suoritusta. Eli forEach:in sisällä olevat _await_-komennot eivät ole funktiossa _beforeEach_ vaan erillisissä funktioissa, joiden päättymistä _beforeEach_ ei odota. -->
+The problem is that every iteration of the forEach loop generates its own asynchronous operation and _beforeEach_ won't wait for them to finish executing. In other words, the _await_ commands defined inside of the _forEach_ loop are not in the _beforeEach_ function, but in separate functions that _beforeEach_ will not wait for.
 
 Koska testien suoritus alkaa heti _beforeEach_ metodin suorituksen jälkeen, testien suoritus ehditään aloittamaan ennen kuin tietokanta on alustettu toivottuun alkutilaan.
 
