@@ -54,7 +54,8 @@ Let's assume that the <i>users</i> collection contains two users:
 ];
 ```
 
-Kokoelmassa <i>notes</i> on kolme muistiinpanoa, kaikkien kenttä <i>user</i> viittaa <i>users</i>-kentässä olevaan käyttäjään:
+<!-- Kokoelmassa <i>notes</i> on kolme muistiinpanoa, kaikkien kenttä <i>user</i> viittaa <i>users</i>-kentässä olevaan käyttäjään: -->
+The <i>notes</i> collection contains three notes that all have a <i>user</i> field that references a user in the <i>users</i> collection:
 
 ```js
 [
@@ -79,7 +80,8 @@ Kokoelmassa <i>notes</i> on kolme muistiinpanoa, kaikkien kenttä <i>user</i> vi
 ];
 ```
 
-Mikään ei kuitenkaan määrää dokumenttitietokannoissa, että viitteet on talletettava muistiinpanoihin, ne voivat olla <i>myös</i> (tai ainoastaan) käyttäjien yhteydessä:
+<!-- Mikään ei kuitenkaan määrää dokumenttitietokannoissa, että viitteet on talletettava muistiinpanoihin, ne voivat olla <i>myös</i> (tai ainoastaan) käyttäjien yhteydessä: -->
+Document databases do not demand the foreign key to be stored in the note resources, they could <i>also</i> be stored in the users collection, or even both:
 
 ```js
 [
@@ -96,9 +98,11 @@ Mikään ei kuitenkaan määrää dokumenttitietokannoissa, että viitteet on ta
 ];
 ```
 
-Koska käyttäjiin liittyy potentiaalisesti useita muistiinpanoja, niiden id:t talletetaan käyttäjän kentässä <i>notes</i> olevaan taulukkoon.
+<!-- Koska käyttäjiin liittyy potentiaalisesti useita muistiinpanoja, niiden id:t talletetaan käyttäjän kentässä <i>notes</i> olevaan taulukkoon. -->
+Since users can have many notes, the related ids are stored in an array in the <i>notes</i> field.
 
-Dokumenttitietokannat tarjoavat myös radikaalisti erilaisen tavan datan organisointiin; joissain tilanteissa saattaisi olla mielekästä tallettaa muistiinpanot kokonaisuudessa käyttäjien sisälle:
+<!-- Dokumenttitietokannat tarjoavat myös radikaalisti erilaisen tavan datan organisointiin; joissain tilanteissa saattaisi olla mielekästä tallettaa muistiinpanot kokonaisuudessa käyttäjien sisälle: -->
+Document databases offer a radically different way of organizing data.  In some situations it might even be beneficial to nest the entire notes array as a part of the documents in the users collection:
 
 ```js
 [
@@ -130,15 +134,20 @@ Dokumenttitietokannat tarjoavat myös radikaalisti erilaisen tavan datan organis
 ];
 ```
 
-Muistiinpanot olisivat tässä skeemaratkaisussa siis yhteen käyttäjään alisteisia kenttiä, niillä ei olisi edes omaa identiteettiä, eli id:tä tietokannan tasolla.
+<!-- Muistiinpanot olisivat tässä skeemaratkaisussa siis yhteen käyttäjään alisteisia kenttiä, niillä ei olisi edes omaa identiteettiä, eli id:tä tietokannan tasolla. -->
+In this schema notes would be tightly nested under users and the database would not generate ids for them.
 
-Dokumenttitietokantojen yhteydessä skeeman rakenne ei siis ole ollenkaan samalla tavalla ilmeinen kuin relaatiotietokannoissa, ja valittava ratkaisu kannattaa määritellä siten että se tukee parhaalla tavalla sovelluksen käyttötapauksia. Tämä ei luonnollisestikaan ole helppoa, sillä järjestelmän kaikki käyttötapaukset eivät yleensä ole selvillä kun projektin alkuvaiheissa mietitään datan organisointitapaa.
+<!-- Dokumenttitietokantojen yhteydessä skeeman rakenne ei siis ole ollenkaan samalla tavalla ilmeinen kuin relaatiotietokannoissa, ja valittava ratkaisu kannattaa määritellä siten että se tukee parhaalla tavalla sovelluksen käyttötapauksia. Tämä ei luonnollisestikaan ole helppoa, sillä järjestelmän kaikki käyttötapaukset eivät yleensä ole selvillä kun projektin alkuvaiheissa mietitään datan organisointitapaa. -->
+The structure and schema of the database is not as self-evident as it was with relational databases. The choice of schema must be one that supports the use cases of the application the best. This is not a simple design decision to make, as all use cases of the applications are not known when the design decision is made.
 
-Hieman paradoksaalisesti tietokannan tasolla skeematon Mongo edellyttääkin projektin alkuvaiheissa jopa radikaalimpien datan organisoimiseen liittyvien ratkaisujen tekemistä kuin tietokannan tasolla skeemalliset relaatiotietokannat, jotka tarjoavat keskimäärin kaikkiin tilanteisiin melko hyvin sopivan tavan organisoida dataa.
+<!-- Hieman paradoksaalisesti tietokannan tasolla skeematon Mongo edellyttääkin projektin alkuvaiheissa jopa radikaalimpien datan organisoimiseen liittyvien ratkaisujen tekemistä kuin tietokannan tasolla skeemalliset relaatiotietokannat, jotka tarjoavat keskimäärin kaikkiin tilanteisiin melko hyvin sopivan tavan organisoida dataa. -->
+Paradoxically, schema-less databases like Mongo require developers to make far more radical design decisions about data organization at the beginning of the project than relational databases with schemas. On average, relational databases offer a more-or-less suitable way of organizing data for many applications.
 
-### Käyttäjien mongoose-skeema
+<!-- ### Käyttäjien mongoose-skeema -->
+### Mongoose schema for users
 
-Päätetään tallettaa käyttäjän yhteyteen myös tieto käyttäjän luomista muistiinpanoista, eli käytännössä muistiinpanojen id:t. Määritellään käyttäjää edustava model tiedostoon <i>models/user.js</i>
+<!-- Päätetään tallettaa käyttäjän yhteyteen myös tieto käyttäjän luomista muistiinpanoista, eli käytännössä muistiinpanojen id:t. Määritellään käyttäjää edustava model tiedostoon <i>models/user.js</i> -->
+In this case, we make the decision to store the ids of the notes created by the user in the user document. Let's define the model for representing a user in the <i>models/user.js</i> file:
 
 ```js
 const mongoose = require('mongoose')
@@ -170,7 +179,8 @@ const User = mongoose.model('User', userSchema)
 module.exports = User
 ```
 
-Muistiinpanojen id:t on talletettu käyttäjien sisälle taulukkona mongo-id:itä. Määrittely on seuraava
+<!-- Muistiinpanojen id:t on talletettu käyttäjien sisälle taulukkona mongo-id:itä. Määrittely on seuraava -->
+The ids of the notes are stored within the user document as an array of Mongo ids. The definition is as follows:
 
 ```js
 {
@@ -179,9 +189,11 @@ Muistiinpanojen id:t on talletettu käyttäjien sisälle taulukkona mongo-id:it�
 }
 ```
 
-kentän tyyppi on <i>ObjectId</i> joka viittaa <i>note</i>-tyyppisiin dokumentteihin. Mongo ei itsessään tiedä mitään siitä, että kyse on kentästä, joka viittaa nimenomaan muistiinpanoihin, kyseessä onkin puhtaasti mongoosen syntaksi.
+<!-- kentän tyyppi on <i>ObjectId</i> joka viittaa <i>note</i>-tyyppisiin dokumentteihin. Mongo ei itsessään tiedä mitään siitä, että kyse on kentästä, joka viittaa nimenomaan muistiinpanoihin, kyseessä onkin puhtaasti mongoosen syntaksi. -->
+The type of the field is <i>ObjectId</i> that references <i>note</i>-style documents. Mongo does not inherently know that this is a field that references notes, this syntax is purely related to and defined by Mongoose.
 
-Laajennetaan tiedostossa <i>model/note.js</i> olevaa muistiinpanon skeemaa siten, että myös muistiinpanossa on tieto sen luoneesta käyttäjästä
+<!-- Laajennetaan tiedostossa <i>model/note.js</i> olevaa muistiinpanon skeemaa siten, että myös muistiinpanossa on tieto sen luoneesta käyttäjästä -->
+Let's expand the schema of the note defined in the <i>model/note.js</i> file, so that the note contains information about the user who created it:
 
 ```js
 const noteSchema = new mongoose.Schema({
@@ -201,21 +213,27 @@ const noteSchema = new mongoose.Schema({
 })
 ```
 
-Relaatiotietokantojen käytänteistä poiketen <i>viitteet on nyt talletettu molempiin dokumentteihin</i>, muistiinpano viittaa sen luoneeseen käyttäjään ja käyttäjä sisältää taulukollisen viitteitä sen luomiin muistiinpanoihin.
+<!-- Relaatiotietokantojen käytänteistä poiketen <i>viitteet on nyt talletettu molempiin dokumentteihin</i>, muistiinpano viittaa sen luoneeseen käyttäjään ja käyttäjä sisältää taulukollisen viitteitä sen luomiin muistiinpanoihin. -->
+In stark contrast to the conventions of relational databases, <i>references are now stored in both documents</i>, the note references the user who created it, and the user has an array of references to all of the notes created by the user.
 
-### Käyttäjien luominen
+<!-- ### Käyttäjien luominen -->
+### Creating users
 
-Toteutetaan seuraavaksi route käyttäjien luomista varten. Käyttäjällä on siis <i>username</i> jonka täytyy olla järjestelmässä yksikäsitteinen, nimi eli <i>name</i> sekä <i>passwordHash</i>, eli salasanasta [yksisuuntaisen funktion](https://en.wikipedia.org/wiki/Cryptographic_hash_function) perusteella laskettu tunniste. Salasanojahan ei ole koskaan viisasta tallentaa tietokantaan selväsanaisena!
+<!-- Toteutetaan seuraavaksi route käyttäjien luomista varten. Käyttäjällä on siis <i>username</i> jonka täytyy olla järjestelmässä yksikäsitteinen, nimi eli <i>name</i> sekä <i>passwordHash</i>, eli salasanasta [yksisuuntaisen funktion](https://en.wikipedia.org/wiki/Cryptographic_hash_function) perusteella laskettu tunniste. Salasanojahan ei ole koskaan viisasta tallentaa tietokantaan selväsanaisena! -->
+Let's implement a route for creating new users. Users have a unique <i>username</i>, a <i>name</i> and something called a <i>passwordHash</i>. The password hash is the output of a [one-way hash function](https://en.wikipedia.org/wiki/Cryptographic_hash_function) applied to the user's password. It is never wise to store unencrypted plaintext passwords in the database!
 
-Asennetaan salasanojen hashaamiseen käyttämämme [bcrypt](https://github.com/kelektiv/node.bcrypt.js)-kirjasto:
+<!-- Asennetaan salasanojen hashaamiseen käyttämämme [bcrypt](https://github.com/kelektiv/node.bcrypt.js)-kirjasto: -->
+Let's install the [bcrypt](https://github.com/kelektiv/node.bcrypt.js) package for generating the password hash for users:
 
 ```bash
 npm install bcrypt --save
 ```
 
-Käyttäjien luominen tapahtuu osassa 3 läpikäytyjä [RESTful](/osa3/node_js_ja_express#rest)-periaatteita seuraten tekemällä HTTP POST -pyyntö polkuun <i>users</i>.
+<!-- Käyttäjien luominen tapahtuu osassa 3 läpikäytyjä [RESTful](/osa3/node_js_ja_express#rest)-periaatteita seuraten tekemällä HTTP POST -pyyntö polkuun <i>users</i>. -->
+Creating new users happens in compliance with the RESTful conventions discussed in [part 3](/osa3/node_js_ja_express#rest), by making an HTTP POST request to the <i>users</i> path.
 
-Määritellään käyttäjienhallintaa varten oma <i>router</i> tiedostoon <i>controllers/users.js</i>, ja liitetään se <i>app.js</i>-tiedostossa huolehtimaan polulle <i>/api/users/</i> tulevista pyynnöistä:
+<!-- Määritellään käyttäjienhallintaa varten oma <i>router</i> tiedostoon <i>controllers/users.js</i>, ja liitetään se <i>app.js</i>-tiedostossa huolehtimaan polulle <i>/api/users/</i> tulevista pyynnöistä: -->
+Let's define a separate <i>router</i> for dealing with users in a new <i>controllers/users.js</i> file. Let's take the router into use in our application in the <i>app.js</i> file, so that it handles requests made to the <i>/api/users</i> url:
 
 ```js
 const usersRouter = require('./controllers/users')
@@ -225,7 +243,8 @@ const usersRouter = require('./controllers/users')
 app.use('/api/users', usersRouter)
 ```
 
-Routerin alustava sisältö on seuraava:
+<!-- Routerin alustava sisältö on seuraava: -->
+The contents of the file that define the router are as follows:
 
 ```js
 const bcrypt = require('bcrypt')
@@ -256,9 +275,11 @@ usersRouter.post('/', async (request, response, next) => {
 module.exports = usersRouter
 ```
 
-Tietokantaan siis <i>ei</i> talleteta pyynnön mukana tulevaa salasanaa, vaan funktion _bcrypt.hash_ avulla laskettu <i>hash</i>.
+<!-- Tietokantaan siis <i>ei</i> talleteta pyynnön mukana tulevaa salasanaa, vaan funktion _bcrypt.hash_ avulla laskettu <i>hash</i>. -->
+The password sent in the request is <i>not</i> stored in the database. We store the <i>hash</i> of the password that is generated with the _bcrypt.hash_ function.
 
-Materiaalin tilamäärä ei valitettavasti riitä käsittelemään sen tarkemmin salasanojen [tallennuksen perusteita](https://codahale.com/how-to-safely-store-a-password/), esim. mitä maaginen luku 10 muuttujan [saltRounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds) arvona tarkoittaa. Lue linkkien takaa lisää.
+<!-- Materiaalin tilamäärä ei valitettavasti riitä käsittelemään sen tarkemmin salasanojen [tallennuksen perusteita](https://codahale.com/how-to-safely-store-a-password/), esim. mitä maaginen luku 10 muuttujan [saltRounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds) arvona tarkoittaa. Lue linkkien takaa lisää. -->
+The fundamentals of [storing passwords](https://codahale.com/how-to-safely-store-a-password/) is outside the scope of this course material. We will not discuss what the magic number 10 assigned to the [saltRounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds) variable means, but you can read more about it in the linked material.
 
 Koodissa ei tällä hetkellä ole mitään virheidenkäsittelyä eikä validointeja, eli esim. käyttäjätunnuksen ja salasanan halutun muodon tarkastuksia.
 
