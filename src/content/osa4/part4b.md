@@ -1030,21 +1030,30 @@ The asynchronous nature of JavaScript can lead to surprising behavior and for th
 
 **Huom:** materiaalissa käytetään muutamaan kertaan matcheria [toContain](https://facebook.github.io/jest/docs/en/expect.html#tocontainitem) tarkastettaessa, että jokin arvo on taulukossa. Kannattaa huomata, että metodi käyttää samuuden vertailuun ===-operaattoria ja olioiden kohdalla tämä ei ole useinkaan se mitä halutaan ja parempi vaihtoehto onkin [toContainEqual](https://facebook.github.io/jest/docs/en/expect.html#tocontainequalitem). Tosin mallivastauksissa ei vertailla kertaakaan olioita matcherien avulla, joten ilmankin selviää varsin hyvin.
 
-**Varoitus:** Jos huomaat kirjoittavasi sekaisin async/awaitia ja <i>then</i>-kutsuja, on 99% varmaa, että teet jotain väärin. Käytä siis jompaa kumpaa tapaa, älä missään tapauksessa "varalta" molempia.
+**NB:** the material uses the [toContain](https://facebook.github.io/jest/docs/en/expect.html#tocontainitem) matcher in several places to verify that an array contains a specific element. It's worth noting that the method uses the === operator for comparing and matching elements, which means that it is often not well-suited for matching objects. In most cases the appropriate method for verifying objects in arrays is the [toContainEqual](https://facebook.github.io/jest/docs/en/expect.html#tocontainequalitem) matcher. The model solutions don't check for objects in arrays with matchers, so using the method is not required for solving the exercises.
 
-#### 4.8: blogilistan testit, step 1
+<!-- **Varoitus:** Jos huomaat kirjoittavasi sekaisin async/awaitia ja <i>then</i>-kutsuja, on 99% varmaa, että teet jotain väärin. Käytä siis jompaa kumpaa tapaa, älä missään tapauksessa "varalta" molempia. -->
+**Warning:** If you find yourself using async/await and <i>then</i> methods in the same code, it is almost guaranteed that you are doing something wrong. Use one or the other and don't mix the two.
 
-Tee supertest-kirjastolla testit blogilistan osoitteeseen <i>/api/blogs</i> tapahtuvalle HTTP GET -pyynnölle. Testaa, että sovellus palauttaa oikean määrän JSON-muotoisia blogeja. 
+<!-- #### 4.8: blogilistan testit, step 1 -->
+#### 4.8: Blog list tests, step 1
 
-Kun testi on valmis, refaktoroi operaatio käyttämään promisejen sijaan async/awaitia.
+<!-- Tee supertest-kirjastolla testit blogilistan osoitteeseen <i>/api/blogs</i> tapahtuvalle HTTP GET -pyynnölle. Testaa, että sovellus palauttaa oikean määrän JSON-muotoisia blogeja.  -->
+Use the supertest package for writing a test that makes an HTTP GET request to the <i>/api/blogs</i> url. Verify that the blog list application returns the correct amount of blog posts in the JSON format.
 
-Huomaa, että joudut tekemään koodiin [materiaalin tapaan](/osa4/backendin_testaaminen#test-ymparisto) hieman muutoksia (mm. testausympäristön määrittely), jotta saat järkevästi tehtyä omaa tietokantaa käyttäviä API-tason testejä.
+<!-- Kun testi on valmis, refaktoroi operaatio käyttämään promisejen sijaan async/awaitia. -->
+Once the test is finished, refactor the route handler to use the async/await syntax instead of promises.
 
-**Huom1:** Testejä suorittaessa saatat törmätä seuraavaan varoitukseen
+<!-- Huomaa, että joudut tekemään koodiin [materiaalin tapaan](/osa4/backendin_testaaminen#test-ymparisto) hieman muutoksia (mm. testausympäristön määrittely), jotta saat järkevästi tehtyä omaa tietokantaa käyttäviä API-tason testejä. -->
+Notice that you will have to make similar changes to the code that were made [in the material](/osa4/backendin_testaaminen#test-ymparisto), like defining the test environment so that you can write tests that use their own separate database.
+
+<!-- **Huom1:** Testejä suorittaessa saatat törmätä seuraavaan varoitukseen -->
+**NB:** When running the tests you may run into the following warning:
 
 ![](../images/4/8a.png)
 
-Jos näin käy, toimi [ohjeen](https://mongoosejs.com/docs/jest.html) mukaan ja lisää projektin hakemiston juureen tiedosto <i>jest.config.js</i> jolla on seuraava sisältö:
+<!-- Jos näin käy, toimi [ohjeen](https://mongoosejs.com/docs/jest.html) mukaan ja lisää projektin hakemiston juureen tiedosto <i>jest.config.js</i> jolla on seuraava sisältö: -->
+If this happens, follow the [instructions](https://mongoosejs.com/docs/jest.html) and create a new <i>jest.config.js</i> file at the root of the project with the following contents:
 
 ```js
 module.exports = {
@@ -1052,7 +1061,9 @@ module.exports = {
 }
 ```
 
-**Huom2:** testien kehitysvaiheessa yleensä **<i>ei kannata suorittaa joka kerta kaikkia testejä</i>**, vaan keskittyä yhteen testiin kerrallaan. Katso lisää [täältä](/osa4/backendin_testaaminen#testien-suorittaminen-yksitellen).
+<!-- **Huom2:** testien kehitysvaiheessa yleensä **<i>ei kannata suorittaa joka kerta kaikkia testejä</i>**, vaan keskittyä yhteen testiin kerrallaan. Katso lisää [täältä](/osa4/backendin_testaaminen#testien-suorittaminen-yksitellen). -->
+
+**NB:** when yo are writing your tests **<i>it is better to not execute all of your tests</i>**, only execute the ones you are working on. Read more about this [here](/osa4/backendin_testaaminen#testien-suorittaminen-yksitellen).
 
 #### 4.9*: blogilistan testit, step2
 
