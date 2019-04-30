@@ -1036,7 +1036,7 @@ The asynchronous nature of JavaScript can lead to surprising behavior and for th
 **Warning:** If you find yourself using async/await and <i>then</i> methods in the same code, it is almost guaranteed that you are doing something wrong. Use one or the other and don't mix the two.
 
 <!-- #### 4.8: blogilistan testit, step 1 -->
-#### 4.8: Blog list tests, step 1
+#### 4.8: Blog list tests, step1
 
 <!-- Tee supertest-kirjastolla testit blogilistan osoitteeseen <i>/api/blogs</i> tapahtuvalle HTTP GET -pyynnölle. Testaa, että sovellus palauttaa oikean määrän JSON-muotoisia blogeja.  -->
 Use the supertest package for writing a test that makes an HTTP GET request to the <i>/api/blogs</i> url. Verify that the blog list application returns the correct amount of blog posts in the JSON format.
@@ -1065,39 +1065,54 @@ module.exports = {
 
 **NB:** when yo are writing your tests **<i>it is better to not execute all of your tests</i>**, only execute the ones you are working on. Read more about this [here](/osa4/backendin_testaaminen#testien-suorittaminen-yksitellen).
 
-#### 4.9*: blogilistan testit, step2
+<!-- #### 4.9*: blogilistan testit, step2 -->
+#### 4.9*: Blog list tests, step2
 
-Tee testi, joka varmistaa että palautettujen blogeien identifioivan kentän tulee olla nimeltään <i>id</i>,  oletusarvoisestihan tietokantaan talletettujen olioiden tunnistekenttä on <i>_id</i>. Olion kentän olemassaolon tarkastaminen onnistuu jestin matcherillä [toBeDefined](https://jestjs.io/docs/en/expect#tobedefined)
+<!-- Tee testi, joka varmistaa että palautettujen blogeien identifioivan kentän tulee olla nimeltään <i>id</i>,  oletusarvoisestihan tietokantaan talletettujen olioiden tunnistekenttä on <i>_id</i>. Olion kentän olemassaolon tarkastaminen onnistuu jestin matcherillä [toBeDefined](https://jestjs.io/docs/en/expect#tobedefined) -->
+Write a test that verifies that the unique identifier property of the blog posts is named <i>id</i>, by default the database names the property <i>_id</i>. Verifying the existence of a property is easily done with Jest's [toBeDefined](https://jestjs.io/docs/en/expect#tobedefined) matcher:
 
-Muuta koodia siten, että testi menee läpi. Osassa 3 käsitelty [toJSON](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantaa-kayttava-backend) on sopiva paikka parametrin <i>id</i> määrittelyyn. 
+<!-- Muuta koodia siten, että testi menee läpi. Osassa 3 käsitelty [toJSON](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantaa-kayttava-backend) on sopiva paikka parametrin <i>id</i> määrittelyyn.  -->
+Make the required changes to the code so that it passes the test. The [toJSON](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantaa-kayttava-backend) method discussed in part 3 is an appropriate place for defining the <i>id</i> parameter.
 
-#### 4.10: blogilistan testit, step3
+<!-- #### 4.10: blogilistan testit, step3 -->
+#### 4.10: Blog list tests, step3
 
-Tee testi joka varmistaa että sovellukseen voi lisätä blogeja osoitteeseen <i>/api/blogs</i> tapahtuvalla HTTP POST -pyynnölle. Testaa ainakin, että blogien määrä kasvaa yhdellä. Voit myös varmistaa, että oikeansisältöinen blogi on lisätty järjestelmään.
+<!-- Tee testi joka varmistaa että sovellukseen voi lisätä blogeja osoitteeseen <i>/api/blogs</i> tapahtuvalla HTTP POST -pyynnölle. Testaa ainakin, että blogien määrä kasvaa yhdellä. Voit myös varmistaa, että oikeansisältöinen blogi on lisätty järjestelmään. -->
+Write a test that verifies that making an HTTP POST request to the <i>/api/blogs</i> url successfully creates a new blog post. At the very least, verify that the total number of blogs in the system is increased by one. You can also verify that the content of the blog post is saved correctly to the database.
 
-Kun testi on valmis, refaktoroi operaatio käyttämään promisejen sijaan async/awaitia.
+<!-- Kun testi on valmis, refaktoroi operaatio käyttämään promisejen sijaan async/awaitia. -->
+Once the test is finished, refactor the operation to use async/await instead of promises.
 
-#### 4.11*: blogilistan testit, step4
+<!-- #### 4.11*: blogilistan testit, step4 -->
+#### 4.11*: Blog list tests, step4
 
-Tee testi joka varmistaa, että jos kentälle <i>likes</i> ei anneta arvoa, asetetaan sen arvoksi 0. Muiden kenttien sisällöstä ei tässä tehtävässä vielä välitetä.
+<!-- Tee testi joka varmistaa, että jos kentälle <i>likes</i> ei anneta arvoa, asetetaan sen arvoksi 0. Muiden kenttien sisällöstä ei tässä tehtävässä vielä välitetä. -->
+Write a test that verifies that if the <i>likes</i> property is missing from the request, it will default to the value 0. Do not test the other properties of the created notes yet.
 
-Laajenna ohjelmaa siten, että testi menee läpi.
+<!-- Laajenna ohjelmaa siten, että testi menee läpi. -->
+Make the required changes to the code so that it passes the test.
 
-#### 4.12*: blogilistan testit, step5
+<!-- #### 4.12*: blogilistan testit, step5 -->
+#### 4.12*: Blog list tests, step5
 
-Tee testit blogin lisäämiselle, eli osoitteeseen <i>/api/blogs</i> tapahtuvalle HTTP POST -pyynnölle, joka varmistaa, että jos uusi blogi ei sisällä kenttiä <i>title</i> ja <i>url</i>, pyyntöön vastataan statuskoodilla <i>400 Bad request</i>
+<!-- Tee testit blogin lisäämiselle, eli osoitteeseen <i>/api/blogs</i> tapahtuvalle HTTP POST -pyynnölle, joka varmistaa, että jos uusi blogi ei sisällä kenttiä <i>title</i> ja <i>url</i>, pyyntöön vastataan statuskoodilla <i>400 Bad request</i> -->
+Write a test related to creating new notes via the <i>/api/blogs</i> endpoint, that verifies that if the <i>title</i> and <i>url</i> properties are missing from the request data, the backend responds to the request with the status code <i>400 Bad Request</i>.
 
-Laajenna toteutusta siten, että testit menevät läpi.
+<!-- Laajenna toteutusta siten, että testit menevät läpi. -->
+Make the required changes to the code so that it passes the test.
 
 </div>
 
 <div class="content">
 
-### Testien refaktorintia
+<!-- ### Testien refaktorintia -->
+### Refactoring tests
 
-Testit ovat tällä hetkellä osittain epätäydelliset, esim. reittejä <i>GET /api/notes/:id</i> ja <i>DELETE /api/notes/:id</i> ei tällä hetkellä testata epävalidien id:iden osalta. Myös testien organisoinnissa on hieman toivomisen varaa, sillä kaikki on kirjoitettu suoraan testifunktion "päätasolle", parempaan luettavuuteen pääsisimme eritellessä loogisesti toisiinsa liittyvät testit <i>describe</i>-lohkoihin.
+<!-- Testit ovat tällä hetkellä osittain epätäydelliset, esim. reittejä <i>GET /api/notes/:id</i> ja <i>DELETE /api/notes/:id</i> ei tällä hetkellä testata epävalidien id:iden osalta. Myös testien organisoinnissa on hieman toivomisen varaa, sillä kaikki on kirjoitettu suoraan testifunktion "päätasolle", parempaan luettavuuteen pääsisimme eritellessä loogisesti toisiinsa liittyvät testit <i>describe</i>-lohkoihin. -->
+Our test coverage is currently lacking. Some requests like <i>GET /api/notes/:id</i> and <i>DELETE /api/notes/:id</i> aren't tested when the request is sent with an invalid id. The grouping and organization of tests could also use some improvement, as all tests exist on the same "top level" in the test file. The readability of the test would improve, if we grouped related tests with <i>describe</i> blocks.
 
-Jossain määrin parannellut testit seuraavassa:
+<!-- Jossain määrin parannellut testit seuraavassa: -->
+Below is an example of the test file after making some minor improvements:
 
 ```js
 const supertest = require('supertest')
@@ -1240,38 +1255,52 @@ afterAll(() => {
 })
 ```
 
-Testien raportointi tapahtuu <i>describe</i>-lohkojen ryhmittelyn mukaan:
+<!-- Testien raportointi tapahtuu <i>describe</i>-lohkojen ryhmittelyn mukaan: -->
+The test output is grouped according to the <i>describe</i> blocks:
 
 ![](../images/4/7.png)
 
-Testeihin jää vielä parannettavaa mutta on jo aika siirtyä eteenpäin.
+<!-- Testeihin jää vielä parannettavaa mutta on jo aika siirtyä eteenpäin. -->
+There is still room for improvement but it is time to move forward.
 
-Käytetty tapa API:n testaamiseen, eli HTTP-pyyntöinä tehtävät operaatiot ja tietokannan tilan tarkastelu Mongoosen kautta ei ole suinkaan ainoa tai välttämättä edes paras tapa tehdä API-tason integraatiotestausta. Universaalisti parasta tapaa testien tekoon ei ole, vaan kaikki on aina suhteessa käytettäviin resursseihin ja testattavaan ohjelmistoon.
+<!-- Käytetty tapa API:n testaamiseen, eli HTTP-pyyntöinä tehtävät operaatiot ja tietokannan tilan tarkastelu Mongoosen kautta ei ole suinkaan ainoa tai välttämättä edes paras tapa tehdä API-tason integraatiotestausta. Universaalisti parasta tapaa testien tekoon ei ole, vaan kaikki on aina suhteessa käytettäviin resursseihin ja testattavaan ohjelmistoon. -->
+This way of testing the API, by making HTTP requests and inspecting the database with Mongoose, is by no means the only nor the best way of conducting API-level integration tests for server applications. There is no universal best way of writing tests, as it all depends on the application being tested and available resources.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-5), branchissa <i>part4-5</i>
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-5), branchissa <i>part4-5</i> -->
+You can find the code for our current application in its entirety in the <i>part4-5</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-5).
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 4.13 blogilistan laajennus, step1
+<!-- #### 4.13 blogilistan laajennus, step1 -->
+#### 4.13 Blog list expansions, step1
 
-Toteuta sovellukseen mahdollisuus yksittäisen blogin poistoon.
+<!-- Toteuta sovellukseen mahdollisuus yksittäisen blogin poistoon. -->
+Implement functionality for deleting a single blog post resource.
 
-Käytä async/awaitia. Noudata operaation HTTP-rajapinnan suhteen [RESTful](/osa3/node_js_ja_express#rest)-käytänteitä.
+<!-- Käytä async/awaitia. Noudata operaation HTTP-rajapinnan suhteen [RESTful](/osa3/node_js_ja_express#rest)-käytänteitä. -->
+Use the async/await syntax. Follow [RESTful](/osa3/node_js_ja_express#rest) conventions when defining the HTTP API.
 
-Saat toteuttaa ominaisuudelle testit jos haluat. Jos et, varmista ominaisuuden toimivuus esim. Postmanilla.
+<!-- Saat toteuttaa ominaisuudelle testit jos haluat. Jos et, varmista ominaisuuden toimivuus esim. Postmanilla. -->
+Feel free to implement tests for the functionality if you want to. Otherwise verify that the functionality works with Postman or some other tool.
 
-#### 4.14* blogilistan laajennus, step2
+<!-- #### 4.14* blogilistan laajennus, step2 -->
+#### 4.13 Blog list expansions, step2
 
-Toteuta sovellukseen mahdollisuus yksittäisen blogin muokkaamiseen.
+<!-- Toteuta sovellukseen mahdollisuus yksittäisen blogin muokkaamiseen. -->
+Implement functionality for updating the information of an individual blog post.
 
-Käytä async/awaitia.
+<!-- Käytä async/awaitia. -->
+Use async/await.
 
-Tarvitsemme muokkausta lähinnä <i>likejen</i> lukumäärän päivittämiseen. Toiminnallisuuden voi toteuttaa samaan tapaan kuin muistiinpanon päivittäminen toteutettiin [osassa 3](/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#muut-operaatiot).
+<!-- Tarvitsemme muokkausta lähinnä <i>likejen</i> lukumäärän päivittämiseen. Toiminnallisuuden voi toteuttaa samaan tapaan kuin muistiinpanon päivittäminen toteutettiin [osassa 3](/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#muut-operaatiot). -->
+The application mostly needs to update the amount of <i>likes</i> for a blog post. You can implement this functionality the same way that we implemented updating notes in [part 3](/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#muut-operaatiot).
 
-Saat toteuttaa ominaisuudelle testit jos haluat. Jos et, varmista ominaisuuden toimivuus esim. Postmanilla.
+<!-- Saat toteuttaa ominaisuudelle testit jos haluat. Jos et, varmista ominaisuuden toimivuus esim. Postmanilla. -->
+Feel free to implement tests for the functionality if you want to. Otherwise verify that the functionality works with Postman or some other tool.
 
 </div>
