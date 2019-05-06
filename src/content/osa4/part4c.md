@@ -281,13 +281,17 @@ The password sent in the request is <i>not</i> stored in the database. We store 
 <!-- Materiaalin tilamäärä ei valitettavasti riitä käsittelemään sen tarkemmin salasanojen [tallennuksen perusteita](https://codahale.com/how-to-safely-store-a-password/), esim. mitä maaginen luku 10 muuttujan [saltRounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds) arvona tarkoittaa. Lue linkkien takaa lisää. -->
 The fundamentals of [storing passwords](https://codahale.com/how-to-safely-store-a-password/) is outside the scope of this course material. We will not discuss what the magic number 10 assigned to the [saltRounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds) variable means, but you can read more about it in the linked material.
 
-Koodissa ei tällä hetkellä ole mitään virheidenkäsittelyä eikä validointeja, eli esim. käyttäjätunnuksen ja salasanan halutun muodon tarkastuksia.
+<!-- Koodissa ei tällä hetkellä ole mitään virheidenkäsittelyä eikä validointeja, eli esim. käyttäjätunnuksen ja salasanan halutun muodon tarkastuksia. -->
+Our current code does not contain any error handling or input validation for verifying that the username and password are in a desired format.
 
-Uutta ominaisuutta voidaan ja kannattaakin joskus testailla käsin esim. postmanilla. Käsin tapahtuva testailu muuttuu kuitenkin nopeasti työlääksi, etenkin kun tulemme pian vaatimaan, että samaa käyttäjätunnusta ei saa tallettaa kantaan kahteen kertaan.
+<!-- Uutta ominaisuutta voidaan ja kannattaakin joskus testailla käsin esim. postmanilla. Käsin tapahtuva testailu muuttuu kuitenkin nopeasti työlääksi, etenkin kun tulemme pian vaatimaan, että samaa käyttäjätunnusta ei saa tallettaa kantaan kahteen kertaan. -->
+The new feature can and should initially be tested manually with a tool like Postman. Testing things manually will quickly become too cumbersome, especially once we implement functionality that enforces usernames to be unique.
 
-Pienellä vaivalla voimme tehdä automaattisesti suoritettavat testit, jotka helpottavat sovelluksen kehittämistä merkittävästi.
+<!-- Pienellä vaivalla voimme tehdä automaattisesti suoritettavat testit, jotka helpottavat sovelluksen kehittämistä merkittävästi. -->
+It takes much less effort to write automated tests, that will make the development of our application much easier.
 
-Alustava testi näyttää seuraavalta:
+<!-- Alustava testi näyttää seuraavalta: -->
+Our initial tests could look like this:
 
 ```js
 const User = require('../models/user')
@@ -325,7 +329,8 @@ describe('when there is initially one user at db', async () => {
 })
 ```
 
-Testit käyttävät myös tiedostossa <i>tests/test_helper.js</i> määriteltyä apufunktiota <i>usersInDb()</i> tarkastamaan lisäysoperaation jälkeisen tietokannan tilan:
+<!-- Testit käyttävät myös tiedostossa <i>tests/test_helper.js</i> määriteltyä apufunktiota <i>usersInDb()</i> tarkastamaan lisäysoperaation jälkeisen tietokannan tilan: -->
+The tests use the <i>usersInDb()</i> helper function that we imlemented in the <i>tests/test_helper.js</i> file. The function is used to help us verify the state of the database after a user is created:
 
 ```js
 const User = require('../models/user')
@@ -345,7 +350,8 @@ module.exports = {
 }
 ```
 
-Lohkon <i>beforeEach</i> lisää kantaan käyttäjän, jonka username on <i>root</i>. Voimmekin tehdä uuden testin, jolla varmistetaan, että samalla käyttäjätunnuksella ei voi luoda uutta käyttäjää:
+<!-- Lohkon <i>beforeEach</i> lisää kantaan käyttäjän, jonka username on <i>root</i>. Voimmekin tehdä uuden testin, jolla varmistetaan, että samalla käyttäjätunnuksella ei voi luoda uutta käyttäjää: -->
+The <i>beforeEach</i> block adds a user with the username <i>root</i> to the database. We can write a new test that verifies that a new user with the same username can not be created:
 
 ```js
 describe('when there is initially one user at db', async () => {
@@ -374,16 +380,18 @@ describe('when there is initially one user at db', async () => {
 })
 ```
 
-Testi ei tietenkään mene läpi tässä vaiheessa. Toimimme nyt oleellisesti [TDD:n eli test driven developmentin](https://en.wikipedia.org/wiki/Test-driven_development) hengessä, uuden ominaisuuden testi on kirjoitettu ennen ominaisuuden ohjelmointia.
+<!-- Testi ei tietenkään mene läpi tässä vaiheessa. Toimimme nyt oleellisesti [TDD:n eli test driven developmentin](https://en.wikipedia.org/wiki/Test-driven_development) hengessä, uuden ominaisuuden testi on kirjoitettu ennen ominaisuuden ohjelmointia. -->
+The test case obviously will not pass at this point. We are essentially practicing [test-driven development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development), where tests for new functionality are written before the functionality is implemented.
 
-Hoidetaan uniikkiuden tarkastaminen Mongoosen validoinnin avulla. Kuten edellisen osan tehtävässä [3.19](/osa3/validointi_ja_es_lint#tehtavia) mainittiin, Mongoose ei tarjoa valmista validaattoria kentän uniikkiuden tarkastamiseen. Tilanteeseen ratkaisun tarjoaa npm-pakettina asennettava
-[mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator). Suoritetaan asennus
+<!-- Hoidetaan uniikkiuden tarkastaminen Mongoosen validoinnin avulla. Kuten edellisen osan tehtävässä [3.19](/osa3/validointi_ja_es_lint#tehtavia) mainittiin, Mongoose ei tarjoa valmista validaattoria kentän uniikkiuden tarkastamiseen. Tilanteeseen ratkaisun tarjoaa npm-pakettina asennettava[mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator). Suoritetaan asennus -->
+Let's validate the uniqueness of the username with the help of Mongoose validators. As we mentioned in exercise [3.19](/osa3/validointi_ja_es_lint#tehtavia), Mongoose does not have a built-in validator for checking the uniqueness of a field. We can find a ready-made solution for this from the [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator) npm package. Let's install it:
 
 ```bash
 npm install --save mongoose-unique-validator
 ```
 
-Käyttäjän skeemaa tiedostossa <i>models/user.js</i> tulee muuttaa seuraavasti seuraavasti:
+<!-- Käyttäjän skeemaa tiedostossa <i>models/user.js</i> tulee muuttaa seuraavasti seuraavasti: -->
+We must make the following changes to the schema defined in the <i>models/user.js</i> file:
 
 ```js
 const mongoose = require('mongoose')
@@ -409,10 +417,11 @@ userSchema.plugin(uniqueValidator) // highlight-line
 // ...
 ```
 
-Voisimme toteuttaa käyttäjien luomisen yhteyteen myös muita tarkistuksia, esim. onko käyttäjätunnus tarpeeksi pitkä, koostuuko se sallituista merkeistä ja onko salasana tarpeeksi hyvä. Jätämme ne kuitenkin vapaaehtoiseksi harjoitustehtäväksi.
+<!-- Voisimme toteuttaa käyttäjien luomisen yhteyteen myös muita tarkistuksia, esim. onko käyttäjätunnus tarpeeksi pitkä, koostuuko se sallituista merkeistä ja onko salasana tarpeeksi hyvä. Jätämme ne kuitenkin vapaaehtoiseksi harjoitustehtäväksi. -->
+We could also implement other validations into the creation of a user. We could check that the username is long enough, that the username only consists of permitted characters, or that the password is strong enough. Implementing this functionality is left as an optional exercise.
 
-
-Ennen kuin menemme eteenpäin, lisätään sovellukseen alustava versio palauttaa kaikki käyttäjät palauttavasta käsittelijäfunktiosta:
+<!-- Ennen kuin menemme eteenpäin, lisätään sovellukseen alustava versio palauttaa kaikki käyttäjät palauttavasta käsittelijäfunktiosta: -->
+Before we move onward, let's add an initial implementation of a route handler that returns all of the users in the application:
 
 ```js
 usersRouter.get('/', async (request, response) => {
@@ -421,17 +430,22 @@ usersRouter.get('/', async (request, response) => {
 })
 ```
 
-Lista näyttää seuraavalta
+<!-- Lista näyttää seuraavalta -->
+The list looks like this:
 
 ![](../images/4/9.png)
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-6), branchissä <i>part4-6</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-6), branchissä <i>part4-6</i>. -->
+You can find the code for our current application in it entirety in the <i>part4-6</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-6).
 
-### Muistiinpanon luominen
+<!-- ### Muistiinpanon luominen -->
+### Creating a new note
 
-Muistiinpanot luovaa koodia on nyt mukautettava siten, että uusi muistiinpano tulee liitetyksi sen luoneeseen käyttäjään.
+<!-- Muistiinpanot luovaa koodia on nyt mukautettava siten, että uusi muistiinpano tulee liitetyksi sen luoneeseen käyttäjään. -->
+The code for creating a new note has to be updated so that it is assigned to the user that created it.
 
-Laajennetaan ensin olemassaolevaa toteutusta siten, että tieto muistiinpanon luovan käyttäjän id:stä lähetetään pyynnön rungossa kentän <i>userId</i> arvona:
+<!-- Laajennetaan ensin olemassaolevaa toteutusta siten, että tieto muistiinpanon luovan käyttäjän id:stä lähetetään pyynnön rungossa kentän <i>userId</i> arvona: -->
+Let's expand our current implementation, so that the information about the user who created the note is sent in the <i>userId</i> field of the request body:
 
 ```js
 const User = require('../models/user')
@@ -461,7 +475,8 @@ notesRouter.post('/', async (request, response, next) => {
 })
 ```
 
-Huomionarvoista on nyt se, että myös <i>user</i>-olio muuttuu. Sen kenttään <i>notes</i> talletetaan luodun muistiinpanon <i>id</i>:
+<!-- Huomionarvoista on nyt se, että myös <i>user</i>-olio muuttuu. Sen kenttään <i>notes</i> talletetaan luodun muistiinpanon <i>id</i>: -->
+It's worth noting that the <i>user</i> object also changes. The <i>id</i> of the note is stored in the <i>notes</i> field:
 
 ```js
 const user = User.findById(userId)
@@ -470,23 +485,29 @@ user.notes = user.notes.concat(savedNote._id)
 await user.save()
 ```
 
-Kokeillaan nyt lisätä uusi muistiinpano
+<!-- Kokeillaan nyt lisätä uusi muistiinpano -->
+Let's try to create a new note
 
 ![](../images/4/10.png)
 
-Operaatio vaikuttaa toimivan. Lisätään vielä yksi muistiinpano ja mennään kaikkien käyttäjien sivulle:
+<!-- Operaatio vaikuttaa toimivan. Lisätään vielä yksi muistiinpano ja mennään kaikkien käyttäjien sivulle: -->
+The operation appears to work. Let's add one more note and then visit the route for fetching all users:
 
 ![](../images/4/11.png)
 
-Huomaamme siis, että käyttäjällä on kaksi muistiinpanoa.
+<!-- Huomaamme siis, että käyttäjällä on kaksi muistiinpanoa. -->
+We can see that the user has two notes. 
 
-Muistiinpanon luoneen käyttäjän id näkyviin muistiinpanon yhteyteen:
+<!-- Muistiinpanon luoneen käyttäjän id näkyviin muistiinpanon yhteyteen: -->
+Likewise, the id of the user who created the note can be seen when we visit the route for fetching all notes:
 
 ![](../images/4/12.png)
 
-### populate
+<!-- ### populate -->
+### Populate
 
-Haluaisimme API:n toimivan siten, että haettaessa esim. käyttäjien tiedot polulle <i>/api/users</i> tehtävällä HTTP GET -pyynnöllä tulisi käyttäjien tekemien muistiinpanojen id:iden lisäksi näyttää niiden sisältö. Relaatiotietokannoilla toiminnallisuus toteutettaisiin <i>liitoskyselyn</i> avulla.
+<!-- Haluaisimme API:n toimivan siten, että haettaessa esim. käyttäjien tiedot polulle <i>/api/users</i> tehtävällä HTTP GET -pyynnöllä tulisi käyttäjien tekemien muistiinpanojen id:iden lisäksi näyttää niiden sisältö. Relaatiotietokannoilla toiminnallisuus toteutettaisiin <i>liitoskyselyn</i> avulla. -->
+We would like our API to work in such a way, that when an HTTP GET request is made to the <i>/api/users</i> route, the user objects would also contain the content of the user's notes, and not just their id. In a relational database, this functionality would be implemented with a <i>join query</i>.
 
 Kuten aiemmin mainittiin, eivät dokumenttitietokannat tue (kunnolla) eri kokoelmien välisiä liitoskyselyitä. Mongoose-kirjasto osaa kuitenkin tehdä liitoksen puolestamme. Mongoose toteuttaa liitoksen tekemällä useampia tietokantakyselyitä, joten siinä mielessä kyseessä on täysin erilainen tapa kuin relaatiotietokantojen liitoskyselyt, jotka ovat <i>transaktionaalisia</i>, eli liitoskyselyä tehdessä tietokannan tila ei muutu. Mongoosella tehtävä liitos taas on sellainen, että mikään ei takaa sitä, että liitettävien kokoelmien tila on konsistentti, toisin sanoen jos tehdään users- ja notes-kokoelmat liittävä kysely, kokoelmien tila saattaa muuttua kesken Mongoosen liitosoperaation.
 
