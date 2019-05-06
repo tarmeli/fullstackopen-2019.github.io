@@ -6,19 +6,24 @@ letter: b
 
 <div class="content">
 
-### Kirjautumislomakkeen näyttäminen vain tarvittaessa
+<!-- ### Kirjautumislomakkeen näyttäminen vain tarvittaessa -->
+### Displaying the login form only when appropriate
 
-Muutetaan sovellusta siten, että kirjautumislomaketta ei oletusarvoisesti näytetä:
+<!-- Muutetaan sovellusta siten, että kirjautumislomaketta ei oletusarvoisesti näytetä: -->
+Let's modify the application so that the login form is not displayed by default:
 
 ![](../images/5/10.png)
 
-Lomake aukeaa, jos käyttäjä painaa nappia <i>login</i>:
+<!-- Lomake aukeaa, jos käyttäjä painaa nappia <i>login</i>: -->
+The login form appears when the user presses the <i>login</i> button:
 
 ![](../images/5/11a.png)
 
-Napilla <i>cancel</i> käyttäjä saa tarvittaessa suljettua lomakkeen.
+<!-- Napilla <i>cancel</i> käyttäjä saa tarvittaessa suljettua lomakkeen. -->
+The user can close the login form by clicking the <i>cancel</i> button.
 
-Aloitetaan eristämällä kirjautumislomake omaksi komponentikseen:
+<!-- Aloitetaan eristämällä kirjautumislomake omaksi komponentikseen: -->
+Let's start by extracting the login form into its own component:
 
 ```js
 import React from 'react'
@@ -59,9 +64,11 @@ const LoginForm = ({
 export default LoginForm
 ```
 
-Tila ja tilaa käsittelevät funktiot on kaikki määritelty komponentin ulkopuolella ja välitetään komponentille propseina.
+<!-- Tila ja tilaa käsittelevät funktiot on kaikki määritelty komponentin ulkopuolella ja välitetään komponentille propseina. -->
+The state and all the functions related to it are defined outside of the component and are passed to the component as props.
 
-Huomaa, että propsit otetaan vastaan <i>destrukturoimalla</i>, eli sen sijaan että määriteltäisiin
+<!-- Huomaa, että propsit otetaan vastaan <i>destrukturoimalla</i>, eli sen sijaan että määriteltäisiin -->
+Notice that the props are assigned to variables through <i>destructuring</i>, which means that instead of writing:
 
 ```js
 const LoginForm = (props) => {
@@ -85,9 +92,11 @@ const LoginForm = (props) => {
 }
 ```
 
-jolloin muuttujan _props_ kenttiin on viitattava muuttujan kautta esim. _props.handleSubmit_, otetaan kentät suoraan vastaan omiin muuttujiinsa.
+<!-- jolloin muuttujan _props_ kenttiin on viitattava muuttujan kautta esim. _props.handleSubmit_, otetaan kentät suoraan vastaan omiin muuttujiinsa. -->
+where the properties of the _props_ object are accessed through e.g. _props.handleSubmit_, the properties are assigned directly to their own variables.
 
-Nopea tapa toiminnallisuuden toteuttamiseen on muuttaa komponentin <i>App</i> käyttämä funktio _loginForm_ seuraavaan muotoon:
+<!-- Nopea tapa toiminnallisuuden toteuttamiseen on muuttaa komponentin <i>App</i> käyttämä funktio _loginForm_ seuraavaan muotoon: -->
+One fast way of implementing the functionality is to change the _loginForm_ function of the <i>App</i> component into the following form:
 
 ```js
 const App = () => {
@@ -122,9 +131,11 @@ const App = () => {
 }
 ```
 
-Komponentin <i>App</i> tilaan on nyt lisätty totuusarvo <i>loginVisible</i> joka määrittelee sen, näytetäänkö kirjautumislomake.
+<!-- Komponentin <i>App</i> tilaan on nyt lisätty totuusarvo <i>loginVisible</i> joka määrittelee sen, näytetäänkö kirjautumislomake. -->
+The <i>App</i> component's state now contains the boolean <i>loginVisible</i>, that defines if the login form should be shown to the user or not.
 
-Näkyvyyttä säätelevää tilaa vaihdellaan kahden napin avulla, molempiin on kirjoitettu tapahtumankäsittelijän koodi suoraan:
+<!-- Näkyvyyttä säätelevää tilaa vaihdellaan kahden napin avulla, molempiin on kirjoitettu tapahtumankäsittelijän koodi suoraan: -->
+The state that defines the visibility is toggled with two buttons. Both buttons have the event handler defined directly in the component:
 
 ```js
 <button onClick={() => setLoginVisible(true)}>log in</button>
@@ -132,7 +143,8 @@ Näkyvyyttä säätelevää tilaa vaihdellaan kahden napin avulla, molempiin on 
 <button onClick={() => setLoginVisible(false)}>cancel</button>
 ```
 
-Komponenttien näkyvyys on määritelty asettamalla komponentille [inline](/osa2/tyylien_lisaaminen_react_sovellukseen#inline-tyylit)-tyyleinä CSS-määrittely, jossa [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display)-propertyn arvoksi asetetaan <i>none</i> jos komponentin ei haluta näkyvän:
+<!-- Komponenttien näkyvyys on määritelty asettamalla komponentille [inline](/osa2/tyylien_lisaaminen_react_sovellukseen#inline-tyylit)-tyyleinä CSS-määrittely, jossa [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display)-propertyn arvoksi asetetaan <i>none</i> jos komponentin ei haluta näkyvän: -->
+The visibility of the component is defined by giving the component an [inline](/osa2/tyylien_lisaaminen_react_sovellukseen#inline-tyylit) style rule, where the value of the [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display) property is <i>none</i> if we do not want the component to be displayed:
 
 ```js
     const hideWhenVisible = { display: loginVisible ? 'none' : '' }
@@ -147,15 +159,18 @@ Komponenttien näkyvyys on määritelty asettamalla komponentille [inline](/osa2
 </div>
 ```
 
-Käytössä on taas kysymysmerkkioperaattori, eli jos _loginVisible_ on <i>true</i>, tulee napin CSS-määrittelyksi
+<!-- Käytössä on taas kysymysmerkkioperaattori, eli jos _loginVisible_ on <i>true</i>, tulee napin CSS-määrittelyksi -->
+We are once again using the "question mark" ternary operator. If _loginVisible_ is <i>true</i>, then the CSS rule of the component will be:
 
 ```css
 display: 'none';
 ```
 
-jos _loginVisible_ on <i>false</i>, ei <i>display</i> saa mitään napin näkyvyyteen liittyvää arvoa.
+<!-- jos _loginVisible_ on <i>false</i>, ei <i>display</i> saa mitään napin näkyvyyteen liittyvää arvoa. -->
+If _loginVisible_ is <i>false</i>, then <i>display</i>  will not receive any value related to the visibility of the component.
 
-### Komponentin lapset, eli props.children
+<!-- ### Komponentin lapset, eli props.children -->
+### The component's children, aka. props.children
 
 Kirjautumislomakkeen näkyvyyttä ympäröivän koodin voi ajatella olevan oma looginen kokonaisuutensa ja se onkin hyvä eristää pois komponentista <i>App</i> omaksi komponentikseen.
 
