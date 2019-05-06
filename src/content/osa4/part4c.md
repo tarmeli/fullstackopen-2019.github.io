@@ -509,9 +509,11 @@ Likewise, the id of the user who created the note can be seen when we visit the 
 <!-- Haluaisimme API:n toimivan siten, että haettaessa esim. käyttäjien tiedot polulle <i>/api/users</i> tehtävällä HTTP GET -pyynnöllä tulisi käyttäjien tekemien muistiinpanojen id:iden lisäksi näyttää niiden sisältö. Relaatiotietokannoilla toiminnallisuus toteutettaisiin <i>liitoskyselyn</i> avulla. -->
 We would like our API to work in such a way, that when an HTTP GET request is made to the <i>/api/users</i> route, the user objects would also contain the content of the user's notes, and not just their id. In a relational database, this functionality would be implemented with a <i>join query</i>.
 
-Kuten aiemmin mainittiin, eivät dokumenttitietokannat tue (kunnolla) eri kokoelmien välisiä liitoskyselyitä. Mongoose-kirjasto osaa kuitenkin tehdä liitoksen puolestamme. Mongoose toteuttaa liitoksen tekemällä useampia tietokantakyselyitä, joten siinä mielessä kyseessä on täysin erilainen tapa kuin relaatiotietokantojen liitoskyselyt, jotka ovat <i>transaktionaalisia</i>, eli liitoskyselyä tehdessä tietokannan tila ei muutu. Mongoosella tehtävä liitos taas on sellainen, että mikään ei takaa sitä, että liitettävien kokoelmien tila on konsistentti, toisin sanoen jos tehdään users- ja notes-kokoelmat liittävä kysely, kokoelmien tila saattaa muuttua kesken Mongoosen liitosoperaation.
+<!-- Kuten aiemmin mainittiin, eivät dokumenttitietokannat tue (kunnolla) eri kokoelmien välisiä liitoskyselyitä. Mongoose-kirjasto osaa kuitenkin tehdä liitoksen puolestamme. Mongoose toteuttaa liitoksen tekemällä useampia tietokantakyselyitä, joten siinä mielessä kyseessä on täysin erilainen tapa kuin relaatiotietokantojen liitoskyselyt, jotka ovat <i>transaktionaalisia</i>, eli liitoskyselyä tehdessä tietokannan tila ei muutu. Mongoosella tehtävä liitos taas on sellainen, että mikään ei takaa sitä, että liitettävien kokoelmien tila on konsistentti, toisin sanoen jos tehdään users- ja notes-kokoelmat liittävä kysely, kokoelmien tila saattaa muuttua kesken Mongoosen liitosoperaation. -->
+As previously mentioned, document databases do not properly support join queries between collections, but the Mongoose library can do some of these joins for us. Mongoose accomplishes the join by doing multiple queries, which is different from join queries in relational databases that are <i>transactional</i>, meaning that the state of the database does not change during the time that the query is made. With join queries in Mongoose, nothing can guarantee that the state between the collections being joined is consistent, meaning that if we make a query that joins the user and notes collections, the state of the collections may change during the query.
 
-Liitoksen tekeminen suoritetaan Mongoosen komennolla [populate](http://mongoosejs.com/docs/populate.html). Päivitetään ensin kaikkien käyttäjien tiedot palauttava route:
+<!-- Liitoksen tekeminen suoritetaan Mongoosen komennolla [populate](http://mongoosejs.com/docs/populate.html). Päivitetään ensin kaikkien käyttäjien tiedot palauttava route: -->
+The Mongoose join is done with the [populate](http://mongoosejs.com/docs/populate.html) method. Let's update the route that returns all users first:
 
 ```js
 usersRouter.get('/', async (request, response) => {
@@ -522,13 +524,16 @@ usersRouter.get('/', async (request, response) => {
 })
 ```
 
-Funktion [populate](http://mongoosejs.com/docs/populate.html) kutsu siis ketjutetaan kyselyä vastaavan metodikutsun (tässä tapauksessa <i>find_</i> perään. Populaten parametri määrittelee, että <i>user</i>-dokumenttien <i>notes</i>-kentässä olevat <i>note</i>-olioihin viittaavat <i>id</i>:t korvataan niitä vastaavilla dokumenteilla.
+<!-- Funktion [populate](http://mongoosejs.com/docs/populate.html) kutsu siis ketjutetaan kyselyä vastaavan metodikutsun (tässä tapauksessa <i>find_</i> perään. Populaten parametri määrittelee, että <i>user</i>-dokumenttien <i>notes</i>-kentässä olevat <i>note</i>-olioihin viittaavat <i>id</i>:t korvataan niitä vastaavilla dokumenteilla. -->
+The [populate](http://mongoosejs.com/docs/populate.html) method is chained after the <i>find</i> method that makes the initial query. The parameter given to the populate method defines that the <i>ids</i> referencing <i>note</i> objects in the <i>notes</i> field of the <i>user</i> document, will be replaced by the referenced <i>note</i> documents.
 
-Lopputulos on jo melkein haluamamme kaltainen:
+<!-- Lopputulos on jo melkein haluamamme kaltainen: -->
+The result is almost exactly what we wanted:
 
 ![](../images/4/13.png)
 
-Populaten yhteydessä on myös mahdollista rajata mitä kenttiä sisällytettävistä dokumenteista otetaan mukaan. Rajaus tapahtuu Mongon [syntaksilla](https://docs.mongodb.com/manual/tutorial/project-fields-from-query-results/#return-the-specified-fields-and-the-id-field-only):
+<!-- Populaten yhteydessä on myös mahdollista rajata mitä kenttiä sisällytettävistä dokumenteista otetaan mukaan. Rajaus tapahtuu Mongon [syntaksilla](https://docs.mongodb.com/manual/tutorial/project-fields-from-query-results/#return-the-specified-fields-and-the-id-field-only): -->
+We can use the same populate parameter for choosing the fields we want to include from the documents. The selection of fields is done with the Mongo [syntax](https://docs.mongodb.com/manual/tutorial/project-fields-from-query-results/#return-the-specified-fields-and-the-id-field-only):
 
 ```js
 usersRouter.get('/', async (request, response) => {
@@ -539,11 +544,13 @@ usersRouter.get('/', async (request, response) => {
 });
 ```
 
-Tulos on täsmälleen sellainen kuin haluamme
+<!-- Tulos on täsmälleen sellainen kuin haluamme -->
+The result is now exactly like we want it to be:
 
 ![](../images/4/14.png)
 
-Lisätään sopiva käyttäjän tietojen populointi muistiinpanojen yhteyteen:
+<!-- Lisätään sopiva käyttäjän tietojen populointi muistiinpanojen yhteyteen: -->
+Let's also add a suitable population of user information to notes:
 
 ```js
 notesRouter.get('/', async (request, response) => {
@@ -554,13 +561,16 @@ notesRouter.get('/', async (request, response) => {
 });
 ```
 
-Nyt käyttäjän tiedot tulevat muistiinpanon kenttään <i>user</i>.
+<!-- Nyt käyttäjän tiedot tulevat muistiinpanon kenttään <i>user</i>. -->
+Now the user's information is added to the <i>user</i> field of note objects.
 
 ![](../images/4/15.png)
 
-Korostetaan vielä, että tietokannan tasolla ei siis ole mitään määrittelyä siitä, että esim. muistiinpanojen kenttään <i>user</i> talletetut id:t viittaavat käyttäjä-kokoelman dokumentteihin.
+<!-- Korostetaan vielä, että tietokannan tasolla ei siis ole mitään määrittelyä siitä, että esim. muistiinpanojen kenttään <i>user</i> talletetut id:t viittaavat käyttäjä-kokoelman dokumentteihin. -->
+It's important to understand that the database does not actually know that the ids stored in the <i>user</i> field of notes reference documents in the user collection.
 
-Mongoosen <i>populate</i>-funktion toiminnallisuus perustuu siihen, että olemme määritelleet viitteiden "tyypit" olioiden Mongoose-skeemaan <i>ref</i>-kentän avulla:
+<!-- Mongoosen <i>populate</i>-funktion toiminnallisuus perustuu siihen, että olemme määritelleet viitteiden "tyypit" olioiden Mongoose-skeemaan <i>ref</i>-kentän avulla: -->
+The functionality of the <i>populate</i> method of Mongoose is based on the fact that we have defined "types" to the references in the Mongoose schema with the <i>ref</i> option:
 
 ```js
 const noteSchema = new mongoose.Schema({
@@ -578,6 +588,7 @@ const noteSchema = new mongoose.Schema({
 })
 ```
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-7), branchissä <i>part4-7</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-7), branchissä <i>part4-7</i>. -->
+You can find the code for our current application in it entirety in the <i>part4-7</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-7).
 
 </div>
