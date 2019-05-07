@@ -172,9 +172,11 @@ If _loginVisible_ is <i>false</i>, then <i>display</i>  will not receive any val
 <!-- ### Komponentin lapset, eli props.children -->
 ### The component's children, aka. props.children
 
-Kirjautumislomakkeen näkyvyyttä ympäröivän koodin voi ajatella olevan oma looginen kokonaisuutensa ja se onkin hyvä eristää pois komponentista <i>App</i> omaksi komponentikseen.
+<!-- Kirjautumislomakkeen näkyvyyttä ympäröivän koodin voi ajatella olevan oma looginen kokonaisuutensa ja se onkin hyvä eristää pois komponentista <i>App</i> omaksi komponentikseen. -->
+The code related to managing the visibility of the login form could be considered to be its own logical entity, and for this reason it is good to extract from the <i>App</i> component into its own separate component.
 
-Tavoitteena on luoda komponentti <i>Togglable</i>, jota käytetään seuraavalla tavalla:
+<!-- Tavoitteena on luoda komponentti <i>Togglable</i>, jota käytetään seuraavalla tavalla: -->
+Our goal is to implement a new <i>Togglable</i> component that can be used in the following way:
 
 ```js
 <Togglable buttonLabel='login'>
@@ -188,9 +190,11 @@ Tavoitteena on luoda komponentti <i>Togglable</i>, jota käytetään seuraavalla
 </Togglable>
 ```
 
-Komponentin käyttö poikkeaa aiemmin näkemistämme siinä, että käytössä on nyt avaava ja sulkeva tagi, joiden sisällä määritellään toinen komponentti eli <i>LoginForm</i>. Reactin terminologiassa <i>LoginForm</i> on nyt komponentin <i>Togglable</i> lapsi.
+<!-- Komponentin käyttö poikkeaa aiemmin näkemistämme siinä, että käytössä on nyt avaava ja sulkeva tagi, joiden sisällä määritellään toinen komponentti eli <i>LoginForm</i>. Reactin terminologiassa <i>LoginForm</i> on nyt komponentin <i>Togglable</i> lapsi. -->
+The way that the component is used is slightly different from our previous components. The component has both an opening and a closing tag that surround another <i>LoginForm</i> component. In React terminology <i>LoginForm</i> is a child component of <i>Togglable</i>.
 
-<i>Togglablen</i> avaavan ja sulkevan tagin sisälle voi sijoittaa lapsiksi mitä tahansa React-elementtejä, esim.:
+<!-- <i>Togglablen</i> avaavan ja sulkevan tagin sisälle voi sijoittaa lapsiksi mitä tahansa React-elementtejä, esim.: -->
+We can add any React elements we want between the opening and closing tags of <i>Togglable</i>, like this for example:
 
 ```js
 <Togglable buttonLabel="paljasta">
@@ -199,7 +203,8 @@ Komponentin käyttö poikkeaa aiemmin näkemistämme siinä, että käytössä o
 </Togglable>
 ```
 
-Komponentin koodi on seuraavassa:
+<!-- Komponentin koodi on seuraavassa: -->
+The code for the <i>Togglable</i> component is shown below:
 
 ```js
 import React, { useState } from 'react'
@@ -230,9 +235,11 @@ const Togglable = (props) => {
 export default Togglable
 ```
 
-Mielenkiintoista ja meille uutta on [props.children](https://reactjs.org/docs/glossary.html#propschildren), jonka avulla koodi viittaa komponentin lapsiin, eli avaavan ja sulkevan tagin sisällä määriteltyihin React-elementteihin.
+<!-- Mielenkiintoista ja meille uutta on [props.children](https://reactjs.org/docs/glossary.html#propschildren), jonka avulla koodi viittaa komponentin lapsiin, eli avaavan ja sulkevan tagin sisällä määriteltyihin React-elementteihin. -->
+The new and interesting part of the code is [props.children](https://reactjs.org/docs/glossary.html#propschildren), that is used for referencing the child components of the component. The child components are the React elements that we define between the opening and closing tags of the component.
 
-Tällä kertaa lapset ainoastaan renderöidään komponentin oman renderöivän koodin seassa:
+<!-- Tällä kertaa lapset ainoastaan renderöidään komponentin oman renderöivän koodin seassa: -->
+This time the children are rendered in the code that is used for rendering the component itself:
 
 ```js
 <div style={showWhenVisible}>
@@ -241,7 +248,8 @@ Tällä kertaa lapset ainoastaan renderöidään komponentin oman renderöivän 
 </div>
 ```
 
-Toisin kuin "normaalit" propsit, <i>children</i> on Reactin automaattisesti määrittelemä, aina olemassa oleva propsi. Jos komponentti määritellään automaattisesti suljettavalla eli _/>_ loppuvalla tagilla, esim.
+<!-- Toisin kuin "normaalit" propsit, <i>children</i> on Reactin automaattisesti määrittelemä, aina olemassa oleva propsi. Jos komponentti määritellään automaattisesti suljettavalla eli _/>_ loppuvalla tagilla, esim. -->
+Unlike the "normal" props we've seen before, <i>children</i> is automatically added by React and it always exists. If a component is defined with an automatically closing _/>_ tag, like this:
 
 ```js
 <Note
@@ -251,7 +259,8 @@ Toisin kuin "normaalit" propsit, <i>children</i> on Reactin automaattisesti mä�
 />
 ```
 
-on <i>props.children</i> tyhjä taulukko.
+<!-- on <i>props.children</i> tyhjä taulukko. -->
+Then <i>props.children</i> is an empty array.
 
 Komponentti <i>Togglable</i> on uusiokäytettävä ja voimme käyttää sitä tekemään myös uuden muistiinpanon luomisesta huolehtivan formin vastaavalla tavalla tarpeen mukaan näytettäväksi.
 
