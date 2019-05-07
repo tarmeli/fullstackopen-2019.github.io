@@ -262,9 +262,11 @@ Unlike the "normal" props we've seen before, <i>children</i> is automatically ad
 <!-- on <i>props.children</i> tyhjä taulukko. -->
 Then <i>props.children</i> is an empty array.
 
-Komponentti <i>Togglable</i> on uusiokäytettävä ja voimme käyttää sitä tekemään myös uuden muistiinpanon luomisesta huolehtivan formin vastaavalla tavalla tarpeen mukaan näytettäväksi.
+<!-- Komponentti <i>Togglable</i> on uusiokäytettävä ja voimme käyttää sitä tekemään myös uuden muistiinpanon luomisesta huolehtivan formin vastaavalla tavalla tarpeen mukaan näytettäväksi. -->
+The <i>Togglable</i> component is reusable and we can use it to add similar visibility toggling functionality to the form that is used for creating new notes.
 
-Eristetään ensin muistiinpanojen luominen omaksi komponentiksi
+<!-- Eristetään ensin muistiinpanojen luominen omaksi komponentiksi -->
+Before we do that, let's extract the form for creating notes into its own component:
 
 ```js
 const NoteForm = ({ onSubmit, handleChange, value}) => {
@@ -284,7 +286,8 @@ const NoteForm = ({ onSubmit, handleChange, value}) => {
 }
 ```
 
-ja määritellään lomakkeen näyttävä koodi komponentin <i>Togglable</i> sisällä
+<!-- ja määritellään lomakkeen näyttävä koodi komponentin <i>Togglable</i> sisällä -->
+Next let's define the form component inside of a <i>Togglable</i> component:
 
 ```js
 <Togglable buttonLabel="new note">
@@ -296,17 +299,23 @@ ja määritellään lomakkeen näyttävä koodi komponentin <i>Togglable</i> sis
 </Togglable>
 ```
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-4), branchissa <i>part5-4</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-4), branchissa <i>part5-4</i>. -->
+You can find the code for our current application in its entirety in the <i>part5-4</i> branch of [this github repository](https://github.com/fullstack-hy2019/part2-notes/tree/part5-4).
 
-### ref eli viite komponenttiin
+<!-- ### ref eli viite komponenttiin -->
+### References to components with ref
 
-Ratkaisu on melko hyvä, haluaisimme kuitenkin parantaa sitä erään seikan osalta.
+<!-- Ratkaisu on melko hyvä, haluaisimme kuitenkin parantaa sitä erään seikan osalta. -->
+Our current implementation is quite good but there is one aspect that could be improved.
 
-Kun uusi muistiinpano luodaan, olisi loogista jos luomislomake menisi piiloon. Nyt lomake pysyy näkyvillä. Lomakkeen piilottamiseen sisältyy kuitenkin pieni ongelma, sillä näkyvyyttä kontrolloidaan <i>Togglable</i>-komponentin tilassa olevalla muuttujalla <i>visible</i>. Miten pääsemme tilaan käsiksi komponentin ulkopuolelta?
+<!-- Kun uusi muistiinpano luodaan, olisi loogista jos luomislomake menisi piiloon. Nyt lomake pysyy näkyvillä. Lomakkeen piilottamiseen sisältyy kuitenkin pieni ongelma, sillä näkyvyyttä kontrolloidaan <i>Togglable</i>-komponentin tilassa olevalla muuttujalla <i>visible</i>. Miten pääsemme tilaan käsiksi komponentin ulkopuolelta? -->
+When a new note is created, it would make sense to hide the creation form. Currently the form stays visible. There is a slight problem with hiding the form, as the visibility is controlled with the <i>visible</i> variable inside of the <i>Togglable</i> component. How can we access the state outside of the component?
 
-Reactin [ref](https://reactjs.org/docs/refs-and-the-dom.html)-mekanismi tarjoaa eräänlaisen viitteen komponenttiin.
+<!-- Reactin [ref](https://reactjs.org/docs/refs-and-the-dom.html)-mekanismi tarjoaa eräänlaisen viitteen komponenttiin. -->
+The [ref](https://reactjs.org/docs/refs-and-the-dom.html) mechanism of React offers a certain kind of reference to the component.
 
-Tehdään komponenttiin <i>App</i> seuraavat muutokset
+<!-- Tehdään komponenttiin <i>App</i> seuraavat muutokset -->
+Let's make the following changes to the <i>App</i> component:
 
 ```js
 const App = () => {
@@ -327,9 +336,11 @@ const App = () => {
 }
 ```
 
-Metodilla [createRef](https://reactjs.org/docs/react-api.html#reactcreateref) luodaan ref <i>noteFormRef</i>, joka kiinnitetään muistiinpanojen luomislomakkeen sisältävälle <i>Togglable</i>-komponentille. Nyt siis muuttuja <i>noteFormRef</i> toimii viitteenä komponenttiin.
+<!-- Metodilla [createRef](https://reactjs.org/docs/react-api.html#reactcreateref) luodaan ref <i>noteFormRef</i>, joka kiinnitetään muistiinpanojen luomislomakkeen sisältävälle <i>Togglable</i>-komponentille. Nyt siis muuttuja <i>noteFormRef</i> toimii viitteenä komponenttiin. -->
+The [createRef](https://reactjs.org/docs/react-api.html#reactcreateref) method is used to create a <i>noteFormRef</i> ref, that is assigned to the <i>Togglable</i> component that contains the creation form. The <i>noteFormRef</i> variable functions as a reference to the component.
 
-Komponenttia <i>Togglable</i> laajennetaan seuraavasti
+<!-- Komponenttia <i>Togglable</i> laajennetaan seuraavasti -->
+We also make the following changes to the <i>Togglable</i> component:
 
 ```js
 import React, { useState, useImperativeHandle } from 'react' // highlight-line
@@ -368,14 +379,17 @@ const Togglable = React.forwardRef((props, ref) => { // highlight-line
 export default Togglable
 ```
 
-Komponentin luova funktio on kääritty funktiokutsun [forwardRef](https://reactjs.org/docs/react-api.html#reactforwardref) sisälle, näin komponentti pääsee käsiksi sille määriteltyyn refiin.
+<!-- Komponentin luova funktio on kääritty funktiokutsun [forwardRef](https://reactjs.org/docs/react-api.html#reactforwardref) sisälle, näin komponentti pääsee käsiksi sille määriteltyyn refiin. -->
+The function that creates the component is wrapped inside of a [forwardRef](https://reactjs.org/docs/react-api.html#reactforwardref) function call. This way the component can access the ref that is assigned to it.
 
-Komponentti tarjoaa [useImperativeHandle
-](https://reactjs.org/docs/hooks-reference.html#useimperativehandle)-hookin avulla sisäisesti määritellyn funktionsa <i>toggleVisibility</i> ulkopuolelta kutsuttavaksi.
+<!-- Komponentti tarjoaa [useImperativeHandle](https://reactjs.org/docs/hooks-reference.html#useimperativehandle)-hookin avulla sisäisesti määritellyn funktionsa <i>toggleVisibility</i> ulkopuolelta kutsuttavaksi. -->
+The component uses the [useImperativeHandle](https://reactjs.org/docs/hooks-reference.html#useimperativehandle) hook to make its <i>toggleVisibility</i> function available outside of the component.
 
-**HUOM** hookin _useImperativeHandle_ vanha nimi on _useImperativeMethod_. Jos käytät Reactin alpha-versiota, on hook siellä vielä vanhalla nimellä!
+<!-- **HUOM** hookin _useImperativeHandle_ vanha nimi on _useImperativeMethod_. Jos käytät Reactin alpha-versiota, on hook siellä vielä vanhalla nimellä! -->
+**NB** the old name for _useImperativeHandle_ is _useImperativeMethod_. If you are still using an alpha version of react, then the hook still uses the old name.
 
-Voimme nyt piilottaa lomakkeen kutsumalla <i>noteFormRef.current.toggleVisibility()</i> samalla kun uuden muistiinpanon luominen tapahtuu:
+<!-- Voimme nyt piilottaa lomakkeen kutsumalla <i>noteFormRef.current.toggleVisibility()</i> samalla kun uuden muistiinpanon luominen tapahtuu: -->
+We can now hide the form by calling <i>noteFormRef.current.toggleVisibility()</i> after a new note has been created:
 
 ```js
 const App = () => {
@@ -399,18 +413,23 @@ const App = () => {
 }
 ```
 
-Käyttämämme [useImperativeHandle
-](https://reactjs.org/docs/hooks-reference.html#useimperativehandle) on siis React hook, jonka avulla funktiona määritellylle komponentille voidaan määrittää funktioita, joita on mahdollista kutsua sen ulkopuolelta.
+<!-- Käyttämämme [useImperativeHandle](https://reactjs.org/docs/hooks-reference.html#useimperativehandle) on siis React hook, jonka avulla funktiona määritellylle komponentille voidaan määrittää funktioita, joita on mahdollista kutsua sen ulkopuolelta. -->
+To recap, the [useImperativeHandle](https://reactjs.org/docs/hooks-reference.html#useimperativehandle) function is a React hook, that is used for defining functions for the component that can be called and invoked from outside of the component.
 
-Käyttämämme kikka komponentin tilan muuttamikseksi toimii, mutta se vaikuttaa hieman ikävältä. Saman olisi saanut aavistuksen siistimmin toteutettua "vanhan Reactin" class-perustaisilla komponenteilla, joihin tutustumme tämän osan lopussa. Tämä on toistaiseksi ainoa tapaus, jossa Reactin hook-syntaksiin nojaava ratkaisu on aavistuksen likaisemman oloinen kuin class-komponenttien tarjoama ratkaisu.
+<!-- Käyttämämme kikka komponentin tilan muuttamikseksi toimii, mutta se vaikuttaa hieman ikävältä. Saman olisi saanut aavistuksen siistimmin toteutettua "vanhan Reactin" class-perustaisilla komponenteilla, joihin tutustumme tämän osan lopussa. Tämä on toistaiseksi ainoa tapaus, jossa Reactin hook-syntaksiin nojaava ratkaisu on aavistuksen likaisemman oloinen kuin class-komponenttien tarjoama ratkaisu. -->
+This trick for changing the state of component works but it looks a bit unpleasant. We could have accomplished the same functionality with slightly cleaner code with "old React" class-based components. We will take a look at these class components at the end of this part of the course material. So far this is the only situations where using React hooks leads to code that is not cleaner than with class components.
 
-Refeille on myös [muita käyttötarkoituksia](https://reactjs.org/docs/refs-and-the-dom.html) kuin React-komponentteihin käsiksi pääseminen.
+<!-- Refeille on myös [muita käyttötarkoituksia](https://reactjs.org/docs/refs-and-the-dom.html) kuin React-komponentteihin käsiksi pääseminen. -->
+There are also [other use cases](https://reactjs.org/docs/refs-and-the-dom.html) for refs than access React components.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-5), branchissa <i>part5-5</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-5), branchissa <i>part5-5</i>. -->
+You can find the code for our current application in its entirety in the <i>part5-5</i> branch of [this github repository](https://github.com/fullstack-hy2019/part2-notes/tree/part5-5).
 
-### Huomio komponenteista
+<!-- ### Huomio komponenteista -->
+### One point about components
 
-Kun Reactissa määritellään komponentti
+<!-- Kun Reactissa määritellään komponentti -->
+When we define a component in React:
 
 ```js
 const Togglable = () => ...
@@ -418,7 +437,8 @@ const Togglable = () => ...
 }
 ```
 
-ja otetaan se käyttöön seuraavasti,
+<!-- ja otetaan se käyttöön seuraavasti, -->
+And use it like this:
 
 ```js
 <div>
@@ -436,17 +456,20 @@ ja otetaan se käyttöön seuraavasti,
 </div>
 ```
 
-syntyy <i>kolme erillistä komponenttiolioa</i>, joilla on kaikilla oma tilansa:
+<!-- syntyy <i>kolme erillistä komponenttiolioa</i>, joilla on kaikilla oma tilansa: -->
+We create <i>three separate instances of the component</i> that all have their own separate state:
 
 ![](../images/5/12.png)
 
-<i>ref</i>-attribuutin avulla on talletettu viite jokaiseen komponentin muuttujaan <i>togglable1</i>, <i>togglable2</i> ja <i>togglable3</i>.
+<!-- <i>ref</i>-attribuutin avulla on talletettu viite jokaiseen komponentin muuttujaan <i>togglable1</i>, <i>togglable2</i> ja <i>togglable3</i>. -->
+The <i>ref</i> attribute is used for assigning a reference to each of the components in the variables <i>togglable1</i>, <i>togglable2</i> and <i>togglable3</i>.
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
 #### 5.5 blogilistan frontend, step5
 
