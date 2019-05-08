@@ -244,7 +244,8 @@ test('renders content', () => {
 })
 ```
 
-Eli haimme selektorin avulla komponentin sisältä <i>li</i>-elementin ja tulostimme sen HTML:n konsoliin:
+<!-- Eli haimme selektorin avulla komponentin sisältä <i>li</i>-elementin ja tulostimme sen HTML:n konsoliin: -->
+We used the selector to find the <i>li</i> element inside of the component, and printed its HTML to the console:
 
 ```js
 console.log src/components/Note.test.js:38
@@ -260,8 +261,8 @@ console.log src/components/Note.test.js:38
 
 ### setup
 
-react-testing-library:n manuaali kehoittaa kutsumaan jokaisen testin jälkeen metodia
-[cleanup](https://testing-library.com/docs/react-testing-library/api#cleanup). Hoidimme asian lisäämällä testitiedostoon [afterEach](https://jestjs.io/docs/en/setup-teardown)-määreen, joka kutsuu metodia:
+<!-- react-testing-library:n manuaali kehoittaa kutsumaan jokaisen testin jälkeen metodia [cleanup](https://testing-library.com/docs/react-testing-library/api#cleanup). Hoidimme asian lisäämällä testitiedostoon [afterEach](https://jestjs.io/docs/en/setup-teardown)-määreen, joka kutsuu metodia: -->
+The manual for the react-testing-library recommends to call the [cleanup](https://testing-library.com/docs/react-testing-library/api#cleanup) method after every test. We can accomplish with the [afterEach](https://jestjs.io/docs/en/setup-teardown) function, that calls the method:
 
 ```js 
 import React from 'react'
@@ -273,16 +274,19 @@ import Note from './Note'
 afterEach(cleanup)  // highlight-line
 ```
 
-Voisimme toistaa saman kaikkiin testitiedostoihin. Parempi vaihtoehto on kuitenkin [konfiguroida](https://testing-library.com/docs/react-testing-library/setup) cleanup tapahtumaan automaattisesti. Tehdään konfiguraatiota varten tiedosto <i>src/setupTests.js</i> jolla on seuraava sisältö:
+<!-- Voisimme toistaa saman kaikkiin testitiedostoihin. Parempi vaihtoehto on kuitenkin [konfiguroida](https://testing-library.com/docs/react-testing-library/setup) cleanup tapahtumaan automaattisesti. Tehdään konfiguraatiota varten tiedosto <i>src/setupTests.js</i> jolla on seuraava sisältö: -->
+We could repeat the same cleanup in all of our test files. A better option is to [configure](https://testing-library.com/docs/react-testing-library/setup) the cleanup to be done automatically. Let's create a new <i>src/setupTests.js</i> file for this configuration with the following contents:
 
 ```js
 import 'jest-dom/extend-expect'
 import 'react-testing-library/cleanup-after-each'
 ```
 
-Nyt pääsemme eroon molemmista ylläolevan testikoodin korostetuista riveistä.
+<!-- Nyt pääsemme eroon molemmista ylläolevan testikoodin korostetuista riveistä. -->
+Now we can get rid of both of the highlighted rows of the test code.
 
-**HUOM** mikäli testejä suoritettaessa ei löydetä tiedostossa <i>src/setupTests.js</i> tehtyjä konfiguraatioita, auttaa seuraavan asetuksen lisääminen tiedostoon package-lock.json:
+<!-- **HUOM** mikäli testejä suoritettaessa ei löydetä tiedostossa <i>src/setupTests.js</i> tehtyjä konfiguraatioita, auttaa seuraavan asetuksen lisääminen tiedostoon package-lock.json: -->
+**NB** if the configuration defined in the <i>src/setupTests.js</i> file is not used when the tests are run, it may help to add the following configuration to the <i>package.json</i> file:
 
 ```
   "jest": {
@@ -294,11 +298,14 @@ Nyt pääsemme eroon molemmista ylläolevan testikoodin korostetuista riveistä.
   }
 ```
 
-### Nappien painelu testeissä
+<!-- ### Nappien painelu testeissä -->
+### Clicking buttons in tests
 
-Sisällön näyttämisen lisäksi toinen <i>Note</i>-komponenttien vastuulla oleva asia on huolehtia siitä, että painettaessa noten yhteydessä olevaa nappia, tulee propsina välitettyä tapahtumankäsittelijäfunktiota _toggleImportance_ kutsua.
+<!-- Sisällön näyttämisen lisäksi toinen <i>Note</i>-komponenttien vastuulla oleva asia on huolehtia siitä, että painettaessa noten yhteydessä olevaa nappia, tulee propsina välitettyä tapahtumankäsittelijäfunktiota _toggleImportance_ kutsua. -->
+In addition to displaying content, the <i>Note</i> component also makes sure that when the button associated to the note is pressed, the _toggleImportance_ event handler functions gets called.
 
-Testaus onnistuu seuraavasti:
+<!-- Testaus onnistuu seuraavasti: -->
+Testing this functionality can be accomplished like this:
 
 ```js
 import React from 'react'
@@ -327,34 +334,42 @@ it('clicking the button calls event handler once', async () => {
 })
 ```
 
-Testissä on muutama mielenkiintoinen seikka. Tapahtumankäsittelijäksi annetaan Jestin avulla määritelty [mock](https://facebook.github.io/jest/docs/en/mock-functions.html)-funktio:
+<!-- Testissä on muutama mielenkiintoinen seikka. Tapahtumankäsittelijäksi annetaan Jestin avulla määritelty [mock](https://facebook.github.io/jest/docs/en/mock-functions.html)-funktio: -->
+There's a few interesting things related to this test. The event handler is [mock](https://facebook.github.io/jest/docs/en/mock-functions.html) function defined with Jest:
 
 ```js
 const mockHandler = jest.fn()
 ```
 
-Testi hakee renderöidystä komponentista napin <i>tekstin perusteella</i> ja klikkaa sitä:
+<!-- Testi hakee renderöidystä komponentista napin <i>tekstin perusteella</i> ja klikkaa sitä: -->
+The test finds the button <i>based on the text</i> from the rendered component and clicks the element:
 
 ```js
 const button = getByText('make not important')
 fireEvent.click(button)
 ```
 
-Klikkaaminen tapahtuu metodin [fireEvent](https://testing-library.com/docs/api-events#fireevent) avulla.
+<!-- Klikkaaminen tapahtuu metodin [fireEvent](https://testing-library.com/docs/api-events#fireevent) avulla. -->
+Clicking happens with the [fireEvent](https://testing-library.com/docs/api-events#fireevent) method.
 
-Testin ekspektaatio varmistaa, että <i>mock-funktiota</i> on kutsuttu täsmälleen kerran:
+<!-- Testin ekspektaatio varmistaa, että <i>mock-funktiota</i> on kutsuttu täsmälleen kerran: -->
+The expectation of the test verifies that the <i>mock function</i> has been called exactly once.
 
 ```js
 expect(mockHandler.mock.calls.length).toBe(1)
 ```
 
-[Mockoliot ja -funktiot](https://en.wikipedia.org/wiki/Mock_object) ovat testauksessa yleisesti käytettyjä valekomponentteja, joiden avulla korvataan testattavien komponenttien riippuvuuksia, eli niiden tarvitsemia muita komponentteja. Mockit mahdollistavat mm. kovakoodattujen syötteiden palauttamisen sekä niiden metodikutsujen lukumäärän sekä parametrien testauksen aikaisen tarkkailun.
+<!-- [Mockoliot ja -funktiot](https://en.wikipedia.org/wiki/Mock_object) ovat testauksessa yleisesti käytettyjä valekomponentteja, joiden avulla korvataan testattavien komponenttien riippuvuuksia, eli niiden tarvitsemia muita komponentteja. Mockit mahdollistavat mm. kovakoodattujen syötteiden palauttamisen sekä niiden metodikutsujen lukumäärän sekä parametrien testauksen aikaisen tarkkailun. -->
+[Mock objects and functions](https://en.wikipedia.org/wiki/Mock_object) are commonly used stub components in testing, that are used for replacing dependencies of the components being tested. Mocks make it possible to return hardcoded responses, and to verify the amount of times the mock functions are called and with what parameters.
 
-Esimerkissämme mock-funktio sopi tarkoitukseen erinomaisesti, sillä sen avulla on helppo varmistaa, että metodia on kutsuttu täsmälleen kerran.
+<!-- Esimerkissämme mock-funktio sopi tarkoitukseen erinomaisesti, sillä sen avulla on helppo varmistaa, että metodia on kutsuttu täsmälleen kerran. -->
+In our example the mock function is a perfect choice, since it can be easily used for verifying that the method gets called exactly once.
 
-### Komponentin <i>Togglable</i> testit
+<!-- ### Komponentin <i>Togglable</i> testit -->
+### Tests for the <i>Togglable</i> component
 
-Tehdään komponentille <i>Togglable</i> muutama testi. Lisätään komponentin lapset renderöivään div-elementtiin CSS-luokka <i>togglableContent</i>:
+<!-- Tehdään komponentille <i>Togglable</i> muutama testi. Lisätään komponentin lapset renderöivään div-elementtiin CSS-luokka <i>togglableContent</i>: -->
+Let's write a few tests for the <i>Togglable</i> component. Let's add the <i>togglableContent</i> CSS classname to the div that returns the child components.
 
 ```js
 const Togglable = React.forwardRef((props, ref) => {
@@ -376,7 +391,8 @@ const Togglable = React.forwardRef((props, ref) => {
 })
 ```
 
-Testit ovat seuraavassa
+<!-- Testit ovat seuraavassa -->
+The tests are shown below:
 
 ```js
 import React from 'react'
@@ -415,21 +431,27 @@ describe('<Togglable />', () => {
 })
 ```
 
-Ennen jokaista testiä suoritettava _beforeEach_ renderöi <i>Togglable</i>-komponentin muuttujaan _component_.
+<!-- Ennen jokaista testiä suoritettava _beforeEach_ renderöi <i>Togglable</i>-komponentin muuttujaan _component_. -->
+The _beforeEach_ function gets called before each test, which then renders the <i>Togglable</i> component into the _component_ variable 
 
-Ensimmäinen testi tarkastaa, että <i>Togglable</i> renderöi sen lapsikomponentin `<div className="testDiv" />`. 
+<!-- Ensimmäinen testi tarkastaa, että <i>Togglable</i> renderöi sen lapsikomponentin `<div className="testDiv" />`.  -->
+The first test verifies that the <i>Togglable</i> component renders its child component `<div className="testDiv" />`.
 
-Loput testit varmistavat metodia [toHaveStyle](https://www.npmjs.com/package/jest-dom#tohavestyle) käyttäen, että Togglablen sisältämä lapsikomponentti on alussa näkymättömissä, eli sen sisältävään <i>div</i>-elementtiin liittyy tyyli `{ display: 'none' }`, ja että nappia painettaessa komponentti näkyy, eli näkymättömäksi tekevää tyyliä <i>ei</i> enää ole. 
+<!-- Loput testit varmistavat metodia [toHaveStyle](https://www.npmjs.com/package/jest-dom#tohavestyle) käyttäen, että Togglablen sisältämä lapsikomponentti on alussa näkymättömissä, eli sen sisältävään <i>div</i>-elementtiin liittyy tyyli `{ display: 'none' }`, ja että nappia painettaessa komponentti näkyy, eli näkymättömäksi tekevää tyyliä <i>ei</i> enää ole.  -->
+The remaining tests use the [toHaveStyle](https://www.npmjs.com/package/jest-dom#tohavestyle) method to verify that the child component of the <i>Togglable</i> component is not visible initially, by checking that the style of the <i>div</i> element contains `{ display: 'none' }`. Another test verifies that when the button is pressed the component is visible, meaning that the style for hiding the component <i>is no longer</i> assigned to the component.
 
-Nappi etsitään jälleen nappiin liittyvän tekstin perusteella. Nappi oltaisiin voitu etsiä myös CSS-selektorin avulla
+<!-- Nappi etsitään jälleen nappiin liittyvän tekstin perusteella. Nappi oltaisiin voitu etsiä myös CSS-selektorin avulla -->
+The button is searched for once again based on the text that it contains. The button could have been located also with the help of a CSS selector:
 
 ```js
 const button = component.container.querySelector('button')
 ```
 
-Komponentissa on kaksi nappia, mutta koska [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) palauttaa <i>ensimmäisen</i> löytyvän napin, löytyy napeista oikea.
+<!-- Komponentissa on kaksi nappia, mutta koska [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) palauttaa <i>ensimmäisen</i> löytyvän napin, löytyy napeista oikea. -->
+The component contains two buttons but since [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) returns the <i>first</i> matching button, we happen to get the button that we wanted.
 
-Lisätään vielä mukaan testi, joka varmistaa että auki togglattu sisältö saadaan piilotettua painamalla komponentin toisena olevaa nappia
+<!-- Lisätään vielä mukaan testi, joka varmistaa että auki togglattu sisältö saadaan piilotettua painamalla komponentin toisena olevaa nappia -->
+Let's also add a test that can be used to verify that the visible content can be hidden by clicking the second button of the component:
 
 ```js
 it('toggled content can be closed', () => {
@@ -444,7 +466,8 @@ it('toggled content can be closed', () => {
 })
 ```
 
-eli määrittelimme selektorin, joka palauttaa toisena olevan napin `button:nth-child(2)`. Testeissä ei kuitenkaan ole viisasta olla riippuvainen komponentin nappien järjestyksestä, joten parempi onkin hakea napit niiden tekstin perusteella:
+<!-- eli määrittelimme selektorin, joka palauttaa toisena olevan napin `button:nth-child(2)`. Testeissä ei kuitenkaan ole viisasta olla riippuvainen komponentin nappien järjestyksestä, joten parempi onkin hakea napit niiden tekstin perusteella: -->
+We defined a selector that returns the second button `button:nth-child(2)`. It's not a wise move to depend on the order of the buttons in the component, and it is recommended to find the elements based on their text:
 
 ```js
 it('toggled content can be closed', () => {
@@ -459,19 +482,23 @@ it('toggled content can be closed', () => {
 })
 ```
 
-Käyttämämme _getByText_ on vain yksi monista [queryistä](https://testing-library.com/docs/api-queries#queries), joita <i>react-testing-library</i> tarjoaa.
+<!-- Käyttämämme _getByText_ on vain yksi monista [queryistä](https://testing-library.com/docs/api-queries#queries), joita <i>react-testing-library</i> tarjoaa. -->
+The _getByText_ method that we used, is just one of the many [queries](https://testing-library.com/docs/api-queries#queries) <i>react-testing-library</i> offers.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-7), branchissa <i>part5-7</i>.
-
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-7), branchissa <i>part5-7</i>. -->
+You can find the code for our current application in its entirety in the <i>part5-7</i> branch of [this github repository](https://github.com/fullstack-hy2019/part2-notes/tree/part5-7).
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 5.13: blogilistan testit, step1
+<!-- #### 5.13: blogilistan testit, step1 -->
+#### 5.13: Blog list tests, step1
 
-Lisää sovellukseesi tilapäisesti seuraava komponentti
+<!-- Lisää sovellukseesi tilapäisesti seuraava komponentti -->
+Add the following component temporarily to your application:
 
 ```js
 import React from 'react'
@@ -491,17 +518,23 @@ const SimpleBlog = ({ blog, onClick }) => (
 export default SimpleBlog
 ```
 
-Tee testi, joka varmistaa, että komponentti renderöi blogin titlen, authorin ja likejen määrän.
+<!-- Tee testi, joka varmistaa, että komponentti renderöi blogin titlen, authorin ja likejen määrän. -->
+Write a test that verifies that the component renders the title, author and amount of likes for the blog post.
 
-Lisää komponenttiin tarvittaessa testausta helpottavia CSS-luokkia.
+<!-- Lisää komponenttiin tarvittaessa testausta helpottavia CSS-luokkia. -->
+If necessary, add CSS classes to the component for making testing easier.
 
-#### 5.14: blogilistan testit, step2
+<!-- #### 5.14: blogilistan testit, step2 -->
+#### 4.14: Blog list tests, step2
 
-Tee testi, joka varmistaa, että jos komponentin <i>like</i>-nappia painetaan kahdesti, komponentin propsina saamaa tapahtumankäsittelijäfunktiota kutsutaan kaksi kertaa.
+<!-- Tee testi, joka varmistaa, että jos komponentin <i>like</i>-nappia painetaan kahdesti, komponentin propsina saamaa tapahtumankäsittelijäfunktiota kutsutaan kaksi kertaa. -->
+Write a test that verifies that if the <i>like</i> button of a component is pressed twice, the event handler function passed in the component's props is called twice.
 
-#### 5.15*: blogilistan testit, step3
+<!-- #### 5.15*: blogilistan testit, step3 -->
+#### 5.15*: Blog list tests, step3
 
-Tee oman sovelluksesi komponentille <i>Blog</i> testit, jotka varmistavat, että oletusarvoisesti blogista on näkyvissä ainoastaan nimi ja kirjoittaja, ja että klikkaamalla niitä saadaan näkyviin myös muut osat blogin tiedoista.
+<!-- Tee oman sovelluksesi komponentille <i>Blog</i> testit, jotka varmistavat, että oletusarvoisesti blogista on näkyvissä ainoastaan nimi ja kirjoittaja, ja että klikkaamalla niitä saadaan näkyviin myös muut osat blogin tiedoista. -->
+Write tests for the <i>Blog</i> component of your application, that verify that by default only the name and author of the blog post is shown. Also verify that when the blog post is clicked, the other information of the blog post become visible.
 
 </div>
 
