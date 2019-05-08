@@ -6,19 +6,24 @@ letter: c
 
 <div class="content">
 
-Reactilla tehtyjen frontendien testaamiseen on monia tapoja. Aloitetaan niihin tutustuminen nyt.
+<!-- Reactilla tehtyjen frontendien testaamiseen on monia tapoja. Aloitetaan niihin tutustuminen nyt. -->
+There are many different ways of testing React applications. Let's take a look at them next.
 
-Testit tehdään samaan tapaan kuin edellisessä osassa eli Facebookin [Jest](http://jestjs.io/)-kirjastolla. Jest onkin valmiiksi konfiguroitu create-react-app:illa luotuihin projekteihin.
+<!-- Testit tehdään samaan tapaan kuin edellisessä osassa eli Facebookin [Jest](http://jestjs.io/)-kirjastolla. Jest onkin valmiiksi konfiguroitu create-react-app:illa luotuihin projekteihin. -->
+Tests will be implemented with the same [Jest](http://jestjs.io/) testing library developed by Facebook that was used in the previous part. Jest is actually configured by default to applications created with create-react-app.
 
-Tarvitsemme Jestin lisäksi testaamiseen apukirjaston, jonka avulla React-komponentteja voidaan renderöidä testejä varten. Tähän tarkoitukseen ehdottomasti paras vaihtoehto vielä viime syksyyn asti oli AirBnB:n kehittämä [enzyme](https://github.com/airbnb/enzyme)-kirjasto. Enzyme ei kuitenkaan tue kunnolla Reactin hookeja, joten käytämme Enzymen sijaan viime aikoina nopeasti suosiota kasvattanutta kirjastoa [react-testing-library](https://github.com/kentcdodds/react-testing-library). Jestin ilmaisuvoimaa kannattaa myös laajentaa kirjastolla [jest-dom](https://www.npmjs.com/package/jest-dom).
+<!-- Tarvitsemme Jestin lisäksi testaamiseen apukirjaston, jonka avulla React-komponentteja voidaan renderöidä testejä varten. Tähän tarkoitukseen ehdottomasti paras vaihtoehto vielä viime syksyyn asti oli AirBnB:n kehittämä [enzyme](https://github.com/airbnb/enzyme)-kirjasto. Enzyme ei kuitenkaan tue kunnolla Reactin hookeja, joten käytämme Enzymen sijaan viime aikoina nopeasti suosiota kasvattanutta kirjastoa [react-testing-library](https://github.com/kentcdodds/react-testing-library). Jestin ilmaisuvoimaa kannattaa myös laajentaa kirjastolla [jest-dom](https://www.npmjs.com/package/jest-dom). -->
+In addition to Jest, we also need another testing library that will help us render components for testing purposes. The best option for this used to be the [enzyme](https://github.com/airbnb/enzyme) library developed by AirBnB. Unfortunately Enzyme does not support React hooks properly, so we will instead use [react-testing-library](https://github.com/kentcdodds/react-testing-library) which has seen a rapid growth in popularity in recent times.
 
-Asennetaan kirjastot komennolla:
+<!-- Asennetaan kirjastot komennolla: -->
+Let's install the library with the command:
 
 ```js
 npm install --save-dev react-testing-library jest-dom
 ```
 
-Testataan aluksi muistiinpanon renderöivää komponenttia:
+<!-- Testataan aluksi muistiinpanon renderöivää komponenttia: -->
+Let's first write tests for the component that is responsible for rendering a note:
 
 ```js
 const Note = ({ note, toggleImportance }) => {
@@ -35,14 +40,17 @@ const Note = ({ note, toggleImportance }) => {
 }
 ```
 
-Huomaa, että muistiinpanon sisältävällä <i>li</i>-elementillä on [CSS](https://reactjs.org/docs/dom-elements.html#classname)-luokka <i>note</i>, pääsemme sen avulla muistiinpanoon käsiksi testistä.
+<!-- Huomaa, että muistiinpanon sisältävällä <i>li</i>-elementillä on [CSS](https://reactjs.org/docs/dom-elements.html#classname)-luokka <i>note</i>, pääsemme sen avulla muistiinpanoon käsiksi testistä. -->
+Notice that the <i>li</i> element has the [CSS](https://reactjs.org/docs/dom-elements.html#classname) classname <i>note</i>, that is used to access the component in our tests.
 
+<!-- ### Komponentin renderöinti testiä varten -->
+### Rendering the component for tests
 
-### Komponentin renderöinti testiä varten
+<!-- Tehdään testi tiedostoon <i>src/components/Note.test.js</i>, eli samaan hakemistoon, missä komponentti itsekin sijaitsee. -->
+We will write our test in the <i>src/components/Note.test.js</i> file, which is in the same directory as the component itself.
 
-Tehdään testi tiedostoon <i>src/components/Note.test.js</i>, eli samaan hakemistoon, missä komponentti itsekin sijaitsee.
-
-Ensimmäinen testi varmistaa, että komponentti renderöi muistiinpanon sisällön:
+<!-- Ensimmäinen testi varmistaa, että komponentti renderöi muistiinpanon sisällön: -->
+The first test verifies that the component renders the contents of the note:
 
 ```js
 import React from 'react'
@@ -68,7 +76,8 @@ test('renders content', () => {
 })
 ```
 
-Alun konfiguroinnin jälkeen testi renderöi komponentin metodin react-testing-library-kirjaston tarjoaman [render](https://testing-library.com/docs/react-testing-library/api#render) avulla:
+<!-- Alun konfiguroinnin jälkeen testi renderöi komponentin metodin react-testing-library-kirjaston tarjoaman [render](https://testing-library.com/docs/react-testing-library/api#render) avulla: -->
+After the initial configuration, the test renders the component with the [render](https://testing-library.com/docs/react-testing-library/api#render) method provided by the react-testing-library:
 
 ```js
 const component = render(
@@ -76,11 +85,14 @@ const component = render(
 )
 ```
 
-Normaalisti React-komponentit renderöityvät <i>DOM</i>:iin. Nyt kuitenkin renderöimme komponentteja testeille sopivaan muotoon laittamatta niitä DOM:iin. 
+<!-- Normaalisti React-komponentit renderöityvät <i>DOM</i>:iin. Nyt kuitenkin renderöimme komponentteja testeille sopivaan muotoon laittamatta niitä DOM:iin.  -->
+Normally React components are rendered to the <i>DOM</i>. The render method we used renders the components in a format that is suitable for tests without rendering them to the DOM.
 
-_render_ palauttaa olion, jolla on useita kenttiä. Yksi kentistä on <i>container</i>, se sisältää koko komponentin renderöimän HTML:n.
+<!-- _render_ palauttaa olion, jolla on useita kenttiä. Yksi kentistä on <i>container</i>, se sisältää koko komponentin renderöimän HTML:n. -->
+_render_ returns an object that has several properties. One of the properties is called <i>container</i> and it contains all of the HTML rendered by the component.
 
-Ekspektaatiossa varmistamme, että komponenttiin on renderöitynyt oikea teksti, eli muistiinpanon sisältö:
+<!-- Ekspektaatiossa varmistamme, että komponenttiin on renderöitynyt oikea teksti, eli muistiinpanon sisältö: -->
+In the expectation we verify that the component renders the correct text, which in this case is the content of the note:
 
 ```js
 expect(component.container).toHaveTextContent(
@@ -88,32 +100,42 @@ expect(component.container).toHaveTextContent(
 )
 ```
 
-### Testien suorittaminen
+<!-- ### Testien suorittaminen -->
+### Running tests
 
-Create-react-app:issa on konfiguroitu testit oletusarvoisesti suoritettavaksi ns. watch-moodissa, eli jos suoritat testit komennolla _npm test_, jää konsoli odottamaan koodissa tapahtuvia muutoksia. Muutosten jälkeen testit suoritetaan automaattisesti ja Jest alkaa taas odottamaan uusia muutoksia koodiin.
+<!-- Create-react-app:issa on konfiguroitu testit oletusarvoisesti suoritettavaksi ns. watch-moodissa, eli jos suoritat testit komennolla _npm test_, jää konsoli odottamaan koodissa tapahtuvia muutoksia. Muutosten jälkeen testit suoritetaan automaattisesti ja Jest alkaa taas odottamaan uusia muutoksia koodiin. -->
+Create-react-app configures the tests to be run in watch mode by default, which means that the _npm test_ command will not exit once the tests have finished, and will instead wait for changes to be made to the code. Once new changes to the code are saved, the tests are executed automatically after which Jest goes back to waiting for new changes to be made.
 
-Jos haluat ajaa testit "normaalisti", se onnistuu komennolla
+<!-- Jos haluat ajaa testit "normaalisti", se onnistuu komennolla -->
+If you want to run tests "normally", you can do so with the command:
 
 ```js
 CI=true npm test
 ```
 
-**HUOM:** konsoli saattaa herjata virhettä, jos sinulla ei ole asennettuna watchmania. Watchman on Facebookin kehittämä tiedoston muutoksia tarkkaileva ohjelma. Ohjelma nopeuttaa testien ajoa ja ainakin osx sierrasta ylöspäin jatkuva testien vahtiminen aiheuttaa käyttäjillä virheilmoituksia. Näistä ilmoituksista pääsee eroon asentamalla Watchmanin.
+<!-- **HUOM:** konsoli saattaa herjata virhettä, jos sinulla ei ole asennettuna watchmania. Watchman on Facebookin kehittämä tiedoston muutoksia tarkkaileva ohjelma. Ohjelma nopeuttaa testien ajoa ja ainakin osx sierrasta ylöspäin jatkuva testien vahtiminen aiheuttaa käyttäjillä virheilmoituksia. Näistä ilmoituksista pääsee eroon asentamalla Watchmanin. -->
+**NB:** the console may issue a warning if you have not installed Watchman. Watchman is an application developed by Facebook that watches for changes that are made to files. The program speeds up the execution of tests and at least starting from macOS Sierra, running tests in watch mode issues some warnings to the console, that can be gotten rid of by installing Watchman.
 
-Ohjeet ohjelman asentamiseen eri käyttöjärjestelmille löydät Watchmanin sivulta:
-https://facebook.github.io/watchman/
+<!-- Ohjeet ohjelman asentamiseen eri käyttöjärjestelmille löydät Watchmanin sivulta: https://facebook.github.io/watchman/ -->
+Instructions for installing Watchman on different operating systems can be found from the official Watchman website: https://facebook.github.io/watchman/
 
-### Testien sijainti
+<!-- ### Testien sijainti -->
+### Test file location
 
-Reactissa on (ainakin) [kaksi erilaista](https://medium.com/@JeffLombardJr/organizing-tests-in-jest-17fc431ff850) konventiota testien sijoittamiseen. Sijoitimme testit ehkä vallitsevan tavan mukaan, eli samaan hakemistoon missä testattava komponentti sijaitsee.
+<!-- Reactissa on (ainakin) [kaksi erilaista](https://medium.com/@JeffLombardJr/organizing-tests-in-jest-17fc431ff850) konventiota testien sijoittamiseen. Sijoitimme testit ehkä vallitsevan tavan mukaan, eli samaan hakemistoon missä testattava komponentti sijaitsee. -->
+In React there are (at least) [two different conventions](https://medium.com/@JeffLombardJr/organizing-tests-in-jest-17fc431ff850) for test file location. We created our test files according to the current standard by placing them in the same directory as the component being tested.
 
-Toinen tapa olisi sijoittaa testit "normaaliin" tapaan omaan erilliseen hakemistoon. Valitaanpa kumpi tahansa tapa, on varmaa että se on jonkun mielestä täysin väärä.
+<!-- Toinen tapa olisi sijoittaa testit "normaaliin" tapaan omaan erilliseen hakemistoon. Valitaanpa kumpi tahansa tapa, on varmaa että se on jonkun mielestä täysin väärä. -->
+The other convention is to store the test files "normally" in their own separate directory. Whichever convention we choose, it is almost guaranteed to be wrong according to someone's opinion.
 
-Itse en pidä siitä, että testit ja normaali koodi ovat samassa hakemistossa. Noudatamme kuitenkin nyt tätä tapaa, sillä se on oletusarvo create-react-app:illa konfiguroiduissa sovelluksissa.
+<!-- Itse en pidä siitä, että testit ja normaali koodi ovat samassa hakemistossa. Noudatamme kuitenkin nyt tätä tapaa, sillä se on oletusarvo create-react-app:illa konfiguroiduissa sovelluksissa. -->
+Personally, I do not like this way of storing tests and application code in the same directory. The reason we choose to follow this convention is because it is configured by default in applications created by create-react-app.
 
-### Sisällön etsiminen testattavasta komponentista
+<!-- ### Sisällön etsiminen testattavasta komponentista -->
+### Searching for content in a component
 
-react-testing-library-kirjasto tarjoaa runsaasti tapoja, miten voimme tutkia testattavan komponentin sisältöä. Laajennetaan testiämme hiukan:
+<!-- react-testing-library-kirjasto tarjoaa runsaasti tapoja, miten voimme tutkia testattavan komponentin sisältöä. Laajennetaan testiämme hiukan: -->
+The react-testing-library package offers many different ways for investigating the content of the component being tested. Let's expand our test slightly:
 
 ```js
 test('renders content', () => {
@@ -143,17 +165,23 @@ test('renders content', () => {
 })
 ```
 
-Ensimmäinen tapa siis etsii tiettyä tekstiä koko komponentin renderöimästä HTML-koodista. 
+<!-- Ensimmäinen tapa siis etsii tiettyä tekstiä koko komponentin renderöimästä HTML-koodista.  -->
+The first way searches for a matching text from the entire HTML code rendered by the component.
 
-Toisena käytimme render-metodin palauttamaan olioon liitettyä [getByText](https://testing-library.com/docs/api-queries#getbytext)-metodia, joka palauttaa sen elementin, jolla on määritelty teksti. Jos elementtiä ei ole, tapahtuu poikkeus. Eli mitään ekspektaatiota ei välttämättä edes tarvittaisi.
+<!-- Toisena käytimme render-metodin palauttamaan olioon liitettyä [getByText](https://testing-library.com/docs/api-queries#getbytext)-metodia, joka palauttaa sen elementin, jolla on määritelty teksti. Jos elementtiä ei ole, tapahtuu poikkeus. Eli mitään ekspektaatiota ei välttämättä edes tarvittaisi. -->
+The second way uses the [getByText](https://testing-library.com/docs/api-queries#getbytext) method of the object returned by the render method. The method returns the element that contains the given text. An exception occurs if no such element exists. For this reason we would technically not need to specify any additional expectation.
 
-Kolmas tapa on etsiä komponentin sisältä tietty elementti metodilla [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector), joka saa parametrikseen [CSS-selektorin](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
+<!-- Kolmas tapa on etsiä komponentin sisältä tietty elementti metodilla [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector), joka saa parametrikseen [CSS-selektorin](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors). -->
+The third way is to search for a specific element that is rendered by the component with the [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) method that receives a [CSS-selektorin](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) as its parameter.
 
-### Testien debuggaaminen
+<!-- ### Testien debuggaaminen -->
+### Debugging tests
 
-Testejä tehdessä törmäämme tyypillisesti erittäin moniin ongelmiin. 
+<!-- Testejä tehdessä törmäämme tyypillisesti erittäin moniin ongelmiin.  -->
+We typically run into many different kinds of problems when writing our tests.
 
-Renderin palauttaman olion metodilla [debug](https://testing-library.com/docs/react-testing-library/api#debug) voimme tulostaa komponentin tuottaman HTML:n konsoliin, eli kun muutamme testiä seuraavasti,
+<!-- Renderin palauttaman olion metodilla [debug](https://testing-library.com/docs/react-testing-library/api#debug) voimme tulostaa komponentin tuottaman HTML:n konsoliin, eli kun muutamme testiä seuraavasti, -->
+The object returned by the render method has a [debug](https://testing-library.com/docs/react-testing-library/api#debug) method that can be used to print the HTML rendered by the component to the console. Let's try this out by making the following changes to our code:
 
 ```js
 test('renders content', () => {
@@ -172,7 +200,8 @@ test('renders content', () => {
 })
 ```
 
-konsoliin tulostuu komponentin generoima HTML:
+<!-- konsoliin tulostuu komponentin generoima HTML: -->
+We can see the HTML generated by the component in the console:
 
 ```js
 console.log node_modules/react-testing-library/dist/index.js:64
@@ -190,7 +219,8 @@ console.log node_modules/react-testing-library/dist/index.js:64
   </body>
 ```
 
-On myös mahdollista etsiä komponentista pienempi osa, ja tulostaa sen HTML-koodi, tällöin tarvitsemme metodia _prettyDOM_, joka löytyy react-testing-library:n mukana tulevasta kirjastosta <i>dom-testing-library</i>:
+<!-- On myös mahdollista etsiä komponentista pienempi osa, ja tulostaa sen HTML-koodi, tällöin tarvitsemme metodia _prettyDOM_, joka löytyy react-testing-library:n mukana tulevasta kirjastosta <i>dom-testing-library</i>: -->
+It is also possible to search for a smaller part of the component and print its HTML code. In order to do this we need the _prettyDOM_ method, that can be imported from the <i>dom-testing-library</i> package that is automatically installed with react-testing-library:
 
 ```js
 import React from 'react'
