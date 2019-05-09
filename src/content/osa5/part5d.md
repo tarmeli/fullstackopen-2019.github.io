@@ -6,17 +6,22 @@ letter: d
 
 <div class="content">
 
-React tarjoaa yhteensä 10 erilaista [valmista hookia](https://reactjs.org/docs/hooks-reference.html), näistä ylivoimaisesti eniten käytetyt ovat meillekin jo tutut [useState](https://reactjs.org/docs/hooks-reference.html#usestate) ja [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect). 
+<!-- React tarjoaa yhteensä 10 erilaista [valmista hookia](https://reactjs.org/docs/hooks-reference.html), näistä ylivoimaisesti eniten käytetyt ovat meillekin jo tutut [useState](https://reactjs.org/docs/hooks-reference.html#usestate) ja [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect).  -->
+React offers 10 different [built-in hooks](https://reactjs.org/docs/hooks-reference.html), of which the most popular ones are the [useState](https://reactjs.org/docs/hooks-reference.html#usestate) and [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect) hooks, that we have already been using extensively.
 
-### Custom hookit
+<!-- ### Custom hookit -->
+### Custom hooks
 
-React tarjoaa mahdollisuuden myös omien eli [custom](https://reactjs.org/docs/hooks-custom.html)-hookien määrittelyyn. Customhookien pääasiallinen tarkoitus on Reactin dokumentaation mukaan mahdollistaa komponenttien logiikan uusiokäyttö.
+<!-- React tarjoaa mahdollisuuden myös omien eli [custom](https://reactjs.org/docs/hooks-custom.html)-hookien määrittelyyn. Customhookien pääasiallinen tarkoitus on Reactin dokumentaation mukaan mahdollistaa komponenttien logiikan uusiokäyttö. -->
+React offers the option to create our own [custom](https://reactjs.org/docs/hooks-custom.html) hooks. According to React, the primary purpose of custom hooks is to facilitate the reuse of the logic used in components.
 
 > <i>Building your own Hooks lets you extract component logic into reusable functions.</i>
 
-Custom hookit ovat tavallisia Javascripfunktioita, jotka voivat kutsua mitä tahansa muita hookeja kunhan vain toimivat [hookien sääntöjen](osa1/monimutkaisempi_tila_reactin_debuggaus#hookien-saannot) puitteissa. Custom hookin nimen täytyy alkaa sanalla _use_.
+<!-- Custom hookit ovat tavallisia Javascripfunktioita, jotka voivat kutsua mitä tahansa muita hookeja kunhan vain toimivat [hookien sääntöjen](osa1/monimutkaisempi_tila_reactin_debuggaus#hookien-saannot) puitteissa. Custom hookin nimen täytyy alkaa sanalla _use_. -->
+Custom hooks are regular JavaScript functions that can use any other hooks, as long as they adhere to the [rules of hooks](osa1/monimutkaisempi_tila_reactin_debuggaus#hookien-saannot). Additionally, the name of custom hooks must start with the word _use_.
 
-Teimme [osassa 1](/osa1/komponentin_tila_ja_tapahtumankasittely#tapahtumankasittely) laskurin, jonka arvoa voi kasvattaa, vähentää ja nollata. Sovelluksen koodi on seuraava
+<!-- Teimme [osassa 1](/osa1/komponentin_tila_ja_tapahtumankasittely#tapahtumankasittely) laskurin, jonka arvoa voi kasvattaa, vähentää ja nollata. Sovelluksen koodi on seuraava -->
+We implemented a counter application in [part 1](/osa1/komponentin_tila_ja_tapahtumankasittely#tapahtumankasittely), that can have its value incremented, decremented, or reset. The code of the application is as follows:
 
 ```js  
 import React, { useState } from 'react'
@@ -40,7 +45,8 @@ const App = (props) => {
 }
 ```
 
-Eriytetään laskurilogiikka custom hookiksi. Hookin koodi on seuraavassa
+<!-- Eriytetään laskurilogiikka custom hookiksi. Hookin koodi on seuraavassa -->
+Let's extract the counter logic into its own custom hook. The code for the hook is as follows:
 
 ```js
 const useCounter = () => {
@@ -67,9 +73,11 @@ const useCounter = () => {
 }
 ```
 
-Hook siis käyttää sisäisesti _useState_-hookia luomaan itselleen tilan. Hook palauttaa olion, joka sisältää kenttinään hookin tilan arvon sekä funktiot hookin tallettaman arvon muuttamiseen.
+<!-- Hook siis käyttää sisäisesti _useState_-hookia luomaan itselleen tilan. Hook palauttaa olion, joka sisältää kenttinään hookin tilan arvon sekä funktiot hookin tallettaman arvon muuttamiseen. -->
+Our custom hook uses the _useState_ hook internally to create its own state. The hook returns an object, that's properties contain the value of the counter as well as functions for manipulating the value.
 
-React-komponentti käyttää hookia seuraavaan tapaan:
+<!-- React-komponentti käyttää hookia seuraavaan tapaan: -->
+React components can use the hook as shown below:
 
 ```js
 const App = (props) => {
@@ -92,9 +100,11 @@ const App = (props) => {
 }
 ```
 
-Näin komponentin _App_ tila ja sen manipulointi on siirretty kokonaisuudessaan hookin _useCounter_ vastuulle. 
+<!-- Näin komponentin _App_ tila ja sen manipulointi on siirretty kokonaisuudessaan hookin _useCounter_ vastuulle.  -->
+By doing this we can extract the state of the _App_ component and its manipulation entirely into the _useCounter_ hook. Managing the counter state and logic is now the responsibility of the custom hook.
 
-Samaa hookia voitaisiin <i>uusiokäyttää</i> sovelluksessa joka laski vasemman ja oikean napin painalluksia:
+<!-- Samaa hookia voitaisiin <i>uusiokäyttää</i> sovelluksessa joka laski vasemman ja oikean napin painalluksia: -->
+The same hook could be <i>reused</i> in the application that was keeping track of the amount of clicks made to the left and right buttons:
 
 ```js
 
