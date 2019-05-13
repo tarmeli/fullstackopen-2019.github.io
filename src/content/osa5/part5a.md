@@ -7,21 +7,21 @@ letter: a
 <div class="content">
 
 <!-- Kaksi edellistä osaa keskittyivät lähinnä backendin toiminnallisuuteen. Edellisessä osassa backendiin toteutettua käyttäjänhallintaa ei ole tällä hetkellä tuettuna frontendissa millään tavalla. -->
-Last two parts have mainly concentrated on the backend. User management we added to the backend in the last part has not been implemented to the frontend at all. 
+Last two parts have mainly concentrated on the backend. The frontend does not yet support the user management we implemented to the backend in part 4.
 
 <!-- Frontend näyttää tällä hetkellä olemassaolevat muistiinpanot ja antaa muuttaa niiden tilaa. Uusia muistiinpanoja ei kuitenkaan voi lisätä, sillä osan 4 muutosten myötä backend edellyttää, että lisäyksen mukana on käyttäjän identiteetin varmistava token. -->
-At the moment the frontend shows existing notes and lets user change their state. New notes cannot be added anymore because of the changes made to the backend in part 4. The backend now expects that a token verifying users identity is sent with the new note. 
+At the moment the frontend shows existing notes, and lets user change the state of a note from important to not important and vice versa. New notes cannot be added anymore because of the changes made to the backend in part 4. The backend now expects that a token verifying users identity is sent with the new note. 
 
 <!-- Toteutetaan nyt osa käyttäjienhallinnan edellyttämästä toiminnallisuudesta frontendiin. Aloitetaan käyttäjän kirjautumisesta. Oletetaan vielä tässä osassa, että käyttäjät luodaan suoraan backendiin. -->
-Well now implement a part of the required user management functionality to the frontend. Lets begin with user login. Throughout this part we will assume, that new users will be created straight to the backend. 
+We'll now implement a part of the required user management functionality to the frontend. Lets begin with user login. Throughout this part we will assume, that new users are not added from the frontend. 
 
 <!-- Sovelluksen yläosaan on nyt lisätty kirjautumislomake, myös uuden muistiinpanon lisäämisestä huolehtiva lomake on siirretty muistiinpanojen yläpuolelle: -->
-A login form has been added to the top of the application. The form for adding new notes has also been moved to the top of the notes. 
+A login form has now been added to the top of the page. The form for adding new notes has also been moved to the top of the list of notes. 
 
 ![](../images/5/1.png)
 
 <!-- Komponentin <i>App</i> koodi näyttää seuraavalta: -->
-The code of the <i>App</i> component looks as follows: 
+The code of the <i>App</i> component now looks as follows: 
 
 ```js
 const App = () => {
@@ -92,23 +92,24 @@ export default App
 ```
 
 <!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-1), branchissa <i>part5-1</i>. -->
-Current application code can be found from [github](https://github.com/fullstack-hy2019/part2-notes/tree/part5-1).
+Current application code can be found from [github](https://github.com/fullstack-hy2019/part2-notes/tree/part5-1), branch <i>part5-1</i>.
 
 <!-- Kirjautumislomakkeen käsittely noudattaa samaa periaatetta kuin [osassa 2](/osa2#lomakkeet). Lomakkeen kenttiä varten on lisätty komponentin tilaan  <i>username</i> ja <i>password</i>. Molemmille kentille on määritelty muutoksenkäsittelijä, joka synkronoi kenttään tehdyt muutokset komponentin <i>App</i> tilaan. Muutoksenkäsittelijä on yksinkertainen, se destrukturoi parametrina tulevasta oliosta kentän <i>target</i> ja asettaa sen arvon vastaavaan tilaan: -->
-Handling the login form follows the same principle as forms we used in  [part 2](/osa2#forms). <i>Username</i> and <i>password</i> fields have been added to the state of the application for the form fields. Both form fields have an event handler, which sychronize changes in the field to the state of the <i>App</i> component. The event handlers are simple: They take the input value by destructuring the field <i>target</i> from the object given to them as a parameter, and save its value to the corresponding field in the state. 
+The login form is handled the same way we handled forms in 
+[part 2](/osa2#forms). The app state has fields for  <i>Username</i> and <i>password</i> to store the data from the form. The form fields have event handlers, which sychronize changes in the field to the state of the <i>App</i> component. The event handlers are simple: An object is given to them as a parameter, and they destructure the field <i>target</i> from the object and save its value to the state.
 
 ```js
 ({ target }) => setUsername(target.value)
 ```
 
 <!-- Kirjautumislomakkeen lähettämisestä vastaava metodi _handleLogin_ ei tee vielä mitään. -->
-The method _handleLogin_ responsible for sending the form does not yet do anything. 
+The method _handleLogin_ , which is  responsible for sending the form, does not yet do anything. 
 
 <!-- Kirjautuminen tapahtuu tekemällä HTTP POST -pyyntö palvelimen osoitteeseen <i>api/login</i>. Eristetään pyynnön tekevä koodi omaan moduuliin, tiedostoon <i>services/login.js</i>. -->
-Logging in happens by sending a HTTP POST -request to server address <i>api/login</i>. Lets separate the code responsible for this request to its own module, to file <i>services/login.js</i>.
+Logging in is done by sending a HTTP POST -request to server address <i>api/login</i>. Lets separate the code responsible for this request to its own module, to file <i>services/login.js</i>.
 
 <!-- Käytetään nyt promisejen sijaan <i>async/await</i>-syntaksia HTTP-pyynnön tekemiseen: -->
-Well use <i>async/await</i> -syntax instead of promises for the HTTP-request: 
+We'll use <i>async/await</i> -syntax instead of promises for the HTTP-request: 
 
 ```js
 import axios from 'axios'
@@ -123,7 +124,7 @@ export default { login }
 ```
 
 <!-- Kirjautumisen käsittelystä huolehtiva metodi voidaan toteuttaa seuraavasti: -->
-The method handling login can be implemented as follows: 
+The method for handling the login can be implemented as follows: 
 
 ```js
 import loginService from './services/login' 
@@ -154,16 +155,16 @@ const App = () => {
 ```
 
 <!-- Kirjautumisen onnistuessa nollataan kirjautumislomakkeen kentät <i>ja</i> talletetaan palvelimen vastaus (joka sisältää <i>tokenin</i> sekä kirjautuneen käyttäjän tiedot) sovelluksen tilaan <i>user</i>. -->
-If the login is successfull, the form fields are emptied <i>and</i> the server response (including a <i>token</i> and the user details) is saved to the applications state <i>user</i>.
+If the login is successfull, the form fields are emptied <i>and</i> the server response (including a <i>token</i> and the user details) is saved to the <i>user</i> field of the applications state.
 
 <!-- Jos kirjautuminen epäonnistuu, eli funktion _loginService.login_ suoritus aiheuttaa poikkeuksen, ilmoitetaan siitä käyttäjälle. -->
-If the login fails, so running the function _loginService.login_ results in an exception, the user is notified. 
+If the login fails, or running the function _loginService.login_ results in an error, the user is notified. 
 
 <!-- Onnistunut kirjautuminen ei nyt näy sovelluksen käyttäjälle mitenkään. Muokataan sovellusta vielä siten, että kirjautumislomake näkyy vain <i>jos käyttäjä ei ole kirjautuneena</i> eli _user === null_ ja uuden muistiinpanon luomislomake vain <i>jos käyttäjä on kirjautuneena</i>, eli <i>user</i> sisältää kirjautuneen käyttäjän tiedot. -->
-User is not notified about successful login in any way. Lets modify the application so, that the login form is shown only <i>if the user is not logged in</i> so _user === null_. The form for adding notes is shown only if <i>user is logged in</i>, so <i>user</i> contains the user details. 
+User is not notified about successful login in any way. Lets modify the application to show the login form only <i>if the user is not logged in</i> so _user === null_. The form for adding new notes is shown only if <i>user is logged in</i>, so <i>user</i> contains the user details. 
 
 <!-- Määritellään ensin komponenttiin <i>App</i> apufunktiot lomakkeiden generointia varten: -->
-Lets first define helper functions for generating the forms to the <i>App</i> component: 
+Lets add two helper functions to the <i>App</i> component for generating the forms: 
 
 ```js
 const App = () => {
@@ -210,7 +211,7 @@ const App = () => {
 ```
 
 <!-- ja renderöidään ne ehdollisesti komponenttiin <i>App</i> : -->
-and render them conditionally to the <i>App</i> component: 
+and conditionally render them:
 
 ```js
 const App = () => {
@@ -252,7 +253,8 @@ const App = () => {
 ```
 
 <!-- Lomakkeiden ehdolliseen renderöintiin käytetään hyväksi aluksi hieman erikoiselta näyttävää, mutta Reactin yhteydessä [yleisesti käytettyä kikkaa](https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator): -->
-Conditional rendering of the forms uses slightly strange looking but commonly used [React trick](https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator):
+A slightly weird looking, but commonly used [React trick](https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator) is used to render the forms conditionally: 
+
 
 ```js
 {
@@ -261,7 +263,7 @@ Conditional rendering of the forms uses slightly strange looking but commonly us
 ```
 
 <!-- Jos ensimmäinen osa evaluoituu epätodeksi eli on [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy), ei toista osaa eli lomakkeen generoivaa koodia suoriteta ollenkaan. -->
-If the first statement evaluates false, or is [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy), the second statement is not executed at all. 
+If the first statement evaluates false, or is [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy), the second statement ( generating the form ) is not executed at all. 
 
 <!-- Voimme suoraviivaistaa edellistä vielä hieman käyttämällä [kysymysmerkkioperaattoria](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator): -->
 We can make this even more straightforward by using the [conditional operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator):
@@ -292,7 +294,7 @@ return (
 If _user === null_ is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), _loginForm()_ is executed. If not, _noteForm()_.
 
 <!-- Tehdään vielä sellainen muutos, että jos käyttäjä on kirjautunut, renderöidään kirjautuneen käyttäjän nimi: -->
-Lets add one more change. If user is logged in, their name is rendered: 
+Lets do one more modification. If user is logged in, their name is rendered: 
 
 ```js
 return (
@@ -323,7 +325,7 @@ return (
 The solution looks a bit ugly, but well leave it for now. 
 
 <!-- Sovelluksemme pääkomponentti <i>App</i> on tällä hetkellä jo aivan liian laaja ja nyt tekemämme muutokset ovat ilmeinen signaali siitä, että lomakkeet olisi syytä refaktoroida omiksi komponenteikseen. Jätämme sen kuitenkin vapaaehtoiseksi harjoitustehtäväksi. -->
-Our main component <i>App</i> is at the moment way too large. The changes we did now are a clear sign that the forms should be refactored into their own components. However we will leave that for an optional excercise. 
+Our main component <i>App</i> is at the moment way too large. The changes we did now are a clear sign that the forms should be refactored into their own components. However we will leave that for an noncomplusory excercise. 
 
 <!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part5-2), branchissa <i>part5-2</i>.  -->
 Current application code can be found from [github](https://github.com/fullstack-hy2019/part2-notes/tree/part5-2), branch <i>part5-2</i>.
@@ -331,7 +333,8 @@ Current application code can be found from [github](https://github.com/fullstack
 ### Creating new notes
 
 <!-- Frontend on siis tallettanut onnistuneen kirjautumisen yhteydessä backendilta saamansa tokenin sovelluksen tilan <i>user</i> kenttään <i>token</i>: -->
-Frontend has saved the token it got from the backend when the user logged in to the <i>token</i> field of the state <i>user</i>:
+The token returned with a successful login is saved to the application state <i>user</i> field <i>token</i>:
+
 
 ![](../images/5/2.png)
 
@@ -381,7 +384,7 @@ export default { getAll, create, update, setToken } // highlight-line
 ```
 
 <!-- Moduulille on määritelty vain moduulin sisällä näkyvä muuttuja _token_, jolle voidaan asettaa arvo moduulin exporttaamalla funktiolla _setToken_. Async/await-syntaksiin muutettu _create_ asettaa moduulin tallessa pitämän tokenin <i>Authorization</i>-headeriin, jonka se antaa axiosille metodin <i>post</i> kolmantena parametrina. -->
-The module contains a private variable _token_. It's value can be changed with a function _setToken_ exported by the module. _Create_, now with async/await syntax, sets the token to the <i>Authorization</i>-header. The header is given to axios as the third parameter of the <i>post</i> method. 
+The noteService module contains a private variable _token_. It's value can be changed with a function _setToken_, which is exported by the module. _Create_, now with async/await syntax, sets the token to the <i>Authorization</i>-header. The header is given to axios as the third parameter of the <i>post</i> method. 
 
 <!-- Kirjautumisesta huolehtivaa tapahtumankäsittelijää pitää vielä viilata sen verran, että se kutsuu metodia <code>noteService.setToken(user.token)</code> onnistuneen kirjautumisen yhteydessä: -->
 The event handler responsible for log in must be changed to call the method <code>noteService.setToken(user.token)</code> with a succesfull log in: 
@@ -410,7 +413,7 @@ And now adding new notes works again!
 ### Saving the token to browsers local storage
 
 <!-- Sovelluksessamme on ikävä piirre: kun sivu uudelleenladataan, tieto käyttäjän kirjautumisesta katoaa. Tämä hidastaa melkoisesti myös sovelluskehitystä, esim. testatessamme uuden muistiinpanon luomista, joudumme joka kerta kirjautumaan järjestelmään. -->
-Our application has a bad feature: When the page is rerendered, information of the users login dissappears. This also slows down development. For example when we test creating new notes, we have to login again every time. 
+Our application has a flaw: When the page is rerendered, information of the users login dissappears. This also slows down development. For example when we test creating new notes, we have to login again every single time. 
 
 <!-- Ongelma korjaantuu helposti tallettamalla kirjautumistiedot [local storageen](https://developer.mozilla.org/en-US/docs/Web/API/Storage) eli selaimessa olevaan avain-arvo- eli [key-value](https://en.wikipedia.org/wiki/Key-value_database)-periaatteella toimivaan tietokantaan. -->
 This problem is easily solved by saving the login details to [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). Local Storage is a [key-value](https://en.wikipedia.org/wiki/Key-value_database) database in the browser. 
@@ -439,10 +442,10 @@ and [removeItem](https://developer.mozilla.org/en-US/docs/Web/API/Storage/remove
 Values in the storage stay even when the page is rerendered. The storage is [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin)- specific, so each web-application has it's own storage. 
 
 <!-- Laajennetaan sovellusta siten, että se asettaa kirjautuneen käyttäjän tiedot local storageen. -->
-Lets extend our application to saving the user details of a logged in user to the local storage. 
+Lets extend our application so it saves the user details of a logged in user to the local storage. 
 
 <!-- Koska storageen talletettavat arvot ovat [merkkijonoja](https://developer.mozilla.org/en-US/docs/Web/API/DOMString), emme voi tallettaa storageen suoraan Javascript-oliota, vaan ne on muutettava ensin JSON-muotoon metodilla _JSON.stringify_. Vastaavasti kun JSON-muotoinen olio luetaan local storagesta, on se parsittava takaisin Javascript-olioksi metodilla _JSON.parse_. -->
-Values saved to the storage are [DOMstrings](https://developer.mozilla.org/en-US/docs/Web/API/DOMString), so we cannot save a JavaScript object as is. The object has to be first changed to JSON with the method _JSON.stringify_. Correspondigly when a JSON-object is read from the local storage, it has to be parsed back to JavaScript with _JSON.parse_.
+Values saved to the storage are [DOMstrings](https://developer.mozilla.org/en-US/docs/Web/API/DOMString), so we cannot save a JavaScript object as is. The object has to be first parsed to JSON with the method _JSON.stringify_. Correspondigly when a JSON-object is read from the local storage, it has to be parsed back to JavaScript with _JSON.parse_.
 
 <!-- Kirjautumisen yhteyteen tehtävä muutos on seuraava: -->
 Changes to the login method are as follows: 
@@ -476,12 +479,13 @@ The details of a logged in user are now saved to the local storage, and they can
 ![](../images/5/3b.png)
 
 <!-- Sovellusta on vielä laajennettava siten, että kun sivulle tullaan uudelleen, esim. selaimen uudelleenlataamisen yhteydessä, tulee sovelluksen tarkistaa löytyykö local storagesta tiedot kirjautuneesta käyttäjästä. Jos löytyy, asetetaan ne sovelluksen tilaan ja <i>noteServicelle</i>. -->
+We still have to modify our application so, that when we enter the page, the application checks if user details of a logged in user can already be found from the local storage. If they can, the details are saved to the state of the application and to <i>noteServicelle</i>.
 
+<!-- Oikea paikka asian hoitamiselle on [effect hook](https://reactjs.org/docs/hooks-effect.html), eli [osasta 2](/osa2/palvelimella_olevan_datan_hakeminen#effect-hookit) tuttu mekanismi, jonka avulla haemme frontendiin palvelimelle talleteut muistiinpanot.  -->
+The right place to do this is an [effect hook](https://reactjs.org/docs/hooks-effect.html). A mechanism we first encountered in [part 2](/osa2/palvelimella_olevan_datan_hakeminen#effect-hookit), and use to fetch notes from the server to the frontend. 
 
-
-Oikea paikka asian hoitamiselle on [effect hook](https://reactjs.org/docs/hooks-effect.html), eli [osasta 2](/osa2/palvelimella_olevan_datan_hakeminen#effect-hookit) tuttu mekanismi, jonka avulla haemme frontendiin palvelimelle talleteut muistiinpanot. 
-
-Effect hookeja voi olla useita, joten tehdään oma hoitamaan kirjautuneen käyttäjän ensimmäinen sivun lataus:
+<!-- Effect hookeja voi olla useita, joten tehdään oma hoitamaan kirjautuneen käyttäjän ensimmäinen sivun lataus: -->
+We can have multiple effect hooks, so lets create a second one to handle the first loading of the page:
 
 ```js
 const App = () => {
@@ -515,75 +519,95 @@ const App = () => {
 }
 ```
 
-Efektin parametrina oleva tyhjä taulukko varmistaa sen, että efekti suoritetaan ainoastaan kun komponentti renderöidään [ensimmäistä kertaa](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect).
+<!-- Efektin parametrina oleva tyhjä taulukko varmistaa sen, että efekti suoritetaan ainoastaan kun komponentti renderöidään [ensimmäistä kertaa](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). -->
+The empty array as the parameter of the effect ensures, that the effect is executed only then the component is rendered [for the first time](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect).
 
-Nyt käyttäjä pysyy kirjautuneena sovellukseen ikuisesti. Sovellukseen olisikin kenties syytä lisätä <i>logout</i>-toiminnallisuus, joka poistaisi kirjautumistiedot local storagesta. Jätämme kuitenkin uloskirjautumisen harjoitustehtäväksi.
+<!-- Nyt käyttäjä pysyy kirjautuneena sovellukseen ikuisesti. Sovellukseen olisikin kenties syytä lisätä <i>logout</i>-toiminnallisuus, joka poistaisi kirjautumistiedot local storagesta. Jätämme kuitenkin uloskirjautumisen harjoitustehtäväksi. -->
+Now a user stays logged in to the application forever. We should propably add <i>logout</i> functionality which removes the login details from the local storage. We will however leave it to the exercises. 
 
-Meille riittää se, että sovelluksesta on mahdollista kirjautua ulos kirjoittamalla konsoliin
+<!-- Meille riittää se, että sovelluksesta on mahdollista kirjautua ulos kirjoittamalla konsoliin -->
+Its possible to log out using the console, and that is enough for us. 
+You can log out with the command:
 
 ```js
 window.localStorage.removeItem('loggedNoteappUser')
 ```
-
-tai local storagen tilan kokonaan nollaavan komennon
+or with the command which empties localstorage completely: 
 
 ```js
 window.localStorage.clear()
 ```
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa]https://github.com/fullstack-hy2019/part2-notes/tree/part5-3), branchissa <i>part5-3</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa]https://github.com/fullstack-hy2019/part2-notes/tree/part5-3), branchissa <i>part5-3</i>. -->
+Current application code can be found from [github](https://github.com/fullstack-hy2019/part2-notes/tree/part5-3), branch <i>part5-3</i>.
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+### Exercises
 
-Teemme nyt edellisen osan tehtävissä tehtyä bloglist-backendia käyttävän frontendin. Voit ottaa tehtävien pohjaksi [Githubista](https://github.com/fullstack-hy2019/bloglist-frontend) olevan sovellusrungon. Sovellus olettaa, että backend on käynnissä koneesi portissa 3003.
+<!-- Teemme nyt edellisen osan tehtävissä tehtyä bloglist-backendia käyttävän frontendin. Voit ottaa tehtävien pohjaksi [Githubista](https://github.com/fullstack-hy2019/bloglist-frontend) olevan sovellusrungon. Sovellus olettaa, että backend on käynnissä koneesi portissa 3003. -->
+We will now create a frontend for the bloglist-backend we created in last part. You can use [this application](https://github.com/fullstack-hy2019/bloglist-frontend) from GitHub as the base of your solution. The application expects your backend to be running on port 3003. 
 
-Lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.
+<!-- Lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä. -->
+It is enough to submit your finished solution. You can do a commit after each exercise, but that is not necessary. 
 
-Tämän osan alun tehtävät käytännössä kertaavat kaiken oleellisen tämän kurssin puitteissa Reactista läpikäydyn asian ja voivat siinä mielessä olla kohtuullisen haastavia, erityisesti jos edellisen osan tehtävissä toteuttamasi backend toimii puutteellisesti. Saattaakin olla varminta siirtyä käyttämään osan 4 mallivastauksen backendia.
 
-Muista tehtäviä tehdessäsi kaikki debuggaukseen liittyvät käytänteet, erityisesti konsolin tarkkailu.
+<!-- Tämän osan alun tehtävät käytännössä kertaavat kaiken oleellisen tämän kurssin puitteissa Reactista läpikäydyn asian ja voivat siinä mielessä olla kohtuullisen haastavia, erityisesti jos edellisen osan tehtävissä toteuttamasi backend toimii puutteellisesti. Saattaakin olla varminta siirtyä käyttämään osan 4 mallivastauksen backendia. -->
+The first few exercises revise everything we have learned about React so far. They can be challenging, especially if your backend is incomplete. 
+It might be best to use the backend from model answers of part 4. 
 
-**Varoitus:** jos huomaat kirjoittavasi sekaisin async/awaitia ja _then_-kutsuja, on 99.9% varmaa, että teet jotain väärin. Käytä siis jompaa kumpaa tapaa, älä missään tapauksessa "varalta" molempia.
+<!-- Muista tehtäviä tehdessäsi kaikki debuggaukseen liittyvät käytänteet, erityisesti konsolin tarkkailu. -->
+While doing the exercises, remember all of the debugging methods we have talked about, especially keeping an eye on the console. 
 
-#### 5.1: blogilistan frontend, step1
+<!-- **Varoitus:** jos huomaat kirjoittavasi sekaisin async/awaitia ja _then_-kutsuja, on 99.9% varmaa, että teet jotain väärin. Käytä siis jompaa kumpaa tapaa, älä missään tapauksessa "varalta" molempia. -->
+**Warning:** If you notice you are mixing async/await and _then_ commands, its 99.9%  certain you are doing something wrong. Use either or, never both. 
 
-Ota tehtävien pohjaksi [Githubissa](https://github.com/fullstack-hy2019/bloglist-frontend.git) olevan sovellusrunko kloonaamalla se sopivaan paikkaan komennolla
+#### 5.1: bloglist frontend, step1
+
+<!-- Ota tehtävien pohjaksi [Githubissa](https://github.com/fullstack-hy2019/bloglist-frontend.git) olevan sovellusrunko kloonaamalla se sopivaan paikkaan komennolla -->
+
+Clone the application from [Githubissa](https://github.com/fullstack-hy2019/bloglist-frontend.git) with the command: 
 
 ```bash
 git clone https://github.com/fullstack-hy2019/bloglist-frontend.git
 ```
 
-<i>Poista kloonatun sovelluksen git-konfiguraatio</i>
+<!-- <i>Poista kloonatun sovelluksen git-konfiguraatio</i> -->
+<i>remove the git-configuration of the cloned application</i>
 
 ```bash
 cd bloglist-frontend   // mene kloonatun repositorion hakemistoon
 rm -rf .git
 ```
 
-Sovellus käynnistyy normaaliin tapaan, mutta joudut ensin asentamaan sovelluksen riippuvuudet:
+<!-- Sovellus käynnistyy normaaliin tapaan, mutta joudut ensin asentamaan sovelluksen riippuvuudet: -->
+The application is started the usual way, but you have to install its dependencies first: 
 
 ```bash
 npm install
 npm start
 ```
 
-Toteuta frontendiin kirjautumisen mahdollistava toiminnallisuus. Kirjautumisen yhteydessä backendin palauttama <i>token</i> tallennetaan sovelluksen tilaan <i>user</i>.
+<!-- Toteuta frontendiin kirjautumisen mahdollistava toiminnallisuus. Kirjautumisen yhteydessä backendin palauttama <i>token</i> tallennetaan sovelluksen tilaan <i>user</i>. -->
+Implement login functionality to the frontend. The token returned with a successfull login is saved to the applications state <i>user</i>.
 
-Jos käyttäjä ei ole kirjautunut, sivulla näytetään <i>pelkästään</i> kirjautumislomake:
+<!-- Jos käyttäjä ei ole kirjautunut, sivulla näytetään <i>pelkästään</i> kirjautumislomake: -->
+If a user is not logged in, <i>only</i> the loginform is visible. 
 
 ![](../images/5/4.png)
 
-Kirjautuneelle käyttäjälle näytetään kirjautuneen käyttäjän nimi sekä blogien lista
+<!-- Kirjautuneelle käyttäjälle näytetään kirjautuneen käyttäjän nimi sekä blogien lista -->
+If user is logged in, the name of the user and a list of blogs is shown. 
 
 ![](../images/5/5.png)
 
-Tässä vaiheessa kirjautuneiden käyttäjien tietoja ei vielä tarvitse muistaa local storagen avulla.
+<!-- Tässä vaiheessa kirjautuneiden käyttäjien tietoja ei vielä tarvitse muistaa local storagen avulla. -->
+User details of the logged in user do not have to be saved to the local storage yet. 
 
-**HUOM** Voit tehdä kirjautumislomakkeen ehdollisen renderöinnin esim. seuraavasti:
+<!-- **HUOM** Voit tehdä kirjautumislomakkeen ehdollisen renderöinnin esim. seuraavasti: -->
+**NB** You can implement the conditional rendering of the login form for example like this: 
 
 ```js
   if (user === null) {
@@ -608,32 +632,39 @@ Tässä vaiheessa kirjautuneiden käyttäjien tietoja ei vielä tarvitse muistaa
 }
 ```
 
-#### 5.2: blogilistan frontend, step2
+#### 5.2: bloglist frontend, step2
 
-Tee kirjautumisesta "pysyvä" local storagen avulla. Tee sovellukseen myös mahdollisuus uloskirjautumiseen
+<!-- Tee kirjautumisesta "pysyvä" local storagen avulla. Tee sovellukseen myös mahdollisuus uloskirjautumiseen -->
+Make the login 'permanent' by using the local storage. Implement also a way to log out. 
 
 ![](../images/5/6.png)
 
-Uloskirjautumisen jälkeen selain ei saa muistaa kirjautunutta käyttäjää reloadauksen jälkeen.
+<!-- Uloskirjautumisen jälkeen selain ei saa muistaa kirjautunutta käyttäjää reloadauksen jälkeen. -->
+The borwser does not remember the details of the user after logging out. 
 
-#### 5.3: blogilistan frontend, step3
+#### 5.3: bloglist frontend, step3
 
-Laajenna sovellusta siten, että kirjautunut käyttäjä voi luoda uusia blogeja:
+<!-- Laajenna sovellusta siten, että kirjautunut käyttäjä voi luoda uusia blogeja: -->
+Expand your application to allow  a logged in user to add new blogs: 
 
 ![](../images/5/7.png)
 
-Bloginluomislomakkeesta voi tehdä oman komponenttinsa, joka hallitsee lomakkeen kenttien sisältöä tilansa avulla. Kaiken blogin luomiseen liittyvän tilan voi toki tallettaa myös <i>App</i>-komponenttiin.
+<!-- Bloginluomislomakkeesta voi tehdä oman komponenttinsa, joka hallitsee lomakkeen kenttien sisältöä tilansa avulla. Kaiken blogin luomiseen liittyvän tilan voi toki tallettaa myös <i>App</i>-komponenttiin. -->
+Form for adding blogs can be its own component, which manages the input from the form fields with its state. All the state related to adding blogs can of course also be in the <i>App</i> - component. 
 
-#### 5.4*: blogilistan frontend, step4
+#### 5.4*: bloglist frontend, step4
 
-Toteuta sovellukseen notifikaatiot, jotka kertovat sovelluksen yläosassa onnistuneista ja epäonnistuneista toimenpiteistä. Esim. blogin lisäämisen yhteydessä voi antaa seuraavan notifikaation
+<!-- Toteuta sovellukseen notifikaatiot, jotka kertovat sovelluksen yläosassa onnistuneista ja epäonnistuneista toimenpiteistä. Esim. blogin lisäämisen yhteydessä voi antaa seuraavan notifikaation -->
+Implement notifications, which inform the user about successfull and unsuccessfull operations at the top of the page. For example when a new blog is addedd, the following notification can be shown: 
 
 ![](../images/5/8.png)
 
-epäonnistunut kirjautuminen taas johtaa notifikaatioon
+<!-- epäonnistunut kirjautuminen taas johtaa notifikaatioon -->
+Failed login can show the following notification: 
 
 ![](../images/5/9.png)
 
-Notifikaation tulee olla näkyvillä muutaman sekunnin ajan. Värien lisääminen ei ole pakollista.
+<!-- Notifikaation tulee olla näkyvillä muutaman sekunnin ajan. Värien lisääminen ei ole pakollista. -->
+The notifications muse be visible for a few seconds. It is not compulsory to add colors. 
 
 </div>
