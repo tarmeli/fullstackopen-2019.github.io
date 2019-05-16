@@ -308,15 +308,20 @@ The internet is starting to fill up with more and more helpful material related 
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 5.18: blogilista ja hookit step1
+<!-- #### 5.18: blogilista ja hookit step1 -->
+#### 5.18: Blog list and hooks step1
 
-Yksinkertaista sovelluksesi kirjautumislomakkeen käyttöä äsken määritellyn _useField_ custom hookin avulla.
+<!-- Yksinkertaista sovelluksesi kirjautumislomakkeen käyttöä äsken määritellyn _useField_ custom hookin avulla. -->
+Simplify the login form of your application with the _useField_ custom hook we defined earlier.
 
-Luonteva paikka tallentaa hook on tiedosto <i>/src/hooks/index.js</i>. 
+<!-- Luonteva paikka tallentaa hook on tiedosto <i>/src/hooks/index.js</i>.  -->
+One natural place to save the custom hooks of your application is in the <i>/src/hooks/index.js</i> file.
 
-Jos käytät normaalisti käyttämämme default exportin sijaan [nimettyä exportia](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Description)
+<!-- Jos käytät normaalisti käyttämämme default exportin sijaan [nimettyä exportia](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Description) -->
+If you use the [named export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Description) instead of the default export:
 
 ```js
 import { useState } from 'react'
@@ -341,7 +346,8 @@ export const useAnotherHook = () => { // highlight-line
 }
 ```
 
-[importtaus](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) tapahtuu seuraavasti
+<!-- [importtaus](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) tapahtuu seuraavasti -->
+Then [importing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) happens in the following way:
 
 ```js
 import  { useField } from './hooks'
@@ -353,29 +359,38 @@ const App = () => {
 }
 ```
 
-#### 5.19: blogilista ja hookit step2
+<!-- #### 5.19: blogilista ja hookit step2 -->
+#### 5.19: Blog list and hooks step2
 
-<i>useField</i>-hookissa on pieni epäkohta. Se ei mahdollista lomakkeen syötekentän tyhjentämistä. Laajenna hookia siten, että se tarjoaa operaation <i>reset</i> kentän tyhjentämiseen. Ota hook käyttöön myös uuden blogin luovassa formissa.
+<!-- <i>useField</i>-hookissa on pieni epäkohta. Se ei mahdollista lomakkeen syötekentän tyhjentämistä. Laajenna hookia siten, että se tarjoaa operaation <i>reset</i> kentän tyhjentämiseen. Ota hook käyttöön myös uuden blogin luovassa formissa. -->
+The <i>useField</i> hook has a defect. It does not offer any way of clearing the form field. Expand the functionality of the hook so that it offers a new <i>reset</i> operation for clearing the field. Also take the improved hook into use in the form for creating a new blog post.
 
-Lisäyksen jälkeen lomakeet toimivat edelleen, mutta riippuen ratkaisustasi konsoliin saattaa ilmestyä ikävä varoitus:
+<!-- Lisäyksen jälkeen lomakeet toimivat edelleen, mutta riippuen ratkaisustasi konsoliin saattaa ilmestyä ikävä varoitus: -->
+The forms of your application will work after making the necessary changes. However, depending on your solution you may see the following warning in your console:
 
 ![](../images/5/22.png)
 
-Ei välitetä virheestä vielä tässä tehtävässä.
+<!-- Ei välitetä virheestä vielä tässä tehtävässä. -->
+We will return to this warning in the next exercise.
 
-#### 5.20: blogilista ja hookit step3
+<!-- #### 5.20: blogilista ja hookit step3 -->
+#### 5.20: Blog list and hooks step3
 
-Jos ratkaisusi ei aiheuttanut warningia, ei sinun tarvitse tehdä tässä tehtävässä mitään.
+<!-- Jos ratkaisusi ei aiheuttanut warningia, ei sinun tarvitse tehdä tässä tehtävässä mitään. -->
+If your solution did not cause a warning to appear in the console you have already finished this exercise.
 
-Muussa tapauksessa tee sovellukseen korjaus, joka poistaa varoituksen `Invalid value for prop reset' on <input> tag`. 
+<!-- Muussa tapauksessa tee sovellukseen korjaus, joka poistaa varoituksen `Invalid value for prop reset' on <input> tag`.  -->
+If you see the warning in the console, make the necessary changes to get rid of the `Invalid value for prop reset' on <input> tag` console warning. 
 
-Warningin syynä on siis se, että edellisen tehtävän laajennuksen jälkeen seuraava
+<!-- Warningin syynä on siis se, että edellisen tehtävän laajennuksen jälkeen seuraava -->
+The reason for this warning is that after making the changes to your application, the following expression:
 
 ```js
 <input {...username}/>
 ```
 
-tarkoittaa samaa kuin
+<!-- tarkoittaa samaa kuin -->
+Essentially, is the same as this:
 
 ```js
 <input
@@ -386,9 +401,11 @@ tarkoittaa samaa kuin
 />
 ```
 
-Elementille <i>input</i> ei kuitenkaan kuuluisi antaa propsia <i>reset</i>
+<!-- Elementille <i>input</i> ei kuitenkaan kuuluisi antaa propsia <i>reset</i> -->
+The <i>input</i> element should not be given a <i>reset</i> attribute.
 
-Yksinkertainen korjaus olisi tietysti olla käyttämättä spread-syntaksia ja kirjoittaa kaikki lomakkeet seuraavasti
+<!-- Yksinkertainen korjaus olisi tietysti olla käyttämättä spread-syntaksia ja kirjoittaa kaikki lomakkeet seuraavasti -->
+One simple fix would be to not use the spread syntax and write all of the forms like this:
 
 ```js
 <input
@@ -398,7 +415,8 @@ Yksinkertainen korjaus olisi tietysti olla käyttämättä spread-syntaksia ja k
 />
 ```
 
-Tällöin menettäisimme suurelta osin <i>useField</i>-hookin edut. Eli keksi tähän tehtävään spread-syntaksia edelleen käyttävä helppokäyttöinen ratkaisu ongelman kiertämiseen.
+<!-- Tällöin menettäisimme suurelta osin <i>useField</i>-hookin edut. Eli keksi tähän tehtävään spread-syntaksia edelleen käyttävä helppokäyttöinen ratkaisu ongelman kiertämiseen. -->
+If we were to do this we would lose much of the benefit provided by the <i>useField</i> hook. Instead, come up with a solution that fixes the issue, but is still easy to use with spread syntax.
 
 #### 5.21*: ultimate hooks
 
