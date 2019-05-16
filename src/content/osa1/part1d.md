@@ -254,7 +254,7 @@ const handleLeftClick = () => {
 ```
 
 <!-- Älä kuitenkaan tee näin. Kuten jo mainitsimme, React-komponentin tilaa, eli esimerkiksi muuttujaa _allClicks_ ei saa muuttaa. Vaikka tilan muuttaminen näyttääkin toimivan joissaikin tilanteissa, voi seurauksena olla hankalasti havaittavia ongelmia. -->
-Don't do this. As mentioned previously, the state of React components like _allClicks_ must not be mutated directly. Even if mutating state appears to work in some cases, it can lead to problems that are very hard to notice.
+However, __don't__ do this. As mentioned previously, the state of React components like _allClicks_ must not be mutated directly. Even if mutating state appears to work in some cases, it can lead to problems that are very hard to notice.
 
 <!-- Katsotaan vielä tarkemmin, miten kaikkien painallusten historia renderöidään ruudulle: -->
 Let's take a closer look at how the clicking history is rendered to the page:
@@ -321,14 +321,14 @@ const App = (props) => {
 ```
 
 <!-- Nyt komponentin toiminta riippuu siitä, onko näppäimiä jo painettu. Jos ei, eli taulukko <em>allClicks</em> on tyhjä, renderöi komponentti "käyttöohjeen" sisältävän divin. -->
-The behavior of the component depends on whether or not any buttons have been clicked. If not, meaning that the <em>allClicks</em> array is empty, the component renders a div component with some instructions:
+Now the behavior of the component depends on whether or not any buttons have been clicked. If not, meaning that the <em>allClicks</em> array is empty, the component renders a div component with some instructions:
 
 ```js
 <div>sovellusta käytetään nappeja painelemalla</div>
 ```
 
 <!-- ja muussa tapauksessa näppäilyhistorian: -->
-And in all other cases the component renders the clicking history:
+And in all other cases, the component renders the clicking history:
 
 ```js
 <div>
@@ -405,13 +405,13 @@ const App = (props) => {
 ### Old React
 
 <!-- Tällä kurssilla käyttämämme tapa React-komponenttien tilan määrittelyyn, eli [state hook](https://reactjs.org/docs/hooks-state.html) on siis uutta Reactia ja käytettävissä versiosta [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) lähtien. Ennen hookeja Javascript-funktioina määriteltyihin React-komponentteihin ei ollut mahdollista saada tilaa ollenkaan, tilaa edellyttävät komponentit oli pakko määritellä [Class](https://reactjs.org/docs/react-component.html)-komponentteina Javascriptin luokkasyntaksia hyödyntäen. -->
-In this course we use the the [state hook](https://reactjs.org/docs/hooks-state.html) to add state to our React components, which is a part of the newer versions of React and is available from version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) onward. Before the addition of hooks there was no way to add state to React functional components. Components that required state had to be defined as React [class](https://reactjs.org/docs/react-component.html) components using the JavaScript class syntax.
+In this course we use the the [state hook](https://reactjs.org/docs/hooks-state.html) to add state to our React components, which is part of the newer versions of React and is available from version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) onwards. Before the addition of hooks, there was no way to add state to React functional components. Components that required state had to be defined as React [class](https://reactjs.org/docs/react-component.html) components using the JavaScript class syntax.
 
 <!-- Olemme tällä kurssilla tehneet hieman radikaalinkin ratkaisun käyttää pelkästään hookeja ja näin ollen opetella heti alusta asti ohjelmoimaan "huomisen" Reactia. Luokkasyntaksin hallitseminen on kuitenkin sikäli tärkeää, että vaikka funktiona määriteltävät komponentit ovat Reactin tulevaisuus, on maailmassa miljardeja rivejä vanhaa Reactia, jota kenties sinäkin joudut jonain päivänä ylläpitämään. Dokumentaation ja internetistä löytyvien esimerkkien suhteen tilanne on sama, törmäät class-komponentteihin välittömästi. -->
-In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the future style of React. Even though functional components are the future of React, it is still important to learn the class syntax as there are billions of lines of old React code that you might end up maintaining some day. The same applies to documentation and examples of React that you may stumble across on the internet.
+In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the future style of React. Even though functional components are the future of React, it is still important to learn the class syntax, as there are billions of lines of old React code that you might end up maintaining some day. The same applies to documentation and examples of React that you may stumble across on the internet.
 
 <!-- Tutustummekin riittävällä tasolla class-komponentteihin hieman myöhemmin kurssilla. -->
-We will get to learn more about React class components later on in the course.
+We will learn more about React class components later on in the course.
 
 <!-- ### React-sovellusten debuggaus -->
 ### Debugging React applications
@@ -448,7 +448,7 @@ If and when your code fails to compile and your browser lights up like a Christm
 don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such an event will transpire during this course either.
 
 <!-- Vanha kunnon printtaukseen perustuva debuggaus kannattaa aina. Eli jos esim. komponentissa -->
-Old school, print based debugging is rarely a bad idea. If, e.g. the component
+Old school, print based debugging is always a good idea. If, e.g. the component
 
 ```js
 const Button = ({ handleClick, text }) => (
@@ -526,7 +526,7 @@ You can also access the debugger with the _debugger_ command by adding break poi
 ![](../images/1/9a.png)
 
 <!-- Chromeen kannattaa ehdottomasti asentaa [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) -lisäosa, joka tuo konsoliin uuden tabin _React_: -->
-It is highly recommended to add the [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) extension to Chrome which adds a new _React_ tab to the developer tools:
+It is highly recommended to add the [React developer tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) extension to Chrome. It adds a new _React_ tab to the developer tools:
 
 ![](../images/1/10a.png)
 
@@ -949,7 +949,7 @@ const hello = (who) =>
 ```
 
 <!-- ja tuodaan vielä "kaikki nuolet" samalle riville -->
-Lastly, let's write "all of the arrows" on the same line:
+Lastly, let's write all of the arrows on the same line:
 
 ```js
 const hello = (who) => () => {
@@ -1138,7 +1138,7 @@ const App = props => {
 ```
 
 <!-- ### Hyödyllistä materiaalia -->
-### Useful Material
+### Useful Reading
 
 <!-- Internetissä on todella paljon Reactiin liittyvää materiaalia. Tällä hetkellä ongelman muodostaa kuitenkin se, että käytämme kurssilla niin uutta Reactia, että suurin osa internetistä löytyvästä tavarasta on meidän kannaltamme vanhentunutta. -->
 The internet is full of React-related material. However, we use such a new style of React that a large majority of the material found online is outdated for our purposes.
@@ -1150,7 +1150,7 @@ You may find the following links useful:
 - Reactin sivuilla oleva [tutoriaali](https://reactjs.org/tutorial/tutorial.html) sen sijaan on aika huono
 - [Egghead.io](https://egghead.io):n kursseista [Start learning React](https://egghead.io/courses/start-learning-react) on laadukas, ja hieman uudempi [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) on myös kohtuullisen hyvä; molemmat sisältävät myös asioita jotka tulevat tällä kurssilla vasta myöhemmissä osissa. Molemmissa toki se ongelma, että ne käyttävät Class-komponentteja -->
 - The React [official documentation](https://reactjs.org/docs/hello-world.html) is worth checking out at some point, although most of it will become relevant only later on in the course. Also, everything related to Class-components is irrelevant to us.
-- The official React [tutorial](https://reactjs.org/tutorial/tutorial.html) is not very good.
+- Beware the official React [tutorial](https://reactjs.org/tutorial/tutorial.html), it's not very good.
 - Some courses on [Egghead.io](https://egghead.io) like [Start learning React](https://egghead.io/courses/start-learning-react) is of high quality, and the slightly newer [The Beginner's guide to React](https://egghead.io/courses/the-beginner-s-guide-to-reactjs) is also relatively good; both courses introduce concepts that will also be introduced later on in this course. However, both courses use Class components instead of the new functional ones used in this course.
 
 </div>
@@ -1160,16 +1160,16 @@ You may find the following links useful:
   <h3>Exercises</h3>
 
 <!-- Tehtävät palautetaan GitHubin kautta ja merkitsemällä tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/). -->
-You submit your solutions to the exercises by first pushing your code to GitHub and then marking the completed exercises into the [exercise submission system](https://studies.cs.helsinki.fi/fullstackopen2019/).
+Submit your solutions to the exercises by first pushing your code to GitHub and then marking the completed exercises into the [exercise submission system](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
 <!-- Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä. -->
-You submit all of your solutions to the exercise of one part **in a single submission**. Once you have submitted your solutions for one part, you can not add more exercise solutions to your submission.
+Remember, submit **all** the exercises of one part **in a single submission**. Once you have submitted your solutions for one part, **you cannot submit more exercises to that part any more**.
 
 <!-- <i>Samaa ohjelmaa kehittelevissä tehtäväsarjoissa ohjelman lopullisen version palauttaminen riittää, voit toki halutessasi tehdä commitin jokaisen tehtävän jälkeisestä tilanteesta, mutta se ei ole välttämätöntä.</i> -->
-<i>Some of the exercises work on the same application. In these cases it is sufficient to submit just the final version of the application. If you wish, you can make a commit after every finished exercise but it is not mandatory.</i>
+<i>Some of the exercises work on the same application. In these cases, it is sufficient to submit just the final version of the application. If you wish, you can make a commit after every finished exercise, but it is not mandatory.</i>
 
 <!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
+**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
 
 <!-- **React ei toimi...** käyttäessäsi tilan tuovaa hookia <i>useState</i>, saatat törmätä seuraavaan virheilmoitukseen: -->
 **React does not work...** you may run into the following error message once you start using the <i>useState</i> hook:
@@ -1177,7 +1177,7 @@ You submit all of your solutions to the exercise of one part **in a single submi
 ![](../images/1/fail.png)
 
 <!-- Syynä tälle on se, että <i>et ole asentanut</i> riittävän uutta Reactia kuten [osan 1 alussa](/osa1/reactin_alkeet) neuvottiin. -->
-The reason for this is that <i>you have not installed</i> a new enough version of React as was instructed at [the beginning of part 1](/osa1/reactin_alkeet).
+The reason for this is that <i>you have not installed</i> a recent enough version of React, as it was instructed at [the beginning of part 1](/osa1/reactin_alkeet).
 
 <!-- Joissain tilanteissa saatat myös joutua antamaan komennon -->
 In some situations you may also have to run the command below from the root of the project:
@@ -1238,7 +1238,7 @@ Expand your application so that it shows more statistics about the gathered feed
 Refactor your application so that displaying the statistics is extracted into its own <i>Statistics</i> component. The state of the application should remain in the <i>App</i> root component.
 
 <!-- Muista, että komponentteja ei saa määritellä toisen komponentin sisällä: -->
-Remember that components should not be defined inside of other components:
+Remember that components should not be defined inside other components:
 
 ```js
 // oikea paikka komponentin määrittelyyn
@@ -1281,7 +1281,7 @@ Let's continue refactoring the application. Extract the following two components
 - <i>Statistic</i> for displaying a single statistic, e.g. the average score.
 
 <!-- Tarkennuksena: komponentti <i>Statistic</i> näyttää aina yhden tilastorivin, joten sovellus käyttää montaa komponenttia kaikkien tilastorivien renderöintiin  -->
-Clarification: the <i>Statistic</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics:
+To be clear: the <i>Statistic</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics:
 
 ```js
 const Statistics = (props) => {
@@ -1365,7 +1365,7 @@ Your finished application could look something like this:
 ![](../images/1/18a.png)
 
 <!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. It's likely that **do not want** you project to be a repository, so simply run the _rm -rf .git_ command at the root of your application.
+**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your project to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
 
 <h4>1.13*: anecdotes step2</h4>
 
